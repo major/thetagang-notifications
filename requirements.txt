@@ -3,3 +3,4 @@ finvizfinance
 pickledb
 python-dateutil
 requests
+schedule

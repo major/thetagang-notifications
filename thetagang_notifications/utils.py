@@ -46,10 +46,10 @@ def get_symbol_details(symbol):
         stock = finvizfinance(symbol)
         details = stock.ticker_fundament()
         details["Symbol"] = symbol
-        details["Chart"] = get_stock_chart(symbol)
-        details["Logo"] = get_stock_logo(symbol)
-    except Exception:
-        return {"Symbol": symbol}
+    except:
+        details = {"Symbol": symbol}
+
+    return details
 
 
 def get_stock_chart(symbol):
@@ -59,7 +59,4 @@ def get_stock_chart(symbol):
 
 def get_stock_logo(symbol):
     """Return a URL to a stock logo."""
-    return (
-        "https://g.foolcdn.com/art/companylogos/square/"
-        f"{stock_details['Symbol'].lower()}.png"
-    )
+    return f"https://g.foolcdn.com/art/companylogos/square/{symbol}.png"
