@@ -2,17 +2,20 @@
 import logging
 import time
 
-
 import schedule
 
-
 from thetagang_notifications import trends
+
 
 # Setup our shared logger.
 log = logging.getLogger(__name__)
 
+# Set up simple functions to call the methods in each module.
+def notify_for_trends():
+    trends.main()
+
 # Schedule the runs of various tasks.
-schedule.every(5).minutes.do(trends.main())
+schedule.every(1).minutes.do(notify_for_trends)
 
 # Run pending tasks forever.
 while True:

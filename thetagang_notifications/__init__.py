@@ -2,7 +2,11 @@
 import logging
 import sys
 
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+logging.basicConfig(
+    stream=sys.stdout,
+    level=logging.DEBUG,
+    format="%(asctime)s;%(levelname)s;%(message)s",
+)
 
 __author__ = """Major Hayden"""
 __email__ = "major@mhtx.net"

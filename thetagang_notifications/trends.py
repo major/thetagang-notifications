@@ -53,11 +53,12 @@ def diff_trends(current_trends):
 def notify_discord(trending_symbol):
     """Send an alert to Discord for a trending symbol."""
     stock_details = utils.get_symbol_details(trending_symbol)
-    print(trending_symbol, stock_details)
 
     if "Company" not in stock_details.keys():
+        log.debug(f"Sending basic trend notification for {trending_symbol}")
         return notify_discord_basic(stock_details)
 
+    log.debug(f"Sending fancy trend notification for {trending_symbol}")
     return notify_discord_fancy(stock_details)
 
 
@@ -87,6 +88,7 @@ def notify_discord_fancy(stock_details):
 
 def main():
     """Handle updates for trends."""
+    print("MAINNNNNNNNNNNN")
     # Get the current list of trends and diff against our previous list.
     current_trends = download_trends()
     new_trends = diff_trends(current_trends)
@@ -98,4 +100,5 @@ def main():
     # Send an alert for any new trends.
     for trending_symbol in sorted(new_trends):
         notify_discord(trending_symbol)
-    return
+
+    return new_trends
