@@ -3,5 +3,7 @@ freezegun
 pytest
 pytest-clarity
 pytest-cov
+pytest-mock
 pytest-randomly
 pytest-xdist
+requests_mock

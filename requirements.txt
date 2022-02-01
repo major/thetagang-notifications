@@ -1,3 +1,5 @@
 discord-webhook
+finvizfinance
+pickledb
 python-dateutil
 requests

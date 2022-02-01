@@ -1,8 +1,11 @@
 """Tests for utils functions."""
 from datetime import datetime
 
+
+import finvizfinance
 from freezegun import freeze_time
 import pytest
+
 
 from thetagang_notifications import utils
 
@@ -37,3 +40,42 @@ def test_get_dte():
     expiration = "2022-03-18T00:00:00.000Z"
     expected_dte = 45
     assert utils.get_dte(expiration) == expected_dte
+
+
+@freeze_time("2022-02-01")
+def test_get_pretty_expiration():
+    """Verify that we generate expiration dates properly in a pretty way."""
+    # < 1 year away.
+    expiry = "2022-03-17T00:00:00.000Z"
+    assert utils.get_pretty_expiration(expiry) == "03/17"
+
+    # > 1 year away.
+    expiry = "2023-02-02T00:00:00.000Z"
+    assert utils.get_pretty_expiration(expiry) == "02/02/23"
+
+    # Looking backwards.
+    expiry = "2021-02-02T00:00:00.000Z"
+    assert utils.get_pretty_expiration(expiry) == "02/02"
+
+
+def test_get_stock_chart():
+    """Ensure we can get a chart URL."""
+    expected_url = "https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d"
+    chart_url = utils.get_stock_chart("SPY")
+    assert chart_url == expected_url
+
+
+def test_get_symbol_details(mocker):
+    """Verify getting data from finviz."""
+    mocked_class = mocker.patch(target="thetagang_notifications.utils.finvizfinance")
+    utils.get_symbol_details("SPY")
+    mocked_class.assert_called_with("SPY")
+
+    mocked_class = mocker.patch(
+        target="thetagang_notifications.utils.finvizfinance",
+        side_effect=Exception("something broke"),
+    )
+    with pytest.raises(Exception) as excinfo:
+        utils.get_symbol_details("SPY")
+        mocked_class.assert_called_with("SPY")
+        assert excinfo.value.message == "something broke"
