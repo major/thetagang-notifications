@@ -28,7 +28,7 @@ setup(
     description="Notifications for the ThetaGang Discord",
     install_requires=requirements,
     license="Apache Software License 2.0",
-    long_description=readme
+    long_description=readme,
     include_package_data=True,
     keywords='thetagang_notifications',
     name='thetagang_notifications',
