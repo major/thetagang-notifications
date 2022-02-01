@@ -1,0 +1,7 @@
+black
+freezegun
+pytest
+pytest-clarity
+pytest-cov
+pytest-randomly
+pytest-xdist
