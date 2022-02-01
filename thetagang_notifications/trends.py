@@ -88,7 +88,6 @@ def notify_discord_fancy(stock_details):
 
 def main():
     """Handle updates for trends."""
-    print("MAINNNNNNNNNNNN")
     # Get the current list of trends and diff against our previous list.
     current_trends = download_trends()
     new_trends = diff_trends(current_trends)
