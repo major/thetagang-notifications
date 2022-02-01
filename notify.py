@@ -9,6 +9,7 @@ from thetagang_notifications import trends
 
 # Setup our shared logger.
 log = logging.getLogger(__name__)
+log.info("🚀 thetagang-notifications starting up!")
 
 # Set up simple functions to call the methods in each module.
 def notify_for_trends():

@@ -13,7 +13,7 @@ from thetagang_notifications import config, utils
 
 def download_trends():
     """Get latest trends from thetagang.com."""
-    log.debug(f"Getting latest trends from {config.TRENDS_JSON_URL}")
+    log.info(f"Getting latest trends from {config.TRENDS_JSON_URL}")
     resp = requests.get(config.TRENDS_JSON_URL)
     trades_json = resp.json()
     return trades_json["data"]["trends"]
@@ -47,7 +47,7 @@ def store_trends(trends):
 
 def diff_trends(current_trends):
     """Find the trends that are different from the last run."""
-    return set(current_trends) - set(get_previous_trends())
+    return list(set(current_trends) - set(get_previous_trends()))
 
 
 def notify_discord(trending_symbol):
@@ -55,10 +55,10 @@ def notify_discord(trending_symbol):
     stock_details = utils.get_symbol_details(trending_symbol)
 
     if "Company" not in stock_details.keys():
-        log.debug(f"Sending basic trend notification for {trending_symbol}")
+        log.info(f"Sending basic trend notification for {trending_symbol}")
         return notify_discord_basic(stock_details)
 
-    log.debug(f"Sending fancy trend notification for {trending_symbol}")
+    log.info(f"Sending fancy trend notification for {trending_symbol}")
     return notify_discord_fancy(stock_details)
 
 
@@ -92,7 +92,7 @@ def main():
     # Get the current list of trends and diff against our previous list.
     current_trends = download_trends()
     new_trends = diff_trends(current_trends)
-    log.debug(f"New trends: {new_trends}")
+    log.info(f"New trends: {new_trends}")
 
     # Save the current list of trends to the database.
     store_trends(current_trends)

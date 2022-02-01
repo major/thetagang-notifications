@@ -27,9 +27,9 @@ def test_diff_trends(tmp_path):
     # Add some trends.
     trends.store_trends(["ONE", "TWO"])
 
-    assert trends.diff_trends(["ONE", "TWO"]) == set()
+    assert trends.diff_trends(["ONE", "TWO"]) == []
 
-    assert trends.diff_trends(["ONE", "TWO", "THREE"]) == set(["THREE"])
+    assert trends.diff_trends(["ONE", "TWO", "THREE"]) == ["THREE"]
 
 
 def test_get_previous_trends(tmp_path):
