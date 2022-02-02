@@ -165,6 +165,10 @@ def handle_earnings(tweet):
 class EarningsStream(tweepy.Stream):
     """Extending the tweepy.Stream class to do earnings things."""
 
+    def on_connect(self):
+        log.debug("Earnings: Tweepy stream connected")
+        return super().on_connect()
+
     def on_status(self, status):
         """Parse tweets and send notifications."""
         if status.user.id == 55395551:
@@ -180,6 +184,5 @@ def main():
         config.TWITTER_ACCESS_TOKEN,
         config.TWITTER_ACCESS_TOKEN_SECRET,
     )
-    stream.filter(track=["AMD"], threaded=True)
-    # stream.filter(follow=["55395551"])
+    stream.filter(follow=["55395551"], threaded=True)
     print("Streaming!")
