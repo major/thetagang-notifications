@@ -1,5 +1,5 @@
 FROM registry.fedoraproject.org/fedora:35
-RUN echo "fastesmirror=1" >> /etc/dnf/dnf.conf
+RUN echo "fastestmirror=1" >> /etc/dnf/dnf.conf
 RUN dnf -y upgrade && dnf -y install python && dnf clean all
 RUN curl -s https://bootstrap.pypa.io/get-pip.py | python
 COPY requirements.txt notify.py /
