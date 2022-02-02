@@ -89,9 +89,7 @@ def get_discord_description(data):
     description = "No company details found."
 
     if "Company" in details.keys():
-        description = (
-            f"{details['Industry']} ({details['Sector']} - {details['Industry']})"
-        )
+        description = f"{details['Industry']}\n({details['Sector']})"
 
     return description
 
@@ -143,6 +141,12 @@ def notify_discord(earnings_data):
     embed.set_thumbnail(url=utils.get_stock_logo(earnings_data["ticker"]))
     embed.add_embed_field(name="Earnings", value=f"{earnings_data['earnings']}")
     embed.add_embed_field(name="Consensus", value=f"{earnings_data['consensus']}")
+    embed.add_embed_field(
+        name="Price", value=f"${earnings_data['company_details']['Price']}"
+    )
+    embed.add_embed_field(
+        name="Has options?", value=f"{earnings_data['company_details']['Optionable']}"
+    )
     webhook.add_embed(embed)
     return webhook.execute()
 

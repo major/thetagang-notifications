@@ -196,6 +196,8 @@ def test_get_discord_description_with_data():
             "Company": "DOOT Industries",
             "Sector": "Industrials",
             "Industry": "Producing DOOTs",
+            "Price": "2.01",
+            "Optionable": "Yes",
         },
         "consensus": 0.12,
         "earnings": 0.07,
@@ -203,7 +205,7 @@ def test_get_discord_description_with_data():
         "phrase": "missed expectations",
         "ticker": "DOOT",
     }
-    expected = "Producing DOOTs (Industrials - Producing DOOTs)"
+    expected = "Producing DOOTs\n(Industrials)"
     desc = earnings.get_discord_description(earnings_data)
     assert desc == expected
 
@@ -216,6 +218,8 @@ def test_notify_discord(mocker):
             "Company": "DOOT Industries",
             "Sector": "Industrials",
             "Industry": "Producing DOOTs",
+            "Price": "2.01",
+            "Optionable": "Yes",
         },
         "consensus": 0.12,
         "earnings": 0.07,
