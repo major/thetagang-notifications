@@ -67,13 +67,18 @@ def notify_discord_basic(stock_details):
         url=config.WEBHOOK_URL_TRENDS,
         rate_limit_retry=True,
         content=f"{stock_details['Symbol']} added to trending tickers",
+        username=config.DISCORD_USERNAME,
     )
     return webhook.execute()
 
 
 def notify_discord_fancy(stock_details):
     """Send a fancy alert to Discord."""
-    webhook = DiscordWebhook(url=config.WEBHOOK_URL_TRENDS, rate_limit_retry=True)
+    webhook = DiscordWebhook(
+        url=config.WEBHOOK_URL_TRENDS,
+        rate_limit_retry=True,
+        username=config.DISCORD_USERNAME,
+    )
     embed = DiscordEmbed(
         title=f"{stock_details['Symbol']} added to trending tickers",
         color="AFE1AF",

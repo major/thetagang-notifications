@@ -5,7 +5,7 @@ import time
 
 from schedule import every, get_jobs, repeat, run_pending
 
-from thetagang_notifications import trends
+from thetagang_notifications import earnings, trends
 
 
 # Setup our shared logger.
@@ -18,6 +18,9 @@ def notify_for_trends():
     """Notify for new trends."""
     trends.main()
 
+
+# Start earnings notifications via Tweepy's stream thread.
+earnings.main()
 
 # Dump all the jobs to the log on startup.
 for upcoming_job in get_jobs():

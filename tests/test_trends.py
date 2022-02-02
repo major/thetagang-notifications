@@ -84,6 +84,7 @@ def test_notify_discord_basic(mocker):
         url=config.WEBHOOK_URL_TRENDS,
         content="SPY added to trending tickers",
         rate_limit_retry=True,
+        username="MajorBot 🤖",
     )
     # mock_execute.assert_called_once()
 
@@ -106,8 +107,7 @@ def test_notify_discord_fancy(mocker):
     trends.notify_discord_fancy(stock_details)
     mock_discord.assert_called_once()
     mock_discord.assert_called_once_with(
-        url=config.WEBHOOK_URL_TRENDS,
-        rate_limit_retry=True,
+        url=config.WEBHOOK_URL_TRENDS, rate_limit_retry=True, username="MajorBot 🤖"
     )
     # mock_execute.assert_called_once()
 
