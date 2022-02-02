@@ -3,7 +3,7 @@
 import logging
 import time
 
-import schedule
+from schedule import every, get_jobs, repeat, run_pending
 
 from thetagang_notifications import trends
 
@@ -13,19 +13,17 @@ log = logging.getLogger(__name__)
 log.info("🚀 thetagang-notifications starting up!")
 
 
-# Set up simple functions to call the methods in each module.
+@repeat(every(5).minutes.at(":00"))
 def notify_for_trends():
     """Notify for new trends."""
     trends.main()
 
 
-# Schedule the runs of various tasks.
-schedule.every(1).minutes.do(notify_for_trends)
-
-for upcoming_job in schedule.get_jobs():
+# Dump all the jobs to the log on startup.
+for upcoming_job in get_jobs():
     log.info("⏰ %s", upcoming_job.__repr__())
 
 # Run pending tasks forever.
 while True:
-    schedule.run_pending()
+    run_pending()
     time.sleep(1)

@@ -1,7 +1,4 @@
 """Tests for trades functions."""
-import pickledb
-import pytest
-import requests
 import requests_mock
 
 
@@ -21,8 +18,8 @@ def test_download_trends(**kwargs):
 def test_diff_trends(tmp_path):
     """Verify that we can get only new trends."""
     # Prepare a temporary database.
-    dir = tmp_path
-    config.TRENDS_DB = f"{dir}/temp_trends.db"
+    db_dir = tmp_path
+    config.TRENDS_DB = f"{db_dir}/temp_trends.db"
 
     # Add some trends.
     trends.store_trends(["ONE", "TWO"])
@@ -35,8 +32,8 @@ def test_diff_trends(tmp_path):
 def test_get_previous_trends(tmp_path):
     """Verify we can get the previous trends from the database."""
     # Prepare a temporary database.
-    dir = tmp_path
-    config.TRENDS_DB = f"{dir}/temp_trends.db"
+    db_dir = tmp_path
+    config.TRENDS_DB = f"{db_dir}/temp_trends.db"
 
     # First run should come back empty.
     result = trends.get_previous_trends()
@@ -80,7 +77,6 @@ def test_notify_discord_basic(mocker):
     """Verify sending basic Discord notifications."""
     config.WEBHOOK_URL_TRENDS = "https://example_webhook_url"
     mock_discord = mocker.patch("thetagang_notifications.trends.DiscordWebhook")
-    # mock_execute = mocker.patch("thetagang_notifications.trends.DiscordWebhook.execute")
 
     trends.notify_discord_basic({"Symbol": "SPY"})
     mock_discord.assert_called_once()
@@ -106,7 +102,6 @@ def test_notify_discord_fancy(mocker):
 
     config.WEBHOOK_URL_TRENDS = "https://example_webhook_url"
     mock_discord = mocker.patch("thetagang_notifications.trends.DiscordWebhook")
-    # mock_execute = mocker.patch("thetagang_notifications.trends.DiscordWebhook.execute")
 
     trends.notify_discord_fancy(stock_details)
     mock_discord.assert_called_once()
@@ -133,4 +128,4 @@ def test_get_discord_description():
 
     stock_details["Earnings"] = "-"
     desc = trends.get_discord_description(stock_details)
-    assert f"Earnings:" not in desc
+    assert "Earnings:" not in desc

@@ -2,7 +2,6 @@
 from datetime import datetime
 
 
-import finvizfinance
 from freezegun import freeze_time
 import pytest
 
@@ -36,7 +35,6 @@ def test_parse_expiry_date_missing():
 @freeze_time("2022-02-01")
 def test_get_dte():
     """Verify that DTE is calculated correctly."""
-    today = datetime.now()
     expiration = "2022-03-18T00:00:00.000Z"
     expected_dte = 45
     assert utils.get_dte(expiration) == expected_dte
