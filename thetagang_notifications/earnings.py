@@ -149,6 +149,7 @@ def notify_discord(earnings_data):
     embed.add_embed_field(
         name="Has options?", value=f"{earnings_data['company_details']['Optionable']}"
     )
+    embed.set_footer(text=" " * 4000)
     webhook.add_embed(embed)
     return webhook.execute()
 
