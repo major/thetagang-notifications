@@ -89,7 +89,9 @@ def get_discord_description(data):
     description = "No company details found."
 
     if "Company" in details.keys():
-        description = f"{details['Industry']}\n({details['Sector']})"
+        description = (
+            f"{details['Company']}\n({details['Sector']} - {details['Industry']})"
+        )
 
     return description
 

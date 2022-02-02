@@ -205,7 +205,7 @@ def test_get_discord_description_with_data():
         "phrase": "missed expectations",
         "ticker": "DOOT",
     }
-    expected = "Producing DOOTs\n(Industrials)"
+    expected = "DOOT Industries\n(Industrials - Producing DOOTs)"
     desc = earnings.get_discord_description(earnings_data)
     assert desc == expected
 
