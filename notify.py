@@ -3,7 +3,7 @@
 import logging
 import time
 
-from schedule import every, get_jobs, repeat, run_pending
+from schedule import every, get_jobs, repeat, run_all, run_pending
 
 from thetagang_notifications import earnings, trends, trades
 
@@ -31,6 +31,9 @@ earnings.main()
 # Dump all the jobs to the log on startup.
 for upcoming_job in get_jobs():
     log.info("⏰ %s", upcoming_job.__repr__())
+
+# Run all of the jobs right now
+run_all()
 
 # Run pending tasks forever.
 while True:
