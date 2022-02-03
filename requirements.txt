@@ -1,7 +1,7 @@
 discord-webhook
-finvizfinance
 pickledb
 python-dateutil
 requests
 schedule
 tweepy
+yfinance

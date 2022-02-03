@@ -31,9 +31,7 @@ def get_previous_trends():
 
 def get_discord_description(data):
     """Generate a Discord notification description based on stock data."""
-    description = f"{data['Company']}\n" f"{data['Sector']} - {data['Industry']}"
-    if "Earnings" in data.keys() and data["Earnings"] != "-":
-        description += f"\nEarnings: {data['Earnings']}"
+    description = f"{data['longName']}\n" f"{data['sector']} - {data['industry']}"
 
     return description
 
@@ -53,7 +51,7 @@ def notify_discord(trending_symbol):
     """Send an alert to Discord for a trending symbol."""
     stock_details = utils.get_symbol_details(trending_symbol)
 
-    if "Company" not in stock_details.keys():
+    if "longName" not in stock_details.keys():
         log.info("📈 Sending basic trend notification for %s", trending_symbol)
         return notify_discord_basic(stock_details)
 
@@ -66,7 +64,7 @@ def notify_discord_basic(stock_details):
     webhook = DiscordWebhook(
         url=config.WEBHOOK_URL_TRENDS,
         rate_limit_retry=True,
-        content=f"{stock_details['Symbol']} added to trending tickers",
+        content=f"{stock_details['symbol']} added to trending tickers",
         username=config.DISCORD_USERNAME,
     )
     return webhook.execute()
@@ -80,12 +78,12 @@ def notify_discord_fancy(stock_details):
         username=config.DISCORD_USERNAME,
     )
     embed = DiscordEmbed(
-        title=f"{stock_details['Symbol']} added to trending tickers",
+        title=f"{stock_details['symbol']} added to trending tickers",
         color="AFE1AF",
         description=get_discord_description(stock_details),
     )
-    embed.set_image(url=utils.get_stock_chart(stock_details["Symbol"]))
-    embed.set_thumbnail(url=utils.get_stock_logo(stock_details["Symbol"]))
+    embed.set_image(url=utils.get_stock_chart(stock_details["symbol"]))
+    embed.set_thumbnail(url=stock_details["logo_url"])
     webhook.add_embed(embed)
     return webhook.execute()
 

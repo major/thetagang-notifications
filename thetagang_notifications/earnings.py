@@ -85,15 +85,10 @@ def get_ticker(tweet):
 
 def get_discord_description(data):
     """Generate a Discord description line based on earnings data."""
-    details = data["company_details"]
-    description = "No company details found."
+    if "longName" not in data.keys():
+        return "No company details found."
 
-    if "Company" in details.keys():
-        description = (
-            f"{details['Company']}\n({details['Sector']} - {details['Industry']})"
-        )
-
-    return description
+    return f"{data['longName']}\n{data['sector']} - {data['industry']}"
 
 
 def parse_earnings_tweet(tweet):
@@ -115,7 +110,7 @@ def parse_earnings_tweet(tweet):
     # Get the earnings phrase missed/beat/met.
     phrase = get_earnings_phrase(earnings, consensus)
 
-    # Get the company name and sector/industry data from Finviz
+    # Get the company name and sector/industry data.
     company_details = utils.get_symbol_details(ticker)
 
     return {
@@ -138,14 +133,14 @@ def notify_discord(earnings_data):
     embed = DiscordEmbed(
         title=f"{earnings_data['ticker']} {earnings_data['phrase']}",
         color=earnings_data["color"],
-        description=get_discord_description(earnings_data),
+        description=get_discord_description(earnings_data["company_details"]),
     )
-    embed.set_thumbnail(url=utils.get_stock_logo(earnings_data["ticker"]))
     embed.add_embed_field(name="Earnings", value=f"{earnings_data['earnings']}")
     embed.add_embed_field(name="Consensus", value=f"{earnings_data['consensus']}")
-    embed.add_embed_field(
-        name="Price", value=f"${earnings_data['company_details']['Price']}"
-    )
+
+    if "company" in earnings_data["company_details"].keys():
+        embed.set_thumbnail(url=earnings_data["company_details"]["logo_url"])
+
     webhook.add_embed(embed)
     return webhook.execute()
 

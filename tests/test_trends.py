@@ -1,8 +1,15 @@
 """Tests for trades functions."""
+import json
+
 import requests_mock
 
-
 from thetagang_notifications import config, trends
+
+
+def get_yf_data():
+    """Read sample data from Yahoo Finance from JSON."""
+    with open("tests/assets/amd_yahoo_finance.json", "r") as fileh:
+        return json.load(fileh)
 
 
 @requests_mock.Mocker(kw="mock")
@@ -53,7 +60,7 @@ def test_notify_discord_no_details(mocker):
     """Ensure basic notifications go out when no details are available."""
     mocker.patch(
         "thetagang_notifications.utils.get_symbol_details",
-        return_value={"Symbol": "SPY"},
+        return_value={"symbol": "SPY"},
     )
     mocked_notify = mocker.patch("thetagang_notifications.trends.notify_discord_basic")
     trends.notify_discord("SPY")
@@ -62,7 +69,7 @@ def test_notify_discord_no_details(mocker):
 
 def test_notify_discord_with_details(mocker):
     """Ensure fancy notifications go out when details are available."""
-    stock_details = {"Symbol": "DOOT", "Company": "DOOT Inc"}
+    stock_details = get_yf_data()
     mocker.patch(
         "thetagang_notifications.utils.get_symbol_details", return_value=stock_details
     )
@@ -78,7 +85,7 @@ def test_notify_discord_basic(mocker):
     config.WEBHOOK_URL_TRENDS = "https://example_webhook_url"
     mock_discord = mocker.patch("thetagang_notifications.trends.DiscordWebhook")
 
-    trends.notify_discord_basic({"Symbol": "SPY"})
+    trends.notify_discord_basic({"symbol": "SPY"})
     mock_discord.assert_called_once()
     mock_discord.assert_called_once_with(
         url=config.WEBHOOK_URL_TRENDS,
@@ -91,20 +98,10 @@ def test_notify_discord_basic(mocker):
 
 def test_notify_discord_fancy(mocker):
     """Verify sending basic Discord notifications."""
-    stock_details = {
-        "Symbol": "DOOT",
-        "Chart": "chart_url",
-        "Logo": "logo_url",
-        "Company": "Doot Industries",
-        "Sector": "Dootmaking",
-        "Industry": "Heavy Dooty",
-        "Earnings": "Jan 26 AMC",
-    }
-
     config.WEBHOOK_URL_TRENDS = "https://example_webhook_url"
     mock_discord = mocker.patch("thetagang_notifications.trends.DiscordWebhook")
 
-    trends.notify_discord_fancy(stock_details)
+    trends.notify_discord_fancy(get_yf_data())
     mock_discord.assert_called_once()
     mock_discord.assert_called_once_with(
         url=config.WEBHOOK_URL_TRENDS, rate_limit_retry=True, username="MajorBot 🤖"
@@ -114,18 +111,7 @@ def test_notify_discord_fancy(mocker):
 
 def test_get_discord_description():
     """Ensure we generate a valid Discord notification description."""
-    stock_details = {
-        "Symbol": "DOOT",
-        "Chart": "chart_url",
-        "Logo": "logo_url",
-        "Company": "Doot Industries",
-        "Sector": "Dootmaking",
-        "Industry": "Heavy Dooty",
-        "Earnings": "Jan 26 AMC",
-    }
+    stock_details = get_yf_data()
+    expected = "Advanced Micro Devices, Inc.\nTechnology - Semiconductors"
     desc = trends.get_discord_description(stock_details)
-    assert f"Earnings: {stock_details['Earnings']}" in desc
-
-    stock_details["Earnings"] = "-"
-    desc = trends.get_discord_description(stock_details)
-    assert "Earnings:" not in desc
+    assert desc == expected

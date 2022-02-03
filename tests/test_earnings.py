@@ -1,4 +1,6 @@
 """Tests for earnings functions."""
+import json
+
 from thetagang_notifications import config, earnings
 
 
@@ -15,6 +17,12 @@ MET_CONSENSUS_TWEET = (
 )
 NEGATIVE_CONSENSUS_TWEET = "$OTLK reported a loss of $0.24, consensus was ($0.33)"
 JUNK_TWEET = "DOOT reported something that matches no regexes"
+
+
+def get_yf_data():
+    """Read sample data from Yahoo Finance from JSON."""
+    with open("tests/assets/amd_yahoo_finance.json", "r") as fileh:
+        return json.load(fileh)
 
 
 def test_get_consensus():
@@ -86,7 +94,7 @@ def test_parse_earnings_tweet_without_ticker(mocker):
 def test_parse_earnings_tweet_unknown_consensus(mocker):
     """Verify handling of tweets with an unknown concensus."""
     expected_result = {
-        "company_details": {"Symbol": "DOOT"},
+        "company_details": {"symbol": "DOOT"},
         "consensus": None,
         "earnings": 0.25,
         "color": "000000",
@@ -104,7 +112,7 @@ def test_parse_earnings_tweet_unknown_consensus(mocker):
 def test_parse_earnings_tweet_negative_consensus(mocker):
     """Verify handling of tweets with a negative consensus and earnings."""
     expected_result = {
-        "company_details": {"Symbol": "DOOT"},
+        "company_details": {"symbol": "DOOT"},
         "consensus": -0.33,
         "earnings": -0.24,
         "color": "20d420",
@@ -122,7 +130,7 @@ def test_parse_earnings_tweet_negative_consensus(mocker):
 def test_parse_earnings_tweet_met_consensus(mocker):
     """Verify handling of tweets with earnings at consensus."""
     expected_result = {
-        "company_details": {"Symbol": "DOOT"},
+        "company_details": {"symbol": "DOOT"},
         "consensus": 2.06,
         "earnings": 2.14,
         "color": "20d420",
@@ -140,7 +148,7 @@ def test_parse_earnings_tweet_met_consensus(mocker):
 def test_parse_earnings_tweet_above_consensus(mocker):
     """Verify handling of tweets with earnings above consensus."""
     expected_result = {
-        "company_details": {"Symbol": "DOOT"},
+        "company_details": {"symbol": "DOOT"},
         "consensus": 0.76,
         "earnings": 0.92,
         "color": "20d420",
@@ -158,7 +166,7 @@ def test_parse_earnings_tweet_above_consensus(mocker):
 def test_parse_earnings_tweet_below_consensus(mocker):
     """Verify handling of tweets with earnings below consensus."""
     expected_result = {
-        "company_details": {"Symbol": "DOOT"},
+        "company_details": {"symbol": "DOOT"},
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
@@ -176,7 +184,7 @@ def test_parse_earnings_tweet_below_consensus(mocker):
 def test_get_discord_description_no_data():
     """Ensure we generate a discord description without company data."""
     earnings_data = {
-        "company_details": {"Symbol": "DOOT"},
+        "company_details": {"symbol": "DOOT"},
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
@@ -190,37 +198,37 @@ def test_get_discord_description_no_data():
 
 def test_get_discord_description_with_data():
     """Ensure we generate a discord description with company data."""
+    stock_details = get_yf_data()
+    expected_desc = "Advanced Micro Devices, Inc.\nTechnology - Semiconductors"
+    desc = earnings.get_discord_description(stock_details)
+    assert desc == expected_desc
+
+
+def test_notify_discord_no_data(mocker):
+    """Verify sending basic Discord notifications without stock data."""
     earnings_data = {
-        "company_details": {
-            "Symbol": "DOOT",
-            "Company": "DOOT Industries",
-            "Sector": "Industrials",
-            "Industry": "Producing DOOTs",
-            "Price": "2.01",
-            "Optionable": "Yes",
-        },
+        "company_details": {"symbol": "DOOT"},
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
         "phrase": "missed expectations",
         "ticker": "DOOT",
     }
-    expected = "DOOT Industries\n(Industrials - Producing DOOTs)"
-    desc = earnings.get_discord_description(earnings_data)
-    assert desc == expected
+    config.WEBHOOK_URL_EARNINGS = "https://example_webhook_url"
+    mock_discord = mocker.patch("thetagang_notifications.earnings.DiscordWebhook")
+
+    earnings.notify_discord(earnings_data)
+    mock_discord.assert_called_once()
+    mock_discord.assert_called_once_with(
+        url=config.WEBHOOK_URL_EARNINGS, rate_limit_retry=True, username="MajorBot 🤖"
+    )
 
 
 def test_notify_discord(mocker):
     """Verify sending basic Discord notifications."""
+    stock_details = get_yf_data()
     earnings_data = {
-        "company_details": {
-            "Symbol": "DOOT",
-            "Company": "DOOT Industries",
-            "Sector": "Industrials",
-            "Industry": "Producing DOOTs",
-            "Price": "2.01",
-            "Optionable": "Yes",
-        },
+        "company_details": stock_details,
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
@@ -248,6 +256,7 @@ def test_handle_earnings_bad_tweet(mocker):
 def test_handle_earnings_good_tweet(mocker):
     """Verify that we handle earnings tweets handed off from Tweepy."""
     mocked_notify = mocker.patch("thetagang_notifications.earnings.notify_discord")
+    mocker.patch("thetagang_notifications.utils.get_symbol_details")
 
     result = earnings.handle_earnings(BELOW_CONSENSUS_TWEET)
     assert result["ticker"] == "WNC"

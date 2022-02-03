@@ -64,16 +64,16 @@ def test_get_stock_chart():
 
 
 def test_get_symbol_details(mocker):
-    """Verify getting data from finviz."""
-    mocked_class = mocker.patch(target="thetagang_notifications.utils.finvizfinance")
-    utils.get_symbol_details("SPY")
-    mocked_class.assert_called_with("SPY")
+    """Verify getting stock data."""
+    mocked_class = mocker.patch(target="thetagang_notifications.utils.yf.Ticker")
+    utils.get_symbol_details("AMD")
+    mocked_class.assert_called_with("AMD")
 
     mocked_class = mocker.patch(
-        target="thetagang_notifications.utils.finvizfinance",
+        target="thetagang_notifications.utils.yf.Ticker",
         side_effect=Exception("something broke"),
     )
     with pytest.raises(Exception) as excinfo:
-        utils.get_symbol_details("SPY")
-        mocked_class.assert_called_with("SPY")
+        utils.get_symbol_details("AMD")
+        mocked_class.assert_called_with("AMD")
         assert excinfo.value.message == "something broke"

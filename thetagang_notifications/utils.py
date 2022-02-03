@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 from dateutil import parser
-from finvizfinance.quote import finvizfinance
+import yfinance as yf
 
 
 def get_put_breakeven(strike, premium):
@@ -41,13 +41,12 @@ def get_pretty_expiration(expiry_date):
 
 
 def get_symbol_details(symbol):
-    """Get information about a stock/ETF symbol from finviz."""
+    """Get information about a stock/ETF symbol."""
     try:
-        stock = finvizfinance(symbol)
-        details = stock.ticker_fundament()
-        details["Symbol"] = symbol
+        stock = yf.Ticker(symbol)
+        details = stock.get_info()
     except:
-        details = {"Symbol": symbol}
+        details = {"symbol": symbol}
 
     return details
 
@@ -55,8 +54,3 @@ def get_symbol_details(symbol):
 def get_stock_chart(symbol):
     """Get a URL for the stock chart."""
     return f"https://finviz.com/chart.ashx?t={symbol}&ty=c&ta=1&p=d"
-
-
-def get_stock_logo(symbol):
-    """Return a URL to a stock logo."""
-    return f"https://g.foolcdn.com/art/companylogos/square/{symbol}.png"
