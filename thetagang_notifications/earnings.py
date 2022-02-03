@@ -173,8 +173,6 @@ class EarningsStream(tweepy.Stream):
 
 def main():
     """Run the earnings notifications"""
-    handle_earnings("$AMD reported earnings of $0.92, consensus was $0.76")
-    return
     stream = EarningsStream(
         config.TWITTER_CONSUMER_KEY,
         config.TWITTER_CONSUMER_SECRET,
