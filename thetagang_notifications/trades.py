@@ -2,6 +2,8 @@
 import logging
 
 from discord_webhook import DiscordWebhook, DiscordEmbed
+
+import pickledb
 import requests
 
 from thetagang_notifications import config, utils
@@ -15,6 +17,29 @@ def download_trades():
     resp = requests.get(config.TRADES_JSON_URL)
     trades_json = resp.json()
     return trades_json["data"]["trades"]
+
+
+def get_previous_trades():
+    """Retrieve old trades from the last run."""
+    trades_db = pickledb.load(config.TRADES_DB, True)
+    previous_trades = trades_db.get("trades")
+
+    if not previous_trades:
+        return []
+
+    return previous_trades
+
+
+def store_trades(trades):
+    """Store the current trades in the database."""
+    trade_guids = [x["guid"] for x in trades]
+    trades_db = pickledb.load(config.TRADES_DB, True)
+    trades_db.set("trades", trade_guids)
+
+
+def diff_trades(current_trades):
+    """Find the trades that are different from the last run."""
+    return [x for x in current_trades if x["guid"] not in get_previous_trades()]
 
 
 def get_webhook_color(trade_type):
@@ -56,6 +81,8 @@ def parse_trade(trade):
             return parse_short_put(trade)
         case "SHORT NAKED_CALL" | "COVERED CALL":
             return parse_short_call(trade)
+        case "BUY COMMON STOCK" | "SELL COMMON STOCK":
+            return None
         case _:
             return parse_generic_trade(trade)
 
@@ -106,14 +133,55 @@ def notify_trade(trade, norm, det):
     """Choose the correct notification based on trade type."""
     match trade["type"]:
         case "CASH SECURED PUT":
-            notify_cash_secured_put(trade, norm, det)
+            notify_short_put(trade, norm, det)
+        case "SHORT NAKED_CALL" | "COVERED CALL":
+            notify_short_call(trade, norm, det)
+        case "BUY COMMON STOCK" | "SELL COMMON STOCK":
+            notify_stock_trade(trade, norm, det)
         case _:
             notify_generic_trade(trade, norm, det)
 
 
-def notify_cash_secured_put(trade, norm, det):
+def notify_short_call(trade, norm, det):
+    """Send a notification for short call trades."""
+    qty_string = f"{trade['quantity']}x" if trade["quantity"] > 1 else "a"
+    breakeven = utils.get_pretty_price(norm["breakeven"])
+    ptl_return = utils.get_pretty_price(norm["return"])
+    ann_return = utils.get_pretty_price(norm["annualized_return"])
+    risk = "(covered)" if "COVERED" in trade["type"] else "(naked)"
+
+    title = " ".join(
+        [
+            f"{trade['User']['username']} sold {qty_string}",
+            f"{norm['pretty_expiration']} ${trade['symbol']} {norm['strike']}c {risk}",
+            f"for ${norm['premium']}",
+        ]
+    )
+
+    embed = DiscordEmbed(
+        title=title,
+        color=get_webhook_color(trade["type"]),
+        url=get_trade_url(trade),
+    )
+    embed.add_embed_field(name="Breakeven", value=f"${breakeven}")
+    embed.add_embed_field(name="Return %", value=f"{ptl_return}%")
+    embed.add_embed_field(name="Annualized %", value=f"{ann_return}%")
+    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
+    embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
+
+    if "logo_url" in det.keys():
+        embed.set_thumbnail(url=det["logo_url"])
+
+    send_webhook(embed)
+
+
+def notify_short_put(trade, norm, det):
     """Send a notification for cash secured put trades."""
-    qty_string = trade["quantity"] if trade["quantity"] > 1 else "a"
+    qty_string = f"{trade['quantity']}x" if trade["quantity"] > 1 else "a"
+    breakeven = utils.get_pretty_price(norm["breakeven"])
+    ptl_return = utils.get_pretty_price(norm["return"])
+    ann_return = utils.get_pretty_price(norm["annualized_return"])
+
     title = " ".join(
         [
             f"{trade['User']['username']} sold {qty_string}",
@@ -127,13 +195,38 @@ def notify_cash_secured_put(trade, norm, det):
         color=get_webhook_color(trade["type"]),
         url=get_trade_url(trade),
     )
-    embed.add_embed_field(name="Breakeven", value=f"${norm['breakeven']}")
-    embed.add_embed_field(name="Return %", value=f"{norm['return']}%")
-    embed.add_embed_field(name="Annualized %", value=f"{norm['annualized_return']}%")
+    embed.add_embed_field(name="Breakeven", value=f"${breakeven}")
+    embed.add_embed_field(name="Return %", value=f"{ptl_return}%")
+    embed.add_embed_field(name="Annualized %", value=f"{ann_return}%")
     embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
 
-    if det["logo_url"]:
+    if "logo_url" in det.keys():
+        embed.set_thumbnail(url=det["logo_url"])
+
+    send_webhook(embed)
+
+
+def notify_stock_trade(trade, norm, det):
+    """Send a notification for stock trades."""
+    action = "bought" if "BUY" in trade["type"] else "sold"
+    qty_string = f"{trade['quantity']} shares" if trade["quantity"] > 1 else "1 share"
+    title = " ".join(
+        [
+            f"{trade['User']['username']} {action} {qty_string} of ${trade['symbol']} "
+            f"at ${trade['price_filled']} each",
+        ]
+    )
+
+    embed = DiscordEmbed(
+        title=title,
+        color=get_webhook_color(trade["type"]),
+        url=get_trade_url(trade),
+    )
+    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
+    embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
+
+    if "logo_url" in det.keys():
         embed.set_thumbnail(url=det["logo_url"])
 
     send_webhook(embed)
@@ -142,7 +235,7 @@ def notify_cash_secured_put(trade, norm, det):
 def notify_generic_trade(trade, norm, det):
     """Take parsed trade data and generate a notification."""
     embed = DiscordEmbed(
-        title=f"${trade['symbol']}: {trade['type']}",
+        title=f"${trade['symbol']}: {trade['type']} {norm['strikes']}",
         color=get_webhook_color(trade["type"]),
         url=get_trade_url(trade),
     )
@@ -155,7 +248,7 @@ def notify_generic_trade(trade, norm, det):
     embed.add_embed_field(name="Quantity", value=trade["quantity"])
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
 
-    if det["logo_url"]:
+    if "logo_url" in det.keys():
         embed.set_thumbnail(url=det["logo_url"])
 
     send_webhook(embed)
@@ -177,6 +270,13 @@ def send_webhook(embed=None):
 
 def handle_trade(trade):
     """Handle a trade coming from a download."""
+    # Only notify on Patron trades if configured.
+    if config.PATRON_TRADES_ONLY and trade["User"]["role"] != "patron":
+        return None
+
+    log.info("Handling trade %s", get_trade_url(trade))
+
+    # Normalize some trade data for easy usage later.
     normalized_data = parse_trade(trade)
 
     # Get data about the company.
@@ -186,11 +286,17 @@ def handle_trade(trade):
     notify_trade(trade, normalized_data, company_details)
 
 
-if __name__ == "__main__":
-    import json
+def main():
+    """Handle updates for trades."""
+    # Get the current list of trades and diff against our previous list.
+    current_trades = download_trades()
+    new_trades = diff_trades(current_trades)
 
-    # with open("tests/assets/trade-short-iron-condor.json", "r") as fileh:
-    #     handle_trade(json.load(fileh))
+    # Save the current list of trades to the database.
+    store_trades(current_trades)
 
-    with open("tests/assets/trade-cash-secured-put.json", "r") as fileh:
-        handle_trade(json.load(fileh))
+    # Send an alert for any new trades.
+    for trade_record in new_trades:
+        handle_trade(trade_record)
+
+    return new_trades

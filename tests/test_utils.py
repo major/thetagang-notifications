@@ -33,6 +33,12 @@ def test_breakeven_short_call():
     assert utils.get_breakeven(trade) == 101.50
 
 
+def test_breakeven_unknown():
+    """Test breakevens when we can't calculate them."""
+    trade = load_trade_asset("trade-short-iron-condor.json")
+    assert utils.get_breakeven(trade) is None
+
+
 @freeze_time("2022-02-03")
 def test_short_put_return():
     """Verify that we calculate put breakevens correctly."""

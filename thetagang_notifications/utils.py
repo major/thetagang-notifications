@@ -39,6 +39,12 @@ def get_short_call_return(trade):
 
 def get_annualized_return(potential_return, dte):
     """Calculate the annualized return for a trade."""
+    if dte == 0:
+        # Computers dislike dividing by zero. It hurts.
+        dte = 1
+    elif dte < 0:
+        # We aren't time travelers here.
+        return None
     return (potential_return / dte) * 365
 
 
