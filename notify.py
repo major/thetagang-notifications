@@ -20,7 +20,7 @@ def notify_for_trends():
 
 
 # Start earnings notifications via Tweepy's stream thread.
-# earnings.main()
+earnings.main()
 
 # Dump all the jobs to the log on startup.
 for upcoming_job in get_jobs():

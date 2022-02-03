@@ -51,18 +51,6 @@ def get_earnings(tweet):
     return None
 
 
-def get_earnings_phrase(earnings, consensus):
-    """Return a phrase based on results."""
-    if not consensus:
-        return "reported without analyst consensus"
-    elif earnings == consensus:
-        return "met expectations"
-    elif earnings < consensus:
-        return "missed expectations"
-    else:
-        return "beat expectations"
-
-
 def get_color(earnings, consensus):
     """Return a color for Discord embeds based on the earnings outcome."""
     if not consensus:
@@ -83,12 +71,27 @@ def get_ticker(tweet):
     return None
 
 
+def get_discord_title(data):
+    """Generate a Discord title based on available data."""
+    if "longName" not in data["company_details"].keys():
+        return data["ticker"]
+
+    return f"{data['ticker']}: {data['company_details']['longName']}"
+
+
 def get_discord_description(data):
     """Generate a Discord description line based on earnings data."""
-    if "longName" not in data.keys():
-        return "No company details found."
+    details = data["company_details"]
+    description_extra = "No company data found."
 
-    return f"{data['longName']}\n{data['sector']} - {data['industry']}"
+    if "longName" in details.keys():
+        description_extra = f"**Sector:** {details['sector']} - {details['industry']}"
+
+    description = (
+        f"**Earnings:** {data['earnings']}\n"
+        f"**Consensus:** {data.get('consensus', 'unknown')}\n"
+    )
+    return description + description_extra
 
 
 def parse_earnings_tweet(tweet):
@@ -107,9 +110,6 @@ def parse_earnings_tweet(tweet):
     # Get an emoji based on the earnings outcome.
     color = get_color(earnings, consensus)
 
-    # Get the earnings phrase missed/beat/met.
-    phrase = get_earnings_phrase(earnings, consensus)
-
     # Get the company name and sector/industry data.
     company_details = utils.get_symbol_details(ticker)
 
@@ -118,7 +118,6 @@ def parse_earnings_tweet(tweet):
         "earnings": earnings,
         "consensus": consensus,
         "color": color,
-        "phrase": phrase,
         "company_details": company_details,
     }
 
@@ -131,14 +130,12 @@ def notify_discord(earnings_data):
         rate_limit_retry=True,
     )
     embed = DiscordEmbed(
-        title=f"{earnings_data['ticker']} {earnings_data['phrase']}",
+        title=get_discord_title(earnings_data),
         color=earnings_data["color"],
-        description=get_discord_description(earnings_data["company_details"]),
+        description=get_discord_description(earnings_data),
     )
-    embed.add_embed_field(name="Earnings", value=f"{earnings_data['earnings']}")
-    embed.add_embed_field(name="Consensus", value=f"{earnings_data['consensus']}")
 
-    if "company" in earnings_data["company_details"].keys():
+    if "longName" in earnings_data["company_details"].keys():
         embed.set_thumbnail(url=earnings_data["company_details"]["logo_url"])
 
     webhook.add_embed(embed)
@@ -176,6 +173,8 @@ class EarningsStream(tweepy.Stream):
 
 def main():
     """Run the earnings notifications"""
+    handle_earnings("$AMD reported earnings of $0.92, consensus was $0.76")
+    return
     stream = EarningsStream(
         config.TWITTER_CONSUMER_KEY,
         config.TWITTER_CONSUMER_SECRET,

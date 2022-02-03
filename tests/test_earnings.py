@@ -61,21 +61,6 @@ def test_get_color():
     assert emoji == "000000"
 
 
-def test_get_earnings_phrase():
-    """Verify that we return the right phrase based on earnings/consensus."""
-    phrase = earnings.get_earnings_phrase(0.50, 0.25)
-    assert phrase == "beat expectations"
-
-    phrase = earnings.get_earnings_phrase(0.25, 0.25)
-    assert phrase == "met expectations"
-
-    phrase = earnings.get_earnings_phrase(0.25, 0.50)
-    assert phrase == "missed expectations"
-
-    phrase = earnings.get_earnings_phrase(0.25, None)
-    assert phrase == "reported without analyst consensus"
-
-
 def test_get_ticker():
     """Ensure we can extract the stock ticker if it is present."""
     ticker = earnings.get_ticker(BELOW_CONSENSUS_TWEET)
@@ -98,7 +83,6 @@ def test_parse_earnings_tweet_unknown_consensus(mocker):
         "consensus": None,
         "earnings": 0.25,
         "color": "000000",
-        "phrase": "reported without analyst consensus",
         "ticker": "LFVN",
     }
     mocker.patch(
@@ -116,7 +100,6 @@ def test_parse_earnings_tweet_negative_consensus(mocker):
         "consensus": -0.33,
         "earnings": -0.24,
         "color": "20d420",
-        "phrase": "beat expectations",
         "ticker": "OTLK",
     }
     mocker.patch(
@@ -134,7 +117,6 @@ def test_parse_earnings_tweet_met_consensus(mocker):
         "consensus": 2.06,
         "earnings": 2.14,
         "color": "20d420",
-        "phrase": "beat expectations",
         "ticker": "SWK",
     }
     mocker.patch(
@@ -152,7 +134,6 @@ def test_parse_earnings_tweet_above_consensus(mocker):
         "consensus": 0.76,
         "earnings": 0.92,
         "color": "20d420",
-        "phrase": "beat expectations",
         "ticker": "AMD",
     }
     mocker.patch(
@@ -170,7 +151,6 @@ def test_parse_earnings_tweet_below_consensus(mocker):
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
-        "phrase": "missed expectations",
         "ticker": "WNC",
     }
     mocker.patch(
@@ -181,6 +161,39 @@ def test_parse_earnings_tweet_below_consensus(mocker):
     assert result == expected_result
 
 
+def test_get_discord_title_no_data():
+    """Ensure we generate a discord title without company data."""
+    earnings_data = {
+        "company_details": {"symbol": "DOOT"},
+        "consensus": 0.12,
+        "earnings": 0.07,
+        "color": "d42020",
+        "ticker": "DOOT",
+    }
+    expected = "**Earnings:** 0.07\n**Consensus:** 0.12\nNo company data found."
+    desc = earnings.get_discord_description(earnings_data)
+    assert desc == expected
+
+
+def test_get_discord_title_with_data():
+    """Ensure we generate a discord title with company data."""
+    stock_details = get_yf_data()
+    earnings_data = {
+        "company_details": stock_details,
+        "consensus": 0.12,
+        "earnings": 0.07,
+        "color": "d42020",
+        "ticker": "DOOT",
+    }
+    expected_desc = (
+        "**Earnings:** 0.07\n"
+        "**Consensus:** 0.12\n"
+        "**Sector:** Technology - Semiconductors"
+    )
+    desc = earnings.get_discord_description(earnings_data)
+    assert desc == expected_desc
+
+
 def test_get_discord_description_no_data():
     """Ensure we generate a discord description without company data."""
     earnings_data = {
@@ -188,10 +201,9 @@ def test_get_discord_description_no_data():
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
-        "phrase": "missed expectations",
         "ticker": "DOOT",
     }
-    expected = "No company details found."
+    expected = "**Earnings:** 0.07\n**Consensus:** 0.12\nNo company data found."
     desc = earnings.get_discord_description(earnings_data)
     assert desc == expected
 
@@ -199,8 +211,19 @@ def test_get_discord_description_no_data():
 def test_get_discord_description_with_data():
     """Ensure we generate a discord description with company data."""
     stock_details = get_yf_data()
-    expected_desc = "Advanced Micro Devices, Inc.\nTechnology - Semiconductors"
-    desc = earnings.get_discord_description(stock_details)
+    earnings_data = {
+        "company_details": stock_details,
+        "consensus": 0.12,
+        "earnings": 0.07,
+        "color": "d42020",
+        "ticker": "DOOT",
+    }
+    expected_desc = (
+        "**Earnings:** 0.07\n"
+        "**Consensus:** 0.12\n"
+        "**Sector:** Technology - Semiconductors"
+    )
+    desc = earnings.get_discord_description(earnings_data)
     assert desc == expected_desc
 
 
@@ -211,7 +234,6 @@ def test_notify_discord_no_data(mocker):
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
-        "phrase": "missed expectations",
         "ticker": "DOOT",
     }
     config.WEBHOOK_URL_EARNINGS = "https://example_webhook_url"
@@ -232,7 +254,6 @@ def test_notify_discord(mocker):
         "consensus": 0.12,
         "earnings": 0.07,
         "color": "d42020",
-        "phrase": "missed expectations",
         "ticker": "DOOT",
     }
     config.WEBHOOK_URL_EARNINGS = "https://example_webhook_url"
