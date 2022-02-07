@@ -104,6 +104,12 @@ def get_symbol_details(symbol):
     return details
 
 
+def get_logo(symbol):
+    """Generate a URL to a stock logo on IEX cloud."""
+    # More details: https://iexcloud.io/docs/api/#logo
+    return f"https://storage.googleapis.com/iex/api/logos/{symbol.upper()}.png"
+
+
 def get_stock_chart(symbol):
     """Get a URL for the stock chart."""
     return f"https://finviz.com/chart.ashx?t={symbol}&ty=c&ta=1&p=d"

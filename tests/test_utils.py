@@ -116,6 +116,12 @@ def test_get_stock_chart():
     assert chart_url == expected_url
 
 
+def test_get_logo():
+    """Ensure we generate a stock logo properly."""
+    assert utils.get_logo("AMD").endswith("AMD.png")
+    assert utils.get_logo("sPy").endswith("SPY.png")
+
+
 def test_get_symbol_details(mocker):
     """Verify getting stock data."""
     mocked_class = mocker.patch(target="thetagang_notifications.utils.yf.Ticker")
