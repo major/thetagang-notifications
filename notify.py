@@ -13,13 +13,13 @@ log = logging.getLogger(__name__)
 log.info("🚀 thetagang-notifications starting up!")
 
 
-@repeat(every(5).minutes.at(":00"))
+@repeat(every(1).minutes.at(":00"))
 def notify_for_trends():
     """Notify for new trends."""
     trends.main()
 
 
-@repeat(every(5).minutes.at(":30"))
+@repeat(every(1).minutes.at(":30"))
 def notify_for_trades():
     """Notify for new trades."""
     trades.main()
