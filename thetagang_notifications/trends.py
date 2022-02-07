@@ -51,7 +51,7 @@ def notify_discord(trending_symbol):
     """Send an alert to Discord for a trending symbol."""
     stock_details = utils.get_symbol_details(trending_symbol)
 
-    if "longName" not in stock_details.keys():
+    if "sector" not in stock_details.keys():
         log.info("📈 Sending basic trend notification for %s", trending_symbol)
         return notify_discord_basic(stock_details)
 
