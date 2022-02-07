@@ -240,6 +240,7 @@ def notify_generic_trade(trade, norm, det):
         name="Price Filled", value=utils.get_pretty_price(trade["price_filled"])
     )
     embed.add_embed_field(name="Quantity", value=trade["quantity"])
+    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
     embed.set_thumbnail(url=utils.get_logo(trade["symbol"]))
 
