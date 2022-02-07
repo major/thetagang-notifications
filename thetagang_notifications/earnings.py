@@ -137,6 +137,7 @@ def notify_discord(earnings_data):
 
     if "longName" in earnings_data["company_details"].keys():
         embed.set_thumbnail(url=earnings_data["company_details"]["logo_url"])
+        embed.set_image(url=utils.get_stock_chart(earnings_data["ticker"]))
 
     webhook.add_embed(embed)
     return webhook.execute()
