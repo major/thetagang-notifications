@@ -1,7 +1,9 @@
 discord-webhook
+git+https://github.com/major/finviz@master#egg=finviz
 pickledb
 python-dateutil
 requests
 schedule
 tweepy
+tld
 yfinance

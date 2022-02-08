@@ -4,6 +4,7 @@ import json
 
 from freezegun import freeze_time
 import pytest
+import requests_mock
 
 
 from thetagang_notifications import utils
@@ -120,6 +121,113 @@ def test_get_logo():
     """Ensure we generate a stock logo properly."""
     assert utils.get_logo("AMD").endswith("AMD.png")
     assert utils.get_logo("sPy").endswith("SPY.png")
+
+
+def test_get_finviz_stock_equity(mocker):
+    """Ensure we get stock data from finviz properly."""
+    mocker.patch(
+        target="thetagang_notifications.utils.finviz.get_stock",
+        return_value=load_trade_asset("finviz-amd.json"),
+    )
+    result = utils.get_finviz_stock("AMD")
+    assert result["Website"] == "https://www.amd.com"
+    assert result["Sector"] == "Technology"
+
+
+def test_get_finviz_stock_etf(mocker):
+    """Ensure we get stock data from finviz properly."""
+    mocker.patch(
+        target="thetagang_notifications.utils.finviz.get_stock",
+        return_value=load_trade_asset("finviz-soxl.json"),
+    )
+    result = utils.get_finviz_stock("AMD")
+    assert result["Website"] is None
+    assert result["Sector"] == "Exchange Traded Fund"
+
+
+def test_get_stock_logo_failure(mocker):
+    """Test getting a stock logo when everything fails."""
+    mocker.patch(target="thetagang_notifications.utils.get_logo_iex", return_value=None)
+    mocker.patch(
+        target="thetagang_notifications.utils.get_logo_clearbit", return_value=None
+    )
+    result = utils.get_stock_logo("AMD")
+    assert result is None
+
+
+def test_get_stock_logo_success(requests_mock, mocker):
+    """Test getting a stock logo when everything fails."""
+    primary_url = f"{utils.IEX_PRIMARY_LOGO_URL}/AMD.png"
+    secondary_url = f"{utils.IEX_SECONDARY_LOGO_URL}/AMD.png"
+    requests_mock.get(
+        primary_url, headers={"x-goog-hash": utils.IEX_PLACEHOLDER_IMAGE_HASH}
+    )
+    requests_mock.get(secondary_url, text="doot")
+    mocker.patch(
+        target="thetagang_notifications.utils.get_logo_clearbit", return_value=None
+    )
+    result = utils.get_stock_logo("AMD")
+    from pprint import pprint
+
+    pprint(result)
+    assert result == secondary_url
+
+
+def test_get_finviz_stock_failure(mocker):
+    """Ensure we get stock data from finviz properly."""
+    mocked_class = mocker.patch(
+        target="thetagang_notifications.utils.finviz.get_stock",
+        side_effect=Exception("something broke"),
+    )
+    with pytest.raises(Exception) as excinfo:
+        utils.get_finviz_stock("DOOT")
+        mocked_class.assert_called_with("DOOT")
+        assert excinfo.value.message == "something broke"
+
+
+def test_get_base_domain():
+    """Verify we can get a base domain."""
+    assert utils.get_base_domain("gsdgsdfg.sdfgdsfgsd.google.com") == "google.com"
+    assert utils.get_base_domain("wheeeee.google.co.uk") == "google.co.uk"
+
+
+def test_get_logo_iex_403():
+    """Test retrieving logos from IEX."""
+    with requests_mock.Mocker() as mock_req:
+        url = f"{utils.IEX_PRIMARY_LOGO_URL}/AMD.png"
+        mock_req.get(url, status_code=403)
+        result = utils.get_logo_iex(url)
+        assert result is None
+
+
+def test_get_logo_iex_placeholder():
+    """Test retrieving logos from IEX."""
+    with requests_mock.Mocker() as mock_req:
+        url = f"{utils.IEX_PRIMARY_LOGO_URL}/AMD.png"
+        mock_req.get(url, headers={"x-goog-hash": utils.IEX_PLACEHOLDER_IMAGE_HASH})
+        result = utils.get_logo_iex(url)
+        assert result is None
+
+
+def test_get_logo_clearbit(mocker):
+    """Ensure we get a logo from clearbit."""
+    # Try it with a complete URL first.
+    amd_data = load_trade_asset("finviz-amd.json")
+    mocker.patch(
+        target="thetagang_notifications.utils.finviz.get_stock",
+        return_value=amd_data,
+    )
+    result = utils.get_logo_clearbit("AMD")
+    assert result == "https://logo.clearbit.com/amd.com"
+
+    # Now try it without a URL.
+    soxl_data = load_trade_asset("finviz-soxl.json")
+    mocker.patch(
+        target="thetagang_notifications.utils.finviz.get_stock",
+        return_value=soxl_data,
+    )
+    result = utils.get_logo_clearbit("SOXL")
+    assert result is None
 
 
 def test_get_symbol_details(mocker):

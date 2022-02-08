@@ -168,7 +168,7 @@ def notify_short_call(trade, norm, det):
     embed.add_embed_field(name="Annualized %", value=f"{ann_return}%")
     embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_logo(trade["symbol"]))
+    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
 
     send_webhook(embed)
 
@@ -198,7 +198,7 @@ def notify_short_put(trade, norm, det):
     embed.add_embed_field(name="Annualized %", value=f"{ann_return}%")
     embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_logo(trade["symbol"]))
+    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
 
     send_webhook(embed)
 
@@ -221,7 +221,7 @@ def notify_stock_trade(trade, norm, det):
     )
     embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_logo(trade["symbol"]))
+    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
 
     send_webhook(embed)
 
@@ -242,7 +242,7 @@ def notify_generic_trade(trade, norm, det):
     embed.add_embed_field(name="Quantity", value=trade["quantity"])
     embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
     embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_logo(trade["symbol"]))
+    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
 
     send_webhook(embed)
 
