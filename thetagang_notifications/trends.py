@@ -54,7 +54,7 @@ class Trend:
 
     def initialize_db(self):
         """Ensure the database is initialized."""
-        self.db = SqliteDict(config.TRENDS_DB, autocommit=True)
+        self.db = SqliteDict(config.TRENDS_DB, autocommit=True, tablename="trends")
 
         if "trends" not in self.db.keys():
             self.db["trends"] = []
