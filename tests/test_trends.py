@@ -101,6 +101,32 @@ class TestTrend:
         mocked_logo.assert_called_once()
         mocked_logo.assert_called_with("DOOT")
 
+    def test_main_no_trends(self, mocker):
+        """Test main without trends."""
+        mocker.patch(
+            target="thetagang_notifications.trends.download_trends",
+            return_value=[],
+        )
+        mock_flush = mocker.patch(
+            target="thetagang_notifications.trends.Trend",
+            return_value=None,
+        )
+        trends.main()
+        mock_flush.flush_db.assert_called()
+
+    def test_main_with_trends(self, mocker):
+        """Test main without trends."""
+        mocker.patch(
+            target="thetagang_notifications.trends.download_trends",
+            return_value=["ONE", "TWO"],
+        )
+        mock_notify = mocker.patch(
+            target="thetagang_notifications.trends.Trend.notify",
+            return_value=None,
+        )
+        trends.main()
+        mock_notify.assert_called()
+
     def test_notify(self, mocker):
         """Verify sending notifications."""
         finviz_data = load_asset("finviz-amd.json")

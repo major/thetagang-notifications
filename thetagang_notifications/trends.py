@@ -121,7 +121,7 @@ def main():
         trend = Trend(downloaded_trend)
         trend.notify()
 
-    if not download_trends:
+    if not downloaded_trends:
         Trend.flush_db()
 
 
