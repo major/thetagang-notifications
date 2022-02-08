@@ -48,7 +48,7 @@ class Trend:
     @classmethod
     def flush_db(cls):
         """Flush all the trends from the database."""
-        db = SqliteDict(config.TRENDS_DB, autocommit=True)
+        db = SqliteDict(config.TRENDS_DB, autocommit=True, tablename="trends")
         db["trends"] = []
         return True
 
