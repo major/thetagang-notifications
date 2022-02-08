@@ -1,9 +1,9 @@
 """Tests for trades functions."""
 import json
 
-import requests_mock
-
+# import requests
 from thetagang_notifications import config, trends
+from thetagang_notifications.trends import Trend
 
 
 def get_yf_data():
@@ -12,106 +12,148 @@ def get_yf_data():
         return json.load(fileh)
 
 
-@requests_mock.Mocker(kw="mock")
-def test_download_trends(**kwargs):
+def load_asset(asset_filename):
+    """Load an asset from test assets."""
+    with open(f"tests/assets/{asset_filename}", "r") as fileh:
+        return json.load(fileh)
+
+
+class TestTrend:
+    """Test the Trend class."""
+
+    def test_discord_title(self):
+        """Verify the discord title."""
+        trendy = Trend("DOOT")
+        assert trendy.discord_title == "DOOT added to trending tickers"
+
+    def test_finviz(self, mocker):
+        """Verify finviz property."""
+        mocked_finviz = mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value={"Company": "Doot Industries"},
+        )
+        trendy = Trend("DOOT")
+        assert trendy.finviz["Company"] == "Doot Industries"
+        mocked_finviz.assert_called_once()
+        mocked_finviz.assert_called_with("DOOT")
+
+    def test_description_failure(self, mocker):
+        """Verify description with no Finviz data."""
+        mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=None,
+        )
+        trendy = Trend("DOOT")
+        assert trendy.discord_description == ""
+
+    def test_description_with_earnings(self, mocker):
+        """Verify description with earnings date."""
+        finviz_data = {
+            "Company": "DOOT Industries",
+            "Sector": "Dootmaking",
+            "Industry": "Heavy Doots",
+            "Earnings": "Feb 29 AMC",
+        }
+        mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=finviz_data,
+        )
+        trendy = Trend("DOOT")
+        assert trendy.discord_description == (
+            "DOOT Industries\nDootmaking - Heavy Doots\nEarnings: Feb 29 AMC"
+        )
+
+    def test_flush_db(self, tmpdir):
+        """Verify flushing the trends database."""
+        config.TRENDS_DB = str(tmpdir / "trends.db")
+
+        trendy = Trend("DOOT")
+        assert trendy.is_new is True
+        trendy.save()
+
+        Trend().flush_db()
+
+        trendy = Trend("DOOT")
+        assert trendy.is_new is True
+
+    def test_is_new(self, tmpdir):
+        """Verify that we can find new trends only."""
+        config.TRENDS_DB = str(tmpdir / "trends.db")
+
+        trendy = Trend("DOOT")
+        assert trendy.is_new is True
+        trendy.save()
+
+        trendy = Trend("DOOT2")
+        assert trendy.is_new is True
+
+        trendy = Trend("DOOT")
+        assert trendy.is_new is False
+
+    def test_logo(self, mocker):
+        """Verify logo property."""
+        mocked_logo = mocker.patch(
+            target="thetagang_notifications.utils.get_stock_logo",
+            return_value="https://example.com/DOOT.png",
+        )
+        trendy = Trend("DOOT")
+        assert trendy.logo == "https://example.com/DOOT.png"
+        mocked_logo.assert_called_once()
+        mocked_logo.assert_called_with("DOOT")
+
+    def test_notify(self, mocker):
+        """Verify sending notifications."""
+        finviz_data = load_asset("finviz-amd.json")
+        mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=finviz_data,
+        )
+        mock_exec = mocker.patch(
+            target="thetagang_notifications.trends.DiscordWebhook.execute"
+        )
+        trendy = Trend("AMD")
+        trendy.notify()
+
+        mock_exec.assert_called_once()
+
+        # The webhook should *not* be sent on the second run.
+        mock_exec.reset_mock()
+        trendy = Trend("AMD")
+        trendy.notify()
+
+        mock_exec.assert_not_called()
+
+    def test_prepare_embed(self, mocker):
+        """Verify webhook embeds."""
+        mocker.patch(
+            target="thetagang_notifications.utils.get_stock_logo",
+            return_value="logo_url",
+        )
+        mocker.patch(
+            target="thetagang_notifications.utils.get_stock_chart",
+            return_value="chart_url",
+        )
+        trendy = Trend("DOOT")
+        embed = trendy.prepare_embed()
+        assert embed.thumbnail["url"] == "logo_url"
+        assert embed.image["url"] == "chart_url"
+        assert embed.title == trendy.discord_title
+
+    def test_stock_chart(self, mocker):
+        """Verify stock chart property."""
+        mocked_chart = mocker.patch(
+            target="thetagang_notifications.utils.get_stock_chart",
+            return_value="https://example.com/DOOT.png",
+        )
+        trendy = Trend("DOOT")
+        assert trendy.stock_chart == "https://example.com/DOOT.png"
+        mocked_chart.assert_called_once()
+        mocked_chart.assert_called_with("DOOT")
+
+
+def test_download_trends(requests_mock):
     """Ensure we handle downloaded trends properly."""
-    mocked_json = {"data": {"trends": ["a trend would be here!"]}}
-    kwargs["mock"].get(config.TRENDS_JSON_URL, json=mocked_json)
-
+    mocked_json = {"data": {"trends": ["DOOT"]}}
+    requests_mock.get(config.TRENDS_JSON_URL, json=mocked_json)
     downloaded_trends = trends.download_trends()
-    assert downloaded_trends[0] == "a trend would be here!"
-
-
-def test_diff_trends(tmp_path):
-    """Verify that we can get only new trends."""
-    # Prepare a temporary database.
-    db_dir = tmp_path
-    config.TRENDS_DB = f"{db_dir}/temp_trends.db"
-
-    # Add some trends.
-    trends.store_trends(["ONE", "TWO"])
-
-    assert trends.diff_trends(["ONE", "TWO"]) == []
-
-    assert trends.diff_trends(["ONE", "TWO", "THREE"]) == ["THREE"]
-
-
-def test_get_previous_trends(tmp_path):
-    """Verify we can get the previous trends from the database."""
-    # Prepare a temporary database.
-    db_dir = tmp_path
-    config.TRENDS_DB = f"{db_dir}/temp_trends.db"
-
-    # First run should come back empty.
-    result = trends.get_previous_trends()
-    assert result == []
-
-    # Add some trends.
-    trends.store_trends(["ONE", "TWO"])
-
-    # We should have results now.
-    result = trends.get_previous_trends()
-    assert len(result) == 2
-    assert result[0] == "ONE"
-    assert result[1] == "TWO"
-
-
-def test_notify_discord_no_details(mocker):
-    """Ensure basic notifications go out when no details are available."""
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value={"symbol": "SPY"},
-    )
-    mocked_notify = mocker.patch("thetagang_notifications.trends.notify_discord_basic")
-    trends.notify_discord("SPY")
-    mocked_notify.assert_called_once()
-
-
-def test_notify_discord_with_details(mocker):
-    """Ensure fancy notifications go out when details are available."""
-    stock_details = get_yf_data()
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details", return_value=stock_details
-    )
-    mocked_notify = mocker.patch(
-        "thetagang_notifications.trends.notify_discord_fancy", return_value=None
-    )
-    trends.notify_discord("DOOT")
-    mocked_notify.assert_called_once()
-
-
-def test_notify_discord_basic(mocker):
-    """Verify sending basic Discord notifications."""
-    config.WEBHOOK_URL_TRENDS = "https://example_webhook_url"
-    mock_discord = mocker.patch("thetagang_notifications.trends.DiscordWebhook")
-
-    trends.notify_discord_basic({"symbol": "SPY"})
-    mock_discord.assert_called_once()
-    mock_discord.assert_called_once_with(
-        url=config.WEBHOOK_URL_TRENDS,
-        content="SPY added to trending tickers",
-        rate_limit_retry=True,
-        username="MajorBot 🤖",
-    )
-    # mock_execute.assert_called_once()
-
-
-def test_notify_discord_fancy(mocker):
-    """Verify sending basic Discord notifications."""
-    config.WEBHOOK_URL_TRENDS = "https://example_webhook_url"
-    mock_discord = mocker.patch("thetagang_notifications.trends.DiscordWebhook")
-
-    trends.notify_discord_fancy(get_yf_data())
-    mock_discord.assert_called_once()
-    mock_discord.assert_called_once_with(
-        url=config.WEBHOOK_URL_TRENDS, rate_limit_retry=True, username="MajorBot 🤖"
-    )
-    # mock_execute.assert_called_once()
-
-
-def test_get_discord_description():
-    """Ensure we generate a valid Discord notification description."""
-    stock_details = get_yf_data()
-    expected = "Advanced Micro Devices, Inc.\nTechnology - Semiconductors"
-    desc = trends.get_discord_description(stock_details)
-    assert desc == expected
+    assert downloaded_trends[0] == "DOOT"

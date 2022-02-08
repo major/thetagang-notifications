@@ -145,7 +145,7 @@ def get_stock_logo(symbol):
 def get_finviz_stock(symbol):
     """Get data about a stock from finviz."""
     try:
-        return finviz.get_stock("AMD")
+        return finviz.get_stock(symbol)
     except Exception:
         return None
 
@@ -178,6 +178,9 @@ def get_logo_iex(url):
 def get_logo_clearbit(symbol):
     """Get a logo using clearbit, which requires a domain name."""
     finviz_data = get_finviz_stock(symbol)
+
+    if not finviz_data:
+        return None
 
     # Ensure the finviz result has a URL listed.
     if "Website" not in finviz_data.keys() or not finviz_data["Website"]:

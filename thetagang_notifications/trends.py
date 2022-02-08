@@ -1,14 +1,110 @@
 """Handle trades on thetagang.com."""
+from functools import cached_property
 import logging
 
 from discord_webhook import DiscordWebhook, DiscordEmbed
-import pickledb
 import requests
+from sqlitedict import SqliteDict
 
 from thetagang_notifications import config, utils
 
 
 log = logging.getLogger(__name__)
+
+
+class Trend:
+    """Class for handling new trending symbols that appear on thetagang.com."""
+
+    def __init__(self, symbol=None):
+        """Initialize the basics of the class."""
+        self.symbol = symbol
+        self.initialize_db()
+
+    @property
+    def discord_description(self):
+        """Generate a description for Discord notifications."""
+        fvz = self.finviz
+
+        # Skip this if we didn't get information from Finviz.
+        if fvz is None:
+            return ""
+
+        return (
+            f"{fvz['Company']}\n"
+            f"{fvz['Sector']} - {fvz['Industry']}\n"
+            f"{'Earnings: ' + fvz['Earnings'] if fvz['Earnings'] != '-' else ''}"
+        )
+
+    @property
+    def discord_title(self):
+        """Set a title for the Discord message."""
+        return f"{self.symbol} added to trending tickers"
+
+    @cached_property
+    def finviz(self):
+        """Get data from finviz.com about our trending symbol."""
+        return utils.get_finviz_stock(self.symbol)
+
+    @classmethod
+    def flush_db(cls):
+        """Flush all the trends from the database."""
+        db = SqliteDict(config.TRENDS_DB, autocommit=True)
+        db["trends"] = []
+        return True
+
+    def initialize_db(self):
+        """Ensure the database is initialized."""
+        self.db = SqliteDict(config.TRENDS_DB, autocommit=True)
+
+        if "trends" not in self.db.keys():
+            self.db["trends"] = []
+
+    @property
+    def is_new(self):
+        """Determine if the trend is new."""
+        return self.symbol not in self.db["trends"]
+
+    @property
+    def logo(self):
+        """Get the stock logo."""
+        return utils.get_stock_logo(self.symbol)
+
+    def notify(self):
+        """Send notification to Discord."""
+        # Exit early if we saw this ticker before, or if Finviz has no data about it.
+        if not self.is_new or self.finviz is None:
+            return None
+
+        webhook = DiscordWebhook(
+            url=config.WEBHOOK_URL_TRENDS,
+            rate_limit_retry=True,
+            username=config.DISCORD_USERNAME,
+        )
+        webhook.add_embed(self.prepare_embed())
+        result = webhook.execute()
+
+        self.save()
+        return result
+
+    def prepare_embed(self):
+        """Prepare the webhook embed data."""
+        embed = DiscordEmbed(
+            title=self.discord_title,
+            color="AFE1AF",
+            description=self.discord_description,
+        )
+        embed.set_image(url=self.stock_chart)
+        embed.set_thumbnail(url=self.logo)
+        return embed
+
+    def save(self):
+        """Add the trending ticker to the list of seen trending tickers."""
+        self.db["trends"] = self.db["trends"] + [self.symbol]
+
+    @property
+    def stock_chart(self):
+        """Get the URL to a stock chart for the symbol."""
+        return utils.get_stock_chart(self.symbol)
 
 
 def download_trends():
@@ -18,87 +114,16 @@ def download_trends():
     return trades_json["data"]["trends"]
 
 
-def get_previous_trends():
-    """Retrieve old trends from the last run."""
-    trends_db = pickledb.load(config.TRENDS_DB, True)
-    previous_trends = trends_db.get("trends")
-
-    if not previous_trends:
-        return []
-
-    return previous_trends
-
-
-def get_discord_description(data):
-    """Generate a Discord notification description based on stock data."""
-    description = f"{data['longName']}\n" f"{data['sector']} - {data['industry']}"
-
-    return description
-
-
-def store_trends(trends):
-    """Store the current trends in the database."""
-    trends_db = pickledb.load(config.TRENDS_DB, True)
-    trends_db.set("trends", trends)
-
-
-def diff_trends(current_trends):
-    """Find the trends that are different from the last run."""
-    return list(set(current_trends) - set(get_previous_trends()))
-
-
-def notify_discord(trending_symbol):
-    """Send an alert to Discord for a trending symbol."""
-    stock_details = utils.get_symbol_details(trending_symbol)
-
-    if "sector" not in stock_details.keys():
-        log.info("📈 Sending basic trend notification for %s", trending_symbol)
-        return notify_discord_basic(stock_details)
-
-    log.info("📈 Sending fancy trend notification for %s", trending_symbol)
-    return notify_discord_fancy(stock_details)
-
-
-def notify_discord_basic(stock_details):
-    """Send a basic alert to Discord."""
-    webhook = DiscordWebhook(
-        url=config.WEBHOOK_URL_TRENDS,
-        rate_limit_retry=True,
-        content=f"{stock_details['symbol']} added to trending tickers",
-        username=config.DISCORD_USERNAME,
-    )
-    return webhook.execute()
-
-
-def notify_discord_fancy(stock_details):
-    """Send a fancy alert to Discord."""
-    webhook = DiscordWebhook(
-        url=config.WEBHOOK_URL_TRENDS,
-        rate_limit_retry=True,
-        username=config.DISCORD_USERNAME,
-    )
-    embed = DiscordEmbed(
-        title=f"{stock_details['symbol']} added to trending tickers",
-        color="AFE1AF",
-        description=get_discord_description(stock_details),
-    )
-    embed.set_image(url=utils.get_stock_chart(stock_details["symbol"]))
-    embed.set_thumbnail(url=stock_details["logo_url"])
-    webhook.add_embed(embed)
-    return webhook.execute()
-
-
 def main():
     """Handle updates for trends."""
-    # Get the current list of trends and diff against our previous list.
-    current_trends = download_trends()
-    new_trends = diff_trends(current_trends)
+    downloaded_trends = download_trends()
+    for downloaded_trend in downloaded_trends:
+        trend = Trend(downloaded_trend)
+        trend.notify()
 
-    # Save the current list of trends to the database.
-    store_trends(current_trends)
+    if not download_trends:
+        Trend.flush_db()
 
-    # Send an alert for any new trends.
-    for trending_symbol in sorted(new_trends):
-        notify_discord(trending_symbol)
 
-    return new_trends
+if __name__ == "__main__":  # pragma: no cover
+    main()

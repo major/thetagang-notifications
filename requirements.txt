@@ -4,6 +4,7 @@ pickledb
 python-dateutil
 requests
 schedule
-tweepy
+sqlitedict
 tld
+tweepy
 yfinance
