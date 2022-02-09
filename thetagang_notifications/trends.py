@@ -48,13 +48,13 @@ class Trend:
     @classmethod
     def flush_db(cls):
         """Flush all the trends from the database."""
-        db = SqliteDict(config.TRENDS_DB, autocommit=True, tablename="trends")
+        db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trends")
         db["trends"] = []
         return True
 
     def initialize_db(self):
         """Ensure the database is initialized."""
-        self.db = SqliteDict(config.TRENDS_DB, autocommit=True, tablename="trends")
+        self.db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trends")
 
         if "trends" not in self.db.keys():
             self.db["trends"] = []

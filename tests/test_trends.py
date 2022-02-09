@@ -65,7 +65,7 @@ class TestTrend:
 
     def test_flush_db(self, tmpdir):
         """Verify flushing the trends database."""
-        config.TRENDS_DB = str(tmpdir / "trends.db")
+        config.MAIN_DB = str(tmpdir / "trends.db")
 
         trendy = Trend("DOOT")
         assert trendy.is_new is True
@@ -78,7 +78,7 @@ class TestTrend:
 
     def test_is_new(self, tmpdir):
         """Verify that we can find new trends only."""
-        config.TRENDS_DB = str(tmpdir / "trends.db")
+        config.MAIN_DB = str(tmpdir / "trends.db")
 
         trendy = Trend("DOOT")
         assert trendy.is_new is True
