@@ -11,6 +11,10 @@ from thetagang_notifications import config, utils
 
 log = logging.getLogger(__name__)
 
+# The sqlitedict module likes to log a lot at the INFO level. 🥵
+sqlite_logger = logging.getLogger("sqlitedict")
+sqlite_logger.setLevel(logging.WARNING)
+
 
 class Trend:
     """Class for handling new trending symbols that appear on thetagang.com."""
