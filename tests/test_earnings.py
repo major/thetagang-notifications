@@ -1,7 +1,8 @@
 """Tests for earnings functions."""
 import json
 
-from thetagang_notifications import config, earnings
+from thetagang_notifications import earnings
+from thetagang_notifications.earnings import EarningsReport
 
 
 # Example tweets for use with certain tests.
@@ -25,260 +26,178 @@ def get_yf_data():
         return json.load(fileh)
 
 
-def test_get_consensus():
-    """Ensure we get the consensus from the earnings tweet properly."""
-    consensus = earnings.get_consensus(UNKNOWN_CONSENSUS_TWEET)
-    assert consensus is None
-
-    consensus = earnings.get_consensus(BELOW_CONSENSUS_TWEET)
-    assert consensus == 0.12
-
-    consensus = earnings.get_consensus(NEGATIVE_CONSENSUS_TWEET)
-    assert consensus == -0.33
+def load_asset(asset_filename):
+    """Load an asset from test assets."""
+    with open(f"tests/assets/{asset_filename}", "r") as fileh:
+        return json.load(fileh)
 
 
-def test_get_earnings():
-    """Ensure we get the earnings number from the earnings tweet properly."""
-    earned = earnings.get_earnings(UNKNOWN_CONSENSUS_TWEET)
-    assert earned == 0.25
+class TestEarnings:
+    """Tests for the EarningsReport class."""
 
-    earned = earnings.get_earnings(NEGATIVE_CONSENSUS_TWEET)
-    assert earned == -0.24
+    def test_consensus(self):
+        """Test consensus extraction."""
+        res = EarningsReport(UNKNOWN_CONSENSUS_TWEET)
+        assert not res.consensus
 
-    earned = earnings.get_earnings(JUNK_TWEET)
-    assert earned is None
+        res = EarningsReport(BELOW_CONSENSUS_TWEET)
+        assert res.consensus == 0.12
 
+        res = EarningsReport(NEGATIVE_CONSENSUS_TWEET)
+        assert res.consensus == -0.33
 
-def test_get_color():
-    """Verify that we return the right color based on earnings/consensus."""
-    emoji = earnings.get_color(0.50, 0.25)
-    assert emoji == "20d420"
+    def test_earnings(self):
+        """Test consensus extraction."""
+        res = EarningsReport(JUNK_TWEET)
+        assert not res.earnings
 
-    emoji = earnings.get_color(0.25, 0.50)
-    assert emoji == "d42020"
+        res = EarningsReport(BELOW_CONSENSUS_TWEET)
+        assert res.earnings == 0.07
 
-    emoji = earnings.get_color(0.25, None)
-    assert emoji == "000000"
+        res = EarningsReport(NEGATIVE_CONSENSUS_TWEET)
+        assert res.earnings == -0.24
 
+    def test_finviz(self, mocker):
+        """Verify finviz property."""
+        mocked_finviz = mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value={"Company": "Doot Industries"},
+        )
+        res = EarningsReport("$DOOT reported a loss of $0.69, consensus was ($1.69)")
+        assert res.finviz["Company"] == "Doot Industries"
+        mocked_finviz.assert_called_once()
+        mocked_finviz.assert_called_with("DOOT")
 
-def test_get_ticker():
-    """Ensure we can extract the stock ticker if it is present."""
-    ticker = earnings.get_ticker(BELOW_CONSENSUS_TWEET)
-    assert ticker == "WNC"
+    def test_ticker(self):
+        """Test ticker extraction."""
+        res = EarningsReport(JUNK_TWEET)
+        assert not res.ticker
 
-    ticker = earnings.get_ticker(JUNK_TWEET)
-    assert ticker is None
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.ticker == "AMD"
 
+    def test_logo(self, mocker):
+        """Verify logo property."""
+        mocked_logo = mocker.patch(
+            target="thetagang_notifications.utils.get_stock_logo",
+            return_value="https://example.com/AMD.png",
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.logo == "https://example.com/AMD.png"
+        mocked_logo.assert_called_once()
+        mocked_logo.assert_called_with("AMD")
 
-def test_parse_earnings_tweet_without_ticker(mocker):
-    """Verify we abort early if the tweet has no ticker in it."""
-    result = earnings.parse_earnings_tweet(JUNK_TWEET)
-    assert result is None
+    def test_notificiation_color(self):
+        """Test notification colors."""
+        res = EarningsReport(JUNK_TWEET)
+        assert res.discord_color == earnings.EARNINGS_COLOR_NO_CONSENSUS
 
+        res = EarningsReport(BELOW_CONSENSUS_TWEET)
+        assert res.discord_color == earnings.EARNINGS_COLOR_MISSED
 
-def test_parse_earnings_tweet_unknown_consensus(mocker):
-    """Verify handling of tweets with an unknown concensus."""
-    expected_result = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": None,
-        "earnings": 0.25,
-        "color": "000000",
-        "ticker": "LFVN",
-    }
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value=expected_result["company_details"],
-    )
-    result = earnings.parse_earnings_tweet(UNKNOWN_CONSENSUS_TWEET)
-    assert result == expected_result
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.discord_color == earnings.EARNINGS_COLOR_BEAT
 
+        res = EarningsReport(MET_CONSENSUS_TWEET)
+        assert res.discord_color == earnings.EARNINGS_COLOR_BEAT
 
-def test_parse_earnings_tweet_negative_consensus(mocker):
-    """Verify handling of tweets with a negative consensus and earnings."""
-    expected_result = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": -0.33,
-        "earnings": -0.24,
-        "color": "20d420",
-        "ticker": "OTLK",
-    }
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value=expected_result["company_details"],
-    )
-    result = earnings.parse_earnings_tweet(NEGATIVE_CONSENSUS_TWEET)
-    assert result == expected_result
+        res = EarningsReport(NEGATIVE_CONSENSUS_TWEET)
+        assert res.discord_color == earnings.EARNINGS_COLOR_BEAT
 
+        res = EarningsReport(JUNK_TWEET)
+        assert res.discord_color == earnings.EARNINGS_COLOR_NO_CONSENSUS
 
-def test_parse_earnings_tweet_met_consensus(mocker):
-    """Verify handling of tweets with earnings at consensus."""
-    expected_result = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": 2.06,
-        "earnings": 2.14,
-        "color": "20d420",
-        "ticker": "SWK",
-    }
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value=expected_result["company_details"],
-    )
-    result = earnings.parse_earnings_tweet(MET_CONSENSUS_TWEET)
-    assert result == expected_result
+    def test_notification_description(self, mocker):
+        """Verify notification description."""
+        mocked_finviz = mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=load_asset("finviz-amd.json"),
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.discord_description == "\n".join(
+            [
+                "**Sector:** Technology - Semiconductors",
+                "**Earnings:** 0.92",
+                "**Consensus:** 0.76",
+            ]
+        )
 
+        mocked_finviz.assert_called_once()
 
-def test_parse_earnings_tweet_above_consensus(mocker):
-    """Verify handling of tweets with earnings above consensus."""
-    expected_result = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": 0.76,
-        "earnings": 0.92,
-        "color": "20d420",
-        "ticker": "AMD",
-    }
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value=expected_result["company_details"],
-    )
-    result = earnings.parse_earnings_tweet(ABOVE_CONSENSUS_TWEET)
-    assert result == expected_result
+    def test_notification_description_no_finviz(self, mocker):
+        """Verify notification description when finviz has no data."""
+        mocked_finviz = mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock", return_value=None
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.discord_description == "\n".join(
+            [
+                "**Earnings:** 0.92",
+                "**Consensus:** 0.76",
+            ]
+        )
 
+        mocked_finviz.assert_called_once()
 
-def test_parse_earnings_tweet_below_consensus(mocker):
-    """Verify handling of tweets with earnings below consensus."""
-    expected_result = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "WNC",
-    }
-    mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value=expected_result["company_details"],
-    )
-    result = earnings.parse_earnings_tweet(BELOW_CONSENSUS_TWEET)
-    assert result == expected_result
+    def test_discord_title(self, mocker):
+        """Verify notification titles."""
+        mocked_finviz = mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=load_asset("finviz-amd.json"),
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.discord_title == "AMD: Advanced Micro Devices, Inc."
 
+        mocked_finviz.assert_called_once()
 
-def test_get_discord_title_no_data():
-    """Ensure we generate a discord title without company data."""
-    earnings_data = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "DOOT",
-    }
-    expected = "**Earnings:** 0.07\n**Consensus:** 0.12\nNo company data found."
-    desc = earnings.get_discord_description(earnings_data)
-    assert desc == expected
+    def test_discord_title_no_data(self, mocker):
+        """Verify notification when there is no finviz data."""
+        mocked_finviz = mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=None,
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        assert res.discord_title == "AMD"
 
+        mocked_finviz.assert_called_once()
 
-def test_get_discord_title_with_data():
-    """Ensure we generate a discord title with company data."""
-    stock_details = get_yf_data()
-    earnings_data = {
-        "company_details": stock_details,
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "DOOT",
-    }
-    expected_desc = (
-        "**Earnings:** 0.07\n"
-        "**Consensus:** 0.12\n"
-        "**Sector:** Technology - Semiconductors"
-    )
-    desc = earnings.get_discord_description(earnings_data)
-    assert desc == expected_desc
+    def test_notify(self, mocker):
+        """Verify sending notifications."""
+        mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=load_asset("finviz-amd.json"),
+        )
+        mock_exec = mocker.patch(
+            target="thetagang_notifications.earnings.DiscordWebhook.execute"
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        res.notify()
+        mock_exec.assert_called_once()
 
+    def test_notify_missing_ticker(self, mocker):
+        """Verify sending notifications with a missing ticker."""
+        mock_exec = mocker.patch(
+            target="thetagang_notifications.earnings.DiscordWebhook.execute"
+        )
+        res = EarningsReport(JUNK_TWEET)
+        result = res.notify()
 
-def test_get_discord_description_no_data():
-    """Ensure we generate a discord description without company data."""
-    earnings_data = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "DOOT",
-    }
-    expected = "**Earnings:** 0.07\n**Consensus:** 0.12\nNo company data found."
-    desc = earnings.get_discord_description(earnings_data)
-    assert desc == expected
+        assert not result
+        mock_exec.assert_not_called()
 
-
-def test_get_discord_description_with_data():
-    """Ensure we generate a discord description with company data."""
-    stock_details = get_yf_data()
-    earnings_data = {
-        "company_details": stock_details,
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "DOOT",
-    }
-    expected_desc = (
-        "**Earnings:** 0.07\n"
-        "**Consensus:** 0.12\n"
-        "**Sector:** Technology - Semiconductors"
-    )
-    desc = earnings.get_discord_description(earnings_data)
-    assert desc == expected_desc
-
-
-def test_notify_discord_no_data(mocker):
-    """Verify sending basic Discord notifications without stock data."""
-    earnings_data = {
-        "company_details": {"symbol": "DOOT"},
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "DOOT",
-    }
-    config.WEBHOOK_URL_EARNINGS = "https://example_webhook_url"
-    mock_discord = mocker.patch("thetagang_notifications.earnings.DiscordWebhook")
-
-    earnings.notify_discord(earnings_data)
-    mock_discord.assert_called_once()
-    mock_discord.assert_called_once_with(
-        url=config.WEBHOOK_URL_EARNINGS, rate_limit_retry=True, username="MajorBot 🤖"
-    )
-
-
-def test_notify_discord(mocker):
-    """Verify sending basic Discord notifications."""
-    stock_details = get_yf_data()
-    earnings_data = {
-        "company_details": stock_details,
-        "consensus": 0.12,
-        "earnings": 0.07,
-        "color": "d42020",
-        "ticker": "DOOT",
-    }
-    config.WEBHOOK_URL_EARNINGS = "https://example_webhook_url"
-    mock_discord = mocker.patch("thetagang_notifications.earnings.DiscordWebhook")
-
-    earnings.notify_discord(earnings_data)
-    mock_discord.assert_called_once()
-    mock_discord.assert_called_once_with(
-        url=config.WEBHOOK_URL_EARNINGS, rate_limit_retry=True, username="MajorBot 🤖"
-    )
-
-
-def test_handle_earnings_bad_tweet(mocker):
-    """Verify that we handle bad tweets handed off from Tweepy."""
-    mocker.patch("thetagang_notifications.earnings.notify_discord")
-
-    result = earnings.handle_earnings("junk tweet")
-    assert result is None
-
-
-def test_handle_earnings_good_tweet(mocker):
-    """Verify that we handle earnings tweets handed off from Tweepy."""
-    mocked_notify = mocker.patch("thetagang_notifications.earnings.notify_discord")
-    mocker.patch("thetagang_notifications.utils.get_symbol_details")
-
-    result = earnings.handle_earnings(BELOW_CONSENSUS_TWEET)
-    assert result["ticker"] == "WNC"
-    mocked_notify.assert_called_once()
+    def test_prepare_embed(self, mocker):
+        """Verify webhook embeds."""
+        mocker.patch(
+            target="thetagang_notifications.utils.get_finviz_stock",
+            return_value=load_asset("finviz-amd.json"),
+        )
+        mocker.patch(
+            target="thetagang_notifications.utils.get_stock_logo",
+            return_value="logo_url",
+        )
+        res = EarningsReport(ABOVE_CONSENSUS_TWEET)
+        embed = res.prepare_embed()
+        assert embed.thumbnail["url"] == "logo_url"
+        assert embed.image["url"] == earnings.TRANSPARENT_PNG
+        assert embed.title == res.discord_title
+        assert embed.description == res.discord_description
