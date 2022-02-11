@@ -55,7 +55,7 @@ def test_cash_secured_put(mocker):
     assert res.username == "mhayden"
 
     mock_exec = mocker.patch(
-        target="thetagang_notifications.trends.DiscordWebhook.execute"
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
     hook = res.notify()
 
@@ -95,7 +95,7 @@ def test_covered_call(mocker):
     assert res.username == "mhayden"
 
     mock_exec = mocker.patch(
-        target="thetagang_notifications.trends.DiscordWebhook.execute"
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
     hook = res.notify()
 
@@ -135,7 +135,7 @@ def test_put_credit_spread(mocker):
     assert res.username == "mhayden"
 
     mock_exec = mocker.patch(
-        target="thetagang_notifications.trends.DiscordWebhook.execute"
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
     hook = res.notify()
 
@@ -176,7 +176,7 @@ def test_buy_common_stock(mocker):
     assert res.username == "mhayden"
 
     mock_exec = mocker.patch(
-        target="thetagang_notifications.trends.DiscordWebhook.execute"
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
     hook = res.notify()
 
@@ -216,7 +216,7 @@ def test_short_iron_condor(mocker):
     assert res.username == "Rustyerr"
 
     mock_exec = mocker.patch(
-        target="thetagang_notifications.trends.DiscordWebhook.execute"
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
     hook = res.notify()
 
@@ -248,7 +248,7 @@ def test_non_patron_trade(mocker):
     assert not res.is_patron_trade
 
     mock_exec = mocker.patch(
-        target="thetagang_notifications.trends.DiscordWebhook.execute"
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
     res.notify()
     mock_exec.assert_not_called()

@@ -60,13 +60,10 @@ class Trend:
         """Ensure the database is initialized."""
         self.db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trends")
 
-        if "trends" not in self.db.keys():
-            self.db["trends"] = []
-
     @property
     def is_new(self):
         """Determine if the trend is new."""
-        return self.symbol not in self.db["trends"]
+        return self.symbol not in self.db.get("trends", [])
 
     @property
     def logo(self):
@@ -85,10 +82,10 @@ class Trend:
             username=config.DISCORD_USERNAME,
         )
         webhook.add_embed(self.prepare_embed())
-        result = webhook.execute()
+        webhook.execute()
 
         self.save()
-        return result
+        return webhook
 
     def prepare_embed(self):
         """Prepare the webhook embed data."""
@@ -103,7 +100,7 @@ class Trend:
 
     def save(self):
         """Add the trending ticker to the list of seen trending tickers."""
-        self.db["trends"] = self.db["trends"] + [self.symbol]
+        self.db["trends"] = self.db.get("trends", []) + [self.symbol]
 
     @property
     def stock_chart(self):

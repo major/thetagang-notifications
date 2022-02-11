@@ -1,0 +1,46 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://api.thetagang.com/trends
+  response:
+    body:
+      string: '{"status":200,"data":{"trends":["PLTR","NVDA","TQQQ","AFRM","DIS","TSLA","FB","QQQ","SOFI","PTON","AMD","SPY","SPX"]},"message":null}'
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '133'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 11 Feb 2022 15:29:57 GMT
+      Etag:
+      - W/"85-l9xO6/ZZMGsknipvIAik6BHfasI"
+      Server:
+      - Cowboy
+      Vary:
+      - Origin
+      Via:
+      - 1.1 vegur
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '470'
+      X-Ratelimit-Reset:
+      - '1644593462'
+    status:
+      code: 200
+      message: OK
+version: 1
