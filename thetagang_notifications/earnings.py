@@ -53,11 +53,11 @@ class EarningsReport:
     def discord_color(self):
         """Choose a color based on the consensus and earnings relationship."""
         if not self.consensus:
-            return "000000"
+            return EARNINGS_COLOR_NO_CONSENSUS
         elif self.earnings < self.consensus:
-            return "d42020"
+            return EARNINGS_COLOR_MISSED
         else:
-            return "20d420"
+            return EARNINGS_COLOR_BEAT
 
     @property
     def discord_description(self):
@@ -123,7 +123,8 @@ class EarningsReport:
             username=config.DISCORD_USERNAME,
         )
         webhook.add_embed(self.prepare_embed())
-        return webhook.execute()
+        webhook.execute()
+        return webhook
 
     def prepare_embed(self):
         """Prepare the webhook embed data."""
