@@ -62,10 +62,7 @@ class EarningsReport:
     @property
     def discord_description(self):
         """Generate a description for the Discord notification."""
-        description = [
-            f"**Earnings:** {self.earnings}",
-            f"**Consensus:** {self.consensus}",
-        ]
+        description = [f"**Earnings:** {self.earnings} ({self.consensus})"]
 
         if self.finviz:
             description = [

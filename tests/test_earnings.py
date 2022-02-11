@@ -27,8 +27,7 @@ def test_unknown_consensus_tweet(mocker):
     assert res.discord_color == earnings.EARNINGS_COLOR_NO_CONSENSUS
     assert res.discord_description == (
         f"**Sector:** {res.finviz['Sector']} - {res.finviz['Industry']}\n"
-        f"**Earnings:** {res.earnings}\n"
-        f"**Consensus:** {res.consensus}"
+        f"**Earnings:** {res.earnings} ({res.consensus})"
     )
     assert not res.consensus
     assert res.earnings == 0.25
@@ -58,8 +57,7 @@ def test_below_consensus_tweet(mocker):
     assert res.discord_color == earnings.EARNINGS_COLOR_MISSED
     assert res.discord_description == (
         f"**Sector:** {res.finviz['Sector']} - {res.finviz['Industry']}\n"
-        f"**Earnings:** {res.earnings}\n"
-        f"**Consensus:** {res.consensus}"
+        f"**Earnings:** {res.earnings} ({res.consensus})"
     )
     assert res.consensus == 0.12
     assert res.earnings == 0.07
@@ -89,8 +87,7 @@ def test_above_consensus_tweet(mocker):
     assert res.discord_color == earnings.EARNINGS_COLOR_BEAT
     assert res.discord_description == (
         f"**Sector:** {res.finviz['Sector']} - {res.finviz['Industry']}\n"
-        f"**Earnings:** {res.earnings}\n"
-        f"**Consensus:** {res.consensus}"
+        f"**Earnings:** {res.earnings} ({res.consensus})"
     )
     assert res.consensus == 0.76
     assert res.earnings == 0.92
@@ -120,8 +117,7 @@ def test_met_consensus_tweet(mocker):
     assert res.discord_color == earnings.EARNINGS_COLOR_BEAT
     assert res.discord_description == (
         f"**Sector:** {res.finviz['Sector']} - {res.finviz['Industry']}\n"
-        f"**Earnings:** {res.earnings}\n"
-        f"**Consensus:** {res.consensus}"
+        f"**Earnings:** {res.earnings} ({res.consensus})"
     )
     assert res.consensus == 2.14
     assert res.earnings == 2.14
@@ -151,8 +147,7 @@ def test_negative_consensus_tweet(mocker):
     assert res.discord_color == earnings.EARNINGS_COLOR_BEAT
     assert res.discord_description == (
         f"**Sector:** {res.finviz['Sector']} - {res.finviz['Industry']}\n"
-        f"**Earnings:** {res.earnings}\n"
-        f"**Consensus:** {res.consensus}"
+        f"**Earnings:** {res.earnings} ({res.consensus})"
     )
     assert res.consensus == -0.33
     assert res.earnings == -0.24
