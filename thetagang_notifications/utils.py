@@ -165,10 +165,8 @@ def get_logo_iex(url):
         return None
 
     # Check if the default logo image is being returned.
-    if (
-        "x-goog-hash" in resp.headers
-        and resp.headers["x-goog-hash"] == IEX_PLACEHOLDER_IMAGE_HASH
-    ):
+    hashes = resp.headers.get("x-goog-hash", None)
+    if hashes and IEX_PLACEHOLDER_IMAGE_HASH in hashes:
         log.info("🖼 Logo placeholder spotted: %s", url)
         return None
 

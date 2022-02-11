@@ -6,4 +6,5 @@ pytest-cov
 pytest-mock
 pytest-randomly
 pytest-xdist
+pytest-vcr
 requests_mock

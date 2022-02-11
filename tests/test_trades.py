@@ -1,214 +1,254 @@
 """Tests for trades functions."""
-import json
-
 from freezegun import freeze_time
-import requests_mock
+import pytest
+import requests
 
 from thetagang_notifications import config, trades
+from thetagang_notifications.trades import Trade
+
+# Example trade GUIDs from thetagang.com.
+CASH_SECURED_PUT = "c90e5d5d-8158-43d7-ba09-e6a0dbbf207c"
+COVERED_CALL = "2093163e-2d7b-424f-b007-51c46ace7bb4"
+PUT_CREDIT_SPREAD = "7a9fe9d3-b1aa-483c-bcc0-b6f73c6b4eec"
+SHORT_IRON_CONDOR = "8cdf95fd-d0d4-4f47-ae81-a1e000979291"
+BUY_COMMON_STOCK = "72060eaa-7803-4124-be5b-c03b54171e75"
+SELL_COMMON_STOCK = "a2a46a7f-1c7c-4328-98d7-32b900af98c1"
+NON_PATRON_TRADE = "36ad8e04-b2a1-40c8-8632-55e491be10ca"
 
 
-def load_asset(asset_filename):
-    """Load an asset from test assets."""
-    with open(f"tests/assets/{asset_filename}", "r") as fileh:
-        return json.load(fileh)
+def get_theta_trade(guid):
+    """Get an example thetagang.com trade from the site."""
+    url = f"https://api.thetagang.com/trades/{guid}"
+    return requests.get(url).json()["data"]["trade"]
 
 
-@requests_mock.Mocker(kw="mock")
-def test_download_trades(**kwargs):
-    """Ensure we handle downloaded trades properly."""
-    mocked_json = {"data": {"trades": ["a trade would be here!"]}}
-    kwargs["mock"].get(config.TRADES_JSON_URL, json=mocked_json)
-
-    downloaded_trades = trades.download_trades()
-    assert downloaded_trades[0] == "a trade would be here!"
-
-
-@freeze_time("2022-02-03")
-def test_parse_trade_cash_secured_put():
-    """Ensure we can parse a cash secured put."""
-    trade = load_asset("trade-cash-secured-put.json")
-    result = trades.parse_trade(trade)
-    assert result["strike"] == "$85"
-    assert result["breakeven"] == 83.2
-    assert result["return"] == 2.1634615384615383
-    assert result["annualized_return"] == 52.64423076923077
+@pytest.mark.vcr()
+def test_download_trades():
+    """Test downloading a list of trades."""
+    trade_list = trades.download_trades()
+    assert isinstance(trade_list, list)
+    assert len(trade_list) == 100
+    assert "type" in trade_list[0].keys()
 
 
-@freeze_time("2022-02-03")
-def test_parse_trade_covered_call():
-    """Ensure we can parse a covered call."""
-    trade = load_asset("trade-covered-call.json")
-    result = trades.parse_trade(trade)
-    print(json.dumps(result, indent=2))
-    assert result["strike"] == "$145"
-    assert result["breakeven"] == 145.92
+@pytest.mark.vcr()
+@freeze_time("2022-02-10")
+def test_cash_secured_put(mocker):
+    """Test notification with a cash secured put."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.breakeven == 438.60
+    assert res.guid == "c90e5d5d-8158-43d7-ba09-e6a0dbbf207c"
+    assert res.pretty_expiration == "2/18"
+    assert res.is_option_trade
+    assert res.is_patron_trade
+    assert res.is_single_option
+    assert res.is_short
+    assert res.quantity == 1
+    assert res.raw_strikes == "$440"
+    assert res.short_return == 0.32
+    assert res.short_return_annualized == 14.6
+    assert res.strike == "440"
+    assert res.symbol == "SPY"
+    assert "t=SPY" in res.symbol_chart
+    assert res.symbol_logo.endswith("SPY.png")
+    assert res.trade_type == "CASH SECURED PUT"
+    assert res.username == "mhayden"
 
-
-def test_parse_trade_short_naked_call():
-    """Ensure we can parse a short naked call."""
-    trade = load_asset("trade-short-naked-call.json")
-    result = trades.parse_trade(trade)
-    assert result["strikes"] == "$465"
-
-
-def test_parse_trade_call_credit_spread():
-    """Ensure we can parse a call credit spread."""
-    trade = load_asset("trade-call-credit-spread.json")
-    result = trades.parse_trade(trade)
-    assert result["strikes"] == "$137/$140"
-
-
-def test_parse_trade_put_credit_spread():
-    """Ensure we can parse a put credit spread."""
-    trade = load_asset("trade-put-credit-spread.json")
-    result = trades.parse_trade(trade)
-    assert result["strikes"] == "$145/$140"
-
-
-def test_parse_trade_put_short_iron_condor():
-    """Ensure we can parse a short iron condor."""
-    trade = load_asset("trade-short-iron-condor.json")
-    result = trades.parse_trade(trade)
-    assert result["strikes"] == "$123/$120/$140/$137"
-
-
-def test_parse_trade_buy_common_stock():
-    """Ensure we can parse a buy common stock trade."""
-    trade = load_asset("trade-buy-common-stock.json")
-    result = trades.parse_trade(trade)
-    assert result is None
-
-
-def test_get_webhook_color():
-    """Verify that we determine the right webhook colors."""
-    assert trades.get_webhook_color("CASH SECURED PUT") == "299617"
-    assert trades.get_webhook_color("SHORT NAKED CALL") == "FD3A4A"
-    assert trades.get_webhook_color("SHORT STRANGLE") == "BFAFB2"
-
-
-def test_get_trade_url():
-    """Ensure we generate trade URLs properly."""
-    trade = {
-        "User": {"username": "Tester"},
-        "guid": "82ea7953-cdfb-4a4d-a381-f2a39c87c401",
-    }
-    result = trades.get_trade_url(trade)
-    assert result == "https://thetagang.com/Tester/82ea7953-cdfb-4a4d-a381-f2a39c87c401"
-
-
-def test_notify_short_call(mocker):
-    """Verify that short call notifications are set up properly."""
-    config.WEBHOOK_URL_TRADES = "https://example_webhook_url"
-    mocker.patch("thetagang_notifications.trades.DiscordEmbed")
-    mock_send = mocker.patch("thetagang_notifications.trades.send_webhook")
-
-    trade = load_asset("trade-covered-call.json")
-    norm = trades.parse_short_call(trade)
-
-    trades.notify_trade(trade, norm, {})
-    mock_send.assert_called_once()
-
-    mock_send.reset_mock()
-    trades.notify_trade(trade, norm, {"logo_url": "http://example.com/example.png"})
-    mock_send.assert_called_once()
-
-
-def test_notify_short_put(mocker):
-    """Verify that short put notifications are set up properly."""
-    config.WEBHOOK_URL_TRADES = "https://example_webhook_url"
-    mocker.patch("thetagang_notifications.trades.DiscordEmbed")
-    mock_send = mocker.patch("thetagang_notifications.trades.send_webhook")
-
-    trade = load_asset("trade-cash-secured-put.json")
-    norm = trades.parse_short_put(trade)
-
-    trades.notify_trade(trade, norm, {})
-    mock_send.assert_called_once()
-
-    mock_send.reset_mock()
-    trades.notify_trade(trade, norm, {"logo_url": "http://example.com/example.png"})
-    mock_send.assert_called_once()
-
-
-def test_notify_generic_trade(mocker):
-    """Verify that generic trade notifications are set up properly."""
-    config.WEBHOOK_URL_TRADES = "https://example_webhook_url"
-    mocker.patch("thetagang_notifications.trades.DiscordEmbed")
-    mock_send = mocker.patch("thetagang_notifications.trades.send_webhook")
-
-    trade = load_asset("trade-short-iron-condor.json")
-    norm = trades.parse_generic_trade(trade)
-
-    trades.notify_trade(trade, norm, {})
-    mock_send.assert_called_once()
-
-    mock_send.reset_mock()
-    trades.notify_trade(trade, norm, {"logo_url": "http://example.com/example.png"})
-    mock_send.assert_called_once()
-
-
-def test_notify_stock_trade(mocker):
-    """Verify that stock trade notifications are set up properly."""
-    config.WEBHOOK_URL_TRADES = "https://example_webhook_url"
-    mocker.patch("thetagang_notifications.trades.DiscordEmbed")
-    mock_send = mocker.patch("thetagang_notifications.trades.send_webhook")
-
-    trade = load_asset("trade-buy-common-stock.json")
-    norm = trades.parse_generic_trade(trade)
-
-    trades.notify_trade(trade, norm, {})
-    mock_send.assert_called_once()
-
-    mock_send.reset_mock()
-    trades.notify_trade(trade, norm, {"logo_url": "http://example.com/example.png"})
-    mock_send.assert_called_once()
-
-
-def test_send_webhook(mocker):
-    """Verify that sending webhooks works properly."""
-    mock_hook = mocker.patch("thetagang_notifications.trades.DiscordWebhook")
-    mock_embed = mocker.patch("thetagang_notifications.trades.DiscordEmbed")
-
-    trades.send_webhook(None)
-    mock_hook.assert_called_with(
-        url=config.WEBHOOK_URL_TRADES,
-        rate_limit_retry=True,
-        username=config.DISCORD_USERNAME,
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trends.DiscordWebhook.execute"
     )
+    hook = res.notify()
 
-    trades.send_webhook(mock_embed)
-    mock_hook.assert_called_with(
-        url=config.WEBHOOK_URL_TRADES,
-        rate_limit_retry=True,
-        username=config.DISCORD_USERNAME,
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
+
+    embed = hook.embeds[0]
+    assert embed["title"] == "SPY: CASH SECURED PUT\n1 x 2/18 $440p"
+    assert embed["image"]["url"] == res.symbol_chart
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
+
+
+@pytest.mark.vcr()
+@freeze_time("2022-02-10")
+def test_covered_call(mocker):
+    """Test notification with a covered call."""
+    res = Trade(get_theta_trade(COVERED_CALL))
+    assert res.breakeven == 461.30
+    assert res.guid == "2093163e-2d7b-424f-b007-51c46ace7bb4"
+    assert res.pretty_expiration == "2/18"
+    assert res.is_option_trade
+    assert res.is_patron_trade
+    assert res.is_single_option
+    assert res.is_short
+    assert res.quantity == 1
+    assert res.raw_strikes == "$460"
+    assert res.short_return == 0.28
+    assert res.short_return_annualized == 12.78
+    assert res.strike == "460"
+    assert res.symbol == "SPY"
+    assert "t=SPY" in res.symbol_chart
+    assert res.symbol_logo.endswith("SPY.png")
+    assert res.trade_type == "COVERED CALL"
+    assert res.username == "mhayden"
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trends.DiscordWebhook.execute"
     )
+    hook = res.notify()
+
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
+
+    embed = hook.embeds[0]
+    assert embed["title"] == "SPY: COVERED CALL\n1 x 2/18 $460c"
+    assert embed["image"]["url"] == res.symbol_chart
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
 
 
-def test_handle_trade(mocker):
-    """Test handle_trade."""
-    mock_parse = mocker.patch(
-        "thetagang_notifications.trades.parse_trade", return_value="normalized_data"
+@pytest.mark.vcr()
+@freeze_time("2021-08-01")
+def test_put_credit_spread(mocker):
+    """Test notification with a put credit spread."""
+    res = Trade(get_theta_trade(PUT_CREDIT_SPREAD))
+    assert not res.breakeven
+    assert res.guid == "7a9fe9d3-b1aa-483c-bcc0-b6f73c6b4eec"
+    assert res.pretty_expiration == "9/17"
+    assert res.is_option_trade
+    assert res.is_patron_trade
+    assert not res.is_single_option
+    assert res.is_short
+    assert res.quantity == 1
+    assert res.raw_strikes == "$170/$175"
+    assert not res.short_return
+    assert not res.short_return_annualized
+    assert not res.strike
+    assert res.symbol == "DIS"
+    assert "t=DIS" in res.symbol_chart
+    assert res.symbol_logo.endswith("DIS.png")
+    assert res.trade_type == "PUT CREDIT SPREAD"
+    assert res.username == "mhayden"
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trends.DiscordWebhook.execute"
     )
-    mock_details = mocker.patch(
-        "thetagang_notifications.utils.get_symbol_details",
-        return_value="company_details",
+    hook = res.notify()
+
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
+
+    embed = hook.embeds[0]
+    assert embed["title"] == "DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175"
+    assert embed["image"]["url"] == res.symbol_chart
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
+
+
+@pytest.mark.vcr()
+@freeze_time("2022-02-10")
+def test_buy_common_stock(mocker):
+    """Test notification with stock purchase."""
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert not res.breakeven
+    assert res.guid == "72060eaa-7803-4124-be5b-c03b54171e75"
+    assert not res.parse_expiration()
+    assert not res.pretty_expiration
+    assert not res.is_option_trade
+    assert res.is_patron_trade
+    assert not res.is_single_option
+    assert not res.is_short
+    assert res.quantity == 100
+    assert not res.raw_strikes
+    assert not res.short_return
+    assert not res.short_return_annualized
+    assert not res.strike
+    assert res.symbol == "SPY"
+    assert "t=SPY" in res.symbol_chart
+    assert res.symbol_logo.endswith("SPY.png")
+    assert res.trade_type == "BUY COMMON STOCK"
+    assert res.username == "mhayden"
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trends.DiscordWebhook.execute"
     )
-    mock_notify = mocker.patch("thetagang_notifications.trades.notify_trade")
+    hook = res.notify()
 
-    trade = load_asset("trade-call-credit-spread.json")
-    trades.handle_trade(trade)
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
 
-    mock_parse.assert_called_once()
-    mock_parse.assert_called_with(trade)
-    mock_details.assert_called_once()
-    mock_details.assert_called_with(trade["symbol"])
-    mock_notify.assert_called_once()
-    mock_notify.assert_called_with(trade, "normalized_data", "company_details")
+    embed = hook.embeds[0]
+    assert embed["title"] == "SPY: BUY COMMON STOCK\n100 share(s) at $456.91"
+    assert embed["image"]["url"] == res.symbol_chart
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
 
 
-def test_handle_trade_exclude_non_patron(mocker):
-    """Test handle_trade when we are excluding patron trades."""
-    trade = {"User": {"role": "member"}}
-    config.PATRON_TRADES_ONLY = True
-    result = trades.handle_trade(trade)
-    assert result is None
+@pytest.mark.vcr()
+@freeze_time("2021-08-01")
+def test_short_iron_condor(mocker):
+    """Test notification with a put credit spread."""
+    res = Trade(get_theta_trade(SHORT_IRON_CONDOR))
+    assert not res.breakeven
+    assert res.guid == "8cdf95fd-d0d4-4f47-ae81-a1e000979291"
+    assert res.pretty_expiration == "3/18"
+    assert res.is_option_trade
+    assert res.is_patron_trade
+    assert not res.is_single_option
+    assert res.is_short
+    assert res.quantity == 1
+    assert res.raw_strikes == "$110/$115/$150/$155"
+    assert not res.short_return
+    assert not res.short_return_annualized
+    assert not res.strike
+    assert res.symbol == "PYPL"
+    assert "t=PYPL" in res.symbol_chart
+    assert res.symbol_logo.endswith("PYPL.png")
+    assert res.trade_type == "SHORT IRON CONDOR"
+    assert res.username == "Rustyerr"
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trends.DiscordWebhook.execute"
+    )
+    hook = res.notify()
+
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
+
+    embed = hook.embeds[0]
+    assert embed["title"] == (
+        f"{res.symbol}: {res.trade_type}\n"
+        f"{res.quantity} x {res.pretty_expiration} {res.raw_strikes}"
+    )
+    assert embed["image"]["url"] == res.symbol_chart
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
+
+    # Also verify that we don't alert for the same trade twice.
+    mock_exec.reset_mock()
+    res.notify()
+    mock_exec.assert_not_called()
+
+
+@pytest.mark.vcr()
+@freeze_time("2022-02-10")
+def test_non_patron_trade(mocker):
+    """Test a trade made by a non-patron user."""
+    res = Trade(get_theta_trade(NON_PATRON_TRADE))
+    assert not res.is_patron_trade
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trends.DiscordWebhook.execute"
+    )
+    res.notify()
+    mock_exec.assert_not_called()

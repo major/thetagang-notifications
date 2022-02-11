@@ -1,15 +1,289 @@
 """Handle trades on thetagang.com."""
+from functools import cached_property
+from datetime import datetime
 import logging
+import yaml
 
+from dateutil import parser
 from discord_webhook import DiscordWebhook, DiscordEmbed
-
-import pickledb
 import requests
+from sqlitedict import SqliteDict
 
 from thetagang_notifications import config, utils
 
 
 log = logging.getLogger(__name__)
+
+# The sqlitedict module likes to log a lot at the INFO level. 🥵
+sqlite_logger = logging.getLogger("sqlitedict")
+sqlite_logger.setLevel(logging.WARNING)
+
+# Earnings notification colors.
+COLOR_TRADE_BEARISH = "FD3A4A"
+COLOR_TRADE_NEUTRAL = "BFAFB2"
+COLOR_TRADE_BULLISH = "299617"
+
+
+class Trade:
+    """Class for handling new trades opened on thetagang.com."""
+
+    def __init__(self, trade):
+        """Initialize the basics of the class."""
+        self.trade = trade
+        self.initialize_db()
+
+    @property
+    def breakeven(self):
+        """Return the breakeven on a cash secured or naked put."""
+        match self.trade_type:
+            case "CASH SECURED PUT":
+                strike = self.trade["short_put"]
+                return float(strike) - self.trade["price_filled"]
+            case "COVERED CALL" | "SHORT NAKED CALL":
+                strike = self.trade["short_call"]
+                return float(strike) + self.trade["price_filled"]
+            case _:
+                return None
+
+    @property
+    def discord_color(self):
+        """Set a color for the discord message based on sentiment."""
+        match self.sentiment:
+            case "bearish":
+                return COLOR_TRADE_BEARISH
+            case "neutral":
+                return COLOR_TRADE_NEUTRAL
+            case _:
+                return COLOR_TRADE_BULLISH
+
+    @property
+    def discord_title(self):
+        """Generate a title for discord messages."""
+        title = f"{self.symbol}: {self.trade_type}\n"
+        if self.is_option_trade and self.is_single_option:
+            # We have a long/short single leg trade.
+            title += self.get_discord_title_single_leg()
+        elif self.is_option_trade and not self.is_single_option:
+            # We have a multiple leg option trade, like a spread.
+            title += self.get_discord_title_multiple_leg()
+        else:
+            # If we made it this far, then we have a stock buy/sell.
+            title += self.get_discord_title_stock()
+
+        return title
+
+    @property
+    def discord_description(self):
+        """Generate a footer to end the description."""
+        return (
+            f"[{self.username}](https://thetagang.com/{self.username}) | "
+            f"[TG: Trade]({self.trade_url}) | "
+            f"[TG: {self.symbol}](https://thetagang.com/symbols/{self.symbol}) | "
+            f"[Finviz](https://finviz.com/quote.ashx?t=AMD{self.symbol})"
+        )
+
+    def get_discord_title_single_leg(self):
+        """Generate Discord title for a single leg option trade."""
+        strike_suffix = "p" if "PUT" in self.trade_type else "c"
+        return (
+            f"{self.quantity} x {self.pretty_expiration} "
+            f"${self.strike}{strike_suffix}"
+        )
+
+    def get_discord_title_multiple_leg(self):
+        """Generate a discord title for a multiple leg option trade."""
+        return f"{self.quantity} x {self.pretty_expiration} {self.raw_strikes}"
+
+    def get_discord_title_stock(self):
+        """Generate a Discord title for a stock transaction."""
+        return f"{self.quantity} share(s) at ${self.trade['price_filled']}"
+
+    @property
+    def dte(self):
+        """Calculate days to expiry (DTE) for a trade."""
+        return (self.parse_expiration() - datetime.now()).days
+
+    def initialize_db(self):
+        """Ensure the database is initialized."""
+        self.db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trades")
+
+        if "trades" not in self.db.keys():
+            self.db["trades"] = []
+
+    @property
+    def is_new(self):
+        """Determine if the trend is new."""
+        return self.guid not in self.db["trades"]
+
+    @property
+    def is_option_trade(self):
+        """Determine if the trade is an options trade."""
+        return self.trade_spec["option_trade"]
+
+    @property
+    def is_patron_trade(self):
+        """Determine if the trade was made by a patron."""
+        return True if self.trade["User"]["role"] == "patron" else False
+
+    @property
+    def is_short(self):
+        """Determine if the options trade is short or long."""
+        return self.trade_spec["short"]
+
+    @property
+    def is_single_option(self):
+        """Determine if the trade is a single option trade."""
+        return self.trade_spec["single_option"]
+
+    def notify(self):
+        """Send notification to Discord."""
+        if not self.is_patron_trade or not self.is_new:
+            return None
+
+        webhook = DiscordWebhook(
+            url=config.WEBHOOK_URL_TRADES,
+            rate_limit_retry=True,
+            username=config.DISCORD_USERNAME,
+        )
+        webhook.add_embed(self.prepare_embed())
+        webhook.execute()
+
+        # Record this trade so we don't alert for it again.
+        self.save()
+
+        return webhook
+
+    def prepare_embed(self):
+        """Prepare the webhook embed data."""
+        embed = DiscordEmbed(
+            title=self.discord_title,
+            color=self.discord_color,
+            description=self.discord_description,
+        )
+
+        embed.set_image(url=self.symbol_chart)
+        embed.set_thumbnail(url=self.symbol_logo)
+        embed.set_footer(text=f"{self.username}: {self.trade['note']}")
+        return embed
+
+    def parse_expiration(self):
+        """Convert JSON expiration date into Python date object."""
+        if not self.is_option_trade:
+            return None
+
+        return parser.parse(self.trade["expiry_date"], ignoretz=True)
+
+    @property
+    def pretty_expiration(self):
+        """Generate a pretty expiration date."""
+        if not self.is_option_trade:
+            return None
+
+        expiration_format = "%-m/%d" if self.dte <= 365 else "%-m/%d/%y"
+        return self.parse_expiration().strftime(expiration_format)
+
+    @property
+    def quantity(self):
+        """Extract quantity from the trade."""
+        return self.trade["quantity"]
+
+    @property
+    def sentiment(self):
+        """Determine if trade is bearish, bullish, or neutral."""
+        return self.trade_spec["sentiment"]
+
+    @property
+    def guid(self):
+        """Get the GUID of the trade."""
+        return self.trade["guid"]
+
+    @property
+    def raw_strikes(self):
+        """Get a string containing the strikes from the trade in a generic way."""
+        if not self.is_option_trade:
+            return None
+
+        strikes = {
+            "long put": self.trade["long_put"],
+            "short put": self.trade["short_put"],
+            "short call": self.trade["short_call"],
+            "long call": self.trade["long_call"],
+        }
+        # Make a string from the generic list of strikes.
+        return "/".join([f"${v}" for k, v in strikes.items() if v is not None])
+
+    def save(self):
+        """Add the trending ticker to the list of seen trending tickers."""
+        self.db["trades"] = set(list(self.db["trades"]) + [self.guid])
+
+    @property
+    def short_return(self):
+        """Get the return percentage for a short option."""
+        match self.trade_type:
+            case "CASH SECURED PUT":
+                strike = self.trade["short_put"]
+            case "COVERED CALL" | "SHORT NAKED CALL":
+                strike = self.trade["short_call"]
+            case _:
+                return None
+
+        premium = self.trade["price_filled"]
+        return round((premium / (float(strike) - premium)) * 100, 2)
+
+    @property
+    def short_return_annualized(self):
+        """Get the annualized return on a short option."""
+        if not self.is_single_option or self.dte < 0:
+            return None
+
+        # Computers don't like to divide by zero. 🤷🏻‍♂️
+        dte = 1 if self.dte == 0 else self.dte
+
+        return round((self.short_return / dte) * 365, 2)
+
+    @property
+    def strike(self):
+        """Get the strike for a single option trade."""
+        if not self.is_single_option:
+            return None
+
+        return self.trade[self.trade_spec["strikes"][0]]
+
+    @property
+    def symbol(self):
+        """Get the symbol involved in the trade."""
+        return self.trade["symbol"]
+
+    @property
+    def symbol_chart(self):
+        """Get the chart for the stock symbol."""
+        return utils.get_stock_chart(self.symbol)
+
+    @property
+    def symbol_logo(self):
+        """Get the logo for the stock symbol."""
+        return utils.get_stock_logo(self.symbol)
+
+    @cached_property
+    def trade_spec(self):
+        """Return the spec for this trade."""
+        with open("thetagang_notifications/assets/trade_specs.yml", "r") as fileh:
+            return [x for x in yaml.safe_load(fileh) if x["type"] == self.trade_type][0]
+
+    @property
+    def trade_type(self):
+        """Return the type of trade."""
+        return self.trade["type"]
+
+    @property
+    def trade_url(self):
+        """Generate a URL to the trade itself."""
+        return f"https://thetagang.com/{self.username}/{self.guid}"
+
+    @property
+    def username(self):
+        """Get username of the person making the trade."""
+        return self.trade["User"]["username"]
 
 
 def download_trades():
@@ -19,277 +293,15 @@ def download_trades():
     return trades_json["data"]["trades"]
 
 
-def get_previous_trades():
-    """Retrieve old trades from the last run."""
-    trades_db = pickledb.load(config.TRADES_DB, True)
-    previous_trades = trades_db.get("trades")
-
-    if not previous_trades:
-        return []
-
-    return previous_trades
-
-
-def store_trades(trades):
-    """Store the current trades in the database."""
-    trade_guids = [x["guid"] for x in trades]
-    trades_db = pickledb.load(config.TRADES_DB, True)
-    trades_db.set("trades", trade_guids)
-
-
-def diff_trades(current_trades):
-    """Find the trades that are different from the last run."""
-    return [x for x in current_trades if x["guid"] not in get_previous_trades()]
-
-
-def get_webhook_color(trade_type):
-    """Provide a color for the webhook based on bullish/bearish strategy."""
-    bearish_trades = [
-        "CALL CREDIT SPREAD",
-        "COVERED CALL",
-        "SHORT NAKED CALL",
-        "PUT DEBIT SPREAD",
-        "LONG NAKED PUT",
-        "SELL COMMON STOCK",
-    ]
-    neutral_trades = [
-        "SHORT IRON CONDOR",
-        "SHORT STRANGLE",
-        "SHORT STRADDLE",
-        "LONG STRANGLE",
-        "LONG STRADDLE",
-    ]
-    if trade_type in bearish_trades:
-        return "FD3A4A"
-    elif trade_type in neutral_trades:
-        return "BFAFB2"
-    else:
-        return "299617"
-
-
-def get_trade_url(trade):
-    """Generate a URL to the trade on thetagang.com."""
-    username = trade["User"]["username"]
-    return f"https://thetagang.com/{username}/{trade['guid']}"
-
-
-def parse_trade(trade):
-    """Parse a trade and return relevant data."""
-    # ⚠ 'match' requires Python 3.10+.
-    match trade["type"]:
-        case "CASH SECURED PUT":
-            return parse_short_put(trade)
-        case "SHORT NAKED_CALL" | "COVERED CALL":
-            return parse_short_call(trade)
-        case "BUY COMMON STOCK" | "SELL COMMON STOCK":
-            return None
-        case _:
-            return parse_generic_trade(trade)
-
-
-def parse_generic_trade(trade):
-    """Parse a trade in a generic way that works for all trades."""
-    # Set up a dictionary to handle our normalized data.
-    normalized = {
-        "strikes": utils.gather_strikes(trade),
-    }
-
-    return normalized
-
-
-def parse_short_put(trade):
-    """Parse data from a cash secured put."""
-    normalized = {
-        "strike": f"${trade['short_put']}",
-        "breakeven": utils.get_breakeven(trade),
-        "return": utils.get_short_put_return(trade),
-        "premium": utils.get_pretty_price(trade["price_filled"]),
-        "pretty_expiration": utils.get_pretty_expiration(trade["expiry_date"]),
-    }
-    normalized["annualized_return"] = utils.get_annualized_return(
-        normalized["return"], utils.get_dte(trade["expiry_date"])
-    )
-
-    return normalized
-
-
-def parse_short_call(trade):
-    """Parse data from a covered call."""
-    normalized = {
-        "strike": f"${trade['short_call']}",
-        "breakeven": utils.get_breakeven(trade),
-        "return": utils.get_short_call_return(trade),
-        "premium": utils.get_pretty_price(trade["price_filled"]),
-        "pretty_expiration": utils.get_pretty_expiration(trade["expiry_date"]),
-    }
-    normalized["annualized_return"] = utils.get_annualized_return(
-        normalized["return"], utils.get_dte(trade["expiry_date"])
-    )
-
-    return normalized
-
-
-def notify_trade(trade, norm, det):
-    """Choose the correct notification based on trade type."""
-    match trade["type"]:
-        case "CASH SECURED PUT":
-            notify_short_put(trade, norm, det)
-        case "SHORT NAKED_CALL" | "COVERED CALL":
-            notify_short_call(trade, norm, det)
-        case "BUY COMMON STOCK" | "SELL COMMON STOCK":
-            notify_stock_trade(trade, norm, det)
-        case _:
-            notify_generic_trade(trade, norm, det)
-
-
-def notify_short_call(trade, norm, det):
-    """Send a notification for short call trades."""
-    qty_string = f"{trade['quantity']}x" if trade["quantity"] > 1 else "a"
-    breakeven = utils.get_pretty_price(norm["breakeven"])
-    ptl_return = utils.get_pretty_price(norm["return"])
-    ann_return = utils.get_pretty_price(norm["annualized_return"])
-    risk = "(covered)" if "COVERED" in trade["type"] else "(naked)"
-
-    title = " ".join(
-        [
-            f"{trade['User']['username']} sold {qty_string}",
-            f"{norm['pretty_expiration']} ${trade['symbol']} {norm['strike']}c {risk}",
-            f"for ${norm['premium']}",
-        ]
-    )
-
-    embed = DiscordEmbed(
-        title=title,
-        color=get_webhook_color(trade["type"]),
-        url=get_trade_url(trade),
-    )
-    embed.add_embed_field(name="Breakeven", value=f"${breakeven}")
-    embed.add_embed_field(name="Return %", value=f"{ptl_return}%")
-    embed.add_embed_field(name="Annualized %", value=f"{ann_return}%")
-    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
-    embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
-
-    send_webhook(embed)
-
-
-def notify_short_put(trade, norm, det):
-    """Send a notification for cash secured put trades."""
-    qty_string = f"{trade['quantity']}x" if trade["quantity"] > 1 else "a"
-    breakeven = utils.get_pretty_price(norm["breakeven"])
-    ptl_return = utils.get_pretty_price(norm["return"])
-    ann_return = utils.get_pretty_price(norm["annualized_return"])
-
-    title = " ".join(
-        [
-            f"{trade['User']['username']} sold {qty_string}",
-            f"{norm['pretty_expiration']} ${trade['symbol']} {norm['strike']}p",
-            f"for ${norm['premium']}",
-        ]
-    )
-
-    embed = DiscordEmbed(
-        title=title,
-        color=get_webhook_color(trade["type"]),
-        url=get_trade_url(trade),
-    )
-    embed.add_embed_field(name="Breakeven", value=f"${breakeven}")
-    embed.add_embed_field(name="Return %", value=f"{ptl_return}%")
-    embed.add_embed_field(name="Annualized %", value=f"{ann_return}%")
-    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
-    embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
-
-    send_webhook(embed)
-
-
-def notify_stock_trade(trade, norm, det):
-    """Send a notification for stock trades."""
-    action = "bought" if "BUY" in trade["type"] else "sold"
-    qty_string = f"{trade['quantity']} shares" if trade["quantity"] > 1 else "1 share"
-    title = " ".join(
-        [
-            f"{trade['User']['username']} {action} {qty_string} of ${trade['symbol']} "
-            f"at ${trade['price_filled']} each",
-        ]
-    )
-
-    embed = DiscordEmbed(
-        title=title,
-        color=get_webhook_color(trade["type"]),
-        url=get_trade_url(trade),
-    )
-    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
-    embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
-
-    send_webhook(embed)
-
-
-def notify_generic_trade(trade, norm, det):
-    """Take parsed trade data and generate a notification."""
-    embed = DiscordEmbed(
-        title=f"${trade['symbol']}: {trade['type']} {norm['strikes']}",
-        color=get_webhook_color(trade["type"]),
-        url=get_trade_url(trade),
-    )
-    embed.add_embed_field(
-        name="Expiration", value=utils.get_pretty_expiration(trade["expiry_date"])
-    )
-    embed.add_embed_field(
-        name="Price Filled", value=utils.get_pretty_price(trade["price_filled"])
-    )
-    embed.add_embed_field(name="Quantity", value=trade["quantity"])
-    embed.set_image(url=utils.get_stock_chart(trade["symbol"]))
-    embed.set_footer(text=f"{trade['User']['username']}: {trade['note']}")
-    embed.set_thumbnail(url=utils.get_stock_logo(trade["symbol"]))
-
-    send_webhook(embed)
-
-
-def send_webhook(embed=None):
-    """Send a webhook notification."""
-    webhook = DiscordWebhook(
-        url=config.WEBHOOK_URL_TRADES,
-        rate_limit_retry=True,
-        username=config.DISCORD_USERNAME,
-    )
-
-    if embed is not None:
-        webhook.add_embed(embed)
-
-    return webhook.execute()
-
-
-def handle_trade(trade):
-    """Handle a trade coming from a download."""
-    # Only notify on Patron trades if configured.
-    if config.PATRON_TRADES_ONLY and trade["User"]["role"] != "patron":
-        return None
-
-    log.info("Handling trade %s", get_trade_url(trade))
-
-    # Normalize some trade data for easy usage later.
-    normalized_data = parse_trade(trade)
-
-    # Get data about the company.
-    company_details = utils.get_symbol_details(trade["symbol"])
-
-    # Notify the Discord.
-    notify_trade(trade, normalized_data, company_details)
-
-
 def main():
     """Handle updates for trades."""
-    # Get the current list of trades and diff against our previous list.
-    current_trades = download_trades()
-    new_trades = diff_trades(current_trades)
+    downloaded_trades = download_trades()
+    for downloaded_trade in downloaded_trades:
+        trade_obj = Trade(downloaded_trade)
+        trade_obj.notify()
 
-    # Save the current list of trades to the database.
-    store_trades(current_trades)
+    return downloaded_trades
 
-    # Send an alert for any new trades.
-    for trade_record in new_trades:
-        handle_trade(trade_record)
 
-    return new_trades
+if __name__ == "__main__":  # pragma: no cover
+    main()

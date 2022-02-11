@@ -1,0 +1,146 @@
+- type: PUT CREDIT SPREAD
+  option_trade: True
+  single_option: False
+  strikes:
+    - short_put
+    - long_put
+  short: True
+  sentiment: bullish
+
+- type: CALL CREDIT SPREAD
+  option_trade: True
+  single_option: False
+  strikes:
+    - short_call
+    - long_call
+  short: True
+  sentiment: bearish
+
+- type: PUT DEBIT SPREAD
+  option_trade: True
+  single_option: False
+  strikes:
+    - long_put
+    - short_put
+  short: False
+  sentiment: bearish
+
+- type: CALL DEBIT SPREAD
+  option_trade: True
+  single_option: False
+  strikes:
+    - long_call
+    - short_call
+  short: False
+  sentiment: bullish
+
+- type: CASH SECURED PUT
+  option_trade: True
+  single_option: True
+  strikes:
+    - short_put
+  short: True
+  sentiment: bullish
+
+- type: COVERED CALL
+  option_trade: True
+  single_option: True
+  strikes:
+    - short_call
+  short: True
+  sentiment: bearish
+
+- type: SHORT NAKED CALL
+  option_trade: True
+  single_option: True
+  strikes:
+    - short_call
+  short: True
+  sentiment: bearish
+
+- type: LONG NAKED CALL
+  option_trade: True
+  single_option: True
+  strikes:
+    - long_call
+  short: False
+  sentiment: bullish
+
+- type: LONG NAKED PUT
+  option_trade: True
+  single_option: True
+  strikes:
+    - long_put
+  short: False
+  sentiment: bearish
+
+- type: BUY COMMON STOCK
+  option_trade: False
+  single_option: False
+  strikes: []
+  short: False
+  sentiment: bullish
+
+- type: SELL COMMON STOCK
+  option_trade: False
+  single_option: False
+  strikes: []
+  short: False
+  sentiment: bearish
+
+- type: SHORT IRON CONDOR
+  option_trade: True
+  single_option: False
+  strikes:
+    - long_put
+    - short_put
+    - short_call
+    - long_call
+  short: True
+  sentiment: neutral
+
+- type: SHORT STRANGLE
+  option_trade: True
+  single_option: False
+  strikes:
+    - short_put
+    - short_call
+  short: True
+  sentiment: bullish
+
+- type: SHORT STRADDLE
+  option_trade: True
+  single_option: False
+  strikes:
+    - short_put
+    - short_call
+  short: True
+  sentiment: neutral
+
+- type: LONG STRANGLE
+  option_trade: True
+  single_option: False
+  strikes:
+    - long_put
+    - long_call
+  short: False
+  sentiment: neutral
+
+- type: LONG STRADDLE
+  option_trade: True
+  single_option: False
+  strikes:
+    - long_put
+    - long_call
+  short: False
+  sentiment: neutral
+
+- type: JADE LIZARD
+  option_trade: True
+  single_option: False
+  strikes:
+    - short_put
+    - short_call
+    - long_call
+  short: True
+  sentiment: neutral

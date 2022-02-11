@@ -65,7 +65,7 @@ def test_gather_strikes():
     """Ensure we can gather strikes in a generic way."""
     trade = load_trade_asset("trade-short-iron-condor.json")
     strikes = utils.gather_strikes(trade)
-    assert strikes == "$123/$120/$140/$137"
+    assert strikes == "$115/$150/$110/$155"
 
 
 def test_parse_expiry_date():

@@ -7,4 +7,5 @@ schedule
 sqlitedict
 tld
 tweepy
+pyyaml
 yfinance
