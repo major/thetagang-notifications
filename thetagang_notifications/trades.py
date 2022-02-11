@@ -75,12 +75,27 @@ class Trade:
     @property
     def discord_description(self):
         """Generate a footer to end the description."""
-        return (
+        links = (
             f"[{self.username}](https://thetagang.com/{self.username}) | "
             f"[TG: Trade]({self.trade_url}) | "
             f"[TG: {self.symbol}](https://thetagang.com/symbols/{self.symbol}) | "
-            f"[Finviz](https://finviz.com/quote.ashx?t=AMD{self.symbol})"
+            f"[Finviz](https://finviz.com/quote.ashx?t={self.symbol})"
         )
+
+        return self.discord_stats_single_leg + links
+
+    @property
+    def discord_stats_single_leg(self):
+        """Generate stats for a single leg option."""
+        # Only support single leg *short* options right now.
+        if self.is_single_option and self.is_short:
+            return (
+                f"${self.breakeven} breakeven\n"
+                f"{self.short_return}% potential return "
+                f"({self.short_return_annualized}% annualized)\n"
+            )
+
+        return ""
 
     def get_discord_title_single_leg(self):
         """Generate Discord title for a single leg option trade."""
