@@ -1,6 +1,5 @@
 discord-webhook
-git+https://github.com/major/finviz@master#egg=finviz
-pickledb
+git+https://github.com/major/finviz@patch-1#egg=finviz
 python-dateutil
 requests
 schedule
@@ -8,4 +7,3 @@ sqlitedict
 tld
 tweepy
 pyyaml
-yfinance
