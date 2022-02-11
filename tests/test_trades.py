@@ -32,6 +32,14 @@ def test_download_trades():
 
 
 @pytest.mark.vcr()
+def test_trades_main(mocker):
+    """Test main() in trades module."""
+    trade_class = mocker.patch(target="thetagang_notifications.trades.Trade")
+    trades.main()
+    trade_class.assert_called()
+
+
+@pytest.mark.vcr()
 @freeze_time("2022-02-10")
 def test_cash_secured_put(mocker):
     """Test notification with a cash secured put."""
