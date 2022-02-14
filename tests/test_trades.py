@@ -72,7 +72,7 @@ def test_cash_secured_put(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == "SPY: CASH SECURED PUT\n1 x 2/18 $440p"
+    assert embed["title"] == "SPY: CASH SECURED PUT\n1 x 2/18 $440p for $1.40"
     assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
@@ -112,7 +112,7 @@ def test_covered_call(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == "SPY: COVERED CALL\n1 x 2/18 $460c"
+    assert embed["title"] == "SPY: COVERED CALL\n1 x 2/18 $460c for $1.30"
     assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
@@ -152,7 +152,7 @@ def test_put_credit_spread(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == "DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175"
+    assert embed["title"] == "DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175 for $1.54"
     assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
@@ -235,7 +235,8 @@ def test_short_iron_condor(mocker):
     embed = hook.embeds[0]
     assert embed["title"] == (
         f"{res.symbol}: {res.trade_type}\n"
-        f"{res.quantity} x {res.pretty_expiration} {res.raw_strikes}"
+        f"{res.quantity} x {res.pretty_expiration} {res.raw_strikes} "
+        f"for {res.pretty_premium}"
     )
     assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo

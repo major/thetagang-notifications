@@ -102,16 +102,19 @@ class Trade:
         strike_suffix = "p" if "PUT" in self.trade_type else "c"
         return (
             f"{self.quantity} x {self.pretty_expiration} "
-            f"${self.strike}{strike_suffix}"
+            f"${self.strike}{strike_suffix} for {self.pretty_premium}"
         )
 
     def get_discord_title_multiple_leg(self):
         """Generate a discord title for a multiple leg option trade."""
-        return f"{self.quantity} x {self.pretty_expiration} {self.raw_strikes}"
+        return (
+            f"{self.quantity} x {self.pretty_expiration} "
+            f"{self.raw_strikes} for {self.pretty_premium}"
+        )
 
     def get_discord_title_stock(self):
         """Generate a Discord title for a stock transaction."""
-        return f"{self.quantity} share(s) at ${self.trade['price_filled']}"
+        return f"{self.quantity} share(s) at {self.pretty_premium}"
 
     @property
     def dte(self):
@@ -196,6 +199,11 @@ class Trade:
 
         expiration_format = "%-m/%d" if self.dte <= 365 else "%-m/%d/%y"
         return self.parse_expiration().strftime(expiration_format)
+
+    @property
+    def pretty_premium(self):
+        """Return the price filled in a nice currency format."""
+        return "${:,.2f}".format(self.trade["price_filled"])
 
     @property
     def quantity(self):
