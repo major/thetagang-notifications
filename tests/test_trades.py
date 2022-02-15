@@ -44,7 +44,7 @@ def test_trades_main(mocker):
 def test_cash_secured_put(mocker):
     """Test notification with a cash secured put."""
     res = Trade(get_theta_trade(CASH_SECURED_PUT))
-    assert res.breakeven == 438.60
+    assert res.breakeven == "438.60"
     assert res.guid == "c90e5d5d-8158-43d7-ba09-e6a0dbbf207c"
     assert res.pretty_expiration == "2/18"
     assert res.is_option_trade
@@ -84,7 +84,7 @@ def test_cash_secured_put(mocker):
 def test_covered_call(mocker):
     """Test notification with a covered call."""
     res = Trade(get_theta_trade(COVERED_CALL))
-    assert res.breakeven == 461.30
+    assert res.breakeven == "461.30"
     assert res.guid == "2093163e-2d7b-424f-b007-51c46ace7bb4"
     assert res.pretty_expiration == "2/18"
     assert res.is_option_trade

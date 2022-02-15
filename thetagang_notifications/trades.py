@@ -38,12 +38,14 @@ class Trade:
         match self.trade_type:
             case "CASH SECURED PUT":
                 strike = self.trade["short_put"]
-                return float(strike) - self.trade["price_filled"]
+                breakeven = float(strike) - self.trade["price_filled"]
             case "COVERED CALL" | "SHORT NAKED CALL":
                 strike = self.trade["short_call"]
-                return float(strike) + self.trade["price_filled"]
+                breakeven = float(strike) + self.trade["price_filled"]
             case _:
                 return None
+
+        return "{:,.2f}".format(breakeven)
 
     @property
     def discord_color(self):
