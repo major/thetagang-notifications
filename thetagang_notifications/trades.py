@@ -121,7 +121,10 @@ class Trade:
     @property
     def dte(self):
         """Calculate days to expiry (DTE) for a trade."""
-        return (self.parse_expiration() - datetime.now()).days
+        # Add one extra day to ensure our current day is included in the total. This
+        # avoids dividing by zero and also ensures that we calculate DTE just as
+        # thetagang.com does. 😉
+        return (self.parse_expiration() - datetime.now()).days + 1
 
     def initialize_db(self):
         """Ensure the database is initialized."""
@@ -261,10 +264,7 @@ class Trade:
         if not self.is_single_option or self.dte < 0:
             return None
 
-        # Computers don't like to divide by zero. 🤷🏻‍♂️
-        dte = 1 if self.dte == 0 else self.dte
-
-        return round((self.short_return / dte) * 365, 2)
+        return round((self.short_return / self.dte) * 365, 2)
 
     @property
     def strike(self):

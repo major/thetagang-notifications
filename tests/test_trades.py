@@ -54,7 +54,7 @@ def test_cash_secured_put(mocker):
     assert res.quantity == 1
     assert res.raw_strikes == "$440"
     assert res.short_return == 0.32
-    assert res.short_return_annualized == 14.6
+    assert res.short_return_annualized == 12.98
     assert res.strike == "440"
     assert res.symbol == "SPY"
     assert "t=SPY" in res.symbol_chart
@@ -94,7 +94,7 @@ def test_covered_call(mocker):
     assert res.quantity == 1
     assert res.raw_strikes == "$460"
     assert res.short_return == 0.28
-    assert res.short_return_annualized == 12.78
+    assert res.short_return_annualized == 11.36
     assert res.strike == "460"
     assert res.symbol == "SPY"
     assert "t=SPY" in res.symbol_chart
