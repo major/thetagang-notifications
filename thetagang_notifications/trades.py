@@ -261,7 +261,8 @@ class Trade:
     @property
     def short_return_annualized(self):
         """Get the annualized return on a short option."""
-        if not self.is_single_option or self.dte < 0:
+        # Avoid 0 DTE situations.
+        if not self.is_single_option or self.dte < 1:
             return None
 
         return round((self.short_return / self.dte) * 365, 2)
