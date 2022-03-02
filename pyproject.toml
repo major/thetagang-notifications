@@ -15,7 +15,7 @@ sqlitedict = "^1.7.0"
 tld = "^0.12.6"
 tweepy = "^4.5.0"
 PyYAML = "^6.0"
-finviz = {url = "https://github.com/major/finviz/archive/refs/heads/patch-1.zip"}
+finviz = "^1.4.4"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"

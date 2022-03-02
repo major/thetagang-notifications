@@ -190,26 +190,22 @@ testing = ["pre-commit"]
 
 [[package]]
 name = "finviz"
-version = "1.4.3"
-description = "Unofficial API for finviz.com"
+version = "1.4.4"
+description = "Unofficial API for FinViz.com"
 category = "main"
 optional = false
-python-versions = "^3.8"
+python-versions = "*"
 
 [package.dependencies]
-aiohttp = ">=3.7.4,<4.0.0"
-beautifulsoup4 = ">=4.9.3,<5.0.0"
-cssselect = ">=1.1.0,<2.0.0"
-lxml = ">=4.6.3,<5.0.0"
-requests = ">=2.25.1,<3.0.0"
-tenacity = ">=7.0.0,<8.0.0"
-tqdm = ">=4.61.1,<5.0.0"
-urllib3 = ">=1.26.5,<2.0.0"
-user_agent = ">=0.1.9,<0.2.0"
-
-[package.source]
-type = "url"
-url = "https://github.com/major/finviz/archive/refs/heads/patch-1.zip"
+aiohttp = "*"
+beautifulsoup4 = "*"
+cssselect = "*"
+lxml = "*"
+requests = "*"
+tenacity = "*"
+tqdm = "*"
+urllib3 = "*"
+user_agent = "*"
 
 [[package]]
 name = "flake8"
@@ -638,14 +634,11 @@ python-versions = "*"
 
 [[package]]
 name = "tenacity"
-version = "7.0.0"
+version = "8.0.1"
 description = "Retry code until it succeeds"
 category = "main"
 optional = false
-python-versions = "*"
-
-[package.dependencies]
-six = ">=1.9.0"
+python-versions = ">=3.6"
 
 [package.extras]
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
@@ -668,7 +661,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "tqdm"
-version = "4.62.3"
+version = "4.63.0"
 description = "Fast, Extensible Progress Meter"
 category = "main"
 optional = false
@@ -761,7 +754,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c34ce89096e112b4ad27216b030850d21c7643c906805d37d87831d8e4beb505"
+content-hash = "193ebdb0460634022279e3fe2752d42228ef85f67c64f4b467c08449291e8daf"
 
 [metadata.files]
 aiohttp = [
@@ -958,7 +951,9 @@ execnet = [
     {file = "execnet-1.9.0-py2.py3-none-any.whl", hash = "sha256:a295f7cc774947aac58dde7fdc85f4aa00c42adf5d8f5468fc630c1acf30a142"},
     {file = "execnet-1.9.0.tar.gz", hash = "sha256:8f694f3ba9cc92cab508b152dcfe322153975c29bda272e2fd7f3f00f36e47c5"},
 ]
-finviz = []
+finviz = [
+    {file = "finviz-1.4.4.tar.gz", hash = "sha256:9772060a070d59e8d1045ffbe826553d15f189fab43074b50bf7a510b5360172"},
+]
 flake8 = [
     {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
     {file = "flake8-4.0.1.tar.gz", hash = "sha256:806e034dda44114815e23c16ef92f95c91e4c71100ff52813adf7132a6ad870d"},
@@ -1314,8 +1309,8 @@ sqlitedict = [
     {file = "sqlitedict-1.7.0.tar.gz", hash = "sha256:2affcc301aacd4da7511692601ecbde392294205af418498f7d6d3ec0dbcad56"},
 ]
 tenacity = [
-    {file = "tenacity-7.0.0-py2.py3-none-any.whl", hash = "sha256:a0ce48587271515db7d3a5e700df9ae69cce98c4b57c23a4886da15243603dd8"},
-    {file = "tenacity-7.0.0.tar.gz", hash = "sha256:5bd16ef5d3b985647fe28dfa6f695d343aa26479a04e8792b9d3c8f49e361ae1"},
+    {file = "tenacity-8.0.1-py3-none-any.whl", hash = "sha256:f78f4ea81b0fabc06728c11dc2a8c01277bfc5181b321a4770471902e3eb844a"},
+    {file = "tenacity-8.0.1.tar.gz", hash = "sha256:43242a20e3e73291a28bcbcacfd6e000b02d3857a9a9fff56b297a27afdc932f"},
 ]
 tld = [
     {file = "tld-0.12.6-py27-none-any.whl", hash = "sha256:ef5b162d6fa295822dacd4fe4df1b62d8df2550795a97399a8905821b58d3702"},
@@ -1331,8 +1326,8 @@ tomli = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 tqdm = [
-    {file = "tqdm-4.62.3-py2.py3-none-any.whl", hash = "sha256:8dd278a422499cd6b727e6ae4061c40b48fce8b76d1ccbf5d34fca9b7f925b0c"},
-    {file = "tqdm-4.62.3.tar.gz", hash = "sha256:d359de7217506c9851b7869f3708d8ee53ed70a1b8edbba4dbcb47442592920d"},
+    {file = "tqdm-4.63.0-py2.py3-none-any.whl", hash = "sha256:e643e071046f17139dea55b880dc9b33822ce21613b4a4f5ea57f202833dbc29"},
+    {file = "tqdm-4.63.0.tar.gz", hash = "sha256:1d9835ede8e394bb8c9dcbffbca02d717217113adc679236873eeaac5bc0b3cd"},
 ]
 tweepy = [
     {file = "tweepy-4.5.0-py2.py3-none-any.whl", hash = "sha256:1efe228d5994e0d996577bd052b73c59dada96ff8045e176bf46c175afe61859"},
