@@ -18,7 +18,7 @@ interactions:
         COMMON STOCK\",\"payment\":\"debit\",\"win\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":null,\"long_put\":null,\"short_call\":null,\"long_call\":null,\"price_filled\":456.91,\"price_closed\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"My
         2/18 $455c breakeven is $456.90, so I decided to pick up more shares if it
         crossed the breakeven. So, here we are. \U0001F609\",\"closing_note\":null,\"createdAt\":\"2022-02-09T16:02:32.699Z\",\"updatedAt\":\"2022-02-09T16:02:32.963Z\",\"stock_guid\":null,\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"mhayden\",\"flair\":\"\U0001F49C
-        300-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":324,\"verified\":null}}},\"message\":null}"
+        300-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":342,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
@@ -29,9 +29,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 11 Feb 2022 14:45:44 GMT
+      - Thu, 03 Mar 2022 13:00:15 GMT
       Etag:
-      - W/"3fe-qIMj5zdSSZHFNpJx9g4m6ry9rRA"
+      - W/"3fe-6Nht3np7i0dVxzXlOeDhVRqdMNM"
       Server:
       - Cowboy
       Vary:
@@ -41,9 +41,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '488'
+      - '489'
       X-Ratelimit-Reset:
-      - '1644591123'
+      - '1646312770'
     status:
       code: 200
       message: OK
@@ -834,7 +834,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '889'
+      - '69'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -845,17 +845,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Fri, 11 Feb 2022 14:30:55 GMT
+      - Thu, 03 Mar 2022 12:59:06 GMT
       ETag:
       - '"060b3111daff29a988d500e9dd2912ed"'
       Expires:
-      - Fri, 11 Feb 2022 15:30:55 GMT
+      - Thu, 03 Mar 2022 13:59:06 GMT
       Last-Modified:
       - Fri, 29 Jan 2021 13:28:06 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdsQ40C-RbEvtOLG9oT-bb8_gD2yqEwAz4Rh-NrU3RZODy91F2BsAsFbXUMKVyCVEw7rzugbahEpS4e81wJ6J83kgKN8-g
+      - ADPycdt9A2TDIT92p-AnlJQpeegGRNgTxcPDOHwzBKKIO6Yx1i6pq7wZ9J_jM6t-JCunNsE4PFy5WZy-y_AcDidyCag
       x-goog-generation:
       - '1611926886190246'
       x-goog-hash:
@@ -1659,7 +1659,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '1059'
+      - '70'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -1670,17 +1670,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Fri, 11 Feb 2022 14:28:05 GMT
+      - Thu, 03 Mar 2022 12:59:06 GMT
       ETag:
       - '"060b3111daff29a988d500e9dd2912ed"'
       Expires:
-      - Fri, 11 Feb 2022 15:28:05 GMT
+      - Thu, 03 Mar 2022 13:59:06 GMT
       Last-Modified:
       - Fri, 29 Jan 2021 13:28:06 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdvEFQbuWd2_GNhavy33M-6SAfAOGnsRc-el-N_oSbESUKEcVg39YT1YBaVKPMaqfYj0q7Tw2FvhxFrQNuoVFEDSrp7PLg
+      - ADPycdt9A2TDIT92p-AnlJQpeegGRNgTxcPDOHwzBKKIO6Yx1i6pq7wZ9J_jM6t-JCunNsE4PFy5WZy-y_AcDidyCag
       x-goog-generation:
       - '1611926886190246'
       x-goog-hash:
@@ -2484,7 +2484,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '1060'
+      - '72'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -2495,17 +2495,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Fri, 11 Feb 2022 14:28:05 GMT
+      - Thu, 03 Mar 2022 12:59:04 GMT
       ETag:
       - '"060b3111daff29a988d500e9dd2912ed"'
       Expires:
-      - Fri, 11 Feb 2022 15:28:05 GMT
+      - Thu, 03 Mar 2022 13:59:04 GMT
       Last-Modified:
       - Fri, 29 Jan 2021 13:28:06 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdvEFQbuWd2_GNhavy33M-6SAfAOGnsRc-el-N_oSbESUKEcVg39YT1YBaVKPMaqfYj0q7Tw2FvhxFrQNuoVFEDSrp7PLg
+      - ADPycdtmThG4T4SfXkqeQ-e2mrbRwsO-WKn_2oTexS-yyinYjQVMu9_mIuOiKEsKEPKiZu5fvWUfM8WnZ6J70uM-JVKsdFzoIQ
       x-goog-generation:
       - '1611926886190246'
       x-goog-hash:

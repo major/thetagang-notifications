@@ -10,7 +10,7 @@ def test_download_trends():
     """Ensure we handle downloaded trends properly."""
     downloaded_trends = trends.download_trends()
     assert isinstance(downloaded_trends, list)
-    assert len(downloaded_trends) == 13
+    assert len(downloaded_trends) == 8
     assert "SPY" in downloaded_trends
 
 
