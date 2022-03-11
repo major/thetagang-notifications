@@ -26,7 +26,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 11 Mar 2022 16:12:18 GMT
+      - Thu, 03 Mar 2022 13:00:18 GMT
       Etag:
       - W/"35e-lsJS0NE87pZVJPliY/DHSTzxNEU"
       Server:
@@ -38,9 +38,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '494'
+      - '482'
       X-Ratelimit-Reset:
-      - '1647015281'
+      - '1646312770'
     status:
       code: 200
       message: OK
