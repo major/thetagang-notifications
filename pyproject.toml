@@ -32,7 +32,7 @@ flake8 = "^4.0.1"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-n 2 --ignore=setup.py --cov-report term-missing --cov-report html --cov-report xml:cov.xml --cov-branch --cov=thetagang_notifications"
+addopts = "-n 2 --vcr-record=none --ignore=setup.py --cov-report term-missing --cov-report html --cov-report xml:cov.xml --cov-branch --cov=thetagang_notifications"
 testpaths = [
     "tests"
 ]
