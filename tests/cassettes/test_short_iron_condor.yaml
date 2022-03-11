@@ -19,7 +19,7 @@ interactions:
         p50 \\n1SD\\ncollected 1/3\\nIv% 99.6\\nRSI 26\\n\\nStandard condor for me.
         Looking for a contraction of IV here. 30% PT set but if it doesn't hit by
         the end of the week ill change to 50% till expiration\",\"closing_note\":null,\"createdAt\":\"2022-02-02T20:15:34.573Z\",\"updatedAt\":\"2022-02-02T20:15:34.881Z\",\"stock_guid\":null,\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"Rustyerr\",\"flair\":\"1%
-        1\uFE0F\u20E30\uFE0F\u20E38\uFE0F\u20E3: shackleford\",\"role\":\"patron\",\"streak\":1,\"verified\":null}}},\"message\":null}"
+        1\uFE0F\u20E30\uFE0F\u20E38\uFE0F\u20E3: shackleford\",\"role\":\"patron\",\"streak\":2,\"verified\":null}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
@@ -30,9 +30,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 03 Mar 2022 13:00:16 GMT
+      - Fri, 11 Mar 2022 16:12:16 GMT
       Etag:
-      - W/"448-a8GjSbUaM0rxbUGm9xc0jsaLuOk"
+      - W/"448-zTwCDNIAwbWdex2N3r9WxQapEkw"
       Server:
       - Cowboy
       Vary:
@@ -42,9 +42,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '486'
+      - '498'
       X-Ratelimit-Reset:
-      - '1646312770'
+      - '1647015281'
     status:
       code: 200
       message: OK
@@ -107,7 +107,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '72'
+      - '0'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -118,17 +118,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Thu, 03 Mar 2022 12:59:05 GMT
+      - Fri, 11 Mar 2022 16:12:16 GMT
       ETag:
       - '"2ac24ef31d4fbf03163a705b9e35c7a8"'
       Expires:
-      - Thu, 03 Mar 2022 13:59:05 GMT
+      - Fri, 11 Mar 2022 17:12:16 GMT
       Last-Modified:
       - Fri, 29 Jan 2021 08:25:34 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycduts5d3YqXbLT6Q0-LYuvcDjpWibybeVXx2u2gVpKlpmVJQ6jfMnE7LPSG-kF30RB1VQb0wf65l4B-PllLd520
+      - ADPycducRCGfi7ZjqFNlXN455xtEOo3U0JUjwfIKJrdMhjdRmQwblCgG7ZxStOGyTjX7y-ryEoJVkluS-OpQyqLxRqA
       x-goog-generation:
       - '1611908734256897'
       x-goog-hash:
@@ -206,7 +206,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '72'
+      - '1888'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -217,17 +217,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Thu, 03 Mar 2022 12:59:05 GMT
+      - Fri, 11 Mar 2022 15:40:48 GMT
       ETag:
       - '"2ac24ef31d4fbf03163a705b9e35c7a8"'
       Expires:
-      - Thu, 03 Mar 2022 13:59:05 GMT
+      - Fri, 11 Mar 2022 16:40:48 GMT
       Last-Modified:
       - Fri, 29 Jan 2021 08:25:34 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdu6DoYYjR-cp_0WHkj261H9BSiyOgkyEM5TQYkYqEBu5crLxgutOcFS0TOJTm7Bpp12OSySqH6e0bDM4WooZF0MwvVQFA
+      - ADPycduUKaPyZvJ2rVjpgIjw91chhM_SKTWje3urErd7j1f_w--baQgIq43gGnaQHXyDW37FzoxcaxDPkZe-k5JgxKJtZ4_AIg
       x-goog-generation:
       - '1611908734256897'
       x-goog-hash:
@@ -305,7 +305,7 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '72'
+      - '1888'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -316,17 +316,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Thu, 03 Mar 2022 12:59:05 GMT
+      - Fri, 11 Mar 2022 15:40:48 GMT
       ETag:
       - '"2ac24ef31d4fbf03163a705b9e35c7a8"'
       Expires:
-      - Thu, 03 Mar 2022 13:59:05 GMT
+      - Fri, 11 Mar 2022 16:40:48 GMT
       Last-Modified:
       - Fri, 29 Jan 2021 08:25:34 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdu6DoYYjR-cp_0WHkj261H9BSiyOgkyEM5TQYkYqEBu5crLxgutOcFS0TOJTm7Bpp12OSySqH6e0bDM4WooZF0MwvVQFA
+      - ADPycduUKaPyZvJ2rVjpgIjw91chhM_SKTWje3urErd7j1f_w--baQgIq43gGnaQHXyDW37FzoxcaxDPkZe-k5JgxKJtZ4_AIg
       x-goog-generation:
       - '1611908734256897'
       x-goog-hash:
