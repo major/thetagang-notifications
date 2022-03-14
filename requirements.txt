@@ -352,7 +352,7 @@ tld==0.12.6; python_version >= "2.7" and python_version < "4" \
     --hash=sha256:266106ad9035f54cd5cce5f823911a51f697e7c58cb45bfbd6c53b4c2976ece2 \
     --hash=sha256:b6650f2d5392a49760064bc55d73ce3397a378ef24ded96efb516c6b8ec68c26 \
     --hash=sha256:69fed19d26bb3f715366fb4af66fdeace896c55c052b00e8aaba3a7b63f3e7f0
-tqdm==4.62.3; python_version >= "3.8" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.8" and python_version < "4.0" and python_full_version >= "3.4.0" \
+tqdm==4.63.0; python_version >= "3.8" and python_full_version < "3.0.0" and python_version < "4.0" or python_version >= "3.8" and python_version < "4.0" and python_full_version >= "3.4.0" \
     --hash=sha256:8dd278a422499cd6b727e6ae4061c40b48fce8b76d1ccbf5d34fca9b7f925b0c \
     --hash=sha256:d359de7217506c9851b7869f3708d8ee53ed70a1b8edbba4dbcb47442592920d
 tweepy==4.5.0; python_version >= "3.6" \
