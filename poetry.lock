@@ -625,7 +625,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "sqlitedict"
-version = "1.7.0"
+version = "2.0.0"
 description = "Persistent dict in Python, backed up by sqlite3 and pickle, multithread-safe."
 category = "main"
 optional = false
@@ -754,7 +754,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d947af0dc3be49ae5511598291de70334261932ab22c86cd5b3b4e336f5ff16f"
+content-hash = "d658a7bfe50c09b4b1eb5b78a1ec27be7c2c4be3995886f995f8f5831488f858"
 
 [metadata.files]
 aiohttp = [
@@ -1306,7 +1306,7 @@ soupsieve = [
     {file = "soupsieve-2.3.1.tar.gz", hash = "sha256:b8d49b1cd4f037c7082a9683dfa1801aa2597fb11c3a1155b7a5b94829b4f1f9"},
 ]
 sqlitedict = [
-    {file = "sqlitedict-1.7.0.tar.gz", hash = "sha256:2affcc301aacd4da7511692601ecbde392294205af418498f7d6d3ec0dbcad56"},
+    {file = "sqlitedict-2.0.0.tar.gz", hash = "sha256:23a370416f4e1e962daa293382f3a8dbc4127e6a0abc06a5d4e58e6902f05d17"},
 ]
 tenacity = [
     {file = "tenacity-8.0.1-py3-none-any.whl", hash = "sha256:f78f4ea81b0fabc06728c11dc2a8c01277bfc5181b321a4770471902e3eb844a"},
