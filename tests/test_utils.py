@@ -90,14 +90,14 @@ def test_get_logo_iex_placeholder():
         assert result is None
 
 
-@pytest.mark.vcr()
-def test_get_logo_clearbit(mocker):
-    """Ensure we get a logo from clearbit."""
-    result = utils.get_logo_clearbit("AMD")
-    assert result == "https://logo.clearbit.com/amd.com"
+# @pytest.mark.vcr()
+# def test_get_logo_clearbit(mocker):
+#     """Ensure we get a logo from clearbit."""
+#     result = utils.get_logo_clearbit("AMD")
+#     assert result == "https://logo.clearbit.com/amd.com"
 
-    result = utils.get_logo_clearbit("SOXL")
-    assert result is None
+#     result = utils.get_logo_clearbit("SOXL")
+#     assert result is None
 
-    result = utils.get_logo_clearbit("DOOTS")
-    assert result is None
+#     result = utils.get_logo_clearbit("DOOTS")
+#     assert result is None
