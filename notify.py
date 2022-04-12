@@ -5,7 +5,7 @@ import time
 
 from schedule import every, get_jobs, repeat, run_all, run_pending
 
-from thetagang_notifications import earnings, trends, trades
+from thetagang_notifications import earnings, trades
 
 
 # Setup our shared logger.
@@ -13,10 +13,10 @@ log = logging.getLogger(__name__)
 log.info("🚀 thetagang-notifications starting up!")
 
 
-#@repeat(every(1).minutes.at(":00"))
-#def notify_for_trends():
-#    """Notify for new trends."""
-#    trends.main()
+# @repeat(every(1).minutes.at(":00"))
+# def notify_for_trends():
+#     """Notify for new trends."""
+#     trends.main()
 
 
 @repeat(every(1).minutes.at(":30"))
