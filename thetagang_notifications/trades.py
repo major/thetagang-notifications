@@ -160,7 +160,12 @@ class Trade:
 
     def notify(self):
         """Send notification to Discord."""
-        if not self.is_patron_trade or not self.is_new:
+        if not self.is_patron_trade:
+            log.info("👎🏻 Skipping non-patron trade: %s", self.trade_url)
+            return None
+
+        if not self.is_new:
+            log.info("👀 Already saw patron trade: %s", self.trade_url)
             return None
 
         webhook = DiscordWebhook(
@@ -293,7 +298,8 @@ class Trade:
     @cached_property
     def trade_spec(self):
         """Return the spec for this trade."""
-        with open("thetagang_notifications/assets/trade_specs.yml", "r") as fileh:
+        specFile = "thetagang_notifications/assets/trade_specs.yml"
+        with open(specFile, "r", encoding="utf-8") as fileh:
             return [x for x in yaml.safe_load(fileh) if x["type"] == self.trade_type][0]
 
     @property
@@ -314,6 +320,7 @@ class Trade:
 
 def download_trades():
     """Download the current list of trades from thetagang.com."""
+    log.info("🚚 Getting current list of trades...")
     resp = requests.get(config.TRADES_JSON_URL)
     trades_json = resp.json()
     return trades_json["data"]["trades"]
