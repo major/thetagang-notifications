@@ -168,7 +168,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "discord-webhook"
-version = "0.15.0"
+version = "0.16.0"
 description = "execute discord webhooks"
 category = "main"
 optional = false
@@ -176,6 +176,9 @@ python-versions = "*"
 
 [package.dependencies]
 requests = ">=2.19.1"
+
+[package.extras]
+async = ["httpx (>=0.20.0)"]
 
 [[package]]
 name = "execnet"
@@ -747,7 +750,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c3d57b16d2eeafa3e6976f1298bd4886a5780905a190023a78e121f50317015c"
+content-hash = "16295d0d14fc52412e836206fa9a251aabfa4baae0f1a5762023afdbc66c8138"
 
 [metadata.files]
 aiohttp = [
@@ -937,8 +940,8 @@ cssselect = [
     {file = "cssselect-1.1.0.tar.gz", hash = "sha256:f95f8dedd925fd8f54edb3d2dfb44c190d9d18512377d3c1e2388d16126879bc"},
 ]
 discord-webhook = [
-    {file = "discord-webhook-0.15.0.tar.gz", hash = "sha256:1557a3a86ec556d5fceeff3d0c8601affd83770280b7358a3c7f4fb7c8ee32e5"},
-    {file = "discord_webhook-0.15.0-py3-none-any.whl", hash = "sha256:5c59e3c5b52be8d9273aebdc5647f564a3c24ce4f75635fd1d9e4d9d8dad30f4"},
+    {file = "discord-webhook-0.16.0.tar.gz", hash = "sha256:6318c2bfab20e35927503cd32f49a449b0aba61f5a848e415fdf5e94e361870c"},
+    {file = "discord_webhook-0.16.0-py3-none-any.whl", hash = "sha256:b142eadc0588c161840a21496052a97c8d72b44457cf3bd3cf4dc0a6f9b5f50a"},
 ]
 execnet = [
     {file = "execnet-1.9.0-py2.py3-none-any.whl", hash = "sha256:a295f7cc774947aac58dde7fdc85f4aa00c42adf5d8f5468fc630c1acf30a142"},
