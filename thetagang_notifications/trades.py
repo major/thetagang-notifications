@@ -189,7 +189,6 @@ class Trade:
             description=self.discord_description,
         )
 
-        embed.set_image(url=self.symbol_chart)
         embed.set_thumbnail(url=self.symbol_logo)
         embed.set_footer(text=f"{self.username}: {self.trade['note']}")
         return embed

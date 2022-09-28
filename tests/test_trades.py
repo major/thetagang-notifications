@@ -57,7 +57,6 @@ def test_cash_secured_put(mocker):
     assert res.short_return_annualized == 12.98
     assert res.strike == "440"
     assert res.symbol == "SPY"
-    assert "t=SPY" in res.symbol_chart
     assert res.symbol_logo.endswith("SPY.png")
     assert res.trade_type == "CASH SECURED PUT"
     assert res.username == "mhayden"
@@ -73,7 +72,6 @@ def test_cash_secured_put(mocker):
 
     embed = hook.embeds[0]
     assert embed["title"] == "SPY: CASH SECURED PUT\n1 x 2/18 $440p for $1.40"
-    assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -97,7 +95,6 @@ def test_covered_call(mocker):
     assert res.short_return_annualized == 11.36
     assert res.strike == "460"
     assert res.symbol == "SPY"
-    assert "t=SPY" in res.symbol_chart
     assert res.symbol_logo.endswith("SPY.png")
     assert res.trade_type == "COVERED CALL"
     assert res.username == "mhayden"
@@ -113,7 +110,6 @@ def test_covered_call(mocker):
 
     embed = hook.embeds[0]
     assert embed["title"] == "SPY: COVERED CALL\n1 x 2/18 $460c for $1.30"
-    assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -137,7 +133,6 @@ def test_put_credit_spread(mocker):
     assert not res.short_return_annualized
     assert not res.strike
     assert res.symbol == "DIS"
-    assert "t=DIS" in res.symbol_chart
     assert res.symbol_logo.endswith("DIS.png")
     assert res.trade_type == "PUT CREDIT SPREAD"
     assert res.username == "mhayden"
@@ -153,7 +148,6 @@ def test_put_credit_spread(mocker):
 
     embed = hook.embeds[0]
     assert embed["title"] == "DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175 for $1.54"
-    assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -178,7 +172,6 @@ def test_buy_common_stock(mocker):
     assert not res.short_return_annualized
     assert not res.strike
     assert res.symbol == "SPY"
-    assert "t=SPY" in res.symbol_chart
     assert res.symbol_logo.endswith("SPY.png")
     assert res.trade_type == "BUY COMMON STOCK"
     assert res.username == "mhayden"
@@ -194,7 +187,6 @@ def test_buy_common_stock(mocker):
 
     embed = hook.embeds[0]
     assert embed["title"] == "SPY: BUY COMMON STOCK\n100 share(s) at $456.91"
-    assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -218,7 +210,6 @@ def test_short_iron_condor(mocker):
     assert not res.short_return_annualized
     assert not res.strike
     assert res.symbol == "PYPL"
-    assert "t=PYPL" in res.symbol_chart
     assert res.symbol_logo.endswith("PYPL.png")
     assert res.trade_type == "SHORT IRON CONDOR"
     assert res.username == "Rustyerr"
@@ -238,7 +229,6 @@ def test_short_iron_condor(mocker):
         f"{res.quantity} x {res.pretty_expiration} {res.raw_strikes} "
         f"for {res.pretty_premium}"
     )
-    assert embed["image"]["url"] == res.symbol_chart
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
