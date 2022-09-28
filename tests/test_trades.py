@@ -8,6 +8,8 @@ from thetagang_notifications.trades import Trade
 
 # Example trade GUIDs from thetagang.com.
 CASH_SECURED_PUT = "c90e5d5d-8158-43d7-ba09-e6a0dbbf207c"
+CLOSED_CASH_SECURED_PUT = "af55de42-a4b0-469d-a20d-faacc63edf6c"
+CLOSED_CASH_SECURED_PUT_LOSS = "f16e80c3-9daa-4e14-863a-8416d4107de6"
 COVERED_CALL = "2093163e-2d7b-424f-b007-51c46ace7bb4"
 PUT_CREDIT_SPREAD = "7a9fe9d3-b1aa-483c-bcc0-b6f73c6b4eec"
 SHORT_IRON_CONDOR = "8cdf95fd-d0d4-4f47-ae81-a1e000979291"
@@ -42,9 +44,6 @@ def test_trades_main(mocker):
 def test_closed_trade():
     """Test a closed trade."""
     res = Trade(get_theta_trade(CASH_SECURED_PUT))
-
-    # It shouldn't be closed now because it's brand new.
-    assert not res.is_recently_closed
 
     # Capture the closed date and remove it from the trade.
     close_date = res.trade['close_date']
@@ -85,6 +84,9 @@ def test_cash_secured_put(mocker):
     assert res.trade_type == "CASH SECURED PUT"
     assert res.username == "mhayden"
 
+    # Mark this one as an open trade to test that workflow.
+    res.trade['close_date'] = None
+
     mock_exec = mocker.patch(
         target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
@@ -95,7 +97,75 @@ def test_cash_secured_put(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == "SPY: CASH SECURED PUT\n1 x 2/18 $440p for $1.40"
+    assert embed["title"] == (
+        "🚀 SPY: CASH SECURED PUT\n1 x 2/18 $440p for $1.40"
+    )
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
+
+
+@pytest.mark.vcr()
+@freeze_time("2022-09-28")
+def test_closed_cash_secured_put(mocker):
+    """Test notification with a closed cash secured put."""
+    res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
+    assert res.breakeven == "362.00"
+    assert res.guid == "af55de42-a4b0-469d-a20d-faacc63edf6c"
+    assert res.pretty_expiration == "9/30"
+    assert res.is_option_trade
+    assert res.is_patron_trade
+    assert res.is_single_option
+    assert res.is_short
+    assert res.quantity == 1
+    assert res.raw_strikes == "$366"
+    assert res.short_return == 1.1
+    assert res.short_return_annualized == 133.83
+    assert res.strike == "366"
+    assert res.symbol == "SPY"
+    assert res.symbol_logo.endswith("SPY.png")
+    assert res.trade_type == "CASH SECURED PUT"
+    assert res.username == "mhayden"
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
+    )
+    hook = res.notify()
+
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
+
+    embed = hook.embeds[0]
+    assert embed["title"] == (
+        "🏁 SPY: CASH SECURED PUT\n1 x 9/30 $366p for $4.00"
+    )
+    assert embed["description"].startswith("🟢 WIN: +$200.00")
+    assert embed["thumbnail"]["url"] == res.symbol_logo
+
+    mock_exec.assert_called_once()
+
+
+@pytest.mark.vcr()
+@freeze_time("2022-01-19")
+def test_closed_cash_secured_put_loss(mocker):
+    """Test notification with a closed cash secured put that lost 😞."""
+    res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT_LOSS))
+
+    mock_exec = mocker.patch(
+        target="thetagang_notifications.trades.DiscordWebhook.execute"
+    )
+    hook = res.notify()
+
+    assert hook.url == config.WEBHOOK_URL_TRADES
+    assert hook.rate_limit_retry
+    assert hook.username == config.DISCORD_USERNAME
+
+    embed = hook.embeds[0]
+    assert embed["title"] == (
+        "🏁 HUT: CASH SECURED PUT\n1 x 1/21 $10p for $1.30"
+    )
+    assert embed["description"].startswith("🔴 LOSS: ($237.00)")
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -123,6 +193,9 @@ def test_covered_call(mocker):
     assert res.trade_type == "COVERED CALL"
     assert res.username == "mhayden"
 
+    # Mark this one as an open trade to test that workflow.
+    res.trade['close_date'] = None
+
     mock_exec = mocker.patch(
         target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
@@ -133,7 +206,7 @@ def test_covered_call(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == "SPY: COVERED CALL\n1 x 2/18 $460c for $1.30"
+    assert embed["title"] == "🚀 SPY: COVERED CALL\n1 x 2/18 $460c for $1.30"
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -161,6 +234,9 @@ def test_put_credit_spread(mocker):
     assert res.trade_type == "PUT CREDIT SPREAD"
     assert res.username == "mhayden"
 
+    # Mark this one as an open trade to test that workflow.
+    res.trade['close_date'] = None
+
     mock_exec = mocker.patch(
         target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
@@ -171,7 +247,9 @@ def test_put_credit_spread(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == "DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175 for $1.54"
+    assert embed["title"] == (
+        "🚀 DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175 for $1.54"
+    )
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
@@ -238,6 +316,9 @@ def test_short_iron_condor(mocker):
     assert res.trade_type == "SHORT IRON CONDOR"
     assert res.username == "Rustyerr"
 
+    # Mark this one as an open trade to test that workflow.
+    res.trade['close_date'] = None
+
     mock_exec = mocker.patch(
         target="thetagang_notifications.trades.DiscordWebhook.execute"
     )
@@ -249,7 +330,7 @@ def test_short_iron_condor(mocker):
 
     embed = hook.embeds[0]
     assert embed["title"] == (
-        f"{res.symbol}: {res.trade_type}\n"
+        f"🚀 {res.symbol}: {res.trade_type}\n"
         f"{res.quantity} x {res.pretty_expiration} {res.raw_strikes} "
         f"for {res.pretty_premium}"
     )

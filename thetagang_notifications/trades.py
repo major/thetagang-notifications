@@ -57,7 +57,7 @@ class Trade:
     @property
     def discord_title(self):
         """Generate a title for discord messages."""
-        title = f"{self.symbol}: {self.trade_type}\n"
+        title = self.get_discord_title_header()
         if self.is_option_trade and self.is_single_option:
             # We have a long/short single leg trade.
             title += self.get_discord_title_single_leg()
@@ -81,7 +81,14 @@ class Trade:
             f"[Finviz](https://finviz.com/quote.ashx?t={self.symbol})"
         )
 
-        return self.discord_stats_single_leg + links
+        # Just show links if this is not a short single leg option.
+        if not self.is_single_option or not self.is_short:
+            return links
+
+        if self.is_open:
+            return self.discord_stats_single_leg + links
+
+        return self.discord_stats_single_leg_results + links
 
     @property
     def discord_stats_single_leg(self):
@@ -95,6 +102,27 @@ class Trade:
             )
 
         return ""
+
+    @property
+    def discord_stats_single_leg_results(self):
+        """Generate a report after a trade was closed."""
+        profit = "${:,.2f}".format(abs(self.trade['pl'] * 100))
+
+        if self.is_winner:
+            return f"🟢 WIN: +{profit}"
+
+        return f"🔴 LOSS: ({profit})"
+
+    def get_discord_title_header(self):
+        """Generate the first line of the Discord title."""
+        emoji = "🚀 " if self.is_open else "🏁 "
+
+        # Stock purchases are a special case since they're ALWAYS closed.
+        if "COMMON STOCK" in self.trade_type:
+            emoji = ""
+
+        title = f"{emoji}{self.symbol}: {self.trade_type}\n"
+        return title
 
     def get_discord_title_single_leg(self):
         """Generate Discord title for a single leg option trade."""
@@ -135,6 +163,11 @@ class Trade:
         return not self.db.contains(Trade.guid == self.guid)
 
     @property
+    def is_open(self):
+        """Determine if the trade is open."""
+        return True if not self.trade['close_date'] else False
+
+    @property
     def is_recently_closed(self):
         """Determine if the trade is closed."""
         Trade = Query()
@@ -163,6 +196,11 @@ class Trade:
     def is_single_option(self):
         """Determine if the trade is a single option trade."""
         return self.trade_spec["single_option"]
+
+    @property
+    def is_winner(self):
+        """Determine if a closed trade is a winner."""
+        return self.trade['win']
 
     def notify(self):
         """Send notification to Discord."""
@@ -197,7 +235,11 @@ class Trade:
         )
 
         embed.set_thumbnail(url=self.symbol_logo)
-        embed.set_footer(text=f"{self.username}: {self.trade['note']}")
+
+        if self.is_open:
+            embed.set_footer(text=f"{self.username}: {self.trade['note']}")
+
+        embed.set_footer(text=f"{self.username}: {self.trade['closing_note']}")
         return embed
 
     def parse_expiration(self):
