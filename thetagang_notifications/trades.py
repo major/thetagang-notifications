@@ -135,12 +135,8 @@ class Trade:
         return not self.db.contains(Trade.guid == self.guid)
 
     @property
-    def is_closed(self):
-        """Determine if a trade is closed now but was open before."""
-        # The trade must not be new if we are checking if it's closed.
-        if self.is_new:
-            return False
-
+    def is_recently_closed(self):
+        """Determine if the trade is closed."""
         Trade = Query()
         old_trade = self.db.get(Trade.guid == self.guid)
         if not old_trade['close_date'] and self.trade['close_date']:
@@ -170,11 +166,13 @@ class Trade:
 
     def notify(self):
         """Send notification to Discord."""
+        # Skip non-patron trades.
         if not self.is_patron_trade:
             return None
 
-        if not self.is_new:
-            log.info("👀 Already saw patron trade: %s", self.trade_url)
+        # Skip old trades that are still open.
+        if not self.is_new and not self.is_recently_closed:
+            log.info("👀 Old trade still open: %s", self.trade_url)
             return None
 
         webhook = DiscordWebhook(

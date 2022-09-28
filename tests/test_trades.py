@@ -44,7 +44,7 @@ def test_closed_trade():
     res = Trade(get_theta_trade(CASH_SECURED_PUT))
 
     # It shouldn't be closed now because it's brand new.
-    assert not res.is_closed
+    assert not res.is_recently_closed
 
     # Capture the closed date and remove it from the trade.
     close_date = res.trade['close_date']
@@ -54,11 +54,13 @@ def test_closed_trade():
     res.save()
 
     # This shouldn't be a closed trade (yet).
-    assert not res.is_closed
+    assert not res.is_recently_closed
 
     # Mark it as closed.
     res.trade['close_date'] = close_date
-    assert res.is_closed
+
+    # It should now be closed.
+    assert res.is_recently_closed
 
 
 @pytest.mark.vcr()
