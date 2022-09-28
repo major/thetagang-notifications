@@ -4,16 +4,12 @@ import logging
 
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
-from sqlitedict import SqliteDict
+from tinydb import TinyDB, Query
 
 from thetagang_notifications import config, utils
 
 
 log = logging.getLogger(__name__)
-
-# The sqlitedict module likes to log a lot at the INFO level. 🥵
-sqlite_logger = logging.getLogger("sqlitedict")
-sqlite_logger.setLevel(logging.WARNING)
 
 
 class Trend:
@@ -33,10 +29,12 @@ class Trend:
         if fvz is None:
             return ""
 
+        earnings = f"{fvz['Earnings'] if fvz['Earnings'] != '-' else ''}"
+
         return (
             f"{fvz['Company']}\n"
             f"{fvz['Sector']} - {fvz['Industry']}\n"
-            f"{'Earnings: ' + fvz['Earnings'] if fvz['Earnings'] != '-' else ''}"
+            f"Earnings: {earnings}"
         )
 
     @property
@@ -52,18 +50,20 @@ class Trend:
     @classmethod
     def flush_db(cls):
         """Flush all the trends from the database."""
-        db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trends")
-        db["trends"] = []
+        db = TinyDB(config.MAIN_TINYDB)
+        db.drop_table('trends')
         return True
 
     def initialize_db(self):
         """Ensure the database is initialized."""
-        self.db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trends")
+        self.db = TinyDB(config.MAIN_TINYDB)
 
     @property
     def is_new(self):
         """Determine if the trend is new."""
-        return self.symbol not in self.db.get("trends", [])
+        table = self.db.table('trends')
+        Trend = Query()
+        return not table.contains(Trend.symbol == self.symbol)
 
     @property
     def logo(self):
@@ -72,7 +72,8 @@ class Trend:
 
     def notify(self):
         """Send notification to Discord."""
-        # Exit early if we saw this ticker before, or if Finviz has no data about it.
+        # Exit early if we saw this ticker before, or if Finviz has no data
+        # about it.
         if not self.is_new or self.finviz is None:
             return None
 
@@ -100,7 +101,9 @@ class Trend:
 
     def save(self):
         """Add the trending ticker to the list of seen trending tickers."""
-        self.db["trends"] = self.db.get("trends", []) + [self.symbol]
+        table = self.db.table('trends')
+        Trend = Query()
+        table.upsert({'symbol': self.symbol}, Trend.symbol == self.symbol)
 
     @property
     def stock_chart(self):

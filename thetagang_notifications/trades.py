@@ -7,16 +7,12 @@ import yaml
 from dateutil import parser
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
-from sqlitedict import SqliteDict
+from tinydb import TinyDB, Query
 
 from thetagang_notifications import config, utils
 
 
 log = logging.getLogger(__name__)
-
-# The sqlitedict module likes to log a lot at the INFO level. 🥵
-sqlite_logger = logging.getLogger("sqlitedict")
-sqlite_logger.setLevel(logging.WARNING)
 
 # Earnings notification colors.
 COLOR_TRADE_BEARISH = "FD3A4A"
@@ -80,7 +76,8 @@ class Trade:
         links = (
             f"[{self.username}](https://thetagang.com/{self.username}) | "
             f"[TG: Trade]({self.trade_url}) | "
-            f"[TG: {self.symbol}](https://thetagang.com/symbols/{self.symbol}) | "
+            f"[TG: {self.symbol}]"
+            f"(https://thetagang.com/symbols/{self.symbol}) | "
             f"[Finviz](https://finviz.com/quote.ashx?t={self.symbol})"
         )
 
@@ -121,22 +118,21 @@ class Trade:
     @property
     def dte(self):
         """Calculate days to expiry (DTE) for a trade."""
-        # Add one extra day to ensure our current day is included in the total. This
-        # avoids dividing by zero and also ensures that we calculate DTE just as
-        # thetagang.com does. 😉
+        # Add one extra day to ensure our current day is included in the total.
+        # This avoids dividing by zero and also ensures that we calculate DTE
+        # just as thetagang.com does. 😉
         return (self.parse_expiration() - datetime.now()).days + 1
 
     def initialize_db(self):
         """Ensure the database is initialized."""
-        self.db = SqliteDict(config.MAIN_DB, autocommit=True, tablename="trades")
-
-        if "trades" not in self.db.keys():
-            self.db["trades"] = []
+        dbconn = TinyDB(config.MAIN_TINYDB)
+        self.db = dbconn.table('trades')
 
     @property
     def is_new(self):
         """Determine if the trend is new."""
-        return self.guid not in self.db["trades"]
+        Trade = Query()
+        return not self.db.contains(Trade.guid == self.guid)
 
     @property
     def is_option_trade(self):
@@ -231,7 +227,7 @@ class Trade:
 
     @property
     def raw_strikes(self):
-        """Get a string containing the strikes from the trade in a generic way."""
+        """Get a string containing the strikes from the trade."""
         if not self.is_option_trade:
             return None
 
@@ -246,7 +242,8 @@ class Trade:
 
     def save(self):
         """Add the trending ticker to the list of seen trending tickers."""
-        self.db["trades"] = set(list(self.db["trades"]) + [self.guid])
+        Trade = Query()
+        self.db.upsert(self.trade, Trade.guid == self.guid)
 
     @property
     def short_return(self):

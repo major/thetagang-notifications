@@ -14,6 +14,9 @@ TRENDS_JSON_URL = "https://api.thetagang.com/trends"
 # Unified databases using tables in a sqlite DB.
 MAIN_DB = f"{STORAGE_DIR}/thetagang-notifications.db"
 
+# Unified databases using tinydb.
+MAIN_TINYDB = f"{STORAGE_DIR}/thetagang-notifications.tinydb"
+
 # Webhook URLs
 WEBHOOK_URL_EARNINGS = os.environ.get("WEBHOOK_URL_EARNINGS")
 WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES")

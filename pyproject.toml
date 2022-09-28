@@ -10,11 +10,11 @@ python = "^3.10"
 discord-webhook = "^0.17.0"
 python-dateutil = "^2.8.2"
 requests = "^2.27.1"
-sqlitedict = "^2.0.0"
 tld = "^0.12.6"
 tweepy = "^4.5.0"
 PyYAML = "^6.0"
 finviz = "^1.4.4"
+tinydb = "^4.7.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
