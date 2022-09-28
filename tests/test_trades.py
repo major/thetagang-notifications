@@ -39,6 +39,28 @@ def test_trades_main(mocker):
     trade_class.assert_called()
 
 
+def test_closed_trade():
+    """Test a closed trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+
+    # It shouldn't be closed now because it's brand new.
+    assert not res.is_closed
+
+    # Capture the closed date and remove it from the trade.
+    close_date = res.trade['close_date']
+    res.trade['close_date'] = None
+
+    # Save the trade as a new trade.
+    res.save()
+
+    # This shouldn't be a closed trade (yet).
+    assert not res.is_closed
+
+    # Mark it as closed.
+    res.trade['close_date'] = close_date
+    assert res.is_closed
+
+
 @pytest.mark.vcr()
 @freeze_time("2022-02-10")
 def test_cash_secured_put(mocker):

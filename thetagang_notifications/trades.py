@@ -130,9 +130,23 @@ class Trade:
 
     @property
     def is_new(self):
-        """Determine if the trend is new."""
+        """Determine if the trade is new."""
         Trade = Query()
         return not self.db.contains(Trade.guid == self.guid)
+
+    @property
+    def is_closed(self):
+        """Determine if a trade is closed now but was open before."""
+        # The trade must not be new if we are checking if it's closed.
+        if self.is_new:
+            return False
+
+        Trade = Query()
+        old_trade = self.db.get(Trade.guid == self.guid)
+        if not old_trade['close_date'] and self.trade['close_date']:
+            return True
+
+        return False
 
     @property
     def is_option_trade(self):
