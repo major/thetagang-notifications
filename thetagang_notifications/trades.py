@@ -157,7 +157,6 @@ class Trade:
     def notify(self):
         """Send notification to Discord."""
         if not self.is_patron_trade:
-            log.info("👎 Skipping non-patron trade: %s", self.trade_url)
             return None
 
         if not self.is_new:
