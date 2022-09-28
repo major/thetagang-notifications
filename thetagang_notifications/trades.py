@@ -109,9 +109,9 @@ class Trade:
         profit = "${:,.2f}".format(abs(self.trade['pl'] * 100))
 
         if self.is_winner:
-            return f"🟢 WIN: +{profit}"
+            return f"🟢 WIN: +{profit}\n"
 
-        return f"🔴 LOSS: ({profit})"
+        return f"🔴 LOSS: ({profit})\n"
 
     def get_discord_title_header(self):
         """Generate the first line of the Discord title."""
