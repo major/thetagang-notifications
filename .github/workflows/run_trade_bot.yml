@@ -30,7 +30,7 @@ jobs:
       - name: Run trades bot
         env:
           STORAGE_DIR: "storage/"
-          WEBHOOK_URL_TRADES ${{ secrets.TRADES_JSON_URL }}
+          WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
         run: |
           pip install -U pip poetry wheel
           poetry install
