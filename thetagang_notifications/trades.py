@@ -193,11 +193,6 @@ class Trade:
         return self.trade_spec["option_trade"]
 
     @property
-    def is_patron_trade(self):
-        """Determine if the trade was made by a patron."""
-        return True if self.trade["User"]["role"] == "patron" else False
-
-    @property
     def is_short(self):
         """Determine if the options trade is short or long."""
         return self.trade_spec["short"]
@@ -214,10 +209,6 @@ class Trade:
 
     def notify(self):
         """Send notification to Discord."""
-        # Skip non-patron trades.
-        if not self.is_patron_trade:
-            return None
-
         # Skip old trades that are still open.
         if not self.is_new and not self.is_recently_closed:
             log.info("👀 Old trade still open: %s", self.trade_url)

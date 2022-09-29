@@ -30,6 +30,3 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
 # Discord username.
 DISCORD_USERNAME = "🤠 🤖"
-
-# Only examine trades from Patrons.
-PATRON_TRADES_ONLY = True
