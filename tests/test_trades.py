@@ -24,14 +24,6 @@ def get_theta_trade(guid):
     return requests.get(url).json()["data"]["trade"]
 
 
-@pytest.mark.vcr()
-def test_trades_main(mocker):
-    """Test main() in trades module."""
-    trade_class = mocker.patch(target="thetagang_notifications.trades.Trade")
-    trades.main()
-    trade_class.assert_called()
-
-
 def test_closed_trade():
     """Test a closed trade."""
     res = Trade(get_theta_trade(CASH_SECURED_PUT))
