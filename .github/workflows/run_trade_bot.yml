@@ -11,6 +11,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Install poetry
+        run: pipx install -U poetry pip wheel
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -28,14 +31,14 @@ jobs:
             gunzip -v ~/storage/cache.db.gz
           fi
 
+      - name: Install with poetry
+        run: poetry install
+
       - name: Run trades bot
         env:
           STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
-        run: |
-          pip install -U pip poetry wheel
-          poetry install
-          poetry run ./run_trades
+        run: poetry run ./run_trades
 
       - name: Compress and move urlwatch cache db
         run: |

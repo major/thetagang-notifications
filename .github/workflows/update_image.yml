@@ -27,6 +27,9 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
+      - name: Install poetry
+        run: pipx install -U poetry pip wheel
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -34,10 +37,9 @@ jobs:
           architecture: x64
           cache: 'poetry'
 
-      - name: Install
-        run: |
-          pip install -U pip poetry wheel
-          poetry install
+      - name: Install with poetry
+        run: poetry install
+
       - name: Run tests
         run: |
           poetry run flake8
