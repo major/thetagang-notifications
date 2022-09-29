@@ -373,7 +373,7 @@ class Trade:
 
 def main():
     """Handle updates for trades."""
-    downloaded_trades = thetaget.get_trades()
+    downloaded_trades = thetaget.get_patron_trades()
     for downloaded_trade in downloaded_trades:
         trade_obj = Trade(downloaded_trade)
         trade_obj.notify()
