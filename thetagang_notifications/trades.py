@@ -346,11 +346,6 @@ class Trade:
         return self.trade["symbol"]
 
     @property
-    def symbol_chart(self):
-        """Get the chart for the stock symbol."""
-        return utils.get_stock_chart(self.symbol)
-
-    @property
     def symbol_logo(self):
         """Get the logo for the stock symbol."""
         return utils.get_stock_logo(self.symbol)
