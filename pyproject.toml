@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "thetagang-notifications"
-version = "1.1.7"
+version = "1.1.8"
 description = "Notifications for the Theta Gang discord."
 authors = ["Major Hayden <major@mhtx.net>"]
 license = "Apache 2.0"
