@@ -1,9 +1,29 @@
 """Tests for thetaget functions."""
 from unittest.mock import patch
 
+from freezegun import freeze_time
 import pytest
 
 from thetagang_notifications import thetaget
+
+
+@freeze_time("2022-09-29")
+def test_day_diff():
+    """Test the subtraction of dates"""
+    days = thetaget.day_diff("2022-09-27T00:00:00.000Z")
+    assert days == 2
+
+
+@freeze_time("2022-09-29")
+def test_filter_recent():
+    """Ensure trades are filtered for recent dates."""
+    trades = [
+        {'updatedAt': "2022-09-27T00:00:00.000Z"},
+        {'updatedAt': "2022-09-01T00:00:00.000Z"}
+    ]
+    valid_trades = thetaget.filter_recent(trades)
+
+    assert valid_trades == [{'updatedAt': "2022-09-27T00:00:00.000Z"}]
 
 
 @pytest.mark.vcr()
@@ -55,9 +75,15 @@ def test_get_single_trade():
 def test_get_patron_trades(profiles_fn, trades_fn):
     """Get all patron trades."""
     profiles_fn.return_value = ["user1", "user2"]
-    trades_fn.return_value = ["trade1", "trade2"]
+    trades_fn.return_value = [
+        {'updatedAt': "2022-09-27T00:00:00.000Z"},
+        {'updatedAt': "2022-09-01T00:00:00.000Z"}
+    ]
 
     trades = thetaget.get_patron_trades()
 
     assert type(trades) == list
-    assert trades == ["trade1", "trade2", "trade1", "trade2"]
+    assert trades == [
+        {'updatedAt': "2022-09-27T00:00:00.000Z"},
+        {'updatedAt': "2022-09-27T00:00:00.000Z"}
+    ]

@@ -1,10 +1,26 @@
 #!/usr/bin/env python
 """Retrieve and handle data from thetagang.com."""
+from datetime import datetime
+from dateutil import parser
 import logging
 
 import requests
 
 log = logging.getLogger(__name__)
+
+
+def day_diff(trade_date):
+    """Find different in days between a date and right now."""
+    trade_date = parser.parse(trade_date).replace(tzinfo=None)
+    now = datetime.utcnow()
+    return (now - trade_date).days
+
+
+def filter_recent(trades):
+    """Limit trades to the most recent ones."""
+    valid_trades = [x for x in trades if day_diff(x['updatedAt']) <= 2]
+
+    return valid_trades
 
 
 def get_patron_trades():
@@ -13,7 +29,7 @@ def get_patron_trades():
     for profile in get_profiles():
         trades += get_trades(profile)
 
-    return trades
+    return filter_recent(trades)
 
 
 def get_profiles():
