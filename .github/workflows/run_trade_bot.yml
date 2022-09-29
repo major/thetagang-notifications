@@ -42,7 +42,7 @@ jobs:
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
         run: |
           # Prime the db if it is new.
-          if [! -f storage/thetagang-notifications.tinydb]; then
+          if [ ! -f storage/thetagang-notifications.tinydb ]; then
             export PRIME_DATABASE=yes
           fi
           poetry run ./run_trades
