@@ -3,7 +3,7 @@ from freezegun import freeze_time
 import pytest
 import requests
 
-from thetagang_notifications import config, trades
+from thetagang_notifications import config
 from thetagang_notifications.trades import Trade
 
 # Example trade GUIDs from thetagang.com.
