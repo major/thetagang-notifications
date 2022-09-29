@@ -28,7 +28,7 @@ jobs:
           git fetch --all
           if git checkout origin/trades-db cache.db.gz; then
             mv cache.db.gz storage/
-            gunzip -v ~/storage/cache.db.gz
+            gunzip -v storage/cache.db.gz
           fi
 
       - name: Install with poetry
