@@ -247,10 +247,18 @@ class Trade:
 
         embed.set_thumbnail(url=self.symbol_logo)
 
-        if self.is_open:
-            embed.set_footer(text=f"{self.username}: {self.trade['note']}")
+        # Assume a closing note by default.
+        trade_notes = self.trade['closing_note']
 
-        embed.set_footer(text=f"{self.username}: {self.trade['closing_note']}")
+        # Use the original opening note if the trade is open or if it's a
+        # common stock trade since stock trades have opening notes only.
+        if "COMMON STOCK" in self.trade_type or self.is_open:
+            trade_notes = self.trade['note']
+
+        # Only add a footer if the user added a note.
+        if trade_notes:
+            embed.set_footer(text=f"{self.username}: {trade_notes}")
+
         return embed
 
     def parse_expiration(self):
