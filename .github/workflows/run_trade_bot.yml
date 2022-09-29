@@ -1,0 +1,51 @@
+name: Run trades bot
+on:
+  workflow_dispatch:
+    # manual run
+
+jobs:
+  run_trades_bot:
+    name: "Run trades bot"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          architecture: x64
+
+      - name: Restore cache database
+        run: |
+          #!/bin/bash
+          mkdir storage
+          git fetch --all
+          if git checkout origin/trades-db cache.db.gz; then
+            mv cache.db.gz storage/
+            gunzip -v ~/storage/cache.db.gz
+          fi
+
+      - name: Run trades bot
+        env:
+          STORAGE_DIR: "storage/"
+          TRADES_JSON_URL: ${{ secrets.TRADES_JSON_URL }}
+        run: |
+          pip install -U pip poetry wheel
+          poetry install
+          poetry run ./run_trades
+
+      - name: Compress and move urlwatch cache db
+        run: |
+          mkdir -vp database
+          gzip -vc storage/* > database/cache.db.gz
+
+      - name: Store cache database
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: trades-db
+          FOLDER: database
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SQUASH_HISTORY: true
