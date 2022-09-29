@@ -1,0 +1,67 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.1
+    method: GET
+    uri: https://api.thetagang.com/trades/94e5b17e-cfa4-4ab1-8b85-aff13577b1a8
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA4yTz27UMBDGX2U1Ejcncv4nvq1Kb5WooCABQtEkmaTWZp3UdihRtSceAIkzEgde
+        gufhBeARkDfZUlEJcbLz5efJ+Jsvd2As2smACDln0KBFEHdgNTbkNmMPIvQjBt0kGxBQxJRUQUZe
+        3WLsxVgFXl7liYdtG0RJllUB5sCAPoxSz2WDlkBAyMPQ44UX8SueCM4F5z7n/A0wqPvB0N9cWFwF
+        ueCpiHI/yFPHDSOpR1h2FWSC5yJM/SyPHGbmfTX0IODF5WtgIJW0EnsQLfaGGNxMqKy0M4iAgZ1H
+        V+3s2avz5+dPN2fbiwtgMOK8J2VBQK2pkRYY3EoFwuqJGEyGdLlakYeEWZFEXt20lRdj3HgY5YHX
+        hhgVdZ7VMQ+AgcUOhJr6noG5HrQtx8mehH5Q3cPnBaixd1eI0hhWZFEWZtSyprKVfU8NiNhPT9LR
+        ymYd19Gvm2lwhkVp6EdhcjL7XuV+WiQM0BjZKXdydYlQK6k6cy/YWyJbuksvLbji1JTNpKXqyj3q
+        Hdnyepi0ORFLL/9BVNQOmspjXtDKQZ3eq2OTf1hXZ9Eg4U82VsuuI+27CGlCS83W/jsa09g8xh4E
+        LUqPQTN2qHfriJevb2vXlwHx9h2Dy8HYdfvSkHa/iMuEwr3rbH+Nc0MKGLQ9Sg0Cfn39/GUTc+4Z
+        qwl3m+Dn908/Pn7LlyVaFrHZ0QwM9NC7KiNaPahjL+4MiKRg8J60bKWbkkvi4XBgsCdjsFtdOvwG
+        AAD//wMAmjImXsoDAAA=
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 7526fe1a1e9e5361-LAX
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 29 Sep 2022 19:05:50 GMT
+      Etag:
+      - W/"3ca-EA2YHd9lumCgLCZxM10lAWJEXXM"
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=XZT69Qm%2FyN9FfYyPc9o32jKRzZ90PjV%2BHIGlKOXQX3wtnGcvMJoWi0M8dCIv%2BfcKQnFgad9kE5gSRVLjiRcJ7NjYc58224Rqc3%2Fdax2zLTw0zoQZAzcUuMQ17RfC4dEkO99DjqZAj64ehA0e6JOQ"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      Via:
+      - 1.1 vegur
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1664478771'
+    status:
+      code: 200
+      message: OK
+version: 1

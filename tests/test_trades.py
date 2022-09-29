@@ -25,15 +25,6 @@ def get_theta_trade(guid):
 
 
 @pytest.mark.vcr()
-def test_download_trades():
-    """Test downloading a list of trades."""
-    trade_list = trades.download_trades()
-    assert isinstance(trade_list, list)
-    assert len(trade_list) == 100
-    assert "type" in trade_list[0].keys()
-
-
-@pytest.mark.vcr()
 def test_trades_main(mocker):
     """Test main() in trades module."""
     trade_class = mocker.patch(target="thetagang_notifications.trades.Trade")

@@ -6,10 +6,9 @@ import yaml
 
 from dateutil import parser
 from discord_webhook import DiscordWebhook, DiscordEmbed
-import requests
 from tinydb import TinyDB, Query
 
-from thetagang_notifications import config, utils
+from thetagang_notifications import config, thetaget, utils
 
 
 log = logging.getLogger(__name__)
@@ -381,17 +380,9 @@ class Trade:
         return self.trade["User"]["username"]
 
 
-def download_trades():
-    """Download the current list of trades from thetagang.com."""
-    log.info("🚚 Getting current list of trades...")
-    resp = requests.get(config.TRADES_JSON_URL)
-    trades_json = resp.json()
-    return trades_json["data"]["trades"]
-
-
 def main():
     """Handle updates for trades."""
-    downloaded_trades = download_trades()
+    downloaded_trades = thetaget.get_trades()
     for downloaded_trade in downloaded_trades:
         trade_obj = Trade(downloaded_trade)
         trade_obj.notify()
