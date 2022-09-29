@@ -16,6 +16,7 @@ jobs:
         with:
           python-version: "3.10"
           architecture: x64
+          cache: 'pip'
 
       - name: Restore cache database
         run: |
@@ -30,7 +31,7 @@ jobs:
       - name: Run trades bot
         env:
           STORAGE_DIR: "storage/"
-          TRADES_JSON_URL: ${{ secrets.TRADES_JSON_URL }}
+          WEBHOOK_URL_TRADES ${{ secrets.TRADES_JSON_URL }}
         run: |
           pip install -U pip poetry wheel
           poetry install
