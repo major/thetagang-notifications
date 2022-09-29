@@ -1,5 +1,7 @@
 name: Run trades bot
 on:
+  schedule:
+    - cron: '0 * * * *'
   workflow_dispatch:
     # manual run
 
@@ -26,9 +28,9 @@ jobs:
           #!/bin/bash
           mkdir storage
           git fetch --all
-          if git checkout origin/trades-db cache.db.gz; then
-            mv cache.db.gz storage/
-            gunzip -v storage/cache.db.gz
+          if git checkout origin/trades-db thetagang-notifications.tinydb.gz; then
+            mv thetagang-notifications.tinydb.gz storage/
+            gunzip -v storage/thetagang-notifications.tinydb.gz
           fi
 
       - name: Install with poetry
@@ -43,7 +45,7 @@ jobs:
       - name: Compress and move urlwatch cache db
         run: |
           mkdir -vp database
-          gzip -vc storage/* > database/cache.db.gz
+          gzip -vc storage/thetagang-notifications.tinydb > database/thetagang-notifications.tinydb.gz
 
       - name: Store cache database
         uses: s0/git-publish-subdir-action@develop
