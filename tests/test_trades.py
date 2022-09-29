@@ -63,49 +63,6 @@ def test_closed_trade():
 
 
 @pytest.mark.vcr()
-@freeze_time("2022-02-10")
-def test_cash_secured_put(mocker):
-    """Test notification with a cash secured put."""
-    res = Trade(get_theta_trade(CASH_SECURED_PUT))
-    assert res.breakeven == "438.60"
-    assert res.guid == "c90e5d5d-8158-43d7-ba09-e6a0dbbf207c"
-    assert res.pretty_expiration == "2/18"
-    assert res.is_option_trade
-    assert res.is_patron_trade
-    assert res.is_single_option
-    assert res.is_short
-    assert res.quantity == 1
-    assert res.raw_strikes == "$440"
-    assert res.short_return == 0.32
-    assert res.short_return_annualized == 12.98
-    assert res.strike == "440"
-    assert res.symbol == "SPY"
-    assert res.symbol_logo.endswith("SPY.png")
-    assert res.trade_type == "CASH SECURED PUT"
-    assert res.username == "mhayden"
-
-    # Mark this one as an open trade to test that workflow.
-    res.trade['close_date'] = None
-
-    mock_exec = mocker.patch(
-        target="thetagang_notifications.trades.DiscordWebhook.execute"
-    )
-    hook = res.notify()
-
-    assert hook.url == config.WEBHOOK_URL_TRADES
-    assert hook.rate_limit_retry
-    assert hook.username == config.DISCORD_USERNAME
-
-    embed = hook.embeds[0]
-    assert embed["title"] == (
-        "🚀 SPY: CASH SECURED PUT\n1 x 2/18 $440p for $1.40"
-    )
-    assert embed["thumbnail"]["url"] == res.symbol_logo
-
-    mock_exec.assert_called_once()
-
-
-@pytest.mark.vcr()
 @freeze_time("2022-09-28")
 def test_closed_cash_secured_put(mocker):
     """Test notification with a closed cash secured put."""
@@ -356,3 +313,39 @@ def test_non_patron_trade(mocker):
     )
     res.notify()
     mock_exec.assert_not_called()
+
+
+@pytest.mark.vcr()
+def test_closed_description_assigned():
+    """Test that an assigned option gets the correct description."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    desc = res.discord_stats_single_leg_results
+
+    assert desc == "🚚 ASSIGNED (premium collected: $140.00)\n"
+
+
+@pytest.mark.vcr()
+def test_closed_description_loss():
+    """Test that a loss on an option gets the correct description."""
+    res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT_LOSS))
+    desc = res.discord_stats_single_leg_results
+
+    assert desc == "🔴 LOSS: ($237.00)\n"
+
+
+@pytest.mark.vcr()
+def test_closed_description_profit():
+    """Test that a profit on an option gets the correct description."""
+    res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
+    desc = res.discord_stats_single_leg_results
+
+    assert desc == "🟢 WIN: +$200.00\n"
+
+
+@pytest.mark.vcr()
+def test_stats_single_leg_invalid():
+    """Verify that single leg stats aren't returned for invalid trade."""
+    res = Trade(get_theta_trade(SELL_COMMON_STOCK))
+    stats = res.discord_stats_single_leg
+
+    assert stats == ""

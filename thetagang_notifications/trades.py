@@ -108,9 +108,15 @@ class Trade:
         """Generate a report after a trade was closed."""
         profit = "${:,.2f}".format(abs(self.trade['pl'] * 100))
 
+        # Check for assignment.
+        if self.is_assigned:
+            return f"🚚 ASSIGNED (premium collected: {profit})\n"
+
+        # Check for a winner that wasn't assigned.
         if self.is_winner:
             return f"🟢 WIN: +{profit}\n"
 
+        # Anything left was a loss. 😢
         return f"🔴 LOSS: ({profit})\n"
 
     def get_discord_title_header(self):
@@ -155,6 +161,11 @@ class Trade:
         """Ensure the database is initialized."""
         dbconn = TinyDB(config.MAIN_TINYDB)
         self.db = dbconn.table('trades')
+
+    @property
+    def is_assigned(self):
+        """Determine if a closed trade had stock assignment."""
+        return self.trade.get('assigned', False)
 
     @property
     def is_new(self):
