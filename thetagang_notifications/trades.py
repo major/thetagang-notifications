@@ -2,6 +2,8 @@
 from functools import cached_property
 from datetime import datetime
 import logging
+import os
+import sys
 import yaml
 
 from dateutil import parser
@@ -209,6 +211,12 @@ class Trade:
 
     def notify(self):
         """Send notification to Discord."""
+
+        if os.environ.get("PRIME_DATABASE", None) == "yes":
+            log.info("Priming database with trade %s", self.guid)
+            self.save()
+            return None
+
         # Skip old trades that are still open.
         if not self.is_new and not self.is_recently_closed:
             log.info("👀 Old trade still open: %s", self.trade_url)
@@ -371,8 +379,24 @@ class Trade:
         return self.trade["User"]["username"]
 
 
+def check_for_empty_db():
+    """Check for an empty database to avoid blasting Discord."""
+    trade_obj = Trade({'test': 'test'})
+
+    # Count rows in the database.
+    TradeQuery = Query()
+    trades_in_db = trade_obj.db.count(TradeQuery.guid)
+
+    # Stop now if the database is empty and PRIME_DATABASE is not set.
+    if trades_in_db < 1 and os.environ.get("PRIME_DATABASE", None) != "yes":
+        log.error("Database is empty and PRIME_DATABASE is not set")
+        sys.exit()
+
+
 def main():
     """Handle updates for trades."""
+    check_for_empty_db()
+
     downloaded_trades = thetaget.get_patron_trades()
     for downloaded_trade in downloaded_trades:
         trade_obj = Trade(downloaded_trade)

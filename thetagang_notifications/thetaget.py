@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 """Retrieve and handle data from thetagang.com."""
+import logging
+
 import requests
+
+log = logging.getLogger(__name__)
 
 
 def get_patron_trades():
@@ -14,6 +18,7 @@ def get_patron_trades():
 
 def get_profiles():
     """Get the list of patreon usernames."""
+    log.info("Getting list of patrons...")
     resp = requests.get("https://api.thetagang.com/profiles")
     raw = resp.json()
 
@@ -22,6 +27,7 @@ def get_profiles():
 
 def get_single_trade(guid):
     """Get a single trade."""
+    log.info("Downloading trade: %s", guid)
     url = f"https://api.thetagang.com/trades/{guid}"
     resp = requests.get(url)
 
@@ -30,6 +36,7 @@ def get_single_trade(guid):
 
 def get_trades(username=None):
     """Get trades for a user or for everyone."""
+    log.info("Downloading trades: username=%s", username)
     params = {} if not username else {"username": username}
     url = "https://api.thetagang.com/trades"
     resp = requests.get(url, params)

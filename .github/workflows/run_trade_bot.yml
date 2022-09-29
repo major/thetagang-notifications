@@ -40,7 +40,12 @@ jobs:
         env:
           STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
-        run: poetry run ./run_trades
+        run:
+          # Prime the db if it is new.
+          if [! -f storage/thetagang-notifications.tinydb]; then
+            export PRIME_DATABASE=yes
+          fi
+          poetry run ./run_trades
 
       - name: Compress and move urlwatch cache db
         run: |
