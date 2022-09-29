@@ -384,8 +384,7 @@ def check_for_empty_db():
     trade_obj = Trade({'test': 'test'})
 
     # Count rows in the database.
-    TradeQuery = Query()
-    trades_in_db = trade_obj.db.count(TradeQuery.guid)
+    trades_in_db = len(trade_obj.db.all())
 
     # Stop now if the database is empty and PRIME_DATABASE is not set.
     if trades_in_db < 1 and os.environ.get("PRIME_DATABASE", None) != "yes":
