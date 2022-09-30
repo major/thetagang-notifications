@@ -82,6 +82,10 @@ class Trade:
             f"[Finviz](https://finviz.com/quote.ashx?t={self.symbol})"
         )
 
+        # Show the results of a closed trade.
+        if not self.is_open:
+            return self.discord_stats_single_leg_results + links
+
         # Just show links if this is not a short single leg option.
         if not self.is_single_option or not self.is_short:
             return links
@@ -89,7 +93,7 @@ class Trade:
         if self.is_open:
             return self.discord_stats_single_leg + links
 
-        return self.discord_stats_single_leg_results + links
+        return links
 
     @property
     def discord_stats_single_leg(self):
