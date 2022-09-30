@@ -15,11 +15,6 @@ from thetagang_notifications import config, thetaget, utils
 
 log = logging.getLogger(__name__)
 
-# Earnings notification colors.
-COLOR_TRADE_BEARISH = "FD3A4A"
-COLOR_TRADE_NEUTRAL = "BFAFB2"
-COLOR_TRADE_BULLISH = "299617"
-
 
 class Trade:
     """Class for handling new trades opened on thetagang.com."""
@@ -43,17 +38,6 @@ class Trade:
                 return None
 
         return "{:,.2f}".format(breakeven)
-
-    @property
-    def discord_color(self):
-        """Set a color for the discord message based on sentiment."""
-        match self.sentiment:
-            case "bearish":
-                return COLOR_TRADE_BEARISH
-            case "neutral":
-                return COLOR_TRADE_NEUTRAL
-            case _:
-                return COLOR_TRADE_BULLISH
 
     @property
     def discord_title(self):
@@ -243,7 +227,6 @@ class Trade:
         """Prepare the webhook embed data."""
         embed = DiscordEmbed(
             title=self.discord_title,
-            color=self.discord_color,
             description=self.discord_description,
         )
 
