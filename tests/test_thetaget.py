@@ -70,6 +70,7 @@ def test_get_single_trade():
     assert resp['User']['username'] == 'mhayden'
 
 
+@freeze_time("2022-09-29")
 @patch("thetagang_notifications.thetaget.get_trades")
 @patch("thetagang_notifications.thetaget.get_profiles")
 def test_get_patron_trades(profiles_fn, trades_fn):
