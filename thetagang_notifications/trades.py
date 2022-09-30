@@ -230,6 +230,10 @@ class Trade:
             description=self.discord_description,
         )
 
+        # Add thin and wide transparent png to keep the same width for all of
+        # the notifications.
+        embed.set_image(url='https://major.io/transparent.png')
+
         embed.set_thumbnail(url=self.symbol_logo)
 
         # Assume a closing note by default.
