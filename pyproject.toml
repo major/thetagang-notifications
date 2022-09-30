@@ -15,6 +15,7 @@ tweepy = "^4.5.0"
 PyYAML = "^6.0"
 finviz = "^1.4.4"
 tinydb = "^4.7.0"
+playwright = "^1.26.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
@@ -28,6 +29,7 @@ pytest-xdist = "^2.5.0"
 pytest-vcr = "^1.0.2"
 requests-mock = "^1.9.3"
 flake8 = "^5.0.0"
+ipython = "^8.5.0"
 
 [tool.pytest.ini_options]
 minversion = "7.0"

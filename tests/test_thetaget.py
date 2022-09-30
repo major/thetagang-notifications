@@ -1,4 +1,5 @@
 """Tests for thetaget functions."""
+import os
 from unittest.mock import patch
 
 from freezegun import freeze_time
@@ -88,3 +89,13 @@ def test_get_patron_trades(profiles_fn, trades_fn):
         {'updatedAt': "2022-09-27T00:00:00.000Z"},
         {'updatedAt': "2022-09-27T00:00:00.000Z"}
     ]
+
+
+@pytest.mark.vcr()
+def test_get_trade_screenshot():
+    """Get a trade's screenshot."""
+    guid = "a8914cb0-3973-4037-967c-8196abce2042"
+    res = thetaget.get_trade_screenshot(guid)
+
+    assert res.endswith(f"{guid}.png")
+    assert os.path.isfile(res)

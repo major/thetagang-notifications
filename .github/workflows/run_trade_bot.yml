@@ -36,10 +36,14 @@ jobs:
       - name: Install with poetry
         run: poetry install
 
+      - name: Install playwright browsers
+        run: poetry run playwright install chromium
+
       - name: Run trades bot
         env:
           STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
+          WEBHOOK_URL_TRADE_SCREENSHOTS: ${{ secrets.WEBHOOK_URL_TRADE_SCREENSHOTS }}
         run: |
           # Prime the db if it is new.
           if [ ! -f storage/thetagang-notifications.tinydb ]; then

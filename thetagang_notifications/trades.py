@@ -221,6 +221,26 @@ class Trade:
         # Record this trade so we don't alert for it again.
         self.save()
 
+        # Send a screenshot if we're asked to.
+        if config.WEBHOOK_URL_TRADE_SCREENSHOTS:
+            self.notify_screenshot()
+
+        return webhook
+
+    def notify_screenshot(self):
+        """Prepare the webhook embed data for screenshots."""
+        webhook = DiscordWebhook(
+            url=config.WEBHOOK_URL_TRADE_SCREENSHOTS,
+            rate_limit_retry=True,
+            username=config.DISCORD_USERNAME,
+        )
+        screenshot_path = thetaget.get_trade_screenshot(self.guid)
+
+        with open(screenshot_path, "rb") as fileh:
+            webhook.add_file(file=fileh.read(), filename=f"{self.guid}.png")
+
+        webhook.execute()
+
         return webhook
 
     def prepare_embed(self):

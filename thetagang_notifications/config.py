@@ -20,6 +20,10 @@ MAIN_TINYDB = f"{STORAGE_DIR}/thetagang-notifications.tinydb"
 # Webhook URLs
 WEBHOOK_URL_EARNINGS = os.environ.get("WEBHOOK_URL_EARNINGS")
 WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES")
+WEBHOOK_URL_TRADE_SCREENSHOTS = os.environ.get(
+    "WEBHOOK_URL_TRADE_SCREENSHOTS",
+    None
+)
 WEBHOOK_URL_TRENDS = os.environ.get("WEBHOOK_URL_TRENDS")
 
 # Twitter credentials.
