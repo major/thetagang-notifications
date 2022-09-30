@@ -66,8 +66,8 @@ class Trade:
             f"[Finviz](https://finviz.com/quote.ashx?t={self.symbol})"
         )
 
-        # Show the results of a closed trade.
-        if not self.is_open:
+        # Show the results of a closed *option* trade.
+        if not self.is_open and self.is_option_trade:
             return self.discord_stats_single_leg_results + links
 
         # Just show links if this is not a short single leg option.
@@ -113,7 +113,7 @@ class Trade:
         emoji = "🚀 " if self.is_open else "🏁 "
 
         # Stock purchases are a special case since they're ALWAYS closed.
-        if "COMMON STOCK" in self.trade_type:
+        if not self.is_option_trade:
             emoji = ""
 
         title = f"{emoji}{self.symbol}: {self.trade_type}\n"
@@ -241,7 +241,7 @@ class Trade:
 
         # Use the original opening note if the trade is open or if it's a
         # common stock trade since stock trades have opening notes only.
-        if "COMMON STOCK" in self.trade_type or self.is_open:
+        if not self.is_option_trade or self.is_open:
             trade_notes = self.trade['note']
 
         # Only add a footer if the user added a note.
