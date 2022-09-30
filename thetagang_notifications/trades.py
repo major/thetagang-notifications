@@ -352,7 +352,10 @@ class Trade:
         """Return the spec for this trade."""
         specFile = "thetagang_notifications/assets/trade_specs.yml"
         with open(specFile, "r", encoding="utf-8") as fileh:
-            return [x for x in yaml.safe_load(fileh) if x["type"] == self.trade_type][0]
+            return [
+                x for x in yaml.safe_load(fileh)
+                if x["type"] == self.trade_type
+            ][0]
 
     @property
     def trade_type(self):
