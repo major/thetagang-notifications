@@ -10,6 +10,9 @@ on:
       - "**.md"
     branches:
       - main
+  release:
+    types:
+      - published
   workflow_dispatch:
     # manual run
 
