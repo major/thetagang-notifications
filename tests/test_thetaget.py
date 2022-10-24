@@ -2,15 +2,15 @@
 import os
 from unittest.mock import patch
 
-from freezegun import freeze_time
 import pytest
+from freezegun import freeze_time
 
 from thetagang_notifications import thetaget
 
 
 @freeze_time("2022-09-29")
 def test_day_diff():
-    """Test the subtraction of dates"""
+    """Test the subtraction of dates."""
     days = thetaget.day_diff("2022-09-27T00:00:00.000Z")
     assert days == 2
 
@@ -19,12 +19,12 @@ def test_day_diff():
 def test_filter_recent():
     """Ensure trades are filtered for recent dates."""
     trades = [
-        {'updatedAt': "2022-09-27T00:00:00.000Z"},
-        {'updatedAt': "2022-09-01T00:00:00.000Z"}
+        {"updatedAt": "2022-09-27T00:00:00.000Z"},
+        {"updatedAt": "2022-09-01T00:00:00.000Z"},
     ]
     valid_trades = thetaget.filter_recent(trades)
 
-    assert valid_trades == [{'updatedAt': "2022-09-27T00:00:00.000Z"}]
+    assert valid_trades == [{"updatedAt": "2022-09-27T00:00:00.000Z"}]
 
 
 @pytest.mark.vcr()
@@ -33,7 +33,7 @@ def test_get_profiles():
     profiles = thetaget.get_profiles()
 
     assert type(profiles) == list
-    assert 'mhayden' in profiles
+    assert "mhayden" in profiles
 
 
 @pytest.mark.vcr()
@@ -41,7 +41,7 @@ def test_get_trades_generic():
     """Get recent trades for all users."""
     resp = thetaget.get_trades()
 
-    unique_users = set([x['User']['username'] for x in resp])
+    unique_users = {x["User"]["username"] for x in resp}
 
     assert type(resp) == list
     # We should have trades from multiple users.
@@ -51,13 +51,13 @@ def test_get_trades_generic():
 @pytest.mark.vcr()
 def test_get_trades_for_user():
     """Get recent trades for a user."""
-    resp = thetaget.get_trades('mhayden')
+    resp = thetaget.get_trades("mhayden")
 
-    unique_users = set([x['User']['username'] for x in resp])
+    unique_users = {x["User"]["username"] for x in resp}
 
     assert type(resp) == list
     assert len(unique_users) == 1
-    assert unique_users == set(['mhayden'])
+    assert unique_users == {"mhayden"}
 
 
 @pytest.mark.vcr()
@@ -67,8 +67,8 @@ def test_get_single_trade():
     resp = thetaget.get_single_trade(guid)
 
     assert type(resp) == dict
-    assert resp['symbol'] == "SPY"
-    assert resp['User']['username'] == 'mhayden'
+    assert resp["symbol"] == "SPY"
+    assert resp["User"]["username"] == "mhayden"
 
 
 @freeze_time("2022-09-29")
@@ -78,16 +78,16 @@ def test_get_patron_trades(profiles_fn, trades_fn):
     """Get all patron trades."""
     profiles_fn.return_value = ["user1", "user2"]
     trades_fn.return_value = [
-        {'updatedAt': "2022-09-27T00:00:00.000Z"},
-        {'updatedAt': "2022-09-01T00:00:00.000Z"}
+        {"updatedAt": "2022-09-27T00:00:00.000Z"},
+        {"updatedAt": "2022-09-01T00:00:00.000Z"},
     ]
 
     trades = thetaget.get_patron_trades()
 
     assert type(trades) == list
     assert trades == [
-        {'updatedAt': "2022-09-27T00:00:00.000Z"},
-        {'updatedAt': "2022-09-27T00:00:00.000Z"}
+        {"updatedAt": "2022-09-27T00:00:00.000Z"},
+        {"updatedAt": "2022-09-27T00:00:00.000Z"},
     ]
 
 

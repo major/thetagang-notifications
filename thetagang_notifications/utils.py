@@ -5,7 +5,6 @@ import finviz
 import requests
 import tld
 
-
 log = logging.getLogger(__name__)
 
 
@@ -43,7 +42,8 @@ def get_finviz_stock(symbol):
 
 
 def get_base_domain(url):
-    """Take a URL and get the base domain, such as example.com or example.co.uk."""
+    """Take a URL and get the base domain, such as example.com or
+    example.co.uk."""
     return tld.get_fld(url, fix_protocol=True)
 
 

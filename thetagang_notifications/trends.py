@@ -1,13 +1,12 @@
 """Handle trades on thetagang.com."""
-from functools import cached_property
 import logging
+from functools import cached_property
 
-from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
-from tinydb import TinyDB, Query
+from discord_webhook import DiscordEmbed, DiscordWebhook
+from tinydb import Query, TinyDB
 
 from thetagang_notifications import config, utils
-
 
 log = logging.getLogger(__name__)
 
@@ -51,7 +50,7 @@ class Trend:
     def flush_db(cls):
         """Flush all the trends from the database."""
         db = TinyDB(config.MAIN_TINYDB)
-        db.drop_table('trends')
+        db.drop_table("trends")
         return True
 
     def initialize_db(self):
@@ -61,7 +60,7 @@ class Trend:
     @property
     def is_new(self):
         """Determine if the trend is new."""
-        table = self.db.table('trends')
+        table = self.db.table("trends")
         Trend = Query()
         return not table.contains(Trend.symbol == self.symbol)
 
@@ -101,9 +100,9 @@ class Trend:
 
     def save(self):
         """Add the trending ticker to the list of seen trending tickers."""
-        table = self.db.table('trends')
+        table = self.db.table("trends")
         Trend = Query()
-        table.upsert({'symbol': self.symbol}, Trend.symbol == self.symbol)
+        table.upsert({"symbol": self.symbol}, Trend.symbol == self.symbol)
 
     @property
     def stock_chart(self):

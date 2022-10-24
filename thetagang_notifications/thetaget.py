@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 """Retrieve and handle data from thetagang.com."""
-from datetime import datetime
-from dateutil import parser
 import logging
 import tempfile
+from datetime import datetime
 from time import sleep
 
-from playwright.sync_api import sync_playwright
 import requests
-
+from dateutil import parser
+from playwright.sync_api import sync_playwright
 
 log = logging.getLogger(__name__)
 
@@ -22,7 +21,7 @@ def day_diff(trade_date):
 
 def filter_recent(trades):
     """Limit trades to the most recent ones."""
-    valid_trades = [x for x in trades if day_diff(x['updatedAt']) <= 2]
+    valid_trades = [x for x in trades if day_diff(x["updatedAt"]) <= 2]
 
     return valid_trades
 
@@ -42,7 +41,7 @@ def get_profiles():
     resp = requests.get("https://api.thetagang.com/profiles")
     raw = resp.json()
 
-    return [x['username'] for x in raw['data']['users']]
+    return [x["username"] for x in raw["data"]["users"]]
 
 
 def get_single_trade(guid):
@@ -51,7 +50,7 @@ def get_single_trade(guid):
     url = f"https://api.thetagang.com/trades/{guid}"
     resp = requests.get(url)
 
-    return resp.json()['data']['trade']
+    return resp.json()["data"]["trade"]
 
 
 def get_trades(username=None):
@@ -65,7 +64,7 @@ def get_trades(username=None):
     # older closed trades before notifying on new ones. This helps a lot with
     # rolled options contracts so we show the closed one first and then the
     # opened one.
-    trades = resp.json()['data']['trades']
+    trades = resp.json()["data"]["trades"]
     trades.reverse()
 
     return trades
@@ -75,7 +74,7 @@ def get_trade_screenshot(guid):
     """Get a screenshot of a trade from thetagang.com."""
     log.info("Getting trade screenshot: %s", guid)
     trade = get_single_trade(guid)
-    username = trade['User']['username']
+    username = trade["User"]["username"]
     url = f"https://thetagang.com/{username}/{guid}"
 
     with sync_playwright() as p:
@@ -95,7 +94,7 @@ def get_trade_screenshot(guid):
         # Screenshot the div with the trade in it.
         temp_dir = tempfile.TemporaryDirectory().name
         screenshot_path = f"{temp_dir}/{guid}.png"
-        css_locator = '.col-xl-6 > div:nth-child(1) > div:nth-child(1)'
+        css_locator = ".col-xl-6 > div:nth-child(1) > div:nth-child(1)"
         page.locator(css_locator).screenshot(path=screenshot_path)
 
         browser.close()
