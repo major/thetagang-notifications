@@ -4,7 +4,6 @@ import pytest
 from thetagang_notifications import config, earnings
 from thetagang_notifications.earnings import EarningsReport
 
-
 # Example tweets for use with certain tests.
 UNKNOWN_CONSENSUS_TWEET = "$LFVN reported earnings of $0.25 via @eWhispers"
 BELOW_CONSENSUS_TWEET = (

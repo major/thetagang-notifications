@@ -1,11 +1,10 @@
 """Handle earnings updates."""
-from functools import cached_property
 import logging
 import re
+from functools import cached_property
 
-from discord_webhook import DiscordWebhook, DiscordEmbed
 import tweepy
-
+from discord_webhook import DiscordEmbed, DiscordWebhook
 
 from thetagang_notifications import config, utils
 

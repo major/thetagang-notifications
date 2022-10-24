@@ -2,7 +2,6 @@
 import pytest
 import requests_mock
 
-
 from thetagang_notifications import utils
 
 

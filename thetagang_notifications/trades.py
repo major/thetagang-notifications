@@ -1,17 +1,16 @@
 """Handle trades on thetagang.com."""
-from functools import cached_property
-from datetime import datetime
 import logging
 import os
 import sys
-import yaml
+from datetime import datetime
+from functools import cached_property
 
+import yaml
 from dateutil import parser
-from discord_webhook import DiscordWebhook, DiscordEmbed
-from tinydb import TinyDB, Query
+from discord_webhook import DiscordEmbed, DiscordWebhook
+from tinydb import Query, TinyDB
 
 from thetagang_notifications import config, thetaget, utils
-
 
 log = logging.getLogger(__name__)
 
@@ -95,7 +94,7 @@ class Trade:
     @property
     def discord_stats_single_leg_results(self):
         """Generate a report after a trade was closed."""
-        profit = "${:,.2f}".format(abs(self.trade['pl'] * 100))
+        profit = "${:,.2f}".format(abs(self.trade["pl"] * 100))
 
         # Check for assignment.
         if self.is_assigned:
@@ -149,12 +148,12 @@ class Trade:
     def initialize_db(self):
         """Ensure the database is initialized."""
         dbconn = TinyDB(config.MAIN_TINYDB)
-        self.db = dbconn.table('trades')
+        self.db = dbconn.table("trades")
 
     @property
     def is_assigned(self):
         """Determine if a closed trade had stock assignment."""
-        return self.trade.get('assigned', False)
+        return self.trade.get("assigned", False)
 
     @property
     def is_new(self):
@@ -165,14 +164,14 @@ class Trade:
     @property
     def is_open(self):
         """Determine if the trade is open."""
-        return True if not self.trade['close_date'] else False
+        return True if not self.trade["close_date"] else False
 
     @property
     def is_recently_closed(self):
         """Determine if the trade is closed."""
         Trade = Query()
         old_trade = self.db.get(Trade.guid == self.guid)
-        if not old_trade['close_date'] and self.trade['close_date']:
+        if not old_trade["close_date"] and self.trade["close_date"]:
             return True
 
         return False
@@ -195,7 +194,7 @@ class Trade:
     @property
     def is_winner(self):
         """Determine if a closed trade is a winner."""
-        return self.trade['win']
+        return self.trade["win"]
 
     def notify(self):
         """Send notification to Discord."""
@@ -252,17 +251,17 @@ class Trade:
 
         # Add thin and wide transparent png to keep the same width for all of
         # the notifications.
-        embed.set_image(url='https://major.io/transparent.png')
+        embed.set_image(url="https://major.io/transparent.png")
 
         embed.set_thumbnail(url=self.symbol_logo)
 
         # Assume a closing note by default.
-        trade_notes = self.trade['closing_note']
+        trade_notes = self.trade["closing_note"]
 
         # Use the original opening note if the trade is open or if it's a
         # common stock trade since stock trades have opening notes only.
         if not self.is_option_trade or self.is_open:
-            trade_notes = self.trade['note']
+            trade_notes = self.trade["note"]
 
         # Only add a footer if the user added a note.
         if trade_notes:
@@ -371,11 +370,8 @@ class Trade:
     def trade_spec(self):
         """Return the spec for this trade."""
         specFile = "thetagang_notifications/assets/trade_specs.yml"
-        with open(specFile, "r", encoding="utf-8") as fileh:
-            return [
-                x for x in yaml.safe_load(fileh)
-                if x["type"] == self.trade_type
-            ][0]
+        with open(specFile, encoding="utf-8") as fileh:
+            return [x for x in yaml.safe_load(fileh) if x["type"] == self.trade_type][0]
 
     @property
     def trade_type(self):
@@ -395,7 +391,7 @@ class Trade:
 
 def check_for_empty_db():
     """Check for an empty database to avoid blasting Discord."""
-    trade_obj = Trade({'test': 'test'})
+    trade_obj = Trade({"test": "test"})
 
     # Count rows in the database.
     trades_in_db = len(trade_obj.db.all())

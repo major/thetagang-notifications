@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Run tests
     steps:
-      
+
       - name: Clone repository
         uses: actions/checkout@v3
 
