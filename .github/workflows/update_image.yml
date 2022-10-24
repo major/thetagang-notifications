@@ -30,15 +30,30 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Install poetry
-        run: pipx install poetry
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-          architecture: x64
-          cache: 'poetry'
+
+      - name: Bootstrap poetry
+        run: |
+          curl -sL https://install.python-poetry.org | python - -y
+
+      - name: Configure poetry
+        run: poetry config virtualenvs.in-project true
+
+      - name: Set up cache
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Ensure cache is healthy
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: |
+          # Using `timeout` is a safeguard against the Poetry command hanging for some reason.
+          timeout 10s poetry run pip --version || rm -rf .venv
 
       - name: Install with poetry
         run: poetry install
@@ -47,9 +62,11 @@ jobs:
         run: poetry run playwright install chromium
 
       - name: Run tests
+        run: poetry run pytest
+
+      - name: Check for clean working tree
         run: |
-          poetry run flake8
-          poetry run pytest
+          git diff --exit-code --stat HEAD
 
   build-and-push-image:
     runs-on: ubuntu-latest
