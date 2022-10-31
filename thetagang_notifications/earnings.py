@@ -130,8 +130,6 @@ class EarningsReport:
             description=self.discord_description,
         )
         embed.set_thumbnail(url=self.logo)
-        # Temporarily disable the transparent image to make the embed less tall.
-        # embed.set_image(url=TRANSPARENT_PNG)
         return embed
 
     @property

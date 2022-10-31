@@ -37,7 +37,7 @@ def get_finviz_stock(symbol):
     """Get data about a stock from finviz."""
     try:
         return finviz.get_stock(symbol)
-    except Exception:
+    except Exception:  # noqa: PIE786
         return None
 
 
