@@ -58,9 +58,6 @@ jobs:
       - name: Install with poetry
         run: poetry install
 
-      - name: Install playwright browsers
-        run: poetry run playwright install chromium
-
       - name: Run tests
         run: poetry run pytest
 

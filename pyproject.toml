@@ -15,7 +15,6 @@ tweepy = "^4.5.0"
 PyYAML = "^6.0"
 finviz = "^1.4.4"
 tinydb = "^4.7.0"
-playwright = "^1.26.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
