@@ -61,8 +61,8 @@ class Trend:
     def is_new(self):
         """Determine if the trend is new."""
         table = self.db.table("trends")
-        Trend = Query()
-        return not table.contains(Trend.symbol == self.symbol)
+        trend = Query()
+        return not table.contains(trend.symbol == self.symbol)
 
     @property
     def logo(self):
@@ -101,8 +101,8 @@ class Trend:
     def save(self):
         """Add the trending ticker to the list of seen trending tickers."""
         table = self.db.table("trends")
-        Trend = Query()
-        table.upsert({"symbol": self.symbol}, Trend.symbol == self.symbol)
+        trend = Query()
+        table.upsert({"symbol": self.symbol}, trend.symbol == self.symbol)
 
     @property
     def stock_chart(self):

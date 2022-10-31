@@ -36,7 +36,7 @@ class Trade:
             case _:
                 return None
 
-        return "{:,.2f}".format(breakeven)
+        return f"{breakeven:.2f}"
 
     @property
     def discord_title(self):
@@ -94,7 +94,8 @@ class Trade:
     @property
     def discord_stats_single_leg_results(self):
         """Generate a report after a trade was closed."""
-        profit = "${:,.2f}".format(abs(self.trade["pl"] * 100))
+        profit_value = abs(self.trade["pl"] * 100)
+        profit = f"${profit_value:.2f}"
 
         # Check for assignment.
         if self.is_assigned:
@@ -115,8 +116,7 @@ class Trade:
         if not self.is_option_trade:
             emoji = ""
 
-        title = f"{emoji}{self.symbol}: {self.trade_type}\n"
-        return title
+        return f"{emoji}{self.symbol}: {self.trade_type}\n"
 
     def get_discord_title_single_leg(self):
         """Generate Discord title for a single leg option trade."""
@@ -158,23 +158,20 @@ class Trade:
     @property
     def is_new(self):
         """Determine if the trade is new."""
-        Trade = Query()
-        return not self.db.contains(Trade.guid == self.guid)
+        trade = Query()
+        return not self.db.contains(trade.guid == self.guid)
 
     @property
     def is_open(self):
         """Determine if the trade is open."""
-        return True if not self.trade["close_date"] else False
+        return not self.trade["close_date"]
 
     @property
     def is_recently_closed(self):
         """Determine if the trade is closed."""
-        Trade = Query()
-        old_trade = self.db.get(Trade.guid == self.guid)
-        if not old_trade["close_date"] and self.trade["close_date"]:
-            return True
-
-        return False
+        trade = Query()
+        old_trade = self.db.get(trade.guid == self.guid)
+        return not old_trade["close_date"] and self.trade["close_date"]
 
     @property
     def is_option_trade(self):
@@ -288,7 +285,7 @@ class Trade:
     @property
     def pretty_premium(self):
         """Return the price filled in a nice currency format."""
-        return "${:,.2f}".format(self.trade["price_filled"])
+        return f"${self.trade['price_filled']:.2f}"
 
     @property
     def quantity(self):
@@ -322,8 +319,8 @@ class Trade:
 
     def save(self):
         """Add the trending ticker to the list of seen trending tickers."""
-        Trade = Query()
-        self.db.upsert(self.trade, Trade.guid == self.guid)
+        trade = Query()
+        self.db.upsert(self.trade, trade.guid == self.guid)
 
     @property
     def short_return(self):
@@ -369,8 +366,8 @@ class Trade:
     @cached_property
     def trade_spec(self):
         """Return the spec for this trade."""
-        specFile = "thetagang_notifications/assets/trade_specs.yml"
-        with open(specFile, encoding="utf-8") as fileh:
+        spec_file = "thetagang_notifications/assets/trade_specs.yml"
+        with open(spec_file, encoding="utf-8") as fileh:
             return [x for x in yaml.safe_load(fileh) if x["type"] == self.trade_type][0]
 
     @property

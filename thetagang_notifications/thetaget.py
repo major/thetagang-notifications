@@ -21,9 +21,7 @@ def day_diff(trade_date):
 
 def filter_recent(trades):
     """Limit trades to the most recent ones."""
-    valid_trades = [x for x in trades if day_diff(x["updatedAt"]) <= 2]
-
-    return valid_trades
+    return [x for x in trades if day_diff(x["updatedAt"]) <= 2]
 
 
 def get_patron_trades():
