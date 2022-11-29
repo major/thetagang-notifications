@@ -251,17 +251,17 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "discord-webhook"
-version = "0.17.0"
+version = "1.0.0"
 description = "execute discord webhooks"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-requests = ">=2.19.1"
+requests = ">=2.28.1,<3.0.0"
 
 [package.extras]
-async = ["httpx (>=0.20.0)"]
+async = ["httpx (>=0.23.0,<0.24.0)"]
 
 [[package]]
 name = "distlib"
@@ -1218,7 +1218,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2277e345e687a7d76cadd7bff18c43aafbc3347d2dacbd95f467778020ef0663"
+content-hash = "bb9a2fad5e38b7db8d98148d2ecc4d05d31d2ce9c0271831f17674d799e39a5d"
 
 [metadata.files]
 aiohttp = [
@@ -1458,8 +1458,8 @@ dill = [
     {file = "dill-0.3.6.tar.gz", hash = "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"},
 ]
 discord-webhook = [
-    {file = "discord-webhook-0.17.0.tar.gz", hash = "sha256:bb47e5fc83f73614d7b2a3764b84359b52c96a94aadf3302bc3c067dd21b43cc"},
-    {file = "discord_webhook-0.17.0-py3-none-any.whl", hash = "sha256:d869849c4834f928f5c22597dc7600b1a30f9e797d1aeb1d4196711a243d9a73"},
+    {file = "discord-webhook-1.0.0.tar.gz", hash = "sha256:b1ef5ae80ec9b28c978b7dbff07b9db2fd6597d728ac0524b27cd02336cedfca"},
+    {file = "discord_webhook-1.0.0-py3-none-any.whl", hash = "sha256:b4bb897d32509c5bedc6e1c8485431e8ba81eff5bec28a969c9fe33552a08da4"},
 ]
 distlib = [
     {file = "distlib-0.3.6-py2.py3-none-any.whl", hash = "sha256:f35c4b692542ca110de7ef0bea44d73981caeb34ca0b9b6b2e6d7790dda8f80e"},
