@@ -580,25 +580,25 @@ testing = ["covdefaults (>=2.2)", "coverage (>=6.4.2)", "pytest (>=7.1.2)", "pyt
 
 [[package]]
 name = "finviz"
-version = "1.4.4"
+version = "1.4.5"
 description = "Unofficial API for FinViz.com"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = "^3.8"
 files = [
-    {file = "finviz-1.4.4.tar.gz", hash = "sha256:9772060a070d59e8d1045ffbe826553d15f189fab43074b50bf7a510b5360172"},
+    {file = "finviz-1.4.5.tar.gz", hash = "sha256:524a975a1d2c410d33468e63227e79f23199e303b613eb53ca9308477a743634"},
 ]
 
 [package.dependencies]
-aiohttp = "*"
-beautifulsoup4 = "*"
-cssselect = "*"
-lxml = "*"
-requests = "*"
-tenacity = "*"
-tqdm = "*"
-urllib3 = "*"
-user_agent = "*"
+aiohttp = ">=3.7.4,<4.0.0"
+beautifulsoup4 = ">=4.9.3,<5.0.0"
+cssselect = ">=1.1.0,<2.0.0"
+lxml = ">=4.6.3,<5.0.0"
+requests = ">=2.25.1,<3.0.0"
+tenacity = ">=7.0.0,<8.0.0"
+tqdm = ">=4.61.1,<5.0.0"
+urllib3 = ">=1.26.5,<2.0.0"
+user_agent = ">=0.1.9,<0.2.0"
 
 [[package]]
 name = "flake8"
@@ -1787,15 +1787,18 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "tenacity"
-version = "8.1.0"
+version = "7.0.0"
 description = "Retry code until it succeeds"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = "*"
 files = [
-    {file = "tenacity-8.1.0-py3-none-any.whl", hash = "sha256:35525cd47f82830069f0d6b73f7eb83bc5b73ee2fff0437952cedf98b27653ac"},
-    {file = "tenacity-8.1.0.tar.gz", hash = "sha256:e48c437fdf9340f5666b92cd7990e96bc5fc955e1298baf4a907e3972067a445"},
+    {file = "tenacity-7.0.0-py2.py3-none-any.whl", hash = "sha256:a0ce48587271515db7d3a5e700df9ae69cce98c4b57c23a4886da15243603dd8"},
+    {file = "tenacity-7.0.0.tar.gz", hash = "sha256:5bd16ef5d3b985647fe28dfa6f695d343aa26479a04e8792b9d3c8f49e361ae1"},
 ]
+
+[package.dependencies]
+six = ">=1.9.0"
 
 [package.extras]
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
