@@ -26,5 +26,8 @@ TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
 TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
 TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
+# API key for secret thetagang.com API endpoints. 😉
+TRADES_API_KEY = os.getenv("TRADES_API_KEY")
+
 # Discord username.
 DISCORD_USERNAME = "🤠 🤖"
