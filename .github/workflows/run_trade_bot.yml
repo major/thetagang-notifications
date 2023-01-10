@@ -40,6 +40,7 @@ jobs:
         env:
           STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
+          TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
         run: |
           # Prime the db if it is new.
           if [ ! -f storage/thetagang-notifications.tinydb ]; then
