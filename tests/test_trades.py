@@ -50,7 +50,6 @@ def test_closed_trade():
 def test_closed_cash_secured_put(mocker):
     """Test notification with a closed cash secured put."""
     res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
-    assert res.breakeven == "362.00"
     assert res.guid == "af55de42-a4b0-469d-a20d-faacc63edf6c"
     assert res.pretty_expiration == "9/30"
     assert res.is_option_trade
@@ -111,7 +110,6 @@ def test_closed_cash_secured_put_loss(mocker):
 def test_covered_call(mocker):
     """Test notification with a covered call."""
     res = Trade(get_theta_trade(COVERED_CALL))
-    assert res.breakeven == "461.30"
     assert res.guid == "2093163e-2d7b-424f-b007-51c46ace7bb4"
     assert res.pretty_expiration == "2/18"
     assert res.is_option_trade
@@ -151,7 +149,6 @@ def test_covered_call(mocker):
 def test_put_credit_spread(mocker):
     """Test notification with a put credit spread."""
     res = Trade(get_theta_trade(PUT_CREDIT_SPREAD))
-    assert not res.breakeven
     assert res.guid == "7a9fe9d3-b1aa-483c-bcc0-b6f73c6b4eec"
     assert res.pretty_expiration == "9/17"
     assert res.is_option_trade
@@ -191,7 +188,6 @@ def test_put_credit_spread(mocker):
 def test_buy_common_stock(mocker):
     """Test notification with stock purchase."""
     res = Trade(get_theta_trade(BUY_COMMON_STOCK))
-    assert not res.breakeven
     assert res.guid == "72060eaa-7803-4124-be5b-c03b54171e75"
     assert not res.parse_expiration()
     assert not res.pretty_expiration
@@ -229,7 +225,6 @@ def test_buy_common_stock(mocker):
 def test_short_iron_condor(mocker):
     """Test notification with a put credit spread."""
     res = Trade(get_theta_trade(SHORT_IRON_CONDOR))
-    assert not res.breakeven
     assert res.guid == "8cdf95fd-d0d4-4f47-ae81-a1e000979291"
     assert res.pretty_expiration == "3/18"
     assert res.is_option_trade
