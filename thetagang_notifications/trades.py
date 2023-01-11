@@ -10,7 +10,7 @@ from dateutil import parser
 from discord_webhook import DiscordEmbed, DiscordWebhook
 from tinydb import Query, TinyDB
 
-from thetagang_notifications import config, thetaget_v2, utils
+from thetagang_notifications import config, thetaget_v2, trade_math, utils
 
 log = logging.getLogger(__name__)
 
@@ -22,21 +22,6 @@ class Trade:
         """Initialize the basics of the class."""
         self.trade = trade
         self.initialize_db()
-
-    @property
-    def breakeven(self):
-        """Return the breakeven on a cash secured or naked put."""
-        match self.trade_type:
-            case "CASH SECURED PUT":
-                strike = self.trade["short_put"]
-                breakeven = float(strike) - self.trade["price_filled"]
-            case "COVERED CALL" | "SHORT NAKED CALL":
-                strike = self.trade["short_call"]
-                breakeven = float(strike) + self.trade["price_filled"]
-            case _:
-                return None
-
-        return f"{breakeven:.2f}"
 
     @property
     def discord_title(self):
@@ -83,8 +68,9 @@ class Trade:
         """Generate stats for a single leg option."""
         # Only support single leg *short* options right now.
         if self.is_single_option and self.is_short:
+            breakeven = trade_math.breakeven(self.trade)
             return (
-                f"${self.breakeven} breakeven\n"
+                f"${breakeven} breakeven\n"
                 f"{self.short_return}% potential return "
                 f"({self.short_return_annualized}% annualized)\n"
             )
