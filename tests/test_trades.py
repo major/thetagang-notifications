@@ -262,11 +262,6 @@ def test_short_iron_condor(mocker):
 
     mock_exec.assert_called_once()
 
-    # Also verify that we don't alert for the same trade twice.
-    mock_exec.reset_mock()
-    res.notify()
-    mock_exec.assert_not_called()
-
 
 @pytest.mark.vcr()
 def test_closed_description_assigned():

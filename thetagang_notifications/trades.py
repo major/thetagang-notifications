@@ -1,7 +1,5 @@
 """Handle trades on thetagang.com."""
 import logging
-import os
-import sys
 from datetime import datetime
 from functools import cached_property
 
@@ -181,17 +179,6 @@ class Trade:
 
     def notify(self):
         """Send notification to Discord."""
-
-        if os.environ.get("PRIME_DATABASE", None) == "yes":
-            log.info("Priming database with trade %s", self.guid)
-            self.save()
-            return None
-
-        # Skip old trades that are still open.
-        if not self.is_new and not self.is_recently_closed:
-            log.info("👀 Old trade still open: %s", self.trade_url)
-            return None
-
         webhook = DiscordWebhook(
             url=config.WEBHOOK_URL_TRADES,
             rate_limit_retry=True,
@@ -352,23 +339,8 @@ class Trade:
         return self.trade["User"]["username"]
 
 
-def check_for_empty_db():
-    """Check for an empty database to avoid blasting Discord."""
-    trade_obj = Trade({"test": "test"})
-
-    # Count rows in the database.
-    trades_in_db = len(trade_obj.db.all())
-
-    # Stop now if the database is empty and PRIME_DATABASE is not set.
-    if trades_in_db < 1 and os.environ.get("PRIME_DATABASE", None) != "yes":
-        log.error("Database is empty and PRIME_DATABASE is not set")
-        sys.exit()
-
-
 def main():
     """Handle updates for trades."""
-    check_for_empty_db()
-
     for queued_trade in trade_queue.build_queue():
         trade_obj = Trade(queued_trade)
         trade_obj.notify()
