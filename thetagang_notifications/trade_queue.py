@@ -36,10 +36,11 @@ def process_trade(trade) -> list:
         db_state = db.get(guid, None)
 
         if not db_state or (db_state != trade_status(trade)):
-            log.info("db_state: %s", db_state)
+            log.info("📥 Enqueueing trade: %s", db_state)
             db[guid] = trade_status(trade)
             return trade
 
+    log.info("❌ Nothing changed on trade: %s", guid)
     return []
 
 
