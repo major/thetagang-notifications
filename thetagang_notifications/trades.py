@@ -10,7 +10,7 @@ from dateutil import parser
 from discord_webhook import DiscordEmbed, DiscordWebhook
 from tinydb import Query, TinyDB
 
-from thetagang_notifications import config, thetaget_v2, trade_math, utils
+from thetagang_notifications import config, trade_math, trade_queue, utils
 
 log = logging.getLogger(__name__)
 
@@ -369,12 +369,9 @@ def main():
     """Handle updates for trades."""
     check_for_empty_db()
 
-    downloaded_trades = thetaget_v2.get_trades()
-    for downloaded_trade in downloaded_trades:
-        trade_obj = Trade(downloaded_trade)
+    for queued_trade in trade_queue.build_queue():
+        trade_obj = Trade(queued_trade)
         trade_obj.notify()
-
-    return downloaded_trades
 
 
 if __name__ == "__main__":  # pragma: no cover
