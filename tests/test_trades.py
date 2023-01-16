@@ -24,27 +24,6 @@ def get_theta_trade(guid):
     return requests.get(url).json()["data"]["trade"]
 
 
-def test_closed_trade():
-    """Test a closed trade."""
-    res = Trade(get_theta_trade(CASH_SECURED_PUT))
-
-    # Capture the closed date and remove it from the trade.
-    close_date = res.trade["close_date"]
-    res.trade["close_date"] = None
-
-    # Save the trade as a new trade.
-    res.save()
-
-    # This shouldn't be a closed trade (yet).
-    assert not res.is_recently_closed
-
-    # Mark it as closed.
-    res.trade["close_date"] = close_date
-
-    # It should now be closed.
-    assert res.is_recently_closed
-
-
 @pytest.mark.vcr()
 @freeze_time("2022-09-28")
 def test_closed_cash_secured_put(mocker):

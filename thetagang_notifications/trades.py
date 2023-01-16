@@ -6,7 +6,6 @@ from functools import cached_property
 import yaml
 from dateutil import parser
 from discord_webhook import DiscordEmbed, DiscordWebhook
-from tinydb import Query, TinyDB
 
 from thetagang_notifications import config, trade_math, trade_queue, utils
 
@@ -19,7 +18,6 @@ class Trade:
     def __init__(self, trade):
         """Initialize the basics of the class."""
         self.trade = trade
-        self.initialize_db()
 
     @property
     def discord_title(self):
@@ -129,33 +127,15 @@ class Trade:
         # just as thetagang.com does. 😉
         return (self.parse_expiration() - datetime.now()).days + 1
 
-    def initialize_db(self):
-        """Ensure the database is initialized."""
-        dbconn = TinyDB(config.MAIN_TINYDB)
-        self.db = dbconn.table("trades")
-
     @property
     def is_assigned(self):
         """Determine if a closed trade had stock assignment."""
         return self.trade.get("assigned", False)
 
     @property
-    def is_new(self):
-        """Determine if the trade is new."""
-        trade = Query()
-        return not self.db.contains(trade.guid == self.guid)
-
-    @property
     def is_open(self):
         """Determine if the trade is open."""
         return not self.trade["close_date"]
-
-    @property
-    def is_recently_closed(self):
-        """Determine if the trade is closed."""
-        trade = Query()
-        old_trade = self.db.get(trade.guid == self.guid)
-        return not old_trade["close_date"] and self.trade["close_date"]
 
     @property
     def is_option_trade(self):
@@ -186,9 +166,6 @@ class Trade:
         )
         webhook.add_embed(self.prepare_embed())
         webhook.execute()
-
-        # Record this trade so we don't alert for it again.
-        self.save()
 
         return webhook
 
@@ -269,11 +246,6 @@ class Trade:
         }
         # Make a string from the generic list of strikes.
         return "/".join([f"${v}" for k, v in strikes.items() if v is not None])
-
-    def save(self):
-        """Add the trending ticker to the list of seen trending tickers."""
-        trade = Query()
-        self.db.upsert(self.trade, trade.guid == self.guid)
 
     @property
     def short_return(self):

@@ -1835,18 +1835,6 @@ six = ">=1.9.0"
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
 
 [[package]]
-name = "tinydb"
-version = "4.7.1"
-description = "TinyDB is a tiny, document oriented database optimized for your happiness :)"
-category = "main"
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "tinydb-4.7.1-py3-none-any.whl", hash = "sha256:1534e498ca23f55c43b0f1e7c0cf174049498ab45a887c82ba9831e0f9868df3"},
-    {file = "tinydb-4.7.1.tar.gz", hash = "sha256:8955c239a79b8a6c8f637900152e2de38690848199d71d870c33c16405433ca5"},
-]
-
-[[package]]
 name = "tld"
 version = "0.12.6"
 description = "Extract the top-level domain (TLD) from the URL given."
@@ -2234,4 +2222,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "43ad9aca2649b5ba9985546312478fd8e4f6c95c8d8c05e00507aa351e6ef1bf"
+content-hash = "972cfbfa13b79e7c75339dd88978f490d1dddff07860e236f7e489f4b6b9dbb5"
