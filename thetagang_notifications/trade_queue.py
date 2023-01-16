@@ -27,21 +27,20 @@ def get_trades() -> list:
     return trades
 
 
-def process_trade(trade) -> dict:
+def process_trade(trade) -> list:
     """Determine how to handle a trade returned by the API."""
     guid = trade["guid"]
 
     with dbm.open(f"{config.STORAGE_DIR}/trades.dbm", "c") as db:
 
-        # Get the current state from the database.
         db_state = db.get(guid, None)
 
-        # Notify on trades that are new or have changed status since our last check.
         if not db_state or (db_state != trade_status(trade)):
+            log.info("db_state: %s", db_state)
             db[guid] = trade_status(trade)
             return trade
 
-    return None
+    return []
 
 
 def trade_status(trade) -> bytes:

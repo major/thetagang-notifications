@@ -58,7 +58,7 @@ def test_process_trade_closed():
     assert process_trade(trade) == trade
 
     # The same open trade should not be enqueued.
-    assert process_trade(trade) is None
+    assert process_trade(trade) == []
 
     # Finally, the closed trade should be enqueued.
     trade["close_date"] = "2020-01-01"
