@@ -1,6 +1,7 @@
 """Test the trade queue builder."""
 from unittest.mock import MagicMock, patch
 
+from thetagang_notifications import config
 from thetagang_notifications.trade_queue import (
     build_queue,
     get_trades,
@@ -19,8 +20,10 @@ MOCKED_TRADES = {
 
 
 @patch("thetagang_notifications.trade_queue.get_trades")
-def test_build_queue(mock_get_trades):
+def test_build_queue(mock_get_trades, tmp_path):
     """Test build_queue()."""
+    config.STORAGE_DIR = tmp_path
+
     mock_get_trades.return_value = MOCKED_TRADES["data"]["trades"]
     new_queue = build_queue()
     assert len(new_queue) == 2
@@ -45,14 +48,18 @@ def test_get_trades(mock_requests):
     assert trades[1]["close_date"] is None
 
 
-def test_process_trade_new():
+def test_process_trade_new(tmp_path):
     """Test process_trade() for new trades."""
+    config.STORAGE_DIR = tmp_path
+
     trade = {"guid": "1a", "close_date": None}
     assert process_trade(trade) == trade
 
 
-def test_process_trade_closed():
+def test_process_trade_closed(tmp_path):
     """Test process_trade() for closed trades."""
+    config.STORAGE_DIR = tmp_path
+
     # Start with an open trade.
     trade = {"guid": "1a", "close_date": None}
     assert process_trade(trade) == trade

@@ -43,7 +43,7 @@ jobs:
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
         run: poetry run ./run_trades
 
-      - name: Compress and move urlwatch cache db
+      - name: Compress and move trades db
         run: |
           mkdir -vp database
           gzip -vc storage/trades.dbm > database/trades.dbm.gz
