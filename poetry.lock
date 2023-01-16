@@ -1835,14 +1835,14 @@ doc = ["reno", "sphinx", "tornado (>=4.5)"]
 
 [[package]]
 name = "tinydb"
-version = "4.7.0"
+version = "4.7.1"
 description = "TinyDB is a tiny, document oriented database optimized for your happiness :)"
 category = "main"
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = ">=3.7,<4.0"
 files = [
-    {file = "tinydb-4.7.0-py3-none-any.whl", hash = "sha256:e2cdf6e2dad49813e9b5fceb3c7943387309a8738125fbff0b58d248a033f7a9"},
-    {file = "tinydb-4.7.0.tar.gz", hash = "sha256:357eb7383dee6915f17b00596ec6dd2a890f3117bf52be28a4c516aeee581100"},
+    {file = "tinydb-4.7.1-py3-none-any.whl", hash = "sha256:1534e498ca23f55c43b0f1e7c0cf174049498ab45a887c82ba9831e0f9868df3"},
+    {file = "tinydb-4.7.1.tar.gz", hash = "sha256:8955c239a79b8a6c8f637900152e2de38690848199d71d870c33c16405433ca5"},
 ]
 
 [[package]]
