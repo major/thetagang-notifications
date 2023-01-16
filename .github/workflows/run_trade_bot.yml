@@ -28,9 +28,9 @@ jobs:
           #!/bin/bash
           mkdir storage
           git fetch --all
-          if git checkout origin/trades-db thetagang-notifications.tinydb.gz; then
-            mv thetagang-notifications.tinydb.gz storage/
-            gunzip -v storage/thetagang-notifications.tinydb.gz
+          if git checkout origin/trades-db trades.dbm.gz; then
+            mv trades.dbm.gz storage/
+            gunzip -v storage/trades.dbm.gz
           fi
 
       - name: Install with poetry
@@ -41,17 +41,12 @@ jobs:
           STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
-        run: |
-          # Prime the db if it is new.
-          if [ ! -f storage/thetagang-notifications.tinydb ]; then
-            export PRIME_DATABASE=yes
-          fi
-          poetry run ./run_trades
+        run: poetry run ./run_trades
 
       - name: Compress and move urlwatch cache db
         run: |
           mkdir -vp database
-          gzip -vc storage/thetagang-notifications.tinydb > database/thetagang-notifications.tinydb.gz
+          gzip -vc storage/trades.dbm > database/trades.dbm.gz
 
       - name: Store cache database
         uses: s0/git-publish-subdir-action@develop
