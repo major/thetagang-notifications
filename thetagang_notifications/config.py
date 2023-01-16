@@ -14,12 +14,6 @@ TRADES_JSON_URL = "https://api.thetagang.com/trades"
 WEBHOOK_URL_EARNINGS = os.environ.get("WEBHOOK_URL_EARNINGS")
 WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES")
 
-# Twitter credentials.
-TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
-TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
-TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
-TWITTER_ACCESS_TOKEN_SECRET = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
-
 # API key for secret thetagang.com API endpoints. 😉
 TRADES_API_KEY = os.getenv("TRADES_API_KEY")
 
