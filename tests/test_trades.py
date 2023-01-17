@@ -1,6 +1,7 @@
 """Tests for trades functions."""
 import pytest
 import requests
+from freezegun import freeze_time
 
 from thetagang_notifications.trades import Trade
 
@@ -21,6 +22,21 @@ def get_theta_trade(guid):
     """Get an example thetagang.com trade from the site."""
     url = f"https://api.thetagang.com/trades/{guid}"
     return requests.get(url).json()["data"]["trade"]
+
+
+@freeze_time("2022-01-01")
+@pytest.mark.vcr()
+def test_dte():
+    """Test the DTE calculation."""
+    trade = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert trade.dte == 49
+
+
+@pytest.mark.vcr()
+def test_is_assigned():
+    """Test that the trade is assigned."""
+    trade = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert trade.is_assigned
 
 
 @pytest.mark.vcr()
