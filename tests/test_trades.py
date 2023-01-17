@@ -53,10 +53,10 @@ def test_is_closed():
 def test_is_option_trade():
     """Test is_option_trade."""
     trade = Trade(get_theta_trade(CASH_SECURED_PUT))
-    assert trade.is_option_trade is True
+    assert trade.is_option_trade
 
     trade = Trade(get_theta_trade(BUY_COMMON_STOCK))
-    assert trade.is_option_trade is False
+    assert not trade.is_option_trade
 
 
 @pytest.mark.vcr()
