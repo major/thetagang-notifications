@@ -247,11 +247,6 @@ class Trade:
         return self.trade["quantity"]
 
     @property
-    def sentiment(self):
-        """Determine if trade is bearish, bullish, or neutral."""
-        return self.trade_spec["sentiment"]
-
-    @property
     def guid(self):
         """Get the GUID of the trade."""
         return self.trade["guid"]
