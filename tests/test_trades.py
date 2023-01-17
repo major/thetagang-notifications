@@ -54,7 +54,7 @@ def test_closed_cash_secured_put(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == ("🏁 SPY: CASH SECURED PUT\n1 x 9/30 $366p for $4.00")
+    assert embed["title"] == "🏁 SPY: CASH SECURED PUT\n1 x 9/30 $366p for $4.00"
     assert embed["description"].startswith("🟢 WIN: +$200.00")
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
@@ -77,7 +77,7 @@ def test_closed_cash_secured_put_loss(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == ("🏁 HUT: CASH SECURED PUT\n1 x 1/21 $10p for $1.30")
+    assert embed["title"] == "🏁 HUT: CASH SECURED PUT\n1 x 1/21 $10p for $1.30"
     assert embed["description"].startswith("🔴 LOSS: ($237.00)")
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
@@ -156,7 +156,7 @@ def test_put_credit_spread(mocker):
     assert hook.username == config.DISCORD_USERNAME
 
     embed = hook.embeds[0]
-    assert embed["title"] == ("🚀 DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175 for $1.54")
+    assert embed["title"] == "🚀 DIS: PUT CREDIT SPREAD\n1 x 9/17 $170/$175 for $1.54"
     assert embed["thumbnail"]["url"] == res.symbol_logo
 
     mock_exec.assert_called_once()
