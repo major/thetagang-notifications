@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Run the trades bot."""
+"""Run the trade bot."""
 import logging
 
 from thetagang_notifications.trade_queue import build_queue
