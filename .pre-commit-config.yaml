@@ -96,3 +96,11 @@ repos:
           - types-python-dateutil
           - types-requests
           - types-PyYAML
+  - repo: local
+    hooks:
+    -   id: wily
+        name: wily
+        entry: wily diff
+        verbose: true
+        language: python
+        additional_dependencies: [wily]
