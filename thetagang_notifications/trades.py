@@ -7,7 +7,7 @@ import yaml
 from dateutil import parser
 from discord_webhook import DiscordEmbed, DiscordWebhook
 
-from thetagang_notifications import config, trade_math, trade_queue, utils
+from thetagang_notifications import config, trade_math, utils
 
 log = logging.getLogger(__name__)
 
@@ -320,14 +320,3 @@ class Trade:
     def username(self):
         """Get username of the person making the trade."""
         return self.trade["User"]["username"]
-
-
-def main():
-    """Handle updates for trades."""
-    for queued_trade in trade_queue.build_queue():
-        trade_obj = Trade(queued_trade)
-        trade_obj.notify()
-
-
-if __name__ == "__main__":  # pragma: no cover
-    main()

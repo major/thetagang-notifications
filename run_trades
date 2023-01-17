@@ -2,7 +2,8 @@
 """Run the trades bot."""
 import logging
 
-from thetagang_notifications import trades
+from thetagang_notifications.trade_queue import build_queue
+from thetagang_notifications.trades import Trade
 
 # Setup our shared logger.
 log = logging.getLogger(__name__)
@@ -10,4 +11,6 @@ log.info("🚀 Running thetagang trades bot")
 
 
 if __name__ == "__main__":
-    trades.main()
+    for queued_trade in build_queue():
+        trade = Trade(queued_trade)
+        trade.notify()
