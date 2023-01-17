@@ -133,6 +133,11 @@ class Trade:
         return self.trade.get("assigned", False)
 
     @property
+    def is_closed(self):
+        """Determine if the trade is closed."""
+        return not self.is_open
+
+    @property
     def is_open(self):
         """Determine if the trade is open."""
         # NOTE(mhayden): Stock trades are ALWAYS closed immediately.
@@ -142,6 +147,11 @@ class Trade:
     def is_option_trade(self):
         """Determine if the trade is an options trade."""
         return self.trade_spec["option_trade"]
+
+    @property
+    def is_stock_trade(self):
+        """Determine if the trade is an options trade."""
+        return not self.trade_spec["option_trade"]
 
     @property
     def is_short(self):
@@ -162,6 +172,14 @@ class Trade:
     def is_winner(self):
         """Determine if a closed trade is a winner."""
         return self.trade["win"]
+
+    @property
+    def note(self):
+        """Return the note for the trade."""
+        if self.is_open or self.is_stock_trade:
+            return self.trade["note"]
+
+        return self.trade["closing_note"]
 
     def notify(self):
         """Send notification to Discord."""
