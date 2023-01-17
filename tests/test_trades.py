@@ -276,3 +276,27 @@ def test_stats_single_leg_invalid():
     stats = res.discord_stats_single_leg
 
     assert stats == ""
+
+
+def test_is_single_leg():
+    """Test single leg trade."""
+    res = Trade({"type": "COVERED CALL"})
+    assert res.is_single_leg
+
+
+def test_not_single_leg():
+    """Test a multiple leg trade."""
+    res = Trade({"type": "SHORT STRANGLE"})
+    assert not res.is_single_leg
+
+
+def test_is_multiple_leg():
+    """Test a multiple leg trade."""
+    res = Trade({"type": "SHORT STRANGLE"})
+    assert res.is_multiple_leg
+
+
+def test_is_not_multiple_leg():
+    """Test a single leg trade."""
+    res = Trade({"type": "COVERED CALL"})
+    assert not res.is_multiple_leg

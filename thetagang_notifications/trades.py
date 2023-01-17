@@ -26,7 +26,7 @@ class Trade:
         if self.is_option_trade and self.is_single_leg:
             # We have a long/short single leg trade.
             title += self.get_discord_title_single_leg()
-        elif self.is_option_trade and not self.is_single_leg:
+        elif self.is_option_trade and self.is_multiple_leg:
             # We have a multiple leg option trade, like a spread.
             title += self.get_discord_title_multiple_leg()
         else:
@@ -51,7 +51,7 @@ class Trade:
             return self.discord_stats_single_leg_results + links
 
         # Just show links if this is not a short single leg option.
-        if not self.is_single_leg or not self.is_short:
+        if self.is_multiple_leg or not self.is_short:
             return links
 
         if self.is_open:
@@ -149,8 +149,13 @@ class Trade:
         return self.trade_spec["short"]
 
     @property
+    def is_multiple_leg(self):
+        """Determine if the trade is a multiple leg option trade."""
+        return not self.trade_spec["single_leg"]
+
+    @property
     def is_single_leg(self):
-        """Determine if the trade is a single option trade."""
+        """Determine if the trade is a single leg option trade."""
         return self.trade_spec["single_leg"]
 
     @property
@@ -266,7 +271,7 @@ class Trade:
     def short_return_annualized(self):
         """Get the annualized return on a short option."""
         # Avoid 0 DTE situations.
-        if not self.is_single_leg or self.dte < 1:
+        if self.is_multiple_leg or self.dte < 1:
             return None
 
         return round((self.short_return / self.dte) * 365, 2)
@@ -279,7 +284,7 @@ class Trade:
     @property
     def strike(self):
         """Get the strike for a single option trade."""
-        if not self.is_single_leg:
+        if self.is_multiple_leg:
             return None
 
         return self.trade[self.trade_spec["strikes"][0]]
