@@ -151,7 +151,7 @@ class Trade:
     @property
     def is_single_leg(self):
         """Determine if the trade is a single option trade."""
-        return self.trade_spec["single_option"]
+        return self.trade_spec["single_leg"]
 
     @property
     def is_winner(self):
