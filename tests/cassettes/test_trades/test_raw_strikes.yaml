@@ -36,7 +36,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78b29426ce5f2e7f-DFW
+      - 78b2a11dca55e524-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -44,17 +44,80 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 17 Jan 2023 22:38:01 GMT
+      - Tue, 17 Jan 2023 22:46:52 GMT
       Etag:
       - W/"580-TD3aGOmaIaF+FzTpJ9cITdUVCKs"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=Eio5x4Y6mkSYqSeaM8SXOzc91saT0KZqXNPr9EYPpCiYFSxKseq1LYg5vnnbfUJvesbgsuOUOoOinwFQfPx6R0weipZx7d8xGOD6pfdFIBs5VPYj8kVvh1jEMlftVd9r8ySy"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=jytYHSDBcEf2JR%2B0KZEqWke00cVeDvfoKe83nWUKRPbRW4rdFL6Lj5uSvB0PsYVn%2BtWLBQpjywrSAazT2%2FK11pzy4rPpwYlsN6uP4nCmp6AomBAMCP2OgvOSOAh8pdxPjlQf"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
-      Transfer-Encoding:
-      - chunked
+      Vary:
+      - Origin
+      Via:
+      - 1.1 vegur
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1673995855'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.2
+    method: GET
+    uri: https://api.thetagang.com/trades/8cdf95fd-d0d4-4f47-ae81-a1e000979291
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA4xTUY7bNhS8CvEAIz+SSlqSbfEvaD66QJBdeJ0CaR0ItPgkE6ZJhXzK1gj2qwfo
+        IXqJnKcX6BUK2t5FFkGACgJIDec9ckbDLxBJ0RRBzjnPQCtSIL8ABaUxTUYLMhdF3bx8Mhgmo0HC
+        qtN9U/c611xXedVXy1zhSuRKIOe8WTbzRkAG+MdowqnVihAkzPl8nvMyF6sNX0rOJecF5/w3yKCz
+        PuJ3vOVGNLLkcl4WzWKReH5E95KW3s2cS1HLsirqpUi0eDruvAUJdx/u3kIGxhkyyoLslY2YwadJ
+        OTJ0AikyoNOY2t3/crvesJv17Tv28+27N7dryGBUpyM6AgldQG0IMngw7rnNFDG0V0eqxaKul1Wd
+        i0qLvKq7Pt+ViudVv9itaj7HstlBBqQGkG6yNoO494HacUrthaghA+vd8AxweKJ0yiYtouZPnGck
+        VY3BdNj2xlrUIEWxfILOpmqQZVFenfs0+WTdZf+L5y8gFaMZXKq5KkQVnHFDfAboAZHapPhSkdqi
+        bvUUjBvaowoHpHbvpxBfbPN/GDvsfcD2nBlFxrundXc+ISzLGRtrzrZO3L/Zus5bix2hZuKncutu
+        Ps9Y0xSLrVvf37D5Yuu27p6U0ypo1nmnfWC9D+yIBXvr/cG44fyt0iIF1aUdme/Zza9sjwELVvIZ
+        u9uwiMR2EzHTM0NMe4zuFbG9IbY7MdojQ6dTXZo+IB6YsZZ1e+UGZORZzWeMEvSNrovkZMdVWkIC
+        KkL9mn6Y7DIlexr1t7Qy5yIX1UZwKYSseVGL+nwByHeHazQvJr4+C4wgf/+YwZ2PdJ2+jxjSjU9Z
+        duqYTrOeIp0wBMigt8qElLQZE/9+/eufP//ml2F1GSSLe9UdbPp1GjII3qYOo6Jw1hkpoDqcr9ln
+        DKY3eD3Q4+NjBkeMUQ3X9D3+BwAA//8DACzBV9CUBAAA
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 78b2a1cac9256780-DFW
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 17 Jan 2023 22:47:20 GMT
+      Etag:
+      - W/"494-QdJDRjBFbXzaxvmbWX+VM67vplI"
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=hMnohdiVaims1kh75741OweEbuk%2BseDG2cv5IZNYAe3UkXIJUBET2JLGJk3CewSETO2CP9LCNtAycrRCDTvdsGAxb4MZAroVpzJstkOU0AjH7cHMPpOgdZh2YjB7tdXN0hlU"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
       Vary:
       - Origin
       Via:
@@ -101,7 +164,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78b2b13c48f42ca2-DFW
+      - 78b2a47f38032f3b-LAX
       Connection:
       - keep-alive
       Content-Encoding:
@@ -109,13 +172,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 17 Jan 2023 22:57:52 GMT
+      - Tue, 17 Jan 2023 22:49:11 GMT
       Etag:
       - W/"423-jzvEW2EwnuhgX6MRsTdOa3MYk9Y"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=8tU0etcRKAF5X3iIzLjw%2BaPNsQUta%2Fyat2tPVXwMZCAVY7Aar55gg%2BPlqb77n9lorfiBtHZp6l8kq8s7A%2BpVRHQxchePmSczK3Ih8A%2FMLYdWGuBrE%2FeLTsnR0iGjM3d9OaNR"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=oKX7j7Np8vrhoFP5koXcVoiFrFMYPw3PWWjHtoJm7%2FbHArHNJNQQVYYAoImpFngNT8H%2Fb88cEjG0GF2z8jl3akU5zaL7yxHM5VW2EyUPznTHlL4rTrmHPZRD239LTXx3utQ4"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -129,7 +192,7 @@ interactions:
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1673996755'
+      - '1673995855'
     status:
       code: 200
       message: OK

@@ -15,6 +15,7 @@ SHORT_IRON_CONDOR = "8cdf95fd-d0d4-4f47-ae81-a1e000979291"
 BUY_COMMON_STOCK = "72060eaa-7803-4124-be5b-c03b54171e75"
 SELL_COMMON_STOCK = "a2a46a7f-1c7c-4328-98d7-32b900af98c1"
 LONG_NAKED_PUT = "19a3beee-95e9-4c19-ab1d-712793f3eeaf"
+SHORT_NAKED_CALL = "665b5d15-7009-49b7-8746-0e7effdf0829"
 NON_PATRON_TRADE = "36ad8e04-b2a1-40c8-8632-55e491be10ca"
 
 
@@ -100,6 +101,13 @@ def test_note():
     assert res.note == res.trade["closing_note"]
 
 
+@pytest.mark.vcr()
+def test_parse_expiration():
+    """Test parsing the expiration date."""
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.parse_expiration() is None
+
+
 @freeze_time("2022-01-01")
 @pytest.mark.vcr()
 def test_pretty_expiration():
@@ -135,3 +143,109 @@ def test_quantity():
     """Test the quantity of a trade."""
     res = Trade(get_theta_trade(CASH_SECURED_PUT))
     assert res.quantity == 1
+
+
+@pytest.mark.vcr()
+def test_guid():
+    """Test the GUID of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.guid == CASH_SECURED_PUT
+
+
+@pytest.mark.vcr()
+def test_raw_strikes():
+    """Test the raw strikes of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.raw_strikes == "$440"
+
+    res = Trade(get_theta_trade(SHORT_IRON_CONDOR))
+    assert res.raw_strikes == "$110/$115/$150/$155"
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.raw_strikes is None
+
+
+@pytest.mark.vcr()
+def test_short_return():
+    """Test the short return of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.short_return == 0.32
+
+    res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
+    assert res.short_return == 1.1
+
+    res = Trade(get_theta_trade(SHORT_NAKED_CALL))
+    assert res.short_return == 0.86
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.short_return is None
+
+
+@freeze_time("2022-01-01")
+@pytest.mark.vcr()
+def test_short_return_annualized():
+    """Test the short return of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.short_return_annualized == 2.38
+
+    res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
+    assert res.short_return_annualized == 1.47
+
+    res = Trade(get_theta_trade(SHORT_NAKED_CALL))
+    assert res.short_return_annualized == 0.85
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.short_return_annualized is None
+
+
+@pytest.mark.vcr()
+def test_status():
+    """Test the status of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.status == "closed"
+
+    res.trade["close_date"] = None
+    assert res.status == "open"
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.status == "closed"
+
+
+@pytest.mark.vcr()
+def test_strike():
+    """Test the strike of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.strike == "440"
+
+    res = Trade(get_theta_trade(SHORT_IRON_CONDOR))
+    assert res.strike is None
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.strike is None
+
+
+@pytest.mark.vcr()
+def test_symbol():
+    """Test the symbol of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.symbol == "SPY"
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.symbol == "SPY"
+
+
+@pytest.mark.vcr()
+def test_trade_url():
+    """Test the trade URL of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.trade_url == f"https://thetagang.com/{res.username}/{res.guid}"
+
+
+@pytest.mark.vcr()
+def test_username():
+    """Test the username of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.username == "mhayden"
+
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.username == "mhayden"
