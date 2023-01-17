@@ -32,7 +32,7 @@ def test_closed_cash_secured_put(mocker):
     assert res.guid == "af55de42-a4b0-469d-a20d-faacc63edf6c"
     assert res.pretty_expiration == "9/30"
     assert res.is_option_trade
-    assert res.is_single_option
+    assert res.is_single_leg
     assert res.is_short
     assert res.quantity == 1
     assert res.raw_strikes == "$366"
@@ -92,7 +92,7 @@ def test_covered_call(mocker):
     assert res.guid == "2093163e-2d7b-424f-b007-51c46ace7bb4"
     assert res.pretty_expiration == "2/18"
     assert res.is_option_trade
-    assert res.is_single_option
+    assert res.is_single_leg
     assert res.is_short
     assert res.quantity == 1
     assert res.raw_strikes == "$460"
@@ -131,7 +131,7 @@ def test_put_credit_spread(mocker):
     assert res.guid == "7a9fe9d3-b1aa-483c-bcc0-b6f73c6b4eec"
     assert res.pretty_expiration == "9/17"
     assert res.is_option_trade
-    assert not res.is_single_option
+    assert not res.is_single_leg
     assert res.is_short
     assert res.quantity == 1
     assert res.raw_strikes == "$170/$175"
@@ -171,7 +171,7 @@ def test_buy_common_stock(mocker):
     assert not res.parse_expiration()
     assert not res.pretty_expiration
     assert not res.is_option_trade
-    assert not res.is_single_option
+    assert not res.is_single_leg
     assert not res.is_short
     assert res.quantity == 100
     assert not res.raw_strikes
@@ -207,7 +207,7 @@ def test_short_iron_condor(mocker):
     assert res.guid == "8cdf95fd-d0d4-4f47-ae81-a1e000979291"
     assert res.pretty_expiration == "3/18"
     assert res.is_option_trade
-    assert not res.is_single_option
+    assert not res.is_single_leg
     assert res.is_short
     assert res.quantity == 1
     assert res.raw_strikes == "$110/$115/$150/$155"

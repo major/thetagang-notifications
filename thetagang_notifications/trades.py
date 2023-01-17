@@ -23,10 +23,10 @@ class Trade:
     def discord_title(self):
         """Generate a title for discord messages."""
         title = self.get_discord_title_header()
-        if self.is_option_trade and self.is_single_option:
+        if self.is_option_trade and self.is_single_leg:
             # We have a long/short single leg trade.
             title += self.get_discord_title_single_leg()
-        elif self.is_option_trade and not self.is_single_option:
+        elif self.is_option_trade and not self.is_single_leg:
             # We have a multiple leg option trade, like a spread.
             title += self.get_discord_title_multiple_leg()
         else:
@@ -51,7 +51,7 @@ class Trade:
             return self.discord_stats_single_leg_results + links
 
         # Just show links if this is not a short single leg option.
-        if not self.is_single_option or not self.is_short:
+        if not self.is_single_leg or not self.is_short:
             return links
 
         if self.is_open:
@@ -63,7 +63,7 @@ class Trade:
     def discord_stats_single_leg(self):
         """Generate stats for a single leg option."""
         # Only support single leg *short* options right now.
-        if self.is_single_option and self.is_short:
+        if self.is_single_leg and self.is_short:
             breakeven = trade_math.breakeven(self.trade)
             return (
                 f"${breakeven} breakeven\n"
@@ -135,6 +135,7 @@ class Trade:
     @property
     def is_open(self):
         """Determine if the trade is open."""
+        # NOTE(mhayden): Stock trades are ALWAYS closed immediately.
         return not self.trade["close_date"]
 
     @property
@@ -148,7 +149,7 @@ class Trade:
         return self.trade_spec["short"]
 
     @property
-    def is_single_option(self):
+    def is_single_leg(self):
         """Determine if the trade is a single option trade."""
         return self.trade_spec["single_option"]
 
@@ -265,15 +266,20 @@ class Trade:
     def short_return_annualized(self):
         """Get the annualized return on a short option."""
         # Avoid 0 DTE situations.
-        if not self.is_single_option or self.dte < 1:
+        if not self.is_single_leg or self.dte < 1:
             return None
 
         return round((self.short_return / self.dte) * 365, 2)
 
     @property
+    def status(self):
+        """Determine if the trade is open or closed."""
+        return "open" if self.is_open else "closed"
+
+    @property
     def strike(self):
         """Get the strike for a single option trade."""
-        if not self.is_single_option:
+        if not self.is_single_leg:
             return None
 
         return self.trade[self.trade_spec["strikes"][0]]
