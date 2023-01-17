@@ -28,13 +28,17 @@ def test_get_finviz_stock_etf():
     assert result["Sector"] == "Exchange Traded Fund"
 
 
+@pytest.mark.vcr()
+def test_get_stock_logo(mocker):
+    """Test getting a stock logo."""
+    result = utils.get_stock_logo("AMD")
+    assert "AMD.png" in result
+
+
+@pytest.mark.vcr()
 def test_get_stock_logo_failure(mocker):
     """Test getting a stock logo when everything fails."""
-    mocker.patch(target="thetagang_notifications.utils.get_logo_iex", return_value=None)
-    mocker.patch(
-        target="thetagang_notifications.utils.get_logo_clearbit", return_value=None
-    )
-    result = utils.get_stock_logo("AMD")
+    result = utils.get_stock_logo("DOOTY")
     assert result is None
 
 
@@ -53,16 +57,11 @@ def test_get_stock_logo_success(requests_mock, mocker):
     assert result == secondary_url
 
 
-def test_get_finviz_stock_failure(mocker):
-    """Ensure we get stock data from finviz properly."""
-    mocked_class = mocker.patch(
-        target="thetagang_notifications.utils.finviz.get_stock",
-        side_effect=Exception("something broke"),
-    )
-    with pytest.raises(Exception) as excinfo:
-        utils.get_finviz_stock("DOOT")
-        mocked_class.assert_called_with("DOOT")
-        assert excinfo.value.message == "something broke"
+@pytest.mark.vcr()
+def test_get_finviz_stock_failure():
+    """Ensure we handle finviz failures."""
+    result = utils.get_finviz_stock("DOOT")
+    assert result is None
 
 
 def test_get_base_domain():
@@ -87,3 +86,10 @@ def test_get_logo_iex_placeholder():
         mock_req.get(url, headers={"x-goog-hash": utils.IEX_PLACEHOLDER_IMAGE_HASH})
         result = utils.get_logo_iex(url)
         assert result is None
+
+
+@pytest.mark.vcr()
+def test_get_logo_clearbit():
+    """Test retrieving logos from Clearbit."""
+    result = utils.get_logo_clearbit("AMD")
+    assert result == "https://logo.clearbit.com/amd.com"
