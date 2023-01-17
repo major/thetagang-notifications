@@ -98,3 +98,40 @@ def test_note():
 
     res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
     assert res.note == res.trade["closing_note"]
+
+
+@freeze_time("2022-01-01")
+@pytest.mark.vcr()
+def test_pretty_expiration():
+    """Test pretty parsing an expiration date."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.pretty_expiration == "2/18"
+
+
+@freeze_time("2020-01-01")
+@pytest.mark.vcr()
+def test_pretty_expiration_far_away():
+    """Test pretty parsing an expiration date that is far away."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.pretty_expiration == "2/18/22"
+
+
+@pytest.mark.vcr()
+def test_pretty_expiration_invalid():
+    """Test pretty parsing an invalid trade."""
+    res = Trade(get_theta_trade(BUY_COMMON_STOCK))
+    assert res.pretty_expiration is None
+
+
+@pytest.mark.vcr()
+def test_pretty_premium():
+    """Test pretty parsing a premium."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.pretty_premium == "$1.40"
+
+
+@pytest.mark.vcr()
+def test_quantity():
+    """Test the quantity of a trade."""
+    res = Trade(get_theta_trade(CASH_SECURED_PUT))
+    assert res.quantity == 1
