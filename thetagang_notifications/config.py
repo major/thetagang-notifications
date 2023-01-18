@@ -10,6 +10,9 @@ if not os.path.isdir(STORAGE_DIR):
 # thetagang.com URLs
 TRADES_JSON_URL = "https://api.thetagang.com/trades"
 
+# Spec file with trade properties.
+TRADE_SPEC_FILE = "thetagang_notifications/assets/trade_specs.yml"
+
 # Webhook URLs
 WEBHOOK_URL_EARNINGS = os.environ.get("WEBHOOK_URL_EARNINGS")
 WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES")
