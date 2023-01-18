@@ -1,0 +1,71 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.2
+    method: GET
+    uri: https://api.thetagang.com/trades/665b5d15-7009-49b7-8746-0e7effdf0829
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA4xUzY4jNRB+lVJpJS7djfsnSce3iB0NK1bDaCb8LCyKnLi6Y8Vt99ruybZWc+IB
+        kDgiJA5ceASehxeAR0DuJKMVixB9sfvzV5+qvnL5HfogwuCRF4wlKEUQyN9hcEJS3PQaecqyfMHe
+        /8pFgu2gJHKcz2fbmcxn6YKxZVott4u0XlTzlNGCmkY2rC6WmCC97ZUbN1IEQo4FK8qU5Smbr9mc
+        M8YZyxhj32CCO209fcCr1nnNqzlnRZYvZpFnezL/Rpvzcs5ZnhWzItL82G2tRo73t68wQWVUUEIj
+        b4T2lOCbQZigwog8TzCMfVS7//TzuzXcrD67eg6frF6+xAR7MXZkAnLcOZIqYIJHZZ5UBk9uc/aj
+        LkgslrMy3clmm1aikqko6zxtClEud/ViV7EcEwyiRW4GrRP0e+vCph/CBdDWtO//nwg7oWMdZT3D
+        M+WEnDi9UzvaNEprksjLrLxAk58TVC3Orr0ZbLStrMtsPr84/gRW2XKZoPBetSYGnmsk4YwyrX8C
+        wpEobGLNpwyiNMmNHJwy7aYT7kBhs7eD8xfGKZX/wdhSYx1tpjsjgrLmcm6mHPGvX376Db5a3d28
+        uLnmsLq+vru6v3/x5RWs71bPryAevzavzbP721ewFx62wrQkQZlg4VlZV9AJM0JQHXkQRkJDWsNW
+        7A4g7dFksN4TSOEOvbUaND2Q9tA428Vglj4rKwbCEXTRpAeaJMKeHE3oVrVwffX1JW46SCBYm8FK
+        a+hG8HvhyMMxRsQekgRxFCNYA3nxcckmQU9aK9NCPwQPnqjzIECrEDTBUWkJxz0ZUAG0tQcPWh0I
+        jvSRIwi272OkHUJ2Hqjo99m7tbUHELAV2xG09R5Oift/SIW98uCE1uPkoKbWT2KORCC5Cv89dUMv
+        P6Dl1TpnvKh5XmQzVk7DGezucB6cU4NXu9huj/zb7xK8tT6ct194cvE5ipNmRBcL6fZilGQwwUYL
+        5aZr8ePPUDGW+uBIHCD/8/cf/vj+1/q0lKeFw4FGTNBZHVV6EZw1Uy4xBnk+Wyb4QE41Kt7+4AZ6
+        fHxMsCPvRUunRB//BgAA//8DALmGHi83BQAA
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 78bb19fa0c01281b-DFW
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 18 Jan 2023 23:27:28 GMT
+      Etag:
+      - W/"537-nRr/vBOy/Q7dwxWoX8NKWFq39Ik"
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=kLSqfGFmfVbuNC2fZUG5k%2F%2BAKB6voJJFIQeCzEpQ5tgGA286BRmaZHb00qeJx7q%2FcShLJfhXU0WqiZDVuu0T74TpKY7EhxrXQyMz%2B8HNIeZ64fXmNvh%2Bp%2Br%2B3s%2BRWrTn5Xp8"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      Via:
+      - 1.1 vegur
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1674085004'
+    status:
+      code: 200
+      message: OK
+version: 1

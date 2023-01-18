@@ -1,0 +1,66 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.2
+    method: GET
+    uri: https://api.thetagang.com/trades/4db26360-e1d6-49c4-87c8-89f0643a150f
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA4xTy27bMBD8FWEvvVAGZT0s8eY2AVogh6BJD21RCGtxJRORSIWkkhqB/72gLbkJ
+        CgS9UcvZ4c7s6AWcRz85EGvOGUj0COIFvEVJ4TD2IDiDblISBGRyty7SgseUyCLOqiaLy01TxmXV
+        8iJLMcl5Cwzo96jsoZboCQSs+TqNeRIn1T3PBeeC8xXn/AcwaHrjaMbpqe8ZmJH0P43lfVKIvBT5
+        ZlXkSWh0h2FnehBwd/sdGCitvMIeRIu9IwaPE2qv/AFEwsAfxsD2aXtzE11df/xyH93dfr3eXgGD
+        EQ8DaQ8CJO2UBwbPSi+jTI5sPQtf87Td5RJjIirirNxs4jJfy7jAVGK1y3nBERh47JZutzfW1+Pk
+        l0JvdPf6+wxosA8yMp7ADLlUeBjQqobqVvU9SRB8leZL7WSdfGPb42SCb2mVrTZVvrg7V884dE51
+        +m8fodVKd+7inH8m8rV6Q0yylpNVuqsHtA/k672ZrFsQ50H+A7Gj1liqT+FAr8zFaH0aED6bUeku
+        Uj56NvqDj/b4RJHfUzSYsKRpiLyJRnQuOnsTaMOT+pW+xhJ6klv/fnymUb4DK1d5kp1S5k3zMEfg
+        zL9twuAOxM9fDG6N8/PxmyMbfpeQGY1DkDMq420V1tr2qOzCYE0fbgcadmRPb1jCBxApgyeyqlXL
+        co7HI4OBnMNulnf8AwAA//8DAHOXas2tAwAA
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 78bb19fa9b26e706-DFW
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Wed, 18 Jan 2023 23:27:29 GMT
+      Etag:
+      - W/"3ad-0yHTr7qHY58SI1YnO0Q58UdLQyY"
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=cJ1OtIIsrRp8FT%2FxucH68f%2BzXEMZ8HgFfgzTd6twzvmOc47XfqZe2IjZNv7x4ragm0hosuHWxLYLS6XW9OAnwugl1TmpmRW9M5DMeqYz4LUd9FYZ6qBCwB77T6%2BZ3g3%2FiGJe"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      Via:
+      - 1.1 vegur
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1674085004'
+    status:
+      code: 200
+      message: OK
+version: 1
