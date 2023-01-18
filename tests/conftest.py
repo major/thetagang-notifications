@@ -16,10 +16,10 @@ REAL_TRADES = {
 }
 
 
-def real_trade_downloader(trade_title):
+def real_trade_downloader(trade_type, trade_guid):
     """Get a real trade from thetagang.com."""
-    with vcr.use_cassette(f"tests/fixtures/trades/{trade_title}.yaml"):
-        url = f"https://api.thetagang.com/trades/{REAL_TRADES[trade_title]}"
+    with vcr.use_cassette(f"tests/fixtures/trades/{trade_type}.yaml"):
+        url = f"https://api.thetagang.com/trades/{trade_guid}"
         print(url)
         trade = requests.get(url).json()["data"]["trade"]
 
@@ -29,4 +29,6 @@ def real_trade_downloader(trade_title):
 @pytest.fixture(scope="session")
 def cash_secured_put():
     """Get a cash secured put trade."""
-    return real_trade_downloader("CASH_SECURED_PUT")
+    return real_trade_downloader(
+        "cash_secured_put", "c90e5d5d-8158-43d7-ba09-e6a0dbbf207c"
+    )
