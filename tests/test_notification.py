@@ -6,10 +6,10 @@ from thetagang_notifications.notification import ClosingNotification
 from thetagang_notifications.trades import Trade
 
 
-@pytest.mark.parametrize("real_trade", ["CASH SECURED PUT"], indirect=True)
-def test_closing_notification(real_trade):
+@pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
+def test_closing_notification(real_trades):
     """Test closing notification."""
-    trade = Trade(real_trade)
+    trade = Trade(real_trades)
     notification = ClosingNotification(trade)
     assert notification.action_line() == {
         "name": f"{trade.username} closed a trade",

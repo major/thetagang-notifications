@@ -14,3 +14,13 @@ def breakeven(trade):
             return None
 
     return f"{breakeven:.2f}"
+
+
+def short_call_breakeven(strike, premium):
+    """Return the breakeven on a short call."""
+    return f"{float(strike) + premium:.2f}"
+
+
+def short_put_breakeven(strike, premium):
+    """Return the breakeven on a short put."""
+    return f"{float(strike) - premium:.2f}"

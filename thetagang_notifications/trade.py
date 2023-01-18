@@ -5,6 +5,7 @@ from abc import ABC
 import yaml
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
+from thetagang_notifications.trade_math import short_put_breakeven
 
 
 def convert_to_class_name(trade_type):
@@ -25,7 +26,7 @@ class Trade(ABC):
     def __init__(self, trade):
         """Initialize the trade."""
         self.raw_trade = trade
-        self.trade_type = trade["trade_type"]
+        self.trade_type = trade["type"]
 
         # Load properties from a spec file.
         self.is_option_trade = None
@@ -48,27 +49,37 @@ class Trade(ABC):
         self.is_short = spec_data["short"]
         self.is_long = not spec_data["short"]
 
+    def break_even(self):
+        return NotImplementedError
+
 
 class CashSecuredPut(Trade):
     """Cash secured put trade."""
 
-    @property
-    def friendly_name(self):
-        return self.raw_trade
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_put = self.raw_trade["short_put"]
+        self.price_filled = self.raw_trade["price_filled"]
+
+    def break_even(self):
+        return short_put_breakeven(self.short_put, self.price_filled)
 
 
 class CoveredCall(Trade):
     """Covered call trade."""
 
-    @property
-    def friendly_name(self):
-        return self.raw_trade
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_call = self.raw_trade["short_call"]
+        self.price_filled = self.raw_trade["price_filled"]
+
+    def break_even(self):
+        return short_put_breakeven(self.short_call, self.price_filled)
 
 
 def get_handler(trade):
     """Create a trade object."""
-    class_name = convert_to_class_name(trade["trade_type"])
-    try:
-        return globals()[class_name](trade)
-    except KeyError:
-        raise ValueError(f"Unknown trade type: {trade['trade_type']}")
+    class_name = convert_to_class_name(trade["type"])
+    return globals()[class_name](trade)
