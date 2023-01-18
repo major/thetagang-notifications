@@ -14,8 +14,8 @@ def convert_to_class_name(trade_type):
 
 def get_spec_data(trade_type):
     """Get the spec data for a trade type."""
-    with open(TRADE_SPEC_FILE, encoding="utf-8") as fileh:
-        spec_data = yaml.safe_load(fileh)
+    with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
+        spec_data = yaml.safe_load(file_handle)
     return [x for x in spec_data if x["type"] == trade_type][0]
 
 
@@ -26,6 +26,14 @@ class Trade(ABC):
         """Initialize the trade."""
         self.raw_trade = trade
         self.trade_type = trade["trade_type"]
+
+        # Load properties from a spec file.
+        self.is_option_trade = None
+        self.is_stock_trade = None
+        self.is_single_leg = None
+        self.is_multi_leg = None
+        self.is_short = None
+        self.is_long = None
         self.load_trade_properties()
 
     def load_trade_properties(self):
