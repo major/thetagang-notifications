@@ -46,7 +46,7 @@ def test_is_closed():
     trade = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
     assert trade.is_closed
 
-    trade.trade["close_date"] = None
+    trade.trade_data["close_date"] = None
     assert not trade.is_closed
 
 
@@ -95,10 +95,10 @@ def test_is_winner():
 def test_note():
     """Test getting a trade note."""
     res = Trade(get_theta_trade(BUY_COMMON_STOCK))
-    assert res.note == res.trade["note"]
+    assert res.note == res.trade_data["note"]
 
     res = Trade(get_theta_trade(CLOSED_CASH_SECURED_PUT))
-    assert res.note == res.trade["closing_note"]
+    assert res.note == res.trade_data["closing_note"]
 
 
 @pytest.mark.vcr()
@@ -204,7 +204,7 @@ def test_status():
     res = Trade(get_theta_trade(CASH_SECURED_PUT))
     assert res.status == "closed"
 
-    res.trade["close_date"] = None
+    res.trade_data["close_date"] = None
     assert res.status == "open"
 
     res = Trade(get_theta_trade(BUY_COMMON_STOCK))

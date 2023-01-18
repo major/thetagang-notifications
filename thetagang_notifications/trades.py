@@ -17,7 +17,7 @@ class Trade:
 
     def __init__(self, trade):
         """Initialize the basics of the class."""
-        self.trade = trade
+        self.trade_data = trade
 
     @property
     def discord_title(self):
@@ -64,7 +64,7 @@ class Trade:
         """Generate stats for a single leg option."""
         # Only support single leg *short* options right now.
         if self.is_single_leg and self.is_short:
-            breakeven = trade_math.breakeven(self.trade)
+            breakeven = trade_math.breakeven(self.trade_data)
             return (
                 f"${breakeven} breakeven\n"
                 f"{self.short_return}% potential return "
@@ -76,7 +76,7 @@ class Trade:
     @property
     def discord_stats_single_leg_results(self):
         """Generate a report after a trade was closed."""
-        profit_value = abs(self.trade["pl"] * 100)
+        profit_value = abs(self.trade_data["pl"] * 100)
         profit = f"${profit_value:.2f}"
 
         # Check for assignment.
@@ -130,7 +130,7 @@ class Trade:
     @property
     def is_assigned(self):
         """Determine if a closed trade had stock assignment."""
-        return self.trade.get("assigned", False)
+        return self.trade_data.get("assigned", False)
 
     @property
     def is_closed(self):
@@ -141,7 +141,7 @@ class Trade:
     def is_open(self):
         """Determine if the trade is open."""
         # NOTE(mhayden): Stock trades are ALWAYS closed immediately.
-        return not self.trade["close_date"]
+        return not self.trade_data["close_date"]
 
     @property
     def is_option_trade(self):
@@ -171,15 +171,15 @@ class Trade:
     @property
     def is_winner(self):
         """Determine if a closed trade is a winner."""
-        return self.trade["win"]
+        return self.trade_data["win"]
 
     @property
     def note(self):
         """Return the note for the trade."""
         if self.is_open or self.is_stock_trade:
-            return self.trade["note"]
+            return self.trade_data["note"]
 
-        return self.trade["closing_note"]
+        return self.trade_data["closing_note"]
 
     def notify(self):
         """Send notification to Discord."""
@@ -207,12 +207,12 @@ class Trade:
         embed.set_thumbnail(url=self.symbol_logo)
 
         # Assume a closing note by default.
-        trade_notes = self.trade["closing_note"]
+        trade_notes = self.trade_data["closing_note"]
 
         # Use the original opening note if the trade is open or if it's a
         # common stock trade since stock trades have opening notes only.
         if not self.is_option_trade or self.is_open:
-            trade_notes = self.trade["note"]
+            trade_notes = self.trade_data["note"]
 
         # Only add a footer if the user added a note.
         if trade_notes:
@@ -225,7 +225,7 @@ class Trade:
         if not self.is_option_trade:
             return None
 
-        return parser.parse(self.trade["expiry_date"], ignoretz=True)
+        return parser.parse(self.trade_data["expiry_date"], ignoretz=True)
 
     @property
     def pretty_expiration(self):
@@ -239,17 +239,17 @@ class Trade:
     @property
     def pretty_premium(self):
         """Return the price filled in a nice currency format."""
-        return f"${self.trade['price_filled']:.2f}"
+        return f"${self.trade_data['price_filled']:.2f}"
 
     @property
     def quantity(self):
         """Extract quantity from the trade."""
-        return self.trade["quantity"]
+        return self.trade_data["quantity"]
 
     @property
     def guid(self):
         """Get the GUID of the trade."""
-        return self.trade["guid"]
+        return self.trade_data["guid"]
 
     @property
     def raw_strikes(self):
@@ -258,10 +258,10 @@ class Trade:
             return None
 
         strikes = {
-            "long put": self.trade["long_put"],
-            "short put": self.trade["short_put"],
-            "short call": self.trade["short_call"],
-            "long call": self.trade["long_call"],
+            "long put": self.trade_data["long_put"],
+            "short put": self.trade_data["short_put"],
+            "short call": self.trade_data["short_call"],
+            "long call": self.trade_data["long_call"],
         }
         # Make a string from the generic list of strikes.
         return "/".join([f"${v}" for k, v in strikes.items() if v is not None])
@@ -271,13 +271,13 @@ class Trade:
         """Get the return percentage for a short option."""
         match self.trade_type:
             case "CASH SECURED PUT":
-                strike = self.trade["short_put"]
+                strike = self.trade_data["short_put"]
             case "COVERED CALL" | "SHORT NAKED CALL":
-                strike = self.trade["short_call"]
+                strike = self.trade_data["short_call"]
             case _:
                 return None
 
-        premium = self.trade["price_filled"]
+        premium = self.trade_data["price_filled"]
         return round((premium / (float(strike) - premium)) * 100, 2)
 
     @property
@@ -300,12 +300,12 @@ class Trade:
         if self.is_multiple_leg:
             return None
 
-        return self.trade[self.trade_spec["strikes"][0]]
+        return self.trade_data[self.trade_spec["strikes"][0]]
 
     @property
     def symbol(self):
         """Get the symbol involved in the trade."""
-        return self.trade["symbol"]
+        return self.trade_data["symbol"]
 
     @property
     def symbol_logo(self):
@@ -322,7 +322,7 @@ class Trade:
     @property
     def trade_type(self):
         """Return the type of trade."""
-        return self.trade["type"]
+        return self.trade_data["type"]
 
     @property
     def trade_url(self):
@@ -332,4 +332,4 @@ class Trade:
     @property
     def username(self):
         """Get username of the person making the trade."""
-        return self.trade["User"]["username"]
+        return self.trade_data["User"]["username"]
