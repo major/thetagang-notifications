@@ -1,3 +1,5 @@
+########################################################################################
+# SHORT MULTI LEG
 - type: PUT CREDIT SPREAD
   option_trade: True
   single_leg: False
@@ -6,6 +8,7 @@
     - long_put
   short: True
   sentiment: bullish
+  example_guid: e97a14ee-8d1a-49d8-94c3-36813908d156
 
 - type: CALL CREDIT SPREAD
   option_trade: True
@@ -15,78 +18,7 @@
     - long_call
   short: True
   sentiment: bearish
-
-- type: PUT DEBIT SPREAD
-  option_trade: True
-  single_leg: False
-  strikes:
-    - long_put
-    - short_put
-  short: False
-  sentiment: bearish
-
-- type: CALL DEBIT SPREAD
-  option_trade: True
-  single_leg: False
-  strikes:
-    - long_call
-    - short_call
-  short: False
-  sentiment: bullish
-
-- type: CASH SECURED PUT
-  option_trade: True
-  single_leg: True
-  strikes:
-    - short_put
-  short: True
-  sentiment: bullish
-
-- type: COVERED CALL
-  option_trade: True
-  single_leg: True
-  strikes:
-    - short_call
-  short: True
-  sentiment: bearish
-
-- type: SHORT NAKED CALL
-  option_trade: True
-  single_leg: True
-  strikes:
-    - short_call
-  short: True
-  sentiment: bearish
-
-- type: LONG NAKED CALL
-  option_trade: True
-  single_leg: True
-  strikes:
-    - long_call
-  short: False
-  sentiment: bullish
-
-- type: LONG NAKED PUT
-  option_trade: True
-  single_leg: True
-  strikes:
-    - long_put
-  short: False
-  sentiment: bearish
-
-- type: BUY COMMON STOCK
-  option_trade: False
-  single_leg: False
-  strikes: []
-  short: False
-  sentiment: bullish
-
-- type: SELL COMMON STOCK
-  option_trade: False
-  single_leg: False
-  strikes: []
-  short: False
-  sentiment: bearish
+  example_guid: 025e664b-07f2-4735-a867-8884d8d8a68d
 
 - type: SHORT IRON CONDOR
   option_trade: True
@@ -98,6 +30,7 @@
     - long_call
   short: True
   sentiment: neutral
+  example_guid: 8cdf95fd-d0d4-4f47-ae81-a1e000979291
 
 - type: SHORT STRANGLE
   option_trade: True
@@ -107,6 +40,7 @@
     - short_call
   short: True
   sentiment: bullish
+  example_guid: 2468ebdf-e78d-4589-ac0f-83ffaa6f3577
 
 - type: SHORT STRADDLE
   option_trade: True
@@ -116,24 +50,7 @@
     - short_call
   short: True
   sentiment: neutral
-
-- type: LONG STRANGLE
-  option_trade: True
-  single_leg: False
-  strikes:
-    - long_put
-    - long_call
-  short: False
-  sentiment: neutral
-
-- type: LONG STRADDLE
-  option_trade: True
-  single_leg: False
-  strikes:
-    - long_put
-    - long_call
-  short: False
-  sentiment: neutral
+  example_guid: 3eb1d57f-a720-41a9-ab54-27458ecee21f
 
 - type: JADE LIZARD
   option_trade: True
@@ -144,3 +61,113 @@
     - long_call
   short: True
   sentiment: neutral
+  example_guid: 7b2834c0-51a8-42ae-9c00-23dd9af79b37
+
+########################################################################################
+# LONG MULTIPLE LEG
+- type: PUT DEBIT SPREAD
+  option_trade: True
+  single_leg: False
+  strikes:
+    - long_put
+    - short_put
+  short: False
+  sentiment: bearish
+  example_guid: 44ef4b2a-467e-4cd0-8f84-9dfa1766dca9
+
+- type: CALL DEBIT SPREAD
+  option_trade: True
+  single_leg: False
+  strikes:
+    - long_call
+    - short_call
+  short: False
+  sentiment: bullish
+  example_guid: 4db26360-e1d6-49c4-87c8-89f0643a150f
+
+- type: LONG STRANGLE
+  option_trade: True
+  single_leg: False
+  strikes:
+    - long_put
+    - long_call
+  short: False
+  sentiment: neutral
+  example_guid: 96975bff-9962-462d-84b4-acf9236c442a
+
+- type: LONG STRADDLE
+  option_trade: True
+  single_leg: False
+  strikes:
+    - long_put
+    - long_call
+  short: False
+  sentiment: neutral
+  example_guid: e3c567b4-cad4-4fea-8114-5bef5b5e0d1f
+
+########################################################################################
+# SHORT SINGLE LEG
+- type: CASH SECURED PUT
+  option_trade: True
+  single_leg: True
+  strikes:
+    - short_put
+  short: True
+  sentiment: bullish
+  example_guid: c90e5d5d-8158-43d7-ba09-e6a0dbbf207c
+
+- type: COVERED CALL
+  option_trade: True
+  single_leg: True
+  strikes:
+    - short_call
+  short: True
+  sentiment: bearish
+  example_guid: 2093163e-2d7b-424f-b007-51c46ace7bb4
+
+- type: SHORT NAKED CALL
+  option_trade: True
+  single_leg: True
+  strikes:
+    - short_call
+  short: True
+  sentiment: bearish
+  example_guid: 665b5d15-7009-49b7-8746-0e7effdf0829
+
+########################################################################################
+# LONG SINGLE LEG
+- type: LONG NAKED CALL
+  option_trade: True
+  single_leg: True
+  strikes:
+    - long_call
+  short: False
+  sentiment: bullish
+  example_guid: 0ae1568e-012e-4ae2-b1da-845de50a895e
+
+- type: LONG NAKED PUT
+  option_trade: True
+  single_leg: True
+  strikes:
+    - long_put
+  short: False
+  sentiment: bearish
+  example_guid: 19a3beee-95e9-4c19-ab1d-712793f3eeaf
+
+########################################################################################
+# STOCK TRADES
+- type: BUY COMMON STOCK
+  option_trade: False
+  single_leg: False
+  strikes: []
+  short: False
+  sentiment: bullish
+  example_guid: 72060eaa-7803-4124-be5b-c03b54171e75
+
+- type: SELL COMMON STOCK
+  option_trade: False
+  single_leg: False
+  strikes: []
+  short: False
+  sentiment: bearish
+  example_guid: a2a46a7f-1c7c-4328-98d7-32b900af98c1
