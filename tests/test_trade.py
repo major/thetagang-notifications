@@ -79,27 +79,15 @@ def test_potential_return_not_implemented(real_trades):
         trade_obj.potential_return()
 
 
-def test_dte(real_trades):
-    """Test the DTE."""
+def test_pretty_expiration(real_trades):
+    """Test pretty expiration date formatting."""
     trade_obj = trade.get_handler(real_trades)
     with mock.patch(
-        "thetagang_notifications.trade_math.days_to_expiration"
-    ) as mock_dte:
+        "thetagang_notifications.trade_math.pretty_expiration"
+    ) as mock_pretty_expiration:
         if "COMMON STOCK" in trade_obj.trade_type:
             with pytest.raises(NotImplementedError):
-                trade_obj.dte()
+                trade_obj.pretty_expiration()
         else:
-            trade_obj.dte()
-            mock_dte.assert_called_once()
-
-
-def test_parse_expiration(real_trades):
-    """Test parsing expiration dates."""
-    trade_obj = trade.get_handler(real_trades)
-    with mock.patch("thetagang_notifications.trade_math.parse_expiration") as mock_dte:
-        if "COMMON STOCK" in trade_obj.trade_type:
-            with pytest.raises(NotImplementedError):
-                trade_obj.parse_expiration()
-        else:
-            trade_obj.parse_expiration()
-            mock_dte.assert_called_once()
+            trade_obj.pretty_expiration()
+            mock_pretty_expiration.assert_called_once()

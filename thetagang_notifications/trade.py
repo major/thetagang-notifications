@@ -38,7 +38,7 @@ class Trade(ABC):
         self.trade_type = trade["type"]
         self.username = trade["User"]["username"]
 
-        # Load properties from a spec file.
+        # Load properties from the trade_spec file.
         self.is_option_trade = None
         self.is_stock_trade = None
         self.is_single_leg = None
@@ -82,16 +82,12 @@ class Trade(ABC):
     def break_even(self):
         raise NotImplementedError("Break even not implemented for this trade.")
 
-    def dte(self):
-        """Return the days to expiration."""
-        return trade_math.days_to_expiration(self.expiry_date)
-
     def potential_return(self):
         raise NotImplementedError("Potential return not implemented for this trade.")
 
-    def parse_expiration(self):
-        """Return the expiration date for a short put."""
-        return trade_math.parse_expiration(self.expiry_date)
+    def pretty_expiration(self):
+        """Return the pretty expiration date for an option trade."""
+        return trade_math.pretty_expiration(self.expiry_date)
 
 
 class CashSecuredPut(Trade):
@@ -108,6 +104,13 @@ class CashSecuredPut(Trade):
     def potential_return(self):
         """Return the potential return on a short put."""
         return trade_math.short_option_potential_return(self.strike, self.price_filled)
+
+    def notification_embeds(self):
+        """Return the notification embeds for a short put."""
+        return {
+            "Quantity": self.quantity,
+            "Expiration": self.pretty_expiration(),
+        }
 
 
 class CoveredCall(Trade):
@@ -255,10 +258,7 @@ class BuyCommonStock(Trade):
         # Common stock trades always use "note" for the trade note.
         self.trade_note = trade["note"]
 
-    def dte(self):
-        raise NotImplementedError
-
-    def parse_expiration(self):
+    def pretty_expiration(self):
         raise NotImplementedError
 
 
@@ -271,10 +271,7 @@ class SellCommonStock(Trade):
         # Common stock trades always use "note" for the trade note.
         self.trade_note = trade["note"]
 
-    def dte(self):
-        raise NotImplementedError
-
-    def parse_expiration(self):
+    def pretty_expiration(self):
         raise NotImplementedError
 
 
