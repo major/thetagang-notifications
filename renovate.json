@@ -3,8 +3,8 @@
   "extends": [
     "config:base"
   ],
-  "rangeStrategy": "update-lockfile",
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "rangeStrategy": "update-lockfile"
 }
