@@ -26,12 +26,13 @@ class Trade(ABC):
     def __init__(self, trade):
         """Initialize the trade."""
         # Create some class properties from the raw trade data.
-        self.raw_trade = trade
-        self.trade_type = trade["type"]
-        self.symbol = trade["symbol"]
-        self.price_filled = trade["price_filled"]
         self.expiry_date = trade["expiry_date"]
+        self.guid = trade["guid"]
+        self.price_filled = trade["price_filled"]
         self.quantity = trade["quantity"]
+        self.symbol = trade["symbol"]
+        self.trade_type = trade["type"]
+        self.username = trade["User"]["username"]
 
         # Load properties from a spec file.
         self.is_option_trade = None
@@ -51,6 +52,9 @@ class Trade(ABC):
 
         # Load the trade note depending on the status.
         self.trade_note = trade["note"] if self.is_open else trade["closing_note"]
+
+        # Assemble the trade URL.
+        self.trade_url = f"https://api.thetagang.com/trades/{self.guid}"
 
     def load_trade_properties(self):
         """Load properties from the spec."""
@@ -85,7 +89,7 @@ class CashSecuredPut(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.strike = float(self.raw_trade["short_put"])
+        self.strike = float(trade["short_put"])
 
     def break_even(self):
         return trade_math.put_break_even(self.strike, self.price_filled)
@@ -101,7 +105,7 @@ class CoveredCall(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.strike = float(self.raw_trade["short_call"])
+        self.strike = float(trade["short_call"])
 
     def break_even(self):
         return trade_math.call_break_even(self.strike, self.price_filled)
@@ -117,7 +121,7 @@ class ShortNakedCall(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.strike = float(self.raw_trade["short_call"])
+        self.strike = float(trade["short_call"])
 
     def break_even(self):
         return trade_math.call_break_even(self.strike, self.price_filled)
@@ -133,7 +137,7 @@ class LongNakedCall(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.strike = float(self.raw_trade["long_call"])
+        self.strike = float(trade["long_call"])
 
     def break_even(self):
         return trade_math.call_break_even(self.strike, self.price_filled)
@@ -145,7 +149,7 @@ class LongNakedPut(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.strike = float(self.raw_trade["long_put"])
+        self.strike = float(trade["long_put"])
 
     def break_even(self):
         return trade_math.put_break_even(self.strike, self.price_filled)
@@ -157,8 +161,8 @@ class PutCreditSpread(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_strike = float(self.raw_trade["short_put"])
-        self.long_strike = float(self.raw_trade["long_put"])
+        self.short_strike = float(trade["short_put"])
+        self.long_strike = float(trade["long_put"])
 
 
 class CallCreditSpread(Trade):
@@ -167,8 +171,8 @@ class CallCreditSpread(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_strike = float(self.raw_trade["short_call"])
-        self.long_strike = float(self.raw_trade["long_call"])
+        self.short_strike = float(trade["short_call"])
+        self.long_strike = float(trade["long_call"])
 
 
 class PutDebitSpread(Trade):
@@ -177,8 +181,8 @@ class PutDebitSpread(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_strike = float(self.raw_trade["short_put"])
-        self.long_strike = float(self.raw_trade["long_put"])
+        self.short_strike = float(trade["short_put"])
+        self.long_strike = float(trade["long_put"])
 
 
 class CallDebitSpread(Trade):
@@ -187,8 +191,8 @@ class CallDebitSpread(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_strike = float(self.raw_trade["short_call"])
-        self.long_strike = float(self.raw_trade["long_call"])
+        self.short_strike = float(trade["short_call"])
+        self.long_strike = float(trade["long_call"])
 
 
 class LongStrangle(Trade):
@@ -197,8 +201,8 @@ class LongStrangle(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.long_call = float(self.raw_trade["long_call"])
-        self.long_put = float(self.raw_trade["long_put"])
+        self.long_call = float(trade["long_call"])
+        self.long_put = float(trade["long_put"])
 
 
 class ShortStrangle(Trade):
@@ -207,8 +211,8 @@ class ShortStrangle(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_call = float(self.raw_trade["short_call"])
-        self.short_put = float(self.raw_trade["short_put"])
+        self.short_call = float(trade["short_call"])
+        self.short_put = float(trade["short_put"])
 
 
 class LongStraddle(Trade):
@@ -217,8 +221,8 @@ class LongStraddle(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.long_call = float(self.raw_trade["long_call"])
-        self.long_put = float(self.raw_trade["long_put"])
+        self.long_call = float(trade["long_call"])
+        self.long_put = float(trade["long_put"])
 
 
 class ShortStraddle(Trade):
@@ -227,8 +231,8 @@ class ShortStraddle(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_call = float(self.raw_trade["short_call"])
-        self.short_put = float(self.raw_trade["short_put"])
+        self.short_call = float(trade["short_call"])
+        self.short_put = float(trade["short_put"])
 
 
 class BuyCommonStock(Trade):
@@ -269,9 +273,9 @@ class JadeLizard(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.long_call = float(self.raw_trade["long_call"])
-        self.short_call = float(self.raw_trade["short_call"])
-        self.short_put = float(self.raw_trade["short_put"])
+        self.long_call = float(trade["long_call"])
+        self.short_call = float(trade["short_call"])
+        self.short_put = float(trade["short_put"])
 
 
 class ShortIronCondor(Trade):
@@ -280,10 +284,10 @@ class ShortIronCondor(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.long_call = float(self.raw_trade["long_call"])
-        self.long_put = float(self.raw_trade["long_put"])
-        self.short_call = float(self.raw_trade["short_call"])
-        self.short_put = float(self.raw_trade["short_put"])
+        self.long_call = float(trade["long_call"])
+        self.long_put = float(trade["long_put"])
+        self.short_call = float(trade["short_call"])
+        self.short_put = float(trade["short_put"])
 
 
 def get_handler(trade):
