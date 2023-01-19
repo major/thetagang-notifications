@@ -49,6 +49,7 @@ class Trade(ABC):
         self.is_assigned = trade.get("assigned", False)
         self.is_winner = trade.get("winner", False)
         self.is_loser = not self.is_winner
+        self.status = "opened" if self.is_open else "closed"
 
         # Load the trade note depending on the status.
         self.trade_note = trade["note"] if self.is_open else trade["closing_note"]
