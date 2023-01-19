@@ -91,3 +91,30 @@ def test_pretty_expiration(real_trades):
         else:
             trade_obj.pretty_expiration()
             mock_pretty_expiration.assert_called_once()
+
+
+def test_notification_details(real_trades):
+    """Test notification details."""
+    trade_obj = trade.get_handler(real_trades)
+    result = trade_obj.notification_details()
+    # TODO: Improve this test and verify the output of the dict.
+    assert isinstance(result, dict)
+
+
+@pytest.mark.parametrize("real_trades", ["BUY COMMON STOCK"], indirect=True)
+def test_annualized_return_not_implemented(real_trades):
+    """Test annualized return for a trade that is not implemented."""
+    trade_obj = trade.get_handler(real_trades)
+    with pytest.raises(NotImplementedError):
+        trade_obj.annualized_return()
+
+
+def test_notification_action(real_trades):
+    """Test notification action."""
+    trade_obj = trade.get_handler(real_trades)
+    result = trade_obj.notification_action()
+
+    assert isinstance(result, dict)
+    assert "author" in result
+    assert "icon" in result
+    assert "url" in result
