@@ -4,8 +4,8 @@ from abc import ABC
 
 import yaml
 
+from thetagang_notifications import trade_math
 from thetagang_notifications.config import TRADE_SPEC_FILE
-from thetagang_notifications.trade_math import short_put_breakeven
 
 
 def convert_to_class_name(trade_type):
@@ -25,8 +25,11 @@ class Trade(ABC):
 
     def __init__(self, trade):
         """Initialize the trade."""
+        # Create some class properties from the raw trade data.
         self.raw_trade = trade
         self.trade_type = trade["type"]
+        self.symbol = trade["symbol"]
+        self.price_filled = trade["price_filled"]
 
         # Load properties from a spec file.
         self.is_option_trade = None
@@ -50,7 +53,10 @@ class Trade(ABC):
         self.is_long = not spec_data["short"]
 
     def break_even(self):
-        return NotImplementedError
+        raise NotImplementedError("Break even not implemented for this trade.")
+
+    def potential_return(self):
+        raise NotImplementedError("Potential return not implemented for this trade.")
 
 
 class CashSecuredPut(Trade):
@@ -59,11 +65,14 @@ class CashSecuredPut(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_put = self.raw_trade["short_put"]
-        self.price_filled = self.raw_trade["price_filled"]
+        self.strike = float(self.raw_trade["short_put"])
 
     def break_even(self):
-        return short_put_breakeven(self.short_put, self.price_filled)
+        return trade_math.put_break_even(self.strike, self.price_filled)
+
+    def potential_return(self):
+        """Return the potential return on a short put."""
+        return trade_math.short_option_potential_return(self.strike, self.price_filled)
 
 
 class CoveredCall(Trade):
@@ -72,11 +81,48 @@ class CoveredCall(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_call = self.raw_trade["short_call"]
-        self.price_filled = self.raw_trade["price_filled"]
+        self.strike = float(self.raw_trade["short_call"])
 
     def break_even(self):
-        return short_put_breakeven(self.short_call, self.price_filled)
+        return trade_math.call_break_even(self.strike, self.price_filled)
+
+    def potential_return(self):
+        """Return the potential return on a short call."""
+        return trade_math.short_option_potential_return(self.strike, self.price_filled)
+
+
+class LongNakedCall(Trade):
+    """Long naked call trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.strike = float(self.raw_trade["long_call"])
+
+    def break_even(self):
+        return trade_math.call_break_even(self.strike, self.price_filled)
+
+
+class LongNakedPut(Trade):
+    """Long naked put trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.strike = float(self.raw_trade["long_put"])
+
+    def break_even(self):
+        return trade_math.put_break_even(self.strike, self.price_filled)
+
+
+class PutCreditSpread(Trade):
+    """Put credit spread trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.strike = float(self.raw_trade["short_put"])
+        self.long_strike = float(self.raw_trade["long_put"])
 
 
 def get_handler(trade):

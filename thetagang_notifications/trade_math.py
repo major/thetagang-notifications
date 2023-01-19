@@ -16,11 +16,16 @@ def breakeven(trade):
     return f"{breakeven:.2f}"
 
 
-def short_call_breakeven(strike, premium):
-    """Return the breakeven on a short call."""
-    return f"{float(strike) + premium:.2f}"
+def call_break_even(strike, premium):
+    """Return the break even on a call."""
+    return strike + premium
 
 
-def short_put_breakeven(strike, premium):
-    """Return the breakeven on a short put."""
-    return f"{float(strike) - premium:.2f}"
+def put_break_even(strike, premium):
+    """Return the break even on a put."""
+    return strike - premium
+
+
+def short_option_potential_return(strike, premium):
+    """Return the potential return on a short option."""
+    return round((premium / (strike - premium)) * 100, 2)
