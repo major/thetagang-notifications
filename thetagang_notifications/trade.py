@@ -5,7 +5,11 @@ from abc import ABC
 import yaml
 
 from thetagang_notifications import trade_math
-from thetagang_notifications.config import TRADE_SPEC_FILE
+from thetagang_notifications.config import (
+    CLOSING_TRADE_ICON,
+    OPENING_TRADE_ICON,
+    TRADE_SPEC_FILE,
+)
 
 
 def convert_to_class_name(trade_type):
@@ -54,8 +58,14 @@ class Trade(ABC):
         # Load the trade note depending on the status.
         self.trade_note = trade["note"] if self.is_open else trade["closing_note"]
 
-        # Assemble the trade URL.
-        self.trade_url = f"https://api.thetagang.com/trades/{self.guid}"
+        # Generate common notification elements.
+        self.notification_action = f"{self.username} {self.status} a trade"
+        self.notification_action_icon = (
+            OPENING_TRADE_ICON if self.is_open else CLOSING_TRADE_ICON
+        )
+        self.notification_action_url = f"https://api.thetagang.com/trades/{self.guid}"
+        self.notification_title = f"${self.symbol}: {self.trade_type}"
+        self.notification_description = None
 
     def load_trade_properties(self):
         """Load properties from the spec."""
