@@ -37,6 +37,13 @@ def parse_expiration(expiration_date):
     return parser.parse(expiration_date, ignoretz=True)
 
 
+def pretty_expiration(expiration_date):
+    """Return the expiration date in a pretty format."""
+    dte = days_to_expiration(expiration_date)
+    expiration_format = "%-m/%d" if dte <= 365 else "%-m/%d/%y"
+    return parse_expiration(expiration_date).strftime(expiration_format)
+
+
 def put_break_even(strike, premium):
     """Return the break even on a put."""
     return strike - premium

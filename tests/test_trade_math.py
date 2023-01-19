@@ -42,6 +42,16 @@ def test_days_to_expiration():
     assert dte == 10
 
 
+@freeze_time("2023-01-01")
+def test_pretty_expiration():
+    """Verify the expiration date is formatted."""
+    expiration = trade_math.pretty_expiration("2023-01-10T00:00:00.000Z")
+    assert expiration == "1/10"
+
+    expiration = trade_math.pretty_expiration("2024-01-10T00:00:00.000Z")
+    assert expiration == "1/10/24"
+
+
 def test_short_call_break_even():
     """Verify the break even on a short call."""
     break_even = trade_math.call_break_even(100.00, 1.00)

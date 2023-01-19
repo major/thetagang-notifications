@@ -31,6 +31,7 @@ class Trade(ABC):
         self.symbol = trade["symbol"]
         self.price_filled = trade["price_filled"]
         self.expiry_date = trade["expiry_date"]
+        self.quantity = trade["quantity"]
 
         # Load properties from a spec file.
         self.is_option_trade = None
@@ -41,11 +42,21 @@ class Trade(ABC):
         self.is_long = None
         self.load_trade_properties()
 
+        # Handle trade status items.
+        self.is_open = not trade["close_date"]
+        self.is_closed = not self.is_open
+        self.is_assigned = trade.get("assigned", False)
+        self.is_winner = trade.get("winner", False)
+        self.is_loser = not self.is_winner
+
+        # Load the trade note depending on the status.
+        self.trade_note = trade["note"] if self.is_open else trade["closing_note"]
+
     def load_trade_properties(self):
         """Load properties from the spec."""
         spec_data = get_spec_data(self.trade_type)
 
-        # Set properties based on what's in the spec.
+        # Set properties based on date from the trade_spec YAML file.
         self.is_option_trade = spec_data["option_trade"]
         self.is_stock_trade = not spec_data["option_trade"]
         self.is_single_leg = self.is_option_trade and ["single_leg"]
@@ -226,6 +237,8 @@ class BuyCommonStock(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
+        # Common stock trades always use "note" for the trade note.
+        self.trade_note = trade["note"]
 
     def dte(self):
         raise NotImplementedError
@@ -240,6 +253,8 @@ class SellCommonStock(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
+        # Common stock trades always use "note" for the trade note.
+        self.trade_note = trade["note"]
 
     def dte(self):
         raise NotImplementedError
