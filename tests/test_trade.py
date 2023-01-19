@@ -34,7 +34,9 @@ def test_put_break_even(real_trades):
 
 
 @pytest.mark.parametrize(
-    "real_trades", ["COVERED CALL", "LONG NAKED CALL"], indirect=True
+    "real_trades",
+    ["COVERED CALL", "LONG NAKED CALL", "SHORT NAKED CALL"],
+    indirect=True,
 )
 def test_call_break_even(real_trades):
     """Test call break even."""
@@ -47,7 +49,7 @@ def test_call_break_even(real_trades):
 
 
 @pytest.mark.parametrize("real_trades", ["PUT CREDIT SPREAD"], indirect=True)
-def test_break_even_not_implemeneted(real_trades):
+def test_break_even_not_implemented(real_trades):
     """Test call break even."""
     trade_obj = trade.get_handler(real_trades)
     with pytest.raises(NotImplementedError):
@@ -55,7 +57,9 @@ def test_break_even_not_implemeneted(real_trades):
 
 
 @pytest.mark.parametrize(
-    "real_trades", ["CASH SECURED PUT", "COVERED CALL"], indirect=True
+    "real_trades",
+    ["CASH SECURED PUT", "COVERED CALL", "SHORT NAKED CALL"],
+    indirect=True,
 )
 def test_potential_return(real_trades):
     """Test potential return."""
@@ -73,3 +77,29 @@ def test_potential_return_not_implemented(real_trades):
     trade_obj = trade.get_handler(real_trades)
     with pytest.raises(NotImplementedError):
         trade_obj.potential_return()
+
+
+def test_dte(real_trades):
+    """Test the DTE."""
+    trade_obj = trade.get_handler(real_trades)
+    with mock.patch(
+        "thetagang_notifications.trade_math.days_to_expiration"
+    ) as mock_dte:
+        if "COMMON STOCK" in trade_obj.trade_type:
+            with pytest.raises(NotImplementedError):
+                trade_obj.dte()
+        else:
+            trade_obj.dte()
+            mock_dte.assert_called_once()
+
+
+def test_parse_expiration(real_trades):
+    """Test parsing expiration dates."""
+    trade_obj = trade.get_handler(real_trades)
+    with mock.patch("thetagang_notifications.trade_math.parse_expiration") as mock_dte:
+        if "COMMON STOCK" in trade_obj.trade_type:
+            with pytest.raises(NotImplementedError):
+                trade_obj.parse_expiration()
+        else:
+            trade_obj.parse_expiration()
+            mock_dte.assert_called_once()

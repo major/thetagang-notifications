@@ -30,6 +30,7 @@ class Trade(ABC):
         self.trade_type = trade["type"]
         self.symbol = trade["symbol"]
         self.price_filled = trade["price_filled"]
+        self.expiry_date = trade["expiry_date"]
 
         # Load properties from a spec file.
         self.is_option_trade = None
@@ -55,8 +56,16 @@ class Trade(ABC):
     def break_even(self):
         raise NotImplementedError("Break even not implemented for this trade.")
 
+    def dte(self):
+        """Return the days to expiration."""
+        return trade_math.days_to_expiration(self.expiry_date)
+
     def potential_return(self):
         raise NotImplementedError("Potential return not implemented for this trade.")
+
+    def parse_expiration(self):
+        """Return the expiration date for a short put."""
+        return trade_math.parse_expiration(self.expiry_date)
 
 
 class CashSecuredPut(Trade):
@@ -77,6 +86,22 @@ class CashSecuredPut(Trade):
 
 class CoveredCall(Trade):
     """Covered call trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.strike = float(self.raw_trade["short_call"])
+
+    def break_even(self):
+        return trade_math.call_break_even(self.strike, self.price_filled)
+
+    def potential_return(self):
+        """Return the potential return on a short call."""
+        return trade_math.short_option_potential_return(self.strike, self.price_filled)
+
+
+class ShortNakedCall(Trade):
+    """Short naked call trade."""
 
     def __init__(self, trade):
         """Initialize the trade."""
@@ -121,8 +146,129 @@ class PutCreditSpread(Trade):
     def __init__(self, trade):
         """Initialize the trade."""
         super().__init__(trade)
-        self.strike = float(self.raw_trade["short_put"])
+        self.short_strike = float(self.raw_trade["short_put"])
         self.long_strike = float(self.raw_trade["long_put"])
+
+
+class CallCreditSpread(Trade):
+    """Call credit spread trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_strike = float(self.raw_trade["short_call"])
+        self.long_strike = float(self.raw_trade["long_call"])
+
+
+class PutDebitSpread(Trade):
+    """Put debit spread trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_strike = float(self.raw_trade["short_put"])
+        self.long_strike = float(self.raw_trade["long_put"])
+
+
+class CallDebitSpread(Trade):
+    """Call debit spread trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_strike = float(self.raw_trade["short_call"])
+        self.long_strike = float(self.raw_trade["long_call"])
+
+
+class LongStrangle(Trade):
+    """Long strangle trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.long_call = float(self.raw_trade["long_call"])
+        self.long_put = float(self.raw_trade["long_put"])
+
+
+class ShortStrangle(Trade):
+    """Short strangle trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_call = float(self.raw_trade["short_call"])
+        self.short_put = float(self.raw_trade["short_put"])
+
+
+class LongStraddle(Trade):
+    """Long straddle trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.long_call = float(self.raw_trade["long_call"])
+        self.long_put = float(self.raw_trade["long_put"])
+
+
+class ShortStraddle(Trade):
+    """Short straddle trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.short_call = float(self.raw_trade["short_call"])
+        self.short_put = float(self.raw_trade["short_put"])
+
+
+class BuyCommonStock(Trade):
+    """Buy common stock trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+
+    def dte(self):
+        raise NotImplementedError
+
+    def parse_expiration(self):
+        raise NotImplementedError
+
+
+class SellCommonStock(Trade):
+    """Sell common stock trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+
+    def dte(self):
+        raise NotImplementedError
+
+    def parse_expiration(self):
+        raise NotImplementedError
+
+
+class JadeLizard(Trade):
+    """Jade lizard trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.long_call = float(self.raw_trade["long_call"])
+        self.short_call = float(self.raw_trade["short_call"])
+        self.short_put = float(self.raw_trade["short_put"])
+
+
+class ShortIronCondor(Trade):
+    """Short iron condor trade."""
+
+    def __init__(self, trade):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.long_call = float(self.raw_trade["long_call"])
+        self.long_put = float(self.raw_trade["long_put"])
+        self.short_call = float(self.raw_trade["short_call"])
+        self.short_put = float(self.raw_trade["short_put"])
 
 
 def get_handler(trade):
