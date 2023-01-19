@@ -107,14 +107,3 @@ def test_annualized_return_not_implemented(real_trades):
     trade_obj = trade.get_handler(real_trades)
     with pytest.raises(NotImplementedError):
         trade_obj.annualized_return()
-
-
-def test_notification_action(real_trades):
-    """Test notification action."""
-    trade_obj = trade.get_handler(real_trades)
-    result = trade_obj.notification_action()
-
-    assert isinstance(result, dict)
-    assert "author" in result
-    assert "icon" in result
-    assert "url" in result

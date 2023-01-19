@@ -44,6 +44,11 @@ def pretty_expiration(expiration_date):
     return parse_expiration(expiration_date).strftime(expiration_format)
 
 
+def pretty_premium(price_filled):
+    """Return the premium in a pretty format."""
+    return f"${price_filled:.2f}"
+
+
 def put_break_even(strike, premium):
     """Return the break even on a put."""
     return strike - premium
