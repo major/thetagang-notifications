@@ -39,6 +39,7 @@ class Trade(ABC):
         self.expiry_date = trade["expiry_date"]
         self.guid = trade["guid"]
         self.price_filled = trade["price_filled"]
+        self.profit = trade["pl"]
         self.quantity = trade["quantity"]
         self.strike = None
         self.symbol = trade["symbol"]
@@ -58,7 +59,7 @@ class Trade(ABC):
         self.is_open = not trade["close_date"]
         self.is_closed = not self.is_open
         self.is_assigned = trade.get("assigned", False)
-        self.is_winner = trade.get("winner", False)
+        self.is_winner = trade.get("win", False)
         self.is_loser = not self.is_winner
         self.status = "opened" if self.is_open else "closed"
 

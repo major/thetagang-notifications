@@ -25,6 +25,16 @@ ICON_HOST = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com"
 OPENING_TRADE_ICON = f"{ICON_HOST}/thumbs/120/google/350/rocket_1f680.png"
 CLOSING_TRADE_ICON = f"{ICON_HOST}/thumbs/120/google/350/chequered-flag_1f3c1.png"
 
+# Colors for winning, losing, and assigned trades.
+COLOR_WINNER = "008000"
+COLOR_LOSER = "D42020"
+COLOR_ASSIGNED = "FFBF00"
+
+# Emojis for winning, losing, and assigned trades.
+EMOJI_WINNER = "🟢"
+EMOJI_LOSER = "🔴"
+EMOJI_ASSIGNED = "🚚"
+
 # Wide and trandparent PNG to make the notifications the same width each time:
 TRANSPARENT_PNG = "https://major.io/transparent.png"
 
