@@ -28,9 +28,9 @@ jobs:
           WEBHOOK_URL_TRADES: ${{ secrets.WEBHOOK_URL_TRADES }}
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
         run: |
-          podman run --rm --name trade_bot \
+          podman run --name trade_bot \
             -v ${{ github.workspace }}/storage:/storage \
-            -e STORAGE_DIR=/storage /
+            -e STORAGE_DIR=/storage \
             -e WEBHOOK_URL_TRADES \
             -e TRADES_API_KEY \
             ghcr.io/major/thetagang-notifications:main \
