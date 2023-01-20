@@ -29,15 +29,14 @@ jobs:
 
       - name: Run trades bot
         env:
-          STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
         run: |
           docker run \
-            -e WEBHOOK_URL_TRADES \
-            -e TRADES_API_KEY \
+            -e WEBHOOK_URL_TRADES=${WEBHOOK_URL_TRADES} \
+            -e TRADES_API_KEY=${TRADES_API_KEY} \
             -e STORAGE_DIR=/storage \
-            -v $STORAGE_DIR:/storage \
+            -v storage:/storage \
             --pull always \
             --rm \
             --name trade_bot \
