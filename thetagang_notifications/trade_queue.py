@@ -34,6 +34,10 @@ def process_trade(trade) -> list:
     """Determine how to handle a trade returned by the API."""
     guid = trade["guid"]
 
+    # Skip any non-patron trades.
+    if trade["User"]["role"] != "patron":
+        return []
+
     with dbm.open(f"{config.STORAGE_DIR}/trades.dbm", "c") as db:
         db_state = db.get(guid, None)
         if not db_state or (db_state != trade_status(trade)):
