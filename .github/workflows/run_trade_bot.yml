@@ -23,10 +23,6 @@ jobs:
             gunzip -v storage/trades.dbm.gz
           fi
 
-      - name: Run trade bot
-        run: |
-          docker run -e  ghcr.io/major/thetagang-notifications:main
-
       - uses: addnab/docker-run-action@v3
         with:
           registry: gcr.io
