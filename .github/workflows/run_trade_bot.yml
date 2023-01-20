@@ -13,16 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-          architecture: x64
-          cache: 'poetry'
-
       - name: Restore cache database
         run: |
           #!/bin/bash
@@ -33,15 +23,25 @@ jobs:
             gunzip -v storage/trades.dbm.gz
           fi
 
-      - name: Install with poetry
-        run: poetry install
+      - name: Run trade bot
+        run: |
+          docker run -e  ghcr.io/major/thetagang-notifications:main
 
       - name: Run trades bot
         env:
           STORAGE_DIR: "storage/"
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
-        run: poetry run ./run_trades
+        run: |
+          docker run \
+            -e WEBHOOK_URL_TRADES \
+            -e TRADES_API_KEY \
+            -e STORAGE_DIR=/storage \
+            -v $STORAGE_DIR:/storage \
+            --pull always \
+            --rm \
+            --name trade_bot \
+            ghcr.io/major/thetagang-notifications:main
 
       - name: Compress and move trades db
         run: |
