@@ -29,13 +29,13 @@ interactions:
       Content-Type:
       - application/xml; charset=UTF-8
       Date:
-      - Tue, 17 Jan 2023 22:59:48 GMT
+      - Fri, 20 Jan 2023 15:24:07 GMT
       Expires:
-      - Tue, 17 Jan 2023 22:59:48 GMT
+      - Fri, 20 Jan 2023 15:24:07 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdutXoc1vvoAD5vuZt-qoG_2s08MostFjVh2dKOSce59LWoBtJx2T2S12xjAp4RgqlVGDK7lx7cFv_KZBpQGl5aI9N841piZ
+      - ADPycdtfpN4BsAjDXiqe2Y7wB36gpj4hOlnsFv5Jupwrm7ZBBmpKFblCoeh2KXd9Q7SfFi7saU6FDbqWkrxyHNDxfFfLQNn2_1cy
     status:
       code: 403
       message: Forbidden
@@ -69,13 +69,13 @@ interactions:
       Content-Type:
       - application/xml; charset=UTF-8
       Date:
-      - Tue, 17 Jan 2023 22:59:49 GMT
+      - Fri, 20 Jan 2023 15:25:34 GMT
       Expires:
-      - Tue, 17 Jan 2023 22:59:49 GMT
+      - Fri, 20 Jan 2023 15:25:34 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdvu2jEFSuGd8j-SIsC0zCxip9sW1yXbf5J47EaY5LLE5de90oZw4YU5Lxo1RzN3OiwpxckXsby9PNCMrep2zSEHJw
+      - ADPycdu6GMy8RREUg4zE1G3mebPspLiA43BpmSaD6ZDZOHp1ndtI1HXYoyYPA8mx60rFbo-kxaBYxyAfwnIYSumAuWGeHpHTMSAj
     status:
       code: 403
       message: Forbidden
@@ -89,8 +89,8 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)
-        Chrome/85.0.4183.102 Safari/537.36
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/86.0.4240.183 Safari/537.36
     method: GET
     uri: https://finviz.com/quote.ashx?t=DOOTY
   response:
@@ -214,14 +214,14 @@ interactions:
         sO4Wr5sKJ9krpowxt3rxkEd8Inplf4knayc+W6i2aBqaw4iOG/DI8wMsCGwDgGWq7cMBwfDXQ8aU
         OZ9kY4KxP9g9aA/amODt/b2DwdaW29xtkr0Dnxxs77Zbu7u7W629rd2Dg4MtC8GVGkNB1axryRHe
         abXrTTw6/TnY3929vRz9EP3s/tTc279xL3Hwr1/V+ffD4XivPw5uVdi8DU63yfv75sXUZ+Od2f2/
-        fph89/3V+ac3l5wL5UnS9+V1f5+f+MPvjrtdC4HdWHf9uqG4a3+2BJ5deFbH2tsftAfbLXfL95tk
-        b7Bn1SzF7wmzOhbZ2fKb+/6ue0Ca2wPfO9jbbe41W839HeIebA22rZoV3+5rdax2s912Wi1ny6pZ
-        klqdVrP5aGf/+FLXgr+iMhvzSC7cDdaAsBP8a/6k1/8DAAD//wMA4llwJONrAAA=
+        fph89/3V+ac3l5wL5UnS9+V1f5+f+MPvjrtdC4HdWHf9uqG4a3+2BJ5deFbH2tt39722t43xoNl2
+        8a5VsxS/J8zqWGRny2/u+7vuAWluD3zvYG+3uddsNfd3iHuwNdi2alZ8u6/VsdrNdttptZwtq2ZJ
+        anVazeajnf3jS10L/orKbMwjuXA3WAPCTvCv+ZNe/w8AAP//AwB9BW+C42sAAA==
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78b2b41c3ff0e7b7-DFW
+      - 78c8d2d4aab02ca6-DFW
       Cache-Control:
       - no-cache
       Connection:
@@ -231,11 +231,11 @@ interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 17 Jan 2023 22:59:49 GMT
+      - Fri, 20 Jan 2023 15:25:34 GMT
       Server:
       - cloudflare
       Server-Timing:
-      - cf-q-config;dur=6.9999987317715e-06
+      - cf-q-config;dur=6.0000020312145e-06
       Transfer-Encoding:
       - chunked
       alt-svc:
@@ -243,7 +243,7 @@ interactions:
       request-context:
       - appId=cid-v1:bdd405ef-7a83-4f9a-9228-0107d7f4bc90
       set-cookie:
-      - preventRedirectLoop=false; expires=Mon, 16 Jan 2023 22:59:49 GMT; domain=.finviz.com;
+      - preventRedirectLoop=false; expires=Thu, 19 Jan 2023 15:25:34 GMT; domain=.finviz.com;
         path=/
       x-frame-options:
       - SAMEORIGIN

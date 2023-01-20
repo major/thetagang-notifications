@@ -25,9 +25,7 @@ def test_get_handler_unknown_type():
 )
 def test_put_break_even(real_trades):
     """Test put break even."""
-    with mock.patch(
-        "thetagang_notifications.trade_math.put_break_even"
-    ) as mock_break_even:
+    with mock.patch("thetagang_notifications.trade.put_break_even") as mock_break_even:
         trade_obj = trade.get_handler(real_trades)
         trade_obj.break_even()
         mock_break_even.assert_called_once()
@@ -40,9 +38,7 @@ def test_put_break_even(real_trades):
 )
 def test_call_break_even(real_trades):
     """Test call break even."""
-    with mock.patch(
-        "thetagang_notifications.trade_math.call_break_even"
-    ) as mock_break_even:
+    with mock.patch("thetagang_notifications.trade.call_break_even") as mock_break_even:
         trade_obj = trade.get_handler(real_trades)
         trade_obj.break_even()
         mock_break_even.assert_called_once()
@@ -64,7 +60,7 @@ def test_break_even_not_implemented(real_trades):
 def test_potential_return(real_trades):
     """Test potential return."""
     with mock.patch(
-        "thetagang_notifications.trade_math.short_option_potential_return"
+        "thetagang_notifications.trade.short_option_potential_return"
     ) as mock_potential_return:
         trade_obj = trade.get_handler(real_trades)
         trade_obj.potential_return()
@@ -83,7 +79,7 @@ def test_pretty_expiration(real_trades):
     """Test pretty expiration date formatting."""
     trade_obj = trade.get_handler(real_trades)
     with mock.patch(
-        "thetagang_notifications.trade_math.pretty_expiration"
+        "thetagang_notifications.trade.pretty_expiration"
     ) as mock_pretty_expiration:
         if "COMMON STOCK" in trade_obj.trade_type:
             with pytest.raises(NotImplementedError):
@@ -91,16 +87,6 @@ def test_pretty_expiration(real_trades):
         else:
             trade_obj.pretty_expiration()
             mock_pretty_expiration.assert_called_once()
-
-
-def test_pretty_premium(real_trades):
-    """Test pretty premium."""
-    with mock.patch(
-        "thetagang_notifications.trade_math.pretty_premium"
-    ) as mock_pretty_premium:
-        trade_obj = trade.get_handler(real_trades)
-        trade_obj.pretty_premium()
-        mock_pretty_premium.assert_called_once()
 
 
 def test_notification_details(real_trades):

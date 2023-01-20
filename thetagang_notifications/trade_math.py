@@ -19,11 +19,6 @@ def breakeven(trade):
     return f"{breakeven:.2f}"
 
 
-def call_break_even(strike, premium):
-    """Return the break even on a call."""
-    return strike + premium
-
-
 def days_to_expiration(expiration_date):
     """Return the days to expiration."""
     parsed_expiration = parse_expiration(expiration_date)
@@ -44,14 +39,33 @@ def pretty_expiration(expiration_date):
     return parse_expiration(expiration_date).strftime(expiration_format)
 
 
-def pretty_premium(price_filled):
-    """Return the premium in a pretty format."""
-    return f"${price_filled:.2f}"
+def pretty_strike(strike_price):
+    """Return the options strike price in a friendly format.
+
+    Report the number without decimals if it's an even number, like
+    $388. Use decimals if it has a decimal, like $388.50.
+    """
+    return (
+        f"${strike_price:.0f}" if strike_price.is_integer() else f"${strike_price:.2f}"
+    )
+
+
+def pretty_premium(premium):
+    """Return the options premium in a friendly format.
+
+    Premium should *always* have two decimals, even if it's an integer.
+    """
+    return f"${premium:.2f}"
+
+
+def call_break_even(strike, premium):
+    """Return the break even on a call."""
+    return pretty_strike(strike + premium)
 
 
 def put_break_even(strike, premium):
     """Return the break even on a put."""
-    return strike - premium
+    return pretty_strike(strike - premium)
 
 
 def short_option_potential_return(strike, premium):

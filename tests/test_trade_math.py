@@ -53,21 +53,28 @@ def test_pretty_expiration():
 
 
 def test_pretty_premium():
-    """Verify the premium is formatted."""
-    pretty_premium = trade_math.pretty_premium(1.00)
-    assert pretty_premium == "$1.00"
+    """Verify the premium is formatted properly."""
+    assert trade_math.pretty_premium(1.00) == "$1.00"
+    assert trade_math.pretty_premium(float(1)) == "$1.00"
+    assert trade_math.pretty_premium(1.50) == "$1.50"
+
+
+def test_pretty_strike():
+    """Verify the strike is formatted properly."""
+    assert trade_math.pretty_strike(100.00) == "$100"
+    assert trade_math.pretty_strike(100.50) == "$100.50"
 
 
 def test_short_call_break_even():
     """Verify the break even on a short call."""
-    break_even = trade_math.call_break_even(100.00, 1.00)
-    assert break_even == 101.00
+    assert trade_math.call_break_even(100.00, 1.00) == "$101"
+    assert trade_math.call_break_even(146.25, 1.96) == "$148.21"
 
 
 def test_short_put_break_even():
     """Verify the break even on a short put."""
-    break_even = trade_math.put_break_even(100.00, 1.00)
-    assert break_even == 99.00
+    assert trade_math.put_break_even(100.00, 1.00) == "$99"
+    assert trade_math.put_break_even(146.25, 1.96) == "$144.29"
 
 
 def test_short_option_potential_return():

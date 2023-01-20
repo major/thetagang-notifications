@@ -328,6 +328,8 @@ interactions:
     headers:
       Accept-Ranges:
       - bytes
+      Age:
+      - '0'
       Alt-Svc:
       - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
         ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
@@ -338,17 +340,17 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Tue, 17 Jan 2023 23:00:19 GMT
+      - Fri, 20 Jan 2023 15:25:08 GMT
       ETag:
       - '"748cbcd4be2b0681d7e6553306357eb5"'
       Expires:
-      - Wed, 18 Jan 2023 00:00:19 GMT
+      - Fri, 20 Jan 2023 16:25:08 GMT
       Last-Modified:
       - Tue, 17 Jan 2023 15:46:59 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdtM_2lxBwqS5Rzkr07eYBWZGff--z518kNUUav8l1Dr6aTkrqe23Cuv3r7J957CfFt5l9VFqBYwN4p2JkBhHNZF
+      - ADPycdssUM7n1yBMWuoPupv3KcKCYDtzY4v7ZvIGlr_rb-9Mh1B1z65HJSgKlsT2h5BXgMqLYTdeWoLPtHqVRESRvwUk
       x-goog-generation:
       - '1673970419747671'
       x-goog-hash:
