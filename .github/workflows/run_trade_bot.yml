@@ -27,20 +27,16 @@ jobs:
         run: |
           docker run -e  ghcr.io/major/thetagang-notifications:main
 
-      - name: Run trades bot
-        env:
-          WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
-          TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
-        run: |
-          podman run \
-            -e WEBHOOK_URL_TRADES=${WEBHOOK_URL_TRADES} \
-            -e TRADES_API_KEY=${TRADES_API_KEY} \
-            -e STORAGE_DIR=/storage \
-            -v storage:/storage \
-            --pull always \
-            --rm \
-            --name trade_bot \
-            ghcr.io/major/thetagang-notifications:main
+      - uses: addnab/docker-run-action@v3
+        with:
+          registry: gcr.io
+          image: major/thetagang-notifications:main
+          options: >
+            -e WEBHOOK_URL_TRADES=${{ secrets.TRADES_JSON_URL }}
+            -e TRADES_API_KEY=${{ secrets.TRADES_API_KEY }}
+            -e STORAGE_DIR=/storage
+            -v storage:/storage
+          run: /app/run_trades
 
       - name: Compress and move trades db
         run: |
