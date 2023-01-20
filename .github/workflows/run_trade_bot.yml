@@ -25,8 +25,7 @@ jobs:
 
       - uses: addnab/docker-run-action@v3
         with:
-          registry: gcr.io
-          image: major/thetagang-notifications:main
+          image: ghcr.io/major/thetagang-notifications:main
           options: >
             -e WEBHOOK_URL_TRADES=${{ secrets.TRADES_JSON_URL }}
             -e TRADES_API_KEY=${{ secrets.TRADES_API_KEY }}
