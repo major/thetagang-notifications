@@ -45,7 +45,6 @@ def test_generate_embeds(real_trades):
     assert isinstance(embed, DiscordEmbed)
 
 
-@pytest.mark.block_network
 @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
 def test_notify(real_trades):
     """Test notify."""

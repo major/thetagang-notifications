@@ -52,6 +52,12 @@ def test_pretty_expiration():
     assert expiration == "1/10/24"
 
 
+def test_pretty_premium():
+    """Verify the premium is formatted."""
+    pretty_premium = trade_math.pretty_premium(1.00)
+    assert pretty_premium == "$1.00"
+
+
 def test_short_call_break_even():
     """Verify the break even on a short call."""
     break_even = trade_math.call_break_even(100.00, 1.00)

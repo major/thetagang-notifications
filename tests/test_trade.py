@@ -93,6 +93,16 @@ def test_pretty_expiration(real_trades):
             mock_pretty_expiration.assert_called_once()
 
 
+def test_pretty_premium(real_trades):
+    """Test pretty premium."""
+    with mock.patch(
+        "thetagang_notifications.trade_math.pretty_premium"
+    ) as mock_pretty_premium:
+        trade_obj = trade.get_handler(real_trades)
+        trade_obj.pretty_premium()
+        mock_pretty_premium.assert_called_once()
+
+
 def test_notification_details(real_trades):
     """Test notification details."""
     trade_obj = trade.get_handler(real_trades)
