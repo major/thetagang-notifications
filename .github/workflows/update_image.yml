@@ -36,8 +36,7 @@ jobs:
           python-version: "3.11"
 
       - name: Bootstrap poetry
-        run: |
-          curl -sL https://install.python-poetry.org | python - -y
+        run: pipx install poetry
 
       - name: Configure poetry
         run: poetry config virtualenvs.in-project true
