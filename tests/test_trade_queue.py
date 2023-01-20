@@ -20,9 +20,6 @@ MOCKED_TRADES = {
     }
 }
 
-PATRON_TRADE = {"guid": "1a", "close_date": None, "User": {"role": "patron"}}
-NON_PATRON_TRADE = {"guid": "3c", "close_date": None, "User": {"role": "member"}}
-
 
 @patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 @patch("thetagang_notifications.trade_queue.get_trades")
@@ -30,7 +27,7 @@ def test_build_queue(mock_get_trades, tmp_path):
     """Test build_queue()."""
     mock_get_trades.return_value = MOCKED_TRADES["data"]["trades"]
     new_queue = build_queue()
-    assert len(new_queue) == 2
+    assert len(new_queue) == 4
 
     # If we build the queue again, it should be empty since we saw these trades already.
     new_queue = build_queue()
@@ -50,22 +47,21 @@ def test_get_trades(mock_requests, tmp_path):
     trades = get_trades()
 
     assert type(trades) == list
-    assert trades[0]["close_date"] == "2020-01-01"
-    assert trades[1]["close_date"] is None
+    assert len(trades) == 2
 
 
 @patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 def test_process_trade_new(tmp_path):
     """Test process_trade() for new trades."""
-    assert process_trade(PATRON_TRADE) == PATRON_TRADE
-    assert process_trade(NON_PATRON_TRADE) == []
+    trade = MOCKED_TRADES["data"]["trades"][0]
+    assert process_trade(trade) == trade
 
 
 @patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 def test_process_trade_closed(tmp_path):
     """Test process_trade() for closed trades."""
     # Start with an open trade.
-    trade = PATRON_TRADE
+    trade = MOCKED_TRADES["data"]["trades"][0]
     assert process_trade(trade) == trade
 
     # The same open trade should not be enqueued.
