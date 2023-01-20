@@ -32,7 +32,6 @@ jobs:
           WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
         run: |
-          #!/bin/bash
           podman run \
             -e WEBHOOK_URL_TRADES=${WEBHOOK_URL_TRADES} \
             -e TRADES_API_KEY=${TRADES_API_KEY} \
