@@ -33,7 +33,7 @@ jobs:
             -e STORAGE_DIR=/storage /
             -e WEBHOOK_URL_TRADES \
             -e TRADES_API_KEY \
-            ghcr.io/robertdebock/trade-bot:latest \
+            ghcr.io/major/thetagang-notifications:main \
             /app/run_trades
 
       - name: Compress and move trades db
