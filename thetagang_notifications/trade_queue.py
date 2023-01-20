@@ -4,7 +4,7 @@ import logging
 
 import requests
 
-from thetagang_notifications import config
+from thetagang_notifications.config import STORAGE_DIR, TRADES_API_KEY
 
 log = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ def build_queue() -> list:
 def get_trades() -> list:
     """Get the most recently updated trades."""
     log.info("Getting most recently updated trades")
-    params = {"api_key": config.TRADES_API_KEY}
+    params = {"api_key": TRADES_API_KEY}
     url = "https://api.thetagang.com/v1/trades"
     resp = requests.get(url, params)
 
@@ -38,7 +38,7 @@ def process_trade(trade) -> list:
     if trade["User"]["role"] != "patron":
         return []
 
-    with dbm.open(f"{config.STORAGE_DIR}/trades.dbm", "c") as db:
+    with dbm.open(f"{STORAGE_DIR}/trades.dbm", "c") as db:
         db_state = db.get(guid, None)
         if not db_state or (db_state != trade_status(trade)):
             db[guid] = trade_status(trade)

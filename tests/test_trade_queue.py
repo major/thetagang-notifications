@@ -1,7 +1,7 @@
 """Test the trade queue builder."""
+from tempfile import mkdtemp
 from unittest.mock import MagicMock, patch
 
-from thetagang_notifications import config
 from thetagang_notifications.trade_queue import (
     build_queue,
     get_trades,
@@ -12,18 +12,22 @@ from thetagang_notifications.trade_queue import (
 MOCKED_TRADES = {
     "data": {
         "trades": [
-            {"guid": "1a", "close_date": None},
-            {"guid": "2b", "close_date": "2020-01-01"},
+            {"guid": "1a", "close_date": None, "User": {"role": "patron"}},
+            {"guid": "2b", "close_date": "2020-01-01", "User": {"role": "patron"}},
+            {"guid": "3c", "close_date": None, "User": {"role": "member"}},
+            {"guid": "4d", "close_date": "2020-01-01", "User": {"role": "member"}},
         ]
     }
 }
 
+PATRON_TRADE = {"guid": "1a", "close_date": None, "User": {"role": "patron"}}
+NON_PATRON_TRADE = {"guid": "3c", "close_date": None, "User": {"role": "member"}}
 
+
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 @patch("thetagang_notifications.trade_queue.get_trades")
 def test_build_queue(mock_get_trades, tmp_path):
     """Test build_queue()."""
-    config.STORAGE_DIR = tmp_path
-
     mock_get_trades.return_value = MOCKED_TRADES["data"]["trades"]
     new_queue = build_queue()
     assert len(new_queue) == 2
@@ -33,9 +37,11 @@ def test_build_queue(mock_get_trades, tmp_path):
     assert len(new_queue) == 0
 
 
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 @patch("thetagang_notifications.trade_queue.requests.get")
-def test_get_trades(mock_requests):
+def test_get_trades(mock_requests, tmp_path):
     """Get all recently updated trades."""
+
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = MOCKED_TRADES
@@ -48,20 +54,18 @@ def test_get_trades(mock_requests):
     assert trades[1]["close_date"] is None
 
 
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 def test_process_trade_new(tmp_path):
     """Test process_trade() for new trades."""
-    config.STORAGE_DIR = tmp_path
-
-    trade = {"guid": "1a", "close_date": None}
-    assert process_trade(trade) == trade
+    assert process_trade(PATRON_TRADE) == PATRON_TRADE
+    assert process_trade(NON_PATRON_TRADE) == []
 
 
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 def test_process_trade_closed(tmp_path):
     """Test process_trade() for closed trades."""
-    config.STORAGE_DIR = tmp_path
-
     # Start with an open trade.
-    trade = {"guid": "1a", "close_date": None}
+    trade = PATRON_TRADE
     assert process_trade(trade) == trade
 
     # The same open trade should not be enqueued.
@@ -72,13 +76,15 @@ def test_process_trade_closed(tmp_path):
     assert process_trade(trade) == trade
 
 
-def test_trade_status_open():
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
+def test_trade_status_open(tmp_path):
     """Test trade_status() for open trades."""
     trade = {"close_date": None}
     assert trade_status(trade) == b"open"
 
 
-def test_trade_status_closed():
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
+def test_trade_status_closed(tmp_path):
     """Test trade_status() for closed trades."""
     trade = {"close_date": "2020-01-01"}
     assert trade_status(trade) == b"closed"
