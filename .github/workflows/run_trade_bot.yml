@@ -25,7 +25,7 @@ jobs:
 
       - name: Run trades bot
         env:
-          WEBHOOK_URL_TRADES: ${{ secrets.TRADES_JSON_URL }}
+          WEBHOOK_URL_TRADES: ${{ secrets.WEBHOOK_URL_TRADES }}
           TRADES_API_KEY: ${{ secrets.TRADES_API_KEY }}
         run: |
           podman run --rm --name trade_bot \
