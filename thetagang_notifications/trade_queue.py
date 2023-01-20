@@ -11,11 +11,14 @@ log = logging.getLogger(__name__)
 
 def build_queue() -> list:
     """Assemble and return a queue of trades that require notification."""
-    return [x for x in get_trades() if process_trade(x)]
+    queued_trades = [x for x in get_trades() if process_trade(x)]
+    log.info("Found %s trades to notify", len(queued_trades))
+    return queued_trades
 
 
 def get_trades() -> list:
     """Get the most recently updated trades."""
+    log.info("Getting most recently updated trades")
     params = {"api_key": config.TRADES_API_KEY}
     url = "https://api.thetagang.com/v1/trades"
     resp = requests.get(url, params)
@@ -32,15 +35,11 @@ def process_trade(trade) -> list:
     guid = trade["guid"]
 
     with dbm.open(f"{config.STORAGE_DIR}/trades.dbm", "c") as db:
-
         db_state = db.get(guid, None)
-
         if not db_state or (db_state != trade_status(trade)):
-            log.info("📥 Enqueueing trade: %s", db_state)
             db[guid] = trade_status(trade)
             return trade
 
-    log.info("❌ Nothing changed on trade: %s", guid)
     return []
 
 

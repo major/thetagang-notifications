@@ -49,7 +49,7 @@ class Notification(ABC):
     def generate_embeds(self):
         """Generate the embeds for the notification."""
         embed = DiscordEmbed(
-            title=f"${self.trade.symbol}: {self.trade.trade_type}",
+            title=self.trade.notification_title,
             description=self.generate_description(),
         )
         embed.set_author(**self.generate_action())
@@ -121,7 +121,7 @@ class ClosedNotification(Notification):
         """Generate the embeds for the notification."""
         embed = DiscordEmbed(
             title=f"{self.generate_description()}\n",
-            description=f"${self.trade.symbol}: {self.trade.trade_type}",
+            description=self.trade.notification_title,
             color=self.trade_color,
         )
         embed.set_author(**self.generate_action())

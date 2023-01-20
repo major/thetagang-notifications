@@ -1625,6 +1625,18 @@ pygments = ">=2.6.0,<3.0.0"
 jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
+name = "schedule"
+version = "1.1.0"
+description = "Job scheduling for humans."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "schedule-1.1.0-py2.py3-none-any.whl", hash = "sha256:617adce8b4bf38c360b781297d59918fbebfb2878f1671d189f4f4af5d0567a4"},
+    {file = "schedule-1.1.0.tar.gz", hash = "sha256:e6ca13585e62c810e13a08682e0a6a8ad245372e376ba2b8679294f377dfc8e4"},
+]
+
+[[package]]
 name = "setuptools"
 version = "66.1.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -2094,4 +2106,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "800b1eddf3164ed0a2e43832bde290181e112f72bb324f77f5bf4c2cd95435f4"
+content-hash = "7664126cb1aa30c3a3367b5eaa35c74d75c6da4b32b4cf473f043a146360878e"

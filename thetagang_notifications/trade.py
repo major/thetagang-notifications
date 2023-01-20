@@ -1,5 +1,5 @@
 """Parse trades and send notifications."""
-
+import logging
 from abc import ABC
 
 import yaml
@@ -16,6 +16,8 @@ from thetagang_notifications.trade_math import (
     short_annualized_return,
     short_option_potential_return,
 )
+
+log = logging.getLogger(__name__)
 
 
 def convert_to_class_name(trade_type):
@@ -39,7 +41,7 @@ class Trade(ABC):
         self.expiry_date = trade["expiry_date"]
         self.guid = trade["guid"]
         self.price_filled = trade["price_filled"]
-        self.profit = trade["pl"]
+        self.profit = abs(trade["pl"])
         self.quantity = trade["quantity"]
         self.strike = None
         self.symbol = trade["symbol"]
@@ -69,7 +71,11 @@ class Trade(ABC):
 
         # Generate common notification elements.
         self.notification_title = f"${self.symbol}: {self.trade_type}"
+        self.notification_title += f" ({self.quantity})" if self.quantity > 1 else ""
         self.notification_description = None
+
+        # Log that we're parsing this trade.
+        log.info("Processing trade: %s", self.guid)
 
     def load_trade_properties(self):
         """Load properties from the spec."""
@@ -136,7 +142,6 @@ class CashSecuredPut(Trade):
             "Strike": pretty_strike(self.strike),
             "Premium": pretty_premium(self.price_filled),
             "Break even": self.break_even(),
-            "Quantity": self.quantity,
             "Return": (
                 f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%"
             ),
@@ -174,9 +179,8 @@ class CoveredCall(Trade):
             "Strike": pretty_strike(self.strike),
             "Premium": pretty_premium(self.price_filled),
             "Break even": self.break_even(),
-            "Quantity": self.quantity,
             "Return": (
-                f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%",
+                f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%"
             ),
         }
 
@@ -208,7 +212,6 @@ class ShortNakedCall(Trade):
             "Strike": pretty_strike(self.strike),
             "Premium": pretty_premium(self.price_filled),
             "Break even": self.break_even(),
-            "Quantity": self.quantity,
             "Return": (
                 f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%",
             ),
@@ -233,7 +236,6 @@ class LongNakedCall(Trade):
             "Strike": pretty_strike(self.strike),
             "Premium": pretty_premium(self.price_filled),
             "Break even": self.break_even(),
-            "Quantity": self.quantity,
         }
 
 
@@ -255,7 +257,6 @@ class LongNakedPut(Trade):
             "Strike": pretty_strike(self.strike),
             "Premium": pretty_premium(self.price_filled),
             "Break even": self.break_even(),
-            "Quantity": self.quantity,
         }
 
 
@@ -277,7 +278,6 @@ class PutCreditSpread(Trade):
                 f"/{pretty_strike(self.long_strike)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -299,7 +299,6 @@ class CallCreditSpread(Trade):
                 f"/{pretty_strike(self.long_strike)}c"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -321,7 +320,6 @@ class PutDebitSpread(Trade):
                 f"/{pretty_strike(self.short_strike)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -343,7 +341,6 @@ class CallDebitSpread(Trade):
                 f"/{pretty_strike(self.short_strike)}c"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -364,7 +361,6 @@ class LongStrangle(Trade):
                 f"{pretty_strike(self.long_call)}c" f"/{pretty_strike(self.long_put)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -386,7 +382,6 @@ class ShortStrangle(Trade):
                 f"/{pretty_strike(self.short_put)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -407,7 +402,6 @@ class LongStraddle(Trade):
                 f"{pretty_strike(self.long_call)}c/{pretty_strike(self.long_put)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -428,7 +422,6 @@ class ShortStraddle(Trade):
                 f"{pretty_strike(self.short_call)}c/{pretty_strike(self.short_put)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -452,7 +445,6 @@ class JadeLizard(Trade):
                 f"Long: {pretty_strike(self.short_put)}p"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -476,7 +468,6 @@ class ShortIronCondor(Trade):
                 f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c"
             ),
             "Premium": pretty_premium(self.price_filled),
-            "Quantity": self.quantity,
         }
 
 
@@ -488,6 +479,8 @@ class BuyCommonStock(Trade):
         super().__init__(trade)
         # Common stock trades always use "note" for the trade note.
         self.trade_note = trade["note"]
+        self.notification_title = f"${self.symbol}: {self.trade_type} ({self.quantity}"
+        self.notification_title += " shares)" if self.quantity > 1 else " share)"
 
     def pretty_expiration(self):
         raise NotImplementedError
@@ -495,7 +488,6 @@ class BuyCommonStock(Trade):
     def notification_details(self):
         """Return the notification details."""
         return {
-            "Quantity": self.quantity,
             "Price": f"{pretty_strike(self.price_filled)}",
         }
 
@@ -508,6 +500,8 @@ class SellCommonStock(Trade):
         super().__init__(trade)
         # Common stock trades always use "note" for the trade note.
         self.trade_note = trade["note"]
+        self.notification_title = f"${self.symbol}: {self.trade_type} ({self.quantity}"
+        self.notification_title += " shares)" if self.quantity > 1 else " share)"
 
     def pretty_expiration(self):
         raise NotImplementedError
@@ -515,7 +509,6 @@ class SellCommonStock(Trade):
     def notification_details(self):
         """Return the notification details."""
         return {
-            "Quantity": self.quantity,
             "Price": f"{pretty_strike(self.price_filled)}",
         }
 
