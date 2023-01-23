@@ -39,3 +39,6 @@ TRANSPARENT_PNG = "https://major.io/transparent.png"
 
 # Discord username.
 DISCORD_USERNAME = "🤠 🤖"
+
+# Restrict to patron trades only.
+PATRON_TRADES_ONLY = os.environ.get("PATRON_TRADES_ONLY", False)

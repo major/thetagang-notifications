@@ -4,7 +4,11 @@ import logging
 
 import requests
 
-from thetagang_notifications.config import STORAGE_DIR, TRADES_API_KEY
+from thetagang_notifications.config import (
+    PATRON_TRADES_ONLY,
+    STORAGE_DIR,
+    TRADES_API_KEY,
+)
 
 log = logging.getLogger(__name__)
 
@@ -23,8 +27,12 @@ def get_trades() -> list:
     url = "https://api.thetagang.com/v1/trades"
     resp = requests.get(url, params)
 
+    # Get a list of trades.
+    trades = resp.json()["data"]["trades"]
+
     # Remove any non-patron trades.
-    trades = [x for x in resp.json()["data"]["trades"] if x["User"]["role"] == "patron"]
+    if PATRON_TRADES_ONLY:
+        trades = [x for x in trades if x["User"]["role"] == "patron"]
 
     # Reverse the order so we examine the oldest trades first.
     trades.reverse()

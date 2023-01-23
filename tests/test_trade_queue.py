@@ -36,7 +36,7 @@ def test_build_queue(mock_get_trades, tmp_path):
 
 @patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 @patch("thetagang_notifications.trade_queue.requests.get")
-def test_get_trades(mock_requests, tmp_path):
+def test_get_trades_all(mock_requests, tmp_path):
     """Get all recently updated trades."""
 
     mock_response = MagicMock()
@@ -45,6 +45,23 @@ def test_get_trades(mock_requests, tmp_path):
     mock_requests.return_value = mock_response
 
     trades = get_trades()
+
+    assert type(trades) == list
+    assert len(trades) == 4
+
+
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
+@patch("thetagang_notifications.trade_queue.requests.get")
+def test_get_trades_patrons_only(mock_requests, tmp_path):
+    """Get all recently updated trades from patrons only."""
+
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = MOCKED_TRADES
+    mock_requests.return_value = mock_response
+
+    with patch("thetagang_notifications.trade_queue.PATRON_TRADES_ONLY", True):
+        trades = get_trades()
 
     assert type(trades) == list
     assert len(trades) == 2
