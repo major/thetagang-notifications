@@ -479,8 +479,14 @@ class BuyCommonStock(Trade):
         super().__init__(trade)
         # Common stock trades always use "note" for the trade note.
         self.trade_note = trade["note"]
-        self.notification_title = f"${self.symbol}: {self.trade_type} ({self.quantity}"
-        self.notification_title += " shares)" if self.quantity > 1 else " share)"
+
+        # Force stock trades to always show as open.
+        self.status = "opened"
+        self.is_closed = False
+        self.is_open = True
+
+        self.notification_title = f"${self.symbol}: BOUGHT {self.quantity} share"
+        self.notification_title += "s" if self.quantity > 1 else ""
 
     def pretty_expiration(self):
         raise NotImplementedError
@@ -500,8 +506,14 @@ class SellCommonStock(Trade):
         super().__init__(trade)
         # Common stock trades always use "note" for the trade note.
         self.trade_note = trade["note"]
-        self.notification_title = f"${self.symbol}: {self.trade_type} ({self.quantity}"
-        self.notification_title += " shares)" if self.quantity > 1 else " share)"
+
+        # Force stock trades to always show as open.
+        self.status = "opened"
+        self.is_closed = False
+        self.is_open = True
+
+        self.notification_title = f"${self.symbol}: SOLD {self.quantity} share"
+        self.notification_title += "s" if self.quantity > 1 else ""
 
     def pretty_expiration(self):
         raise NotImplementedError
