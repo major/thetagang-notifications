@@ -12,14 +12,13 @@ python-dateutil = "^2.8.2"
 requests = "^2.28.2"
 tld = "^0.12.6"
 PyYAML = "^6.0"
-finviz = ">=1.4.5"
+finviz = "^1.4.5"
 schedule = "^1.1.0"
 
 [tool.poetry.group.dev.dependencies]
 freezegun = "^1.2.2"
 pytest = "^7.2.1"
 pytest-clarity = "^1.0.1"
-pytest-cov = "^4.0.0"
 pytest-mock = "^3.10.0"
 pytest-randomly = "^3.12.0"
 requests-mock = "^1.10.0"
@@ -33,10 +32,12 @@ types-requests = "^2.28.11.8"
 pytest-recording = "^0.12.1"
 flake8 = "^6.0.0"
 pytest-xdist = "^3.1.0"
+coverage = "^7.0.5"
+pytest-cov = "^4.0.0"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-n auto --ignore=setup.py --block-network --cov-report term-missing --cov-report html --cov-report xml:cov.xml --cov-branch --cov=thetagang_notifications"
+addopts = "-n auto --block-network --cov-report term-missing --cov-branch --cov=thetagang_notifications"
 testpaths = [
     "tests"
 ]

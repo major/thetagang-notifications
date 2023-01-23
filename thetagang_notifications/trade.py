@@ -1,6 +1,5 @@
 """Parse trades and send notifications."""
 import logging
-from abc import ABC
 
 import yaml
 
@@ -32,7 +31,7 @@ def get_spec_data(trade_type):
     return [x for x in spec_data if x["type"] == trade_type][0]
 
 
-class Trade(ABC):
+class Trade:
     """Abstract base class for a trade."""
 
     def __init__(self, trade):
