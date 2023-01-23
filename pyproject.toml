@@ -14,6 +14,7 @@ tld = "^0.12.6"
 PyYAML = "^6.0"
 finviz = "^1.4.5"
 schedule = "^1.1.0"
+inflect = "^6.0.2"
 
 [tool.poetry.group.dev.dependencies]
 freezegun = "^1.2.2"

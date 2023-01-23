@@ -1,6 +1,7 @@
 """Parse trades and send notifications."""
 import logging
 
+import inflect
 import yaml
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
@@ -484,17 +485,19 @@ class BuyCommonStock(Trade):
         self.is_closed = False
         self.is_open = True
 
-        self.notification_title = f"${self.symbol}: BOUGHT {self.quantity} share"
-        self.notification_title += "s" if self.quantity > 1 else ""
+        p = inflect.engine()
+        self.notification_title = (
+            f"Bought {self.quantity}"
+            f" {p.plural('share', self.quantity)} of {self.symbol} "
+            f"@ {pretty_strike(self.price_filled)}"
+        )
 
     def pretty_expiration(self):
         raise NotImplementedError
 
     def notification_details(self):
         """Return the notification details."""
-        return {
-            "Price": f"{pretty_strike(self.price_filled)}",
-        }
+        return {}
 
 
 class SellCommonStock(Trade):
@@ -511,17 +514,18 @@ class SellCommonStock(Trade):
         self.is_closed = False
         self.is_open = True
 
-        self.notification_title = f"${self.symbol}: SOLD {self.quantity} share"
-        self.notification_title += "s" if self.quantity > 1 else ""
+        p = inflect.engine()
+        self.notification_title = (
+            f"Sold {self.quantity} {p.plural('share', self.quantity)} of {self.symbol} "
+            f"@ {pretty_strike(self.price_filled)}"
+        )
 
     def pretty_expiration(self):
         raise NotImplementedError
 
     def notification_details(self):
         """Return the notification details."""
-        return {
-            "Price": f"{pretty_strike(self.price_filled)}",
-        }
+        return {}
 
 
 def get_handler(trade):
