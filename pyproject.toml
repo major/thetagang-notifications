@@ -38,7 +38,7 @@ pytest-cov = "^4.0.0"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-n auto --block-network --cov-report term-missing --cov-branch --cov=thetagang_notifications"
+addopts = "-n auto --block-network --cov-report term-missing --cov-branch --cov-report html --cov=thetagang_notifications --cov-fail-under=100"
 testpaths = [
     "tests"
 ]

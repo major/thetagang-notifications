@@ -67,6 +67,41 @@ def test_potential_return(real_trades):
         mock_potential_return.assert_called_once()
 
 
+def test_notify(real_trades):
+    """Test notify."""
+    trade_obj = trade.get_handler(real_trades)
+    with mock.patch(
+        "thetagang_notifications.trade.get_notification_handler"
+    ) as mock_notify:
+        trade_obj.notify()
+        mock_notify.assert_called_once()
+
+
+def test_closing_description(real_trades):
+    """Test closing description."""
+    trade_obj = trade.get_handler(real_trades)
+    result = trade_obj.closing_description()
+
+    if trade_obj.is_stock_trade:
+        assert result is None
+    else:
+        assert isinstance(result, str)
+        assert "$" not in result if trade_obj.is_assigned else "$" in result
+
+
+def test_opening_description(real_trades):
+    """Test opening description."""
+    trade_obj = trade.get_handler(real_trades)
+    result = trade_obj.opening_description()
+
+    if trade_obj.is_short and trade_obj.is_single_leg:
+        assert isinstance(result, str)
+        assert "Break even" in result
+        assert "Return" in result
+    else:
+        assert result is None
+
+
 @pytest.mark.parametrize("real_trades", ["LONG NAKED CALL"], indirect=True)
 def test_potential_return_not_implemented(real_trades):
     """Test a potential return that is not implemented."""
@@ -87,14 +122,6 @@ def test_pretty_expiration(real_trades):
         else:
             trade_obj.pretty_expiration()
             mock_pretty_expiration.assert_called_once()
-
-
-def test_notification_details(real_trades):
-    """Test notification details."""
-    trade_obj = trade.get_handler(real_trades)
-    result = trade_obj.notification_details()
-    # TODO: Improve this test and verify the output of the dict.
-    assert isinstance(result, dict)
 
 
 @pytest.mark.parametrize("real_trades", ["BUY COMMON STOCK"], indirect=True)

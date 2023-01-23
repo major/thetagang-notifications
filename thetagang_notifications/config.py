@@ -4,8 +4,7 @@ from tempfile import mkdtemp
 
 # Base directory for persistent storage.
 STORAGE_DIR = os.environ.get("STORAGE_DIR", mkdtemp())
-if not os.path.isdir(STORAGE_DIR):
-    os.mkdir(STORAGE_DIR)
+os.makedirs(STORAGE_DIR, exist_ok=True)
 
 # thetagang.com URLs
 TRADES_JSON_URL = "https://api.thetagang.com/trades"
@@ -31,8 +30,8 @@ COLOR_LOSER = "D42020"
 COLOR_ASSIGNED = "FFBF00"
 
 # Emojis for winning, losing, and assigned trades.
-EMOJI_WINNER = "🟢"
-EMOJI_LOSER = "🔴"
+EMOJI_WINNER = "✅"
+EMOJI_LOSER = "❌"
 EMOJI_ASSIGNED = "🚚"
 
 # Wide and trandparent PNG to make the notifications the same width each time:

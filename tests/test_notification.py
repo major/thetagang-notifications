@@ -23,15 +23,6 @@ def test_generate_action(real_trades):
     )
 
 
-def test_generate_description(real_trades):
-    """Test generate description."""
-    trade_obj = trade_get_handler(real_trades)
-    test_notifier = notification.get_handler(trade_obj)
-    desc = test_notifier.generate_description()
-
-    assert isinstance(desc, str) or desc is None
-
-
 def test_generate_embeds(real_trades):
     """Test generate embeds."""
     trade_obj = trade_get_handler(real_trades)
@@ -42,7 +33,7 @@ def test_generate_embeds(real_trades):
     assert isinstance(embed, DiscordEmbed)
 
 
-@pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
+# @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
 def test_notify(real_trades):
     """Test notify."""
     trade_obj = trade_get_handler(real_trades)

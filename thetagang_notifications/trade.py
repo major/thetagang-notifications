@@ -4,7 +4,12 @@ import logging
 import inflect
 import yaml
 
-from thetagang_notifications.config import TRADE_SPEC_FILE
+from thetagang_notifications.config import (
+    EMOJI_ASSIGNED,
+    EMOJI_LOSER,
+    EMOJI_WINNER,
+    TRADE_SPEC_FILE,
+)
 from thetagang_notifications.notification import get_handler as get_notification_handler
 from thetagang_notifications.trade_math import (
     call_break_even,
@@ -64,18 +69,26 @@ class Trade:
         self.is_winner = trade.get("win", False)
         self.is_loser = not self.is_winner
         self.status = "opened" if self.is_open else "closed"
+        self.result = (
+            "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
+        )
+        self.trade_emoji = (
+            EMOJI_ASSIGNED
+            if self.is_assigned
+            else EMOJI_WINNER
+            if self.is_winner
+            else EMOJI_LOSER
+        )
 
         # Get notes for the trade.
         self.note = trade["note"]
         self.closing_note = trade["closing_note"]
 
-        # Generate common notification elements.
-        self.notification_title = f"${self.symbol}: {self.trade_type}"
-        self.notification_title += f" ({self.quantity})" if self.quantity > 1 else ""
-        self.notification_description = None
-
         # Log that we're parsing this trade.
         log.info("Processing trade: %s", self.guid)
+
+        # Set up a basic header for notifications.
+        self.notification_header = f"{self.symbol}: {self.trade_type}"
 
     def load_trade_properties(self):
         """Load properties from the spec."""
@@ -84,7 +97,7 @@ class Trade:
         # Set properties based on date from the trade_spec YAML file.
         self.is_option_trade = spec_data["option_trade"]
         self.is_stock_trade = not spec_data["option_trade"]
-        self.is_single_leg = self.is_option_trade and ["single_leg"]
+        self.is_single_leg = self.is_option_trade and spec_data["single_leg"]
         self.is_multi_leg = self.is_option_trade and not spec_data["single_leg"]
         self.is_short = spec_data["short"]
         self.is_long = not spec_data["short"]
@@ -96,15 +109,27 @@ class Trade:
     def break_even(self):
         raise NotImplementedError("Break even not implemented for this trade.")
 
-    def notification_details(self):  # pragma: no cover
-        """Return the notification details.
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        desc = f"Break even: {self.break_even()}\n"
+        desc += f"Return: {self.potential_return()} ({self.annualized_return()} ann.)"
+        return desc
 
-        These are added as individual embeds in the Discord
-        notification.
-        """
-        raise NotImplementedError(
-            "Notification details not implemented for this trade."
+    def closing_description(self):
+        """Return the notification description for closing trades."""
+        desc = f"{self.trade_emoji} {self.result} "
+        desc += "" if self.is_assigned else f"{pretty_strike(self.profit * 100)}"
+        return desc
+
+    def notification_title(self):
+        """Return the notification title."""
+        strike_type = "c" if "CALL" in self.trade_type else "p"
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.strike)}{strike_type} "
+            f"for {pretty_premium(self.price_filled)}"
         )
+        return self.notification_header + "\n" + title
 
     def notify(self):
         """Send a notification for the trade."""
@@ -135,18 +160,6 @@ class CashSecuredPut(Trade):
     def break_even(self):
         return put_break_even(self.strike, self.price_filled)
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strike": pretty_strike(self.strike),
-            "Premium": pretty_premium(self.price_filled),
-            "Break even": self.break_even(),
-            "Return": (
-                f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%"
-            ),
-        }
-
     def potential_return(self):
         """Return the potential return on a short put."""
         return short_option_potential_return(self.strike, self.price_filled)
@@ -172,18 +185,6 @@ class CoveredCall(Trade):
         """Return the potential return on a short call."""
         return short_option_potential_return(self.strike, self.price_filled)
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strike": pretty_strike(self.strike),
-            "Premium": pretty_premium(self.price_filled),
-            "Break even": self.break_even(),
-            "Return": (
-                f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%"
-            ),
-        }
-
 
 class ShortNakedCall(Trade):
     """Short naked call trade."""
@@ -205,18 +206,6 @@ class ShortNakedCall(Trade):
         """Return the potential return on a short call."""
         return short_option_potential_return(self.strike, self.price_filled)
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strike": pretty_strike(self.strike),
-            "Premium": pretty_premium(self.price_filled),
-            "Break even": self.break_even(),
-            "Return": (
-                f"Ptl: {self.potential_return()}%\nAnn: {self.annualized_return()}%",
-            ),
-        }
-
 
 class LongNakedCall(Trade):
     """Long naked call trade."""
@@ -229,14 +218,9 @@ class LongNakedCall(Trade):
     def break_even(self):
         return call_break_even(self.strike, self.price_filled)
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strike": pretty_strike(self.strike),
-            "Premium": pretty_premium(self.price_filled),
-            "Break even": self.break_even(),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
 
 
 class LongNakedPut(Trade):
@@ -250,14 +234,9 @@ class LongNakedPut(Trade):
     def break_even(self):
         return put_break_even(self.strike, self.price_filled)
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strike": pretty_strike(self.strike),
-            "Premium": pretty_premium(self.price_filled),
-            "Break even": self.break_even(),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
 
 
 class PutCreditSpread(Trade):
@@ -269,16 +248,18 @@ class PutCreditSpread(Trade):
         self.short_strike = float(trade["short_put"])
         self.long_strike = float(trade["long_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.short_strike)}p"
-                f"/{pretty_strike(self.long_strike)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.short_strike)}p/{pretty_strike(self.long_strike)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class CallCreditSpread(Trade):
@@ -290,16 +271,18 @@ class CallCreditSpread(Trade):
         self.short_strike = float(trade["short_call"])
         self.long_strike = float(trade["long_call"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.short_strike)}c"
-                f"/{pretty_strike(self.long_strike)}c"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.short_strike)}c/{pretty_strike(self.long_strike)}c "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class PutDebitSpread(Trade):
@@ -311,16 +294,18 @@ class PutDebitSpread(Trade):
         self.short_strike = float(trade["short_put"])
         self.long_strike = float(trade["long_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.long_strike)}p"
-                f"/{pretty_strike(self.short_strike)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_strike)}p/{pretty_strike(self.short_strike)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class CallDebitSpread(Trade):
@@ -332,16 +317,18 @@ class CallDebitSpread(Trade):
         self.short_strike = float(trade["short_call"])
         self.long_strike = float(trade["long_call"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.long_strike)}c"
-                f"/{pretty_strike(self.short_strike)}c"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_strike)}c/{pretty_strike(self.short_strike)}c "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class LongStrangle(Trade):
@@ -353,15 +340,18 @@ class LongStrangle(Trade):
         self.long_call = float(trade["long_call"])
         self.long_put = float(trade["long_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.long_call)}c" f"/{pretty_strike(self.long_put)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.long_put)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class ShortStrangle(Trade):
@@ -373,16 +363,18 @@ class ShortStrangle(Trade):
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.short_call)}c"
-                f"/{pretty_strike(self.short_put)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.short_call)}c/{pretty_strike(self.short_put)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class LongStraddle(Trade):
@@ -394,15 +386,18 @@ class LongStraddle(Trade):
         self.long_call = float(trade["long_call"])
         self.long_put = float(trade["long_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.long_call)}c/{pretty_strike(self.long_put)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.long_put)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class ShortStraddle(Trade):
@@ -414,15 +409,18 @@ class ShortStraddle(Trade):
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.short_call)}c/{pretty_strike(self.short_put)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.short_call)}c/{pretty_strike(self.short_put)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class JadeLizard(Trade):
@@ -435,17 +433,19 @@ class JadeLizard(Trade):
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"Short: {pretty_strike(self.short_put)}p/"
-                f"{pretty_strike(self.short_call)}c\n"
-                f"Long: {pretty_strike(self.short_put)}p"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c/"
+            f"{pretty_strike(self.short_put)}p "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class ShortIronCondor(Trade):
@@ -459,16 +459,19 @@ class ShortIronCondor(Trade):
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def notification_details(self):
-        """Return the notification details."""
-        return {
-            "Expiration": self.pretty_expiration(),
-            "Strikes": (
-                f"{pretty_strike(self.long_put)}p/{pretty_strike(self.short_put)}p\n"
-                f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c"
-            ),
-            "Premium": pretty_premium(self.price_filled),
-        }
+    def opening_description(self):
+        """Return the notification description for opening trades."""
+        return None
+
+    def notification_title(self):
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_put)}p/{pretty_strike(self.short_put)}p/"
+            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
 
 
 class BuyCommonStock(Trade):
@@ -485,19 +488,22 @@ class BuyCommonStock(Trade):
         self.is_closed = False
         self.is_open = True
 
+    def pretty_expiration(self):
+        raise NotImplementedError
+
+    def closing_description(self):
+        return None
+
+    def notification_title(self):
         p = inflect.engine()
-        self.notification_title = (
+        return (
             f"Bought {self.quantity}"
             f" {p.plural('share', self.quantity)} of {self.symbol} "
             f"@ {pretty_strike(self.price_filled)}"
         )
 
-    def pretty_expiration(self):
-        raise NotImplementedError
-
-    def notification_details(self):
-        """Return the notification details."""
-        return {}
+    def opening_description(self):
+        return None
 
 
 class SellCommonStock(Trade):
@@ -514,18 +520,21 @@ class SellCommonStock(Trade):
         self.is_closed = False
         self.is_open = True
 
+    def pretty_expiration(self):
+        raise NotImplementedError
+
+    def closing_description(self):
+        return None
+
+    def notification_title(self):
         p = inflect.engine()
-        self.notification_title = (
+        return (
             f"Sold {self.quantity} {p.plural('share', self.quantity)} of {self.symbol} "
             f"@ {pretty_strike(self.price_filled)}"
         )
 
-    def pretty_expiration(self):
-        raise NotImplementedError
-
-    def notification_details(self):
-        """Return the notification details."""
-        return {}
+    def opening_description(self):
+        return None
 
 
 def get_handler(trade):

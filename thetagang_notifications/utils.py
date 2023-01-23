@@ -72,10 +72,6 @@ def get_logo_clearbit(symbol):
     if not finviz_data:
         return None
 
-    # Ensure the finviz result has a URL listed.
-    if not finviz_data["Website"]:
-        return None
-
     domain = tld.get_fld(finviz_data["Website"])
     return f"https://logo.clearbit.com/{domain}"
 
