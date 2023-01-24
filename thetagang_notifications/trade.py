@@ -112,7 +112,7 @@ class Trade:
     def opening_description(self):
         """Return the notification description for opening trades."""
         desc = f"Break even: {self.break_even()}\n"
-        desc += f"Return: {self.potential_return()} ({self.annualized_return()} ann.)"
+        desc += f"Return: {self.potential_return()}% ({self.annualized_return()}% ann.)"
         return desc
 
     def closing_description(self):
