@@ -45,6 +45,14 @@ def process_trade(trade) -> list:
     """Determine how to handle a trade returned by the API."""
     guid = trade["guid"]
 
+    log.info(
+        "Processing trade for %s: %s on %s (%s)",
+        trade["User"]["username"],
+        trade["type"],
+        trade["symbol"],
+        trade["guid"],
+    )
+
     with dbm.open(f"{STORAGE_DIR}/trades.dbm", "c") as db:
         db_state = db.get(guid, None)
         if not db_state or (db_state != trade_status(trade)):

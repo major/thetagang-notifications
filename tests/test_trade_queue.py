@@ -12,10 +12,34 @@ from thetagang_notifications.trade_queue import (
 MOCKED_TRADES = {
     "data": {
         "trades": [
-            {"guid": "1a", "close_date": None, "User": {"role": "patron"}},
-            {"guid": "2b", "close_date": "2020-01-01", "User": {"role": "patron"}},
-            {"guid": "3c", "close_date": None, "User": {"role": "member"}},
-            {"guid": "4d", "close_date": "2020-01-01", "User": {"role": "member"}},
+            {
+                "guid": "1a",
+                "close_date": None,
+                "symbol": "AAPL",
+                "type": "COVERED CALL",
+                "User": {"username": "testuser", "role": "patron"},
+            },
+            {
+                "guid": "2b",
+                "close_date": "2020-01-01",
+                "symbol": "AAPL",
+                "type": "COVERED CALL",
+                "User": {"username": "testuser", "role": "patron"},
+            },
+            {
+                "guid": "3c",
+                "close_date": None,
+                "symbol": "AAPL",
+                "type": "COVERED CALL",
+                "User": {"username": "testuser", "role": "member"},
+            },
+            {
+                "guid": "4d",
+                "close_date": "2020-01-01",
+                "symbol": "AAPL",
+                "type": "COVERED CALL",
+                "User": {"username": "testuser", "role": "member"},
+            },
         ]
     }
 }
