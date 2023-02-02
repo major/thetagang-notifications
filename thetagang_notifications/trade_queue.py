@@ -34,6 +34,9 @@ def get_trades() -> list:
     if PATRON_TRADES_ONLY:
         trades = [x for x in trades if x["User"]["role"] == "patron"]
 
+    # Remove any trades from the testing "antithetathetagang" user.
+    trades = [x for x in trades if x["User"]["username"] != "antithetathetagang"]
+
     # Reverse the order so we examine the oldest trades first.
     trades.reverse()
     log.info("Trades to process: %s", len(trades))
