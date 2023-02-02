@@ -36,6 +36,7 @@ flake8 = "^6.0.0"
 pytest-xdist = "^3.1.0"
 coverage = "^7.1.0"
 pytest-cov = "^4.0.0"
+pytest-sugar = "^0.9.6"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
