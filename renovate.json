@@ -3,24 +3,24 @@
   "extends": [
     "config:base"
   ],
-  "rangeStrategy": "bump",
-  "pre-commit": {
-    "enabled": true
-  },
   "lockFileMaintenance": {
-    "enabled": true,
     "automerge": true,
     "automergeType": "pr",
+    "enabled": true,
     "platformAutomerge": true
   },
   "packageRules": [
     {
+      "automerge": true,
+      "matchCurrentVersion": "!/^0/",
       "matchUpdateTypes": [
         "minor",
         "patch"
-      ],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
+      ]
     }
-  ]
+  ],
+  "pre-commit": {
+    "enabled": true
+  },
+  "rangeStrategy": "bump"
 }
