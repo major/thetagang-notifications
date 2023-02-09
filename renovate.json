@@ -5,14 +5,14 @@
   ],
   "lockFileMaintenance": {
     "automerge": true,
-    "automergeType": "branch",
+    "automergeType": "pr",
     "enabled": true,
     "rebaseWhen": "behind-base-branch"
   },
   "packageRules": [
     {
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "matchManagers": [
         "poetry"
       ],
@@ -26,5 +26,5 @@
   "pre-commit": {
     "enabled": true
   },
-  "rangeStrategy": "bump"
+  "rangeStrategy": "pin"
 }
