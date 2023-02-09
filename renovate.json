@@ -5,18 +5,22 @@
   ],
   "lockFileMaintenance": {
     "automerge": true,
-    "automergeType": "pr",
+    "automergeType": "branch",
     "enabled": true,
-    "platformAutomerge": true
+    "rebaseWhen": "behind-base-branch"
   },
   "packageRules": [
     {
       "automerge": true,
-      "matchCurrentVersion": "!/^0/",
+      "automergeType": "branch",
+      "matchManagers": [
+        "poetry"
+      ],
       "matchUpdateTypes": [
         "minor",
         "patch"
-      ]
+      ],
+      "rebaseWhen": "behind-base-branch"
     }
   ],
   "pre-commit": {
