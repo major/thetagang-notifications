@@ -7,7 +7,11 @@
     "automerge": true,
     "automergeType": "pr",
     "enabled": true,
-    "rebaseWhen": "behind-base-branch"
+    "platformAutomerge": true,
+    "rebaseWhen": "behind-base-branch",
+    "schedule": [
+      "every weekday"
+    ]
   },
   "packageRules": [
     {
@@ -20,6 +24,7 @@
         "minor",
         "patch"
       ],
+      "platformAutomerge": true,
       "rebaseWhen": "behind-base-branch"
     }
   ],
