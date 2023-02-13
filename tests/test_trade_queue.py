@@ -62,7 +62,6 @@ def test_build_queue(mock_get_trades, tmp_path):
 @patch("thetagang_notifications.trade_queue.requests.get")
 def test_get_trades_all(mock_requests, tmp_path):
     """Get all recently updated trades."""
-
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = MOCKED_TRADES
@@ -78,7 +77,6 @@ def test_get_trades_all(mock_requests, tmp_path):
 @patch("thetagang_notifications.trade_queue.requests.get")
 def test_get_trades_patrons_only(mock_requests, tmp_path):
     """Get all recently updated trades from patrons only."""
-
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_response.json.return_value = MOCKED_TRADES
