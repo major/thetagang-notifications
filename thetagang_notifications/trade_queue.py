@@ -6,6 +6,7 @@ import requests
 
 from thetagang_notifications.config import (
     PATRON_TRADES_ONLY,
+    SKIPPED_USERS,
     STORAGE_DIR,
     TRADES_API_KEY,
 )
@@ -34,8 +35,8 @@ def get_trades() -> list:
     if PATRON_TRADES_ONLY:
         trades = [x for x in trades if x["User"]["role"] == "patron"]
 
-    # Remove any trades from the testing "antithetathetagang" user.
-    trades = [x for x in trades if x["User"]["username"] != "antithetathetagang"]
+    # Remove any trades from skipped users.
+    trades = [x for x in trades if x["User"]["username"] if x not in SKIPPED_USERS]
 
     # Reverse the order so we examine the oldest trades first.
     trades.reverse()
