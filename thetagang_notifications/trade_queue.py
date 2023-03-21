@@ -36,7 +36,8 @@ def get_trades() -> list:
         trades = [x for x in trades if x["User"]["role"] == "patron"]
 
     # Remove any trades from skipped users.
-    trades = [x for x in trades if x["User"]["username"] if x not in SKIPPED_USERS]
+    if SKIPPED_USERS:
+        trades = [x for x in trades if x["User"]["username"] not in SKIPPED_USERS]
 
     # Reverse the order so we examine the oldest trades first.
     trades.reverse()
