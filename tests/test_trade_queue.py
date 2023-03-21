@@ -90,6 +90,22 @@ def test_get_trades_patrons_only(mock_requests, tmp_path):
 
 
 @patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
+@patch("thetagang_notifications.trade_queue.requests.get")
+def test_get_trades_skipped_users(mock_requests, tmp_path):
+    """Get all recently updated trades from users who aren't skipped."""
+    mock_response = MagicMock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = MOCKED_TRADES
+    mock_requests.return_value = mock_response
+
+    with patch("thetagang_notifications.trade_queue.SKIPPED_USERS", "testuser,test2"):
+        trades = get_trades()
+
+    assert type(trades) == list
+    assert len(trades) == 0
+
+
+@patch("thetagang_notifications.trade_queue.STORAGE_DIR", mkdtemp())
 def test_process_trade_new(tmp_path):
     """Test process_trade() for new trades."""
     trade = MOCKED_TRADES["data"]["trades"][0]
