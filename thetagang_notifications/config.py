@@ -20,9 +20,12 @@ WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES")
 TRADES_API_KEY = os.getenv("TRADES_API_KEY")
 
 # Icons for author line on opening/closing trade notifications.
-ICON_HOST = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com"
-OPENING_TRADE_ICON = f"{ICON_HOST}/thumbs/120/google/350/rocket_1f680.png"
-CLOSING_TRADE_ICON = f"{ICON_HOST}/thumbs/120/google/350/chequered-flag_1f3c1.png"
+OPENING_TRADE_ICON = (
+    f"https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f680.png"
+)
+CLOSING_TRADE_ICON = (
+    f"https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f3c1.png"
+)
 
 # Colors for winning, losing, and assigned trades.
 COLOR_WINNER = "008000"
