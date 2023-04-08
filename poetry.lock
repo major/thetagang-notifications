@@ -481,25 +481,25 @@ tests = ["asttokens", "littleutils", "pytest", "rich"]
 
 [[package]]
 name = "finviz"
-version = "1.4.5"
+version = "1.4.6"
 description = "Unofficial API for FinViz.com"
 category = "main"
 optional = false
-python-versions = "^3.8"
+python-versions = "*"
 files = [
-    {file = "finviz-1.4.5.tar.gz", hash = "sha256:524a975a1d2c410d33468e63227e79f23199e303b613eb53ca9308477a743634"},
+    {file = "finviz-1.4.6.tar.gz", hash = "sha256:2ce364e6fa8b5f7cb588207a5409cda6c3555b1904de9fa650e2241a65bd490b"},
 ]
 
 [package.dependencies]
-aiohttp = ">=3.7.4,<4.0.0"
-beautifulsoup4 = ">=4.9.3,<5.0.0"
-cssselect = ">=1.1.0,<2.0.0"
-lxml = ">=4.6.3,<5.0.0"
-requests = ">=2.25.1,<3.0.0"
-tenacity = ">=7.0.0,<8.0.0"
-tqdm = ">=4.61.1,<5.0.0"
-urllib3 = ">=1.26.5,<2.0.0"
-user_agent = ">=0.1.9,<0.2.0"
+aiohttp = "*"
+beautifulsoup4 = "*"
+cssselect = "*"
+lxml = "*"
+requests = "*"
+tenacity = "*"
+tqdm = "*"
+urllib3 = "*"
+user_agent = "*"
 
 [[package]]
 name = "freezegun"
