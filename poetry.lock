@@ -623,22 +623,22 @@ files = [
 
 [[package]]
 name = "inflect"
-version = "6.0.4"
+version = "6.1.0"
 description = "Correctly generate plurals, singular nouns, ordinals, indefinite articles; convert numbers to words"
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "inflect-6.0.4-py3-none-any.whl", hash = "sha256:2d592e7e4eafb6e51f9c626c5dd4288f5ce55981eaac9b342e868ead95ead5c3"},
-    {file = "inflect-6.0.4.tar.gz", hash = "sha256:1842649a17b6cad66812a5c9bdfacb6310e1e7b6dd8a31f026766df1b62612eb"},
+    {file = "inflect-6.1.0-py3-none-any.whl", hash = "sha256:5c0a218e66cb7a06ec4d416887175e97c6cdffcbbf8891f47b1ae2cbd8f6b7ab"},
+    {file = "inflect-6.1.0.tar.gz", hash = "sha256:5857af173e3cb986e7a83762ec808908e4b4164fa7f2b9484c0524f786c7bf82"},
 ]
 
 [package.dependencies]
-pydantic = ">=1.9.1"
+pydantic = ">=1.9.1,<2"
 
 [package.extras]
 docs = ["furo", "jaraco.packaging (>=9)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["flake8 (<5)", "pygments", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-flake8", "pytest-mypy (>=0.9.1)"]
+testing = ["pygments", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy (>=0.9.1)", "pytest-ruff"]
 
 [[package]]
 name = "iniconfig"
