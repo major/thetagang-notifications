@@ -635,14 +635,14 @@ files = [
 
 [[package]]
 name = "inflect"
-version = "6.2.0"
+version = "7.0.0"
 description = "Correctly generate plurals, singular nouns, ordinals, indefinite articles; convert numbers to words"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "inflect-6.2.0-py3-none-any.whl", hash = "sha256:5a005e0c9afe152cc95d552a59b8b0c19efc51823405b43d89e984f0c33bc243"},
-    {file = "inflect-6.2.0.tar.gz", hash = "sha256:518088ef414a4e15df70e6bcb40d021da4d423cc6c2fd4c0cad5500d39f86627"},
+    {file = "inflect-7.0.0-py3-none-any.whl", hash = "sha256:9544afed6182176e43955c44b1acdaed30f9b2b56c16d1fc5b222d98218b546e"},
+    {file = "inflect-7.0.0.tar.gz", hash = "sha256:63da9325ad29da81ec23e055b41225795ab793b4ecb483be5dc1fa363fd4717e"},
 ]
 
 [package.dependencies]
@@ -1973,4 +1973,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "93f9502750dac694009faa433213f38a0cc998a14cff315448ff1fc9505fd2d8"
+content-hash = "de8ebc4aaf0abd64dce324aff7cad595b76609a2280ac2be1e097af5d5177a9e"
