@@ -14,7 +14,7 @@ tld = "^0.13"
 PyYAML = "^6.0"
 finviz = "^1.4.5"
 schedule = "^1.1.0"
-inflect = "^6.0.2"
+inflect = "^7.0.0"
 sentry-sdk = "^1.17.0"
 
 [tool.poetry.group.dev.dependencies]
