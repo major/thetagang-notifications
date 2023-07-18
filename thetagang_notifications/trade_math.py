@@ -46,9 +46,7 @@ def pretty_strike(strike_price):
     $388. Use decimals if it has a decimal, like $388.50.
     """
     strike_price = float(strike_price)
-    return (
-        f"${strike_price:.0f}" if strike_price.is_integer() else f"${strike_price:.2f}"
-    )
+    return f"${strike_price:.0f}" if strike_price.is_integer() else f"${strike_price:.2f}"
 
 
 def pretty_premium(premium):

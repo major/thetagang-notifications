@@ -9,32 +9,24 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/025e664b-07f2-4735-a867-8884d8d8a68d
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xTwY7bNhD9lcEgRS+SQEmWJfHmZnMIsAUWiXtpUBgjcWQTlkmHpLIxgj31XBTI
-        uUAO/Yl8T3+g+YSCljbIoihQXUg9vXmceXr8gD5QmDzKQogEFQVC+QGDI8Vxcx5RiqwsxZOnTnA/
-        aYUSRVHxer3qUlEPRbqqyyqlZl2nTdOsVKMaWjcKE+T3Z+0uO0WBUWIhijwV6zRvtqKSQkghMiHE
-        z5hgP1rPT3lVmrfbvJSrXIo2K6o68uyZzb9o9TZvZbmWVZsVZRNp/nLq7IgSt69vN5igNjpoGlEO
-        NHpO8O1EJuhwQZknGC7nKPd8c3sLz1+9uHm5hdd3r15sbjDBM11ObAJK7B0rHTDBe21QBjdxgpNn
-        t1scaQqmuq3KtFdDl65opVIqmzwdCirbvqn7lcgxwUB7lGYaxwT9wbqwO0/hERit2X/7PhN6GuMk
-        VSNwoXxFqtih0z3vBj2OrFAWWVE9YldPFco8a4vFubeTjdbN8rPnTyDyXu9NLFqMYnJGm73/CoR7
-        5rCLE88VUZbVTk1Om/3uRO7IYXewk/NPjvk/jI4H63h3zQwFbc3jd3PtEG+414oVBAsnOjIQdByA
-        9qSND/As/mrw2vQML79/x9AxG+iYnPYHsAbCgcEH2x+BjIIfdX8gHuGHybkLeOaTj8IdA3m453HM
-        YHvQHrQH6uwUoKq+gzt7B/c6HIDgRO8hngx2gGdFUV1FZ3i03s9wXWXw5dNvH5eAx/mXWSLimAKr
-        TfjPKLcxytNZfUsrU5Gn+WorWpmXshTZur7SrpMtWZxd2/TRQ4/yzS8J3lkflu1Pnl284jG8hk6x
-        m9OBLooNJjiMpB1K/PLp4x+wEiL1wTEdIf/78+9//fpnMy/lvEg48gUTdHaMKmcKzpprL7EGZb4W
-        Cb5jpwcdIxXvzMPDQ4In9p72S+ge/gEAAP//AwCgfoB0iwQAAA==
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":0.33000000000000007,\"guid\":\"025e664b-07f2-4735-a867-8884d8d8a68d\",\"expiry_date\":\"2021-06-18T05:00:00.000Z\",\"close_date\":\"2021-05-19T13:41:09.257Z\",\"open_date\":\"2021-05-17T19:36:59.238Z\",\"symbol\":\"TSLA\",\"initial\":false,\"quantity\":1,\"type\":\"CALL
+        CREDIT SPREAD\",\"payment\":\"credit\",\"win\":true,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":null,\"long_put\":null,\"short_call\":\"580\",\"long_call\":\"585\",\"price_filled\":2.25,\"price_closed\":1.92,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"Decided
+        to make a bet against $TSLA since I've been bearish on the stock and Michael
+        Burry seems to be as well. This is about 55% PoP with a max gain of $225 and
+        a max loss of $275. \U0001F352\",\"closing_note\":\"\",\"createdAt\":\"2021-05-17T19:36:59.239Z\",\"updatedAt\":\"2023-01-14T09:13:30.679Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
+        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d1a03cf12e19-DFW
+      - 7e8c4a9e08e9e51c-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -42,13 +34,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:45 GMT
+      - Tue, 18 Jul 2023 17:02:17 GMT
       Etag:
-      - W/"48b-uqSlkDoeV7XGxOVuSCuEVrif4Yc"
+      - W/"488-jYu0O/1y7Pg1ABzoITvUefGuCnE"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=qza0tcf1dgY6bcxkgQfYy6kZhzNQSNHsNmThXfSzs9o0Gr%2BAsr9NreLQexorYEbdwuOiQ5F1kKqhxjo%2BjAWu1hyg08RyD8s2oiZuNT8YXUtrEncPGf1m69%2BBcQQ1wnFVS7dB"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=BObfAo7C%2B5owfNTqcQnDMrxfpZ8aef8eD67X65BcnhMUxq2XKLjWJi48CH4GmrXWr6HSie9iqnijqUA9eQx%2BFlPgvHjc7dQ9jkkSGdcKhnPjq11R6qJSOB3sum74q6LMMqaQo7DmpX0m93RA1asj"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -60,9 +52,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '494'
+      - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

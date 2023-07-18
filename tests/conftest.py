@@ -29,6 +29,6 @@ def real_trades(request):
 
     with vcr.use_cassette(cassette):
         url = f"https://api.thetagang.com/trades/{example_guid}"
-        trade = requests.get(url).json()["data"]["trade"]
+        trade = requests.get(url, timeout=15).json()["data"]["trade"]
 
     return trade

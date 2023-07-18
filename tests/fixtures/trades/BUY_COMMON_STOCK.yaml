@@ -9,30 +9,23 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/72060eaa-7803-4124-be5b-c03b54171e75
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xTy27UMBT9FeuKpTM4j5lJvCtdIVRaqe2iIBQ58c2MNYmd2k5LVM2KFSskViyQ
-        uuAn+B5+gH4C8jxKh0XFys7RucfnHp3cgfPCDw54whgFKbwAfgfeConh0rfAGYXFoCRwmCdsxlCI
-        aJ6zNMriJIsqnFZRzdJqmsXzGOdToIAfe2XHUgqPwPXQthTq1jjcIZCwJIlYErHiIp5xlvA0mcyK
-        4h1QMD3q52l5oLmxq0wLHM7ProCC0sor0QJvROuQwvUgtFd+BB6HrfzYB71Xl1fk+PTk5PQtOb84
-        PX4DFHoxdqg9cJBYKQ8UbpXeex4c2nK3eZ6gmBfTNKplU0WZyGQk0jyOmkSkRZ3P64zFQMGLxX7a
-        LY31ZT/4PdAavXj6vSXUom0PGE+B3qoay0a1LUrg2XQ2KeI9uklU7pmb3K4H82/iB5BwTi10GNrl
-        hMJqpRfuEfC3iL5UB7IoSzlYpRdlJ+wKfbk0g3UHz/wPo8LGWCw33RBemceY9cYhnIwkeRnn5EU2
-        ndaksihWeIOaKBeg2aRglDhDXhOJtZIoiTekV/WKDD3pjEXilsKiI6ohypPaGucCaYl/tSbk3FCy
-        RIvkFomwOCEP998+w9Zj8K+fBmhReJRH/vnGDr18llbM0k1jvalXuzZt9Y/qkIID/v4DhTPj/O56
-        6dCGXy/UT4suZNMtxShRA4WmFcoCh4f7r99JxljkfNiOxL9/fvn16Ue+PdLtwckKR6BgTRtUeuGt
-        0RsvYQZ4PGMUbtCqRoVSeDvger2m0KFzYrELYv0HAAD//wMATUgGjiMEAAA=
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":0,\"guid\":\"72060eaa-7803-4124-be5b-c03b54171e75\",\"expiry_date\":null,\"close_date\":\"2022-02-09T16:02:32.699Z\",\"open_date\":\"2022-02-09T16:02:32.698Z\",\"symbol\":\"SPY\",\"initial\":false,\"quantity\":100,\"type\":\"BUY
+        COMMON STOCK\",\"payment\":\"debit\",\"win\":null,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":null,\"long_put\":null,\"short_call\":null,\"long_call\":null,\"price_filled\":456.91,\"price_closed\":null,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"My
+        2/18 $455c breakeven is $456.90, so I decided to pick up more shares if it
+        crossed the breakeven. So, here we are. \U0001F609\",\"closing_note\":null,\"createdAt\":\"2022-02-09T16:02:32.699Z\",\"updatedAt\":\"2022-02-09T16:02:32.963Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
+        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d17868347ae7-LAX
+      - 7e8c4a769c26476c-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -40,13 +33,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:39 GMT
+      - Tue, 18 Jul 2023 17:02:11 GMT
       Etag:
-      - W/"423-CYgYhRJsOu+zMSTOcXJitbFGRX4"
+      - W/"420-CC4Gkf03O+jEOBNWVOfOft5RBsI"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=lgJO8NdFR%2B4cNPv4WiWwQ6xNpM0WEus8v7m%2F0ezKXtr7QWmrRw8u%2B4XV%2BMjdVv3AJMl4wiSPte6DG9tzQNLHoHNth9zGEnEnriDue3MDMIgQRIVxPTAShyMNm8fSQZR6%2FYvr"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=jplNCBfP2aYIoDUVD1Z%2B1CEZF0TzARXr983N9mUbVr4ouCIDSNAU02Q4XN4aMyiDzWtqhMt7CFt4n%2BMCEEO9fF5uR31hgc4BD%2FObltsdyaxgCn0YLX4azIftAAZHWsn4n62AawsiCKXYcqDZZ6uH"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -58,9 +51,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '498'
+      - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

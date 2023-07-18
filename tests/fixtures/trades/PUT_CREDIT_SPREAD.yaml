@@ -9,31 +9,23 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/e97a14ee-8d1a-49d8-94c3-36813908d156
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xTQWobMRS9ivi0dDMzSDNje6ydabLIItQkzqalDPLo2xaWpYmkqWuCVz1AodBd
-        IYv2ED1PL9AcocgehwRa6Eri672v976e7sAHEToPPKc0ASmCAH4HwQmJcdNq4GmRDVgCy05J4IDj
-        kWAlYlpJJtJyLKt0XDZFWgwrVoxpJdlgCAngx1a5XS1FQOCQ05ylLE/ZaEaHnFJOaUYpfQsJNNp6
-        /Asupzwf8pJmRVlFnG3RPIextKAzVvEB5XScjUbDCPO7zdxq4DC5PIMElFFBCQ18IbTHBG47YYIK
-        O+AsgbBrY7fpzYy8vjo/u5iR6+nV+STyWrHboAnAoXEoVYAEtso8tuk8urofSJWjGI0HRdrIxTwt
-        RSlTUVQsXeSiGDfVqCkpgwSCWAI3ndYJ+JV1oW672J4NKCSgrVmeCuUATpBGaH0iHSBPC61TDdYL
-        pTVK4Cwrx6faYaQS+KCf2m1n49iOtOO8n5WE92ppIqO3h8IZZZb+sRC2iKGOdo+M2BZlLTunzLLe
-        CLfGUK9s5/yza/4HMceFdVgf8iKCsuZ0bg4KYZS/JFM7zch1UFqTeae18itiDXkxuTwj8y6Qi1eS
-        aLVGEixpREtaG9DEZyfaeo+ebFVYkbBCctRB/Da6I1oE1LusD2HU2d/5pmtWGXm4//E1njkUAeUk
-        /DN4oxi8rpVPYUVKWcrKGaOcDniRZ0XJDvkMtln30Tn6nDTRtQf+7n0CU+tDv73x6OIXjFkzYhN1
-        bVZiJ9FAAgstlAMOD/dfvpGS0tQHh2JN2O+fn399+l4dl+K4cLLGHSTgrI5dWhGcNQctkQOcDWkC
-        H9CphYohCK7D/X6fwAa9F8s+Jvs/AAAA//8DAKZCHSorBAAA
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":-3.51,\"guid\":\"e97a14ee-8d1a-49d8-94c3-36813908d156\",\"expiry_date\":\"2021-12-17T06:00:00.000Z\",\"close_date\":\"2021-12-17T20:26:40.348Z\",\"open_date\":\"2021-11-30T18:50:09.776Z\",\"symbol\":\"AMD\",\"initial\":false,\"quantity\":1,\"type\":\"PUT
+        CREDIT SPREAD\",\"payment\":\"credit\",\"win\":false,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":\"150\",\"long_put\":\"145\",\"short_call\":null,\"long_call\":null,\"price_filled\":1.49,\"price_closed\":5,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"72%
+        PoP. Still bullish on $AMD but I'd like to cap potential losses with the market
+        swings lately.\",\"closing_note\":\"Ouch. \U0001F915\",\"createdAt\":\"2021-11-30T18:50:09.777Z\",\"updatedAt\":\"2023-01-14T10:05:32.341Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
+        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d1621d6feaf2-DFW
+      - 7e8c4a641b9503d9-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -41,13 +33,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:35 GMT
+      - Tue, 18 Jul 2023 17:02:08 GMT
       Etag:
-      - W/"42b-xc4x4nDOZRwerfeKLuVqbiKb96k"
+      - W/"428-irMnnBesyN0Upmiv3yBqDgoBMao"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=%2FjY%2B3wpsjhzcpCH09303Lwobl8mGGPJ02lQ%2FqQyYnavpZ8U7jR13vN%2F4TzBBtd%2BRrn6VDyHNSPX9JiUDvZRYTA5z5VAl39V4dvp1xdww4QrGB%2Fwrfo0EZIkesJuuLnDJ25In"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=pZx%2Bc9OieStvsl33gYje0Lf19AzUeJ1y44ad64%2FJwI6m%2BEqzRzgfuMOSdCiB67g0HR1fGSMwsUHg5HyDJzFFWMq8ZaBzbMa1k6872L1dBHu0zKcAfa%2BWGE2qncnefhG7mU%2BPtK8%2F3OWZ1BDYniJL"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -61,7 +53,7 @@ interactions:
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

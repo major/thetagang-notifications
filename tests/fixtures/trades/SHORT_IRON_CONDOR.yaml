@@ -9,32 +9,24 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/8cdf95fd-d0d4-4f47-ae81-a1e000979291
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xTW47bNhTdCnEBIz+SSuphW/wLmo8OEGQGHqdAWgcCLV7ZhGlSIa8yNYL56gK6
-        iG4i6+kGuoWCtmeQQRCgggBSh+de8hwdfoFIiqYIsuQ8A61IgfwCFJTGNBktyFwUTfvyyWA3GQ0S
-        lr0e2mbQuea6zuuhXuQKlyJXAjnn7aItWwEZ4B+jCadOK0KQUPKyzHmVi+WaLyTnkvOCc/4bZNBb
-        H/E73mItWllxWVZFO58nnh/RvaSld11yKRpZ1UWzEIkWT8ettyDh7sPdW8jAOENGWZCDshEz+DQp
-        R4ZOIEUGdBpTu/tfbldrdrO6fcd+vn335nYFGYzqdERHIKEPqA1BBg/GPbeZIobu6kg9nzfNom5y
-        UWuR100/5NtK8bwe5ttlw0us2i1kQGoH0k3WZhD3PlA3Tqm9EA1kYL3bPQMcnii9skmLaPgT5xlJ
-        VWMwPXaDsRY1SFEsnqCzqRpkVVRX5z5NPll32f/i+QtIxWh2LtVcFaIKzrhdfAboAZG6pPhSkdqi
-        7vQUjNt1RxUOSN3eTyG+2Ob/MLY4+IDdOTOKjHdP6+58QlhUMzY2nG2cuH+zcb23FntCzcRP1cbd
-        fJ6xti3mG7e6v2HlfOM27p6U0ypo1nunfWCDD+yIBXvr/cG43flbpUUKqk87Mj+wm1/ZHgMWrOIz
-        drdmEYltJ2JmYIaY9hjdK2J7Q2x7YrRHhk6nujR9QDwwYy3r98rtkJFnDZ8xStA3ui6Skx1XaQkJ
-        qAj1a/phsquU7GnU39KqnItc1GvBpRCy4UUjmvMFIN8frtG8mPj6LDCC/P1jBnc+0nX6PmJINz5l
-        2aljOs1qinTCECCDwSoTUtJmTPz79a9//vybX4blZZAs7lV/sOnXacggeJs6jIrCWWekgOoAsszg
-        MwYzGLwe6PHxMYMjxqh21/Q9/gcAAP//AwDSure0lAQAAA==
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":-1.5999999999999999,\"guid\":\"8cdf95fd-d0d4-4f47-ae81-a1e000979291\",\"expiry_date\":\"2022-03-18T07:00:00.000Z\",\"close_date\":\"2022-03-17T19:30:23.966Z\",\"open_date\":\"2022-02-02T20:15:34.571Z\",\"symbol\":\"PYPL\",\"initial\":false,\"quantity\":1,\"type\":\"SHORT
+        IRON CONDOR\",\"payment\":\"credit\",\"win\":false,\"profitLoss\":null,\"user_guid\":\"46655745-14d1-45cf-b3a0-4f6b8502e39b\",\"tag\":null,\"short_put\":\"115\",\"long_put\":\"110\",\"short_call\":\"150\",\"long_call\":\"155\",\"price_filled\":1.7,\"price_closed\":3.3,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"73%
+        p50 \\n1SD\\ncollected 1/3\\nIv% 99.6\\nRSI 26\\n\\nStandard condor for me.
+        Looking for a contraction of IV here. 30% PT set but if it doesn't hit by
+        the end of the week ill change to 50% till expiration\",\"closing_note\":\"\",\"createdAt\":\"2022-02-02T20:15:34.573Z\",\"updatedAt\":\"2023-01-14T10:11:50.515Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"Rustyerr\",\"flair\":\"1%
+        1\uFE0F\u20E30\uFE0F\u20E38\uFE0F\u20E3: shackleford\",\"role\":\"patron\",\"streak\":1,\"verified\":null}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d193e928aa85-DFW
+      - 7e8c4a916b754868-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -42,13 +34,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:43 GMT
+      - Tue, 18 Jul 2023 17:02:15 GMT
       Etag:
-      - W/"494-UDcB8s5e5dg5uOlRKf0oZX0kGq8"
+      - W/"494-nditg32SfpbvKunHG4O5XWCwaF8"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=866J64%2FupojkQiX24dXHDi5dw1NoXGCJrTFAtuFOWpXFSn12A7riivaRgOzzJb%2Bt4wojzbqM5bhyDvxDv7UpKQ%2BCXiWinXbc1%2F3Ielmr25NLBFAiNdud%2BKkGJpjkfIihj2cE"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=zYLSg7mfgkJUj3gTAv4c1eTfzWa4Bky0haLxWVofDEYA2EIvX35xTPa2Aa%2BKRpqIw9W6l16dLFU1bIRvZzX2YzocLtigHoi83p%2BhU2VC8CHLIB4RQ8QrIxF06rPPh69d1CdFvzNPbFkc%2FeFLpYJ5"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -60,9 +52,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '498'
+      - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

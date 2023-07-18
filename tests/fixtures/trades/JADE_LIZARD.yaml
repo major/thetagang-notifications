@@ -9,30 +9,23 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/7b2834c0-51a8-42ae-9c00-23dd9af79b37
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xTXYvbMBD8K2KfZSPbcT78FrgrXCm09OOlpRhZWjtLZMmV5Kah3H8vcuK291IK
-        QojVzGh3GP2EEGWcAzSlEBy0jBKanxC91JgOk4FGcBhm0tDAriv31UaJrC7kPtuUErODEiIrK60P
-        st8dumoHHPDHRP7aahkRGihFWWUirY+iboRohMiFEJ+BgzIu4B1nZ2M4uAntS2KRFbuPRd1siqba
-        51VRJ2K4jp0z0MCHt6+egANZiiQNNL00ATl8m6WNFK/QFIJDvE5J7/Xx4ZG9efp8fP8AHCZ5HdFG
-        aEB51BSBw4Xs2scc0Lf3qbu6rvd1dcgUblW2kX2fdXqLmdpsilqVsu5lBRyiHFZ2ODkf22lO6nVe
-        Awfj7HAr/I1Q0qQhtn8gayU16Elh25MxqKER+bZaa4tt+oVl32aXPKvzbbHaei/dQDIEGuwfEkpv
-        yQ7ht2PxghhbeqGKutWzJzu0o/RnjO3JzT6siFsX/4HosHce2yUVMpL7bbJdGoTHey9MuZHswOYp
-        Z0djGFlNaiEEJj0yiuxCxrAOmWQXskwOMu1Ws3hCFqJT5xsiTHTGnD2xeCJ7Xm61u9hAGpmncGYU
-        2EiWRmk46+bIqGdPbMDIVp+YswttmmNg45UpFyK7uNno9Pwm3+/Y5UTqlJR6spjf05yssH/5rjzK
-        iPoY/53nedL/gB3ybblbYp9GvMfypn9Uiz/QfPnK4Z0L8X78FNCn/5tybOWYbL5IY+Q0q/TbOfRG
-        kl9VvDMJMeLYoV/e8SjP0JQcvqOnntbgPD8/cxgxBDncR3z+BQAA//8DAPGlGhpCBAAA
+      string: '{"status":200,"data":{"trade":{"pl":1.3,"guid":"7b2834c0-51a8-42ae-9c00-23dd9af79b37","expiry_date":"2023-03-03T05:00:00.000Z","close_date":"2023-01-30T14:33:07.202Z","open_date":"2023-01-17T15:41:38.315Z","symbol":"SOFI","initial":false,"quantity":10,"type":"JADE
+        LIZARD","payment":"credit","win":true,"profitLoss":null,"user_guid":"b5558539-ce6c-4aff-bd6e-c4415c2a5fa3","tag":null,"short_put":"5.5","long_put":null,"short_call":"6.5","long_call":"6","price_filled":0.63,"price_closed":0.5,"open_quote":5.61,"close_quote":6.77,"assigned":false,"earnings":false,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"Earnings
+        coming up. All indications are it will be a win again and the stock will spike.
+        I think the downside risk is minimal, but if I get assigned on the puts my
+        cost would be 4.87 which is fine.","closing_note":"","createdAt":"2023-01-17T15:41:38.315Z","updatedAt":"2023-01-30T14:33:07.447Z","Actions":[],"Posts":[],"User":{"username":"wallapuctus","flair":null,"role":"member","streak":1,"verified":null}}},"message":null}'
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d1bda9952eff-LAX
+      - 7e8c4a816b9d0bac-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -40,13 +33,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:50 GMT
+      - Tue, 18 Jul 2023 17:02:13 GMT
       Etag:
-      - W/"442-0lBBD8dPVehXWkvy4pMKMJ8blEU"
+      - W/"458-3yz978aud9ulRtWGf0d1v2u0Nhs"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=eXQQd4AYRvyz67gp33xqGbdLD3%2BGIFlhI7UXbv5v1gEXAa%2FSzRg3pKv%2FLNl2Ys7D1OGIGDqBBECvnAfsBt8INr3nNTUsWA%2Bg8lu6o11dIa2LlG3LzW4kCl84NAI2XgQfbu%2B1"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=8sa0MtCeBOwUv2jwNm4MjzlvbtTaJrEKJRpoxreKr3IKL5JINPtDzWP35HqTexQ3zzRXXVPUj%2Bagr0NZkbQ8gENaRizlL7%2FF3Hj%2BiOBde00Ln2rQZbC4HetB03ar0C1%2B9oXiSypx5HTAf%2F%2F7znkr"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -58,9 +51,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '497'
+      - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

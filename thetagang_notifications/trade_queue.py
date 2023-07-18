@@ -26,7 +26,7 @@ def get_trades() -> list:
     log.info("Getting most recently updated trades...")
     params = {"api_key": TRADES_API_KEY}
     url = "https://api.thetagang.com/v1/trades"
-    resp = requests.get(url, params)
+    resp = requests.get(url, params, timeout=15)
 
     # Get a list of trades.
     trades = resp.json()["data"]["trades"]
@@ -36,7 +36,7 @@ def get_trades() -> list:
         trades = [x for x in trades if x["User"]["role"] == "patron"]
 
     # Remove any trades from skipped users.
-    if SKIPPED_USERS != [""]:
+    if [""] != SKIPPED_USERS:
         trades = [x for x in trades if x["User"]["username"] not in SKIPPED_USERS]
 
     # Reverse the order so we examine the oldest trades first.

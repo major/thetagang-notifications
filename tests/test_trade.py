@@ -4,6 +4,7 @@ from unittest import mock
 import pytest
 
 from thetagang_notifications import trade
+from thetagang_notifications.trade import AnnualizedReturnError, BreakEvenError, PotentialReturnError
 
 
 @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
@@ -20,9 +21,7 @@ def test_get_handler_unknown_type():
         trade.get_handler(mock_trade)
 
 
-@pytest.mark.parametrize(
-    "real_trades", ["CASH SECURED PUT", "LONG NAKED PUT"], indirect=True
-)
+@pytest.mark.parametrize("real_trades", ["CASH SECURED PUT", "LONG NAKED PUT"], indirect=True)
 def test_put_break_even(real_trades):
     """Test put break even."""
     with mock.patch("thetagang_notifications.trade.put_break_even") as mock_break_even:
@@ -48,7 +47,7 @@ def test_call_break_even(real_trades):
 def test_break_even_not_implemented(real_trades):
     """Test call break even."""
     trade_obj = trade.get_handler(real_trades)
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(BreakEvenError):
         trade_obj.break_even()
 
 
@@ -59,9 +58,7 @@ def test_break_even_not_implemented(real_trades):
 )
 def test_potential_return(real_trades):
     """Test potential return."""
-    with mock.patch(
-        "thetagang_notifications.trade.short_option_potential_return"
-    ) as mock_potential_return:
+    with mock.patch("thetagang_notifications.trade.short_option_potential_return") as mock_potential_return:
         trade_obj = trade.get_handler(real_trades)
         trade_obj.potential_return()
         mock_potential_return.assert_called_once()
@@ -70,9 +67,7 @@ def test_potential_return(real_trades):
 def test_notify(real_trades):
     """Test notify."""
     trade_obj = trade.get_handler(real_trades)
-    with mock.patch(
-        "thetagang_notifications.trade.get_notification_handler"
-    ) as mock_notify:
+    with mock.patch("thetagang_notifications.trade.get_notification_handler") as mock_notify:
         trade_obj.notify()
         mock_notify.assert_called_once()
 
@@ -106,16 +101,14 @@ def test_opening_description(real_trades):
 def test_potential_return_not_implemented(real_trades):
     """Test a potential return that is not implemented."""
     trade_obj = trade.get_handler(real_trades)
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(PotentialReturnError):
         trade_obj.potential_return()
 
 
 def test_pretty_expiration(real_trades):
     """Test pretty expiration date formatting."""
     trade_obj = trade.get_handler(real_trades)
-    with mock.patch(
-        "thetagang_notifications.trade.pretty_expiration"
-    ) as mock_pretty_expiration:
+    with mock.patch("thetagang_notifications.trade.pretty_expiration") as mock_pretty_expiration:
         if "COMMON STOCK" in trade_obj.trade_type:
             with pytest.raises(NotImplementedError):
                 trade_obj.pretty_expiration()
@@ -128,5 +121,5 @@ def test_pretty_expiration(real_trades):
 def test_annualized_return_not_implemented(real_trades):
     """Test annualized return for a trade that is not implemented."""
     trade_obj = trade.get_handler(real_trades)
-    with pytest.raises(NotImplementedError):
+    with pytest.raises(AnnualizedReturnError):
         trade_obj.annualized_return()

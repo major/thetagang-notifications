@@ -1,18 +1,11 @@
-name: Update image
+name: Main
+
 on:
   push:
-    paths-ignore:
-      - "**.md"
     branches:
       - main
   pull_request:
-    paths-ignore:
-      - "**.md"
-    branches:
-      - main
-  release:
-    types:
-      - published
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
     # manual run
 
@@ -22,51 +15,66 @@ env:
   PIP_USER: false
 
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
-    name: Run tests
     steps:
-
-      - name: Clone repository
+      - name: Check out
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Set up the environment
+        uses: ./.github/actions/setup-poetry-env
+
+      - name: Run checks
+        run: make check
+
+  tox:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+      fail-fast: false
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python-version }}
 
-      - name: Bootstrap poetry
-        run: pipx install poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
 
-      - name: Configure poetry
-        run: poetry config virtualenvs.in-project true
-
-      - name: Set up cache
+      - name: Load cached venv
         uses: actions/cache@v3
-        id: cache
         with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+          path: .tox
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
 
-      - name: Ensure cache is healthy
-        if: steps.cache.outputs.cache-hit == 'true'
+      - name: Install tox
         run: |
-          # Using `timeout` is a safeguard against the Poetry command hanging for some reason.
-          timeout 10s poetry run pip --version || rm -rf .venv
+          python -m pip install --upgrade pip
+          python -m pip install tox tox-gh-actions
 
-      - name: Install with poetry
-        run: poetry install
+      - name: Test with tox
+        run: tox
 
-      - name: Run tests
-        run: poetry run pytest
-
-      - name: Check for clean working tree
-        run: |
-          git diff --exit-code --stat HEAD
+      - name: Upload coverage reports to Codecov with GitHub Action on Python 3.11
+        uses: codecov/codecov-action@v3
+        if: ${{ matrix.python-version == '3.11' }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build-and-push-image:
     runs-on: ubuntu-latest
-    needs: test
+    needs:
+      - tox
+      - quality
     permissions:
       contents: read
       packages: write

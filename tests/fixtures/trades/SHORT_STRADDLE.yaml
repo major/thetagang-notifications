@@ -9,31 +9,23 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/3eb1d57f-a720-41a9-ab54-27458ecee21f
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4yTW2/UMBCF/8poXlClZOVkL9nNW6UigYSgKuUBEIpm49nE1LGDPemyQv3vyHsp
-        9AXxZo/PGY8/Hf/CKCRTxLpUKkNNQlj/QgmkOS1Gi7XKsJuMxhrnvC30strlVJUqXxS0yWm7XORl
-        tViuuWUuix1myD9HEw6NJmGssVTlPFdlrsr7oqqVqpWaKaW+YIat9ZHPOjdZm6Ef2b00FnmxTsZi
-        U6tyVs5XyRgPw9ZbrPH28+07zNA4I4Ys1juykTP8MZETIwesiwzlMKZ2H998uLuHj/d31zc3715j
-        hiMdBnaCNbaBtRHMcG/cZZIpcmjO716vVpXerap8vSpUvpireU5FtcxVWaj5Zl4sad1ihkLdxR17
-        H6QZp9S9WmOG1rvutP9b0JK1LxSnwkkyBtNyszPWssZ6OVtsLrUjN/2C2Y/JJ2hVNVtfuJ5LJxHF
-        aDr3x8QUnHFdfEYme2ZpzIuurBs9BeO6ZqDwwNL0fgrxojhN8R+KLe984OYYCxLjnxm744B45601
-        roPRR5OOwU8CxoGYgWfw3u+hp0cGAgmTPYBmKwSOJwlkIaasasuw703bw9tXA3Tea9gb6aEzj+xA
-        ehIorkB6E+E4BUcYg/EBxMOFBJDTUF5BihT0FGHL7GAMLHKAQK5j2PrJadhyYuWgUkfLemlifw5z
-        AuH+ot4GJmF9Lf+O8zTqf8jmM1VujqkX3z6cM3nqf90mXhHrr98yvPVRzstPkUP6vinEjoYE+XuY
-        GDPcWTLhYg/epqOBhy2H4wWB6QHrZYaPHMzOpLxImPjp6SnDgWOk7vy2p98AAAD//wMA1qzR5DoE
-        AAA=
+      string: '{"status":200,"data":{"trade":{"pl":0.4400000000000004,"guid":"3eb1d57f-a720-41a9-ab54-27458ecee21f","expiry_date":"2023-02-02T17:00:00.000Z","close_date":"2023-01-27T21:11:26.075Z","open_date":"2023-01-18T17:19:02.236Z","symbol":"PYPL","initial":false,"quantity":1,"type":"SHORT
+        STRADDLE","payment":"credit","win":true,"profitLoss":null,"user_guid":"8667df67-8610-4303-a175-021039315a8c","tag":null,"short_put":"78","long_put":null,"short_call":"78","long_call":null,"price_filled":5.49,"price_closed":5.05,"open_quote":77.8,"close_quote":81.87,"assigned":false,"earnings":false,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"Rolling
+        position out in time. Now have a truly delta neutral straddle which I''m good
+        with given that 1) this expires prior to earnings and 2) PYPL has been pretty
+        range bound between 70 and 85ish","closing_note":"","createdAt":"2023-01-18T17:19:02.236Z","updatedAt":"2023-01-27T21:11:26.378Z","Actions":[],"Posts":[],"User":{"username":"jrue","flair":null,"role":"member","streak":2,"verified":true}}},"message":null}'
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d1af1de2dbe5-LAX
+      - 7e8c4ab7f8ea03df-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -41,13 +33,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:48 GMT
+      - Tue, 18 Jul 2023 17:02:21 GMT
       Etag:
-      - W/"43a-vybrHXVY3/iSRqc5PdpLP5EyF4A"
+      - W/"461-jMM26niH3EdGHhmYIRiqgoHiuQE"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=3gie%2FjiLlPHDfmu%2BY%2FroKRDYRyGD1itRo7rKF2Og9qvGBXHYDfb3k1I2icxYV0HvltPRG2N0hU9gu5YpLZY7ybH7mjdMQ8SN%2BuajUYnTrt85aPur5%2F%2BG4hHUwN%2BUCaidMUMq"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=gqmmo5AjFL3dn3GY2N90W5%2FyOAcDkaWULBlattSRq2DO%2BjMu0097CzZnXtZaXilvCUDq9hBZLHyY2NtTRWbmgEmW1H7L8ZXjbwbm1ecGZP797VaL64hKsYlKz22gR7iykK0VgqaF0ejuvElEcOPL"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -61,7 +53,7 @@ interactions:
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

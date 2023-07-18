@@ -9,30 +9,22 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/96975bff-9962-462d-84b4-acf9236c442a
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4yTS2/UMBSF/4p1F7BxIsd5zMS7KUJlURUEwwaEIk98k5omdmo7lBGa/448k6jl
-        JZGVc/zlPo5OfoAPMsweBGeMgpJBgvgBwUmF8TANIFjKOXv+cAr9rBUIqKt6Ux66LqnriidFxVWy
-        LQ5FItuu5nnVFgWXQAG/T9odGyUDggDOeJ6wLOFszyrBmGAsZYx9AgrtYD3+hctKwSpRFmlR8cjZ
-        Cc3vWLbdcybySmRlWtV5xPxxPNgBBOx2QEEbHbQcQHRy8EjhYZYm6HAEkVEIxykWu3l7e00+7N/v
-        bq9vXgOFSR5HNAEEKDzoABQetQER3IwUZo+uWZzglZLFdquSA9tskiLjZbLNiyyRedtVWd5h11VA
-        IcgehJmHgYK/sy400xxWYbCmv7xDmcMKtHIYfiEuApRlHM/pFptODwMqEHlaFKt2dvKsVdXi18Ns
-        o2FlnuZ8tXrVWMprCtJ73Zv42WIRSme06f26cXhEDE1c+DJQrIuqUbPTpm9G6e4xNHd2dn4lLnP8
-        B3HAzjpszlGRQVuz3pvzhE9srHPR4ErqARXJiJJHEqwl3lqTEvJGKiLJ5GynA3lBlFbmZSCP0gQS
-        LAk4TuTrPE7a9ESbYMlT01gpjUF0KAOqXfhnwIoYsHlSf2DP41qzSw6Dbe+XpFwW2bWxmwfx+QuF
-        d9aH5fjRo4v/XYyWkWNccv/qqtgAhW6Q2q3fOzvEuxHHA7pzB4fyHkRB4Rs63WlcWp1OJwojei/7
-        xcXTTwAAAP//AwBKS0/S9AMAAA==
+      string: '{"status":200,"data":{"trade":{"pl":0.2200000000000002,"guid":"96975bff-9962-462d-84b4-acf9236c442a","expiry_date":"2023-01-20T06:00:00.000Z","close_date":"2023-01-20T15:06:54.462Z","open_date":"2023-01-18T20:36:15.693Z","symbol":"AA","initial":false,"quantity":1,"type":"LONG
+        STRANGLE","payment":"debit","win":true,"profitLoss":null,"user_guid":"26da488d-b077-4125-8341-a3cf613feff6","tag":null,"short_put":null,"long_put":"53","short_call":null,"long_call":"55","price_filled":3.44,"price_closed":3.66,"open_quote":53.32,"close_quote":50.29,"assigned":false,"earnings":true,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":null,"closing_note":"Bailed
+        1 day too soon.  Had a profit & didn''t want to temp jumping into expiration
+        day.","createdAt":"2023-01-18T20:36:15.694Z","updatedAt":"2023-01-20T15:06:54.903Z","Actions":[],"Posts":[],"User":{"username":"TCB47","flair":null,"role":"member","streak":2,"verified":null}}},"message":null}'
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d1b5cba45263-LAX
+      - 7e8c4aa8df2a3066-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -40,13 +32,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:49 GMT
+      - Tue, 18 Jul 2023 17:02:19 GMT
       Etag:
-      - W/"3f4-ie+IcLeWCpbIh4gtbSxtXS/HmhY"
+      - W/"3f4-jrDUF8n2ZEw3QHEk84g0jXj8VvE"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=zIeYapqd3FeFaYHkcPZJ97ofUxMFMcEdeidXrJR7M4ES2gIi8KhEIzTGK882nkXVNH%2FdrcuWopjpcmIFrzURqCY%2Be%2BfYRDPFwzv48wHktCnCJTMK59pP1V4lAIu5%2FtpCdOQt"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bhVxbN%2Fbl0lfOrD1YluoObxa%2ByVixBtw7Xw1IP2BGQQEvXov71T8tNRwgNvkq2OgpCK%2B1lJR0tU%2Fvw9qV0ZnEjUONOaM0D4OG1ZqA0FRnUwYm7w3SrWLN05SoE1zbz0Ps2tOW5IfiVJnywNjouG6"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -58,9 +50,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '499'
+      - '498'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

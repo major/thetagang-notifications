@@ -9,32 +9,24 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/2093163e-2d7b-424f-b007-51c46ace7bb4
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xTy4rkNhT9FXGZIRvZSLbb5dKu6cwmNKTJdAKTIZhb1rVbtEvy6NGTytCrfMBA
-        ILtAL+YbAoH8TX4g/QlB5eowk0DISvLROVf3Hh+9gxAxpgCqEoKDxoig3kH0qClvlhmUKNszDlMy
-        GhRUYlvLtqai0ptd0VTNWOyE2BRncmhaHGiz2zXAgb5fjD/0GiMdRVVViKqQ3bVolRBKiFII8S1w
-        GGYX6F88eS071WxUI0vZNZnnFrL/pInuWraqblUly060mRYO+52bQcHLq1fAwVgTDc6gRpwDcXiT
-        0EYTD6Akh3hYcrWLL7958dWLz9nF+eUlcFjwsCcbQcHgSZsIHN4aCyr6RBxSIN+frOgqws32rC4G
-        Pe6KBhtdYN3JYqyw3g7dZmiEBA4RJ1A2zTOHcON87JcUn4DZ2enj75Uw4JxHaFoBJ8qKrJzFm4H6
-        0cwzaVCyrJ+go5X66X8dDXuTXHZsFa5WfwJhCGayWXQyiNBbY6fwNxDfEsU+z7sqclnSvU7e2Knf
-        o7+l2N+45MMn1/wfxo5G56k/RgWjcfbp3B47hC9SiCxZTZ6JUm6YpjkiQ6uZFGX1nKG1CWfzA2nm
-        KSZvS3aRvCcb2eBCZDsMJrDRefbs5dUrZgJD75LV7FnTbI51TPwsMIwZ2LLoNB5K9vjw86+PD+9/
-        Z5eEd8ZOTArBwg16CizZwd2RJ12ekpsnPHV7Jp6z6M00kc+HnjCSPo//Hde06I9pdSFkIZtrKZSs
-        lGzKbbc9pjq64fYUu9Wi8yEbFkC9/o7DlQvxtP06kM/vNufU4j43tr/BgyYLHMYZjQcFjw8//cIa
-        IYoQPeEtk3/+9v6PHz9061Kvi2K3dAAO3s25yoLRO3vsJWtAyVZwuCNvRpPzk5/H/f09hz2FgNMp
-        Yfd/AQAA//8DAOaTD/FgBAAA
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":0.65,\"guid\":\"2093163e-2d7b-424f-b007-51c46ace7bb4\",\"expiry_date\":\"2022-02-18T06:00:00.000Z\",\"close_date\":\"2022-02-11T18:47:41.184Z\",\"open_date\":\"2022-02-08T16:36:21.806Z\",\"symbol\":\"SPY\",\"initial\":false,\"quantity\":1,\"type\":\"COVERED
+        CALL\",\"payment\":\"credit\",\"win\":true,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":null,\"long_put\":null,\"short_call\":\"460\",\"long_call\":null,\"price_filled\":1.3,\"price_closed\":0.65,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"Just
+        under 0.17 delta and 10.2% annualized return. Current cost basis for $SPY
+        is around $447 and it's at $449 today. \U0001F575\U0001F3FB Leaving 100 shares
+        uncovered.\",\"closing_note\":\"50% trigger\",\"createdAt\":\"2022-02-08T16:36:21.806Z\",\"updatedAt\":\"2023-01-14T10:12:14.989Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
+        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d1674b1e2ef9-LAX
+      - 7e8c4a71afc5463e-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -42,13 +34,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:36 GMT
+      - Tue, 18 Jul 2023 17:02:10 GMT
       Etag:
-      - W/"460-kRhBdaAdejNNTIc/tRhGDXlHuD8"
+      - W/"45d-+C2QP5uyXSIRieKrd2Ppq9lhv0s"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=fZhatLLhX3fVPBpYIR3ANgu%2F%2BMNkQnjVe8sv4qvzyfktQ9CIZ8%2BZYE%2FXiait%2B917ASEMjeudy%2BDuvkKHm10rs9vS0dI3SIbyeNrWKh%2FRZ0v9y4uDrIlE%2BXwV%2BheUbQz1PW7%2F"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bLhIKGaYD63AAUS1QOd2Yw23OX4YenKAOXEbBqDSOnLlhSlCf0J0jFXjgFzn6G4tdw2pPXvVQiMm%2FwgJAVTH9%2BhiNV0%2FVdXvGwqUbJiqbJAK6nnOu00Go0MXoELqxb%2BO7IKVqY8BO4vds2TuVDA%2F"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -60,9 +52,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '498'
+      - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

@@ -9,34 +9,26 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/665b5d15-7009-49b7-8746-0e7effdf0829
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xUzY7kNBB+lVJpJC5JcH46nfatxY6GFathNN0sLCxquTuVtNWOnbWd6Y1Wc+IB
-        kPaIkDhw4RF4Hl4AHgE53T1asQiRi53PX32q+srld+i88INDnjEWYS28QP4OvRU1hU2vkMcsSefs
-        wy+fR9gOskaOZTnbzup0Fs8ZW8TFYjuPq3lRxozm1DR1w6psgRHS217acVMLT8gxY1keszRm5ZqV
-        nDHOWMIY+xYj3Cnj6CNesU4rXpScZUk6nwWe6Un/G63keclZmmSzLNDc2G2NQo6ru1cYodTSS6GQ
-        N0I5ivDNILSXfkSeRujHPqitPv/yfg23yy+un8FnyxcvMMJejB1pjxx3lmrpMcKj1E8qgyO7OftR
-        ZSTmi1ke7+pmGxeiqGORV2ncZCJf7Kr5rmApRuhFi1wPSkXo9sb6TT/4C6CMbj/8PxF2QoU68mqG
-        Z8oJOXF6K3e0aaRSVCPPk/wCTX5OUDE/u/ZmMMG2vMqTsrw4/gQWyWIRoXBOtjoEnmskYbXUrXsC
-        /JHIb0LNpwyCNNWberBSt5tO2AP5zd4M1l0Yp1T+B2NLjbG0me6M8NLoy7mecsS/fvnpN/h6eX/7
-        /PaGw/Lm5v56tXr+8hrW98tn1xCOX+vX+mp19wr2wsFW6JZqkNobuMqrAjqhR/CyIwdC19CQUrAV
-        uwPU5qgTWO8JamEPvTEKFD2QctBY04VgFl/lBQNhCbpg0gNNEn5PliZ0K1u4uf7mEjcdROCNSWCp
-        FHQjuL2w5OAYIkIPqQZxFCMYDWn2ac4mQUdKSd1CP3gHjqhzIEBJ7xXBUaoajnvSID0oYw4OlDwQ
-        HOkTS+BN34dIM/jkPFDB77N3a2MOIGArtiMo4xycEnf/kPJ76cAKpcbJQUWtm8QsCU/10v/31A19
-        /REtLdYp41nF0yyZsXwaTm92h/PgnBq83IV2O+TffR/hnXH+vP3KkQ3PUZg0LbpQSLcXY00aI2yU
-        kHa6Fu9/hoKx2HlL4gDpn7//+McPv1anJT8tHA40YoTWqKDSC2+NnnIJMcjTkkX4QFY2Mtx+bwd6
-        fHyMsCPnREunRB//BgAA//8DAGLcr5A3BQAA
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":-0.17000000000000037,\"guid\":\"665b5d15-7009-49b7-8746-0e7effdf0829\",\"expiry_date\":\"2023-01-06T06:00:00.000Z\",\"close_date\":\"2023-01-04T18:46:02.175Z\",\"open_date\":\"2023-01-04T16:36:01.252Z\",\"symbol\":\"SPY\",\"initial\":false,\"quantity\":1,\"type\":\"SHORT
+        NAKED CALL\",\"payment\":\"credit\",\"win\":false,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":null,\"long_put\":null,\"short_call\":\"385\",\"long_call\":null,\"price_filled\":3.3,\"price_closed\":3.47,\"open_quote\":383.66,\"close_quote\":384.99,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"\U0001F6A8
+        WARNING: AGGRESSIVE TRADE \U0001F6A8\\n\\n$SPY has banged into $384 many times
+        and fell back down. The darkpool levels from $380-$340 are massive and there
+        are big GEX levels there, too. All my shares were called away on 12/30 and
+        selling puts seems a little wild when it looks like we're topping out.\",\"closing_note\":\"Took
+        a baby loss here as it looks like this rally has legs.\",\"createdAt\":\"2023-01-04T16:36:01.252Z\",\"updatedAt\":\"2023-01-14T10:28:12.503Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
+        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d18f8b282b87-LAX
+      - 7e8c4a964934287f-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -44,13 +36,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:43 GMT
+      - Tue, 18 Jul 2023 17:02:16 GMT
       Etag:
-      - W/"537-BuS81PnHxrGGu3Z27yQkGiCP56M"
+      - W/"534-hnGt4XiIKHIbgQopx40FfnKzJ34"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=N3C9g0TvfsE3A34DDGaInEsOIDpkkWPEqt9Y6lgBBJteaS3d8ZzEz3fAxRttw4dQq58%2FiYKWqF9g0kLi71Um8M6CeOqOVv1MmengX%2BthofNJkEj%2BO5dOiYJmUR86uDb5lQd%2F"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=FIMRHuotVUyL2pN66EJ3dYH%2F7%2FEtMcHaCJCiIR3M68zMiY7seNgiano5LOPZ7yRp1I%2FGCocEDjO4f0%2FjDWKB5e%2FcGXfrfb7jlT5MSe5If7JtpNcP%2FDKXpihs2LsTDZAAECNz%2BWMdGsmaoXndtFEk"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -62,9 +54,9 @@ interactions:
       X-Ratelimit-Limit:
       - '500'
       X-Ratelimit-Remaining:
-      - '498'
+      - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

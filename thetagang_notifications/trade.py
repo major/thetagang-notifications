@@ -25,6 +25,30 @@ from thetagang_notifications.trade_math import (
 log = logging.getLogger(__name__)
 
 
+class AnnualizedReturnError(Exception):
+    """Exception when we cannot calculate the annualized return."""
+
+    def __init__(self, trade_type: str) -> None:
+        """Initialize the exception."""
+        super().__init__(f"Annualized return not available for: {trade_type}")
+
+
+class BreakEvenError(Exception):
+    """Exception when we cannot calculate the break even."""
+
+    def __init__(self, trade_type: str) -> None:
+        """Initialize the exception."""
+        super().__init__(f"Break even not available for: {trade_type}")
+
+
+class PotentialReturnError(Exception):
+    """Exception when we cannot calculate the potential return."""
+
+    def __init__(self, trade_type: str) -> None:
+        """Initialize the exception."""
+        super().__init__(f"Potential return not available for: {trade_type}")
+
+
 def convert_to_class_name(trade_type):
     """Convert a trade type to a class name."""
     return "".join([word.capitalize() for word in trade_type.split(" ")])
@@ -69,16 +93,8 @@ class Trade:
         self.is_winner = trade.get("win", False)
         self.is_loser = not self.is_winner
         self.status = "opened" if self.is_open else "closed"
-        self.result = (
-            "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
-        )
-        self.trade_emoji = (
-            EMOJI_ASSIGNED
-            if self.is_assigned
-            else EMOJI_WINNER
-            if self.is_winner
-            else EMOJI_LOSER
-        )
+        self.result = "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
+        self.trade_emoji = EMOJI_ASSIGNED if self.is_assigned else EMOJI_WINNER if self.is_winner else EMOJI_LOSER
 
         # Get notes for the trade.
         self.note = trade["note"]
@@ -104,10 +120,10 @@ class Trade:
 
     def annualized_return(self):
         """Return the annualized return for a trade."""
-        raise NotImplementedError("Annualized return not implemented for this trade.")
+        raise AnnualizedReturnError(self.trade_type)
 
     def break_even(self):
-        raise NotImplementedError("Break even not implemented for this trade.")
+        raise BreakEvenError(self.trade_type)
 
     def opening_description(self):
         """Return the notification description for opening trades."""
@@ -137,7 +153,7 @@ class Trade:
         notification_handler.notify()
 
     def potential_return(self):
-        raise NotImplementedError("Potential return not implemented for this trade.")
+        raise PotentialReturnError(self.trade_type)
 
     def pretty_expiration(self):
         """Return the pretty expiration date for an option trade."""

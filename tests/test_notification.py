@@ -18,9 +18,7 @@ def test_generate_action(real_trades):
 
     assert action["name"] == f"{trade_obj.username} closed a trade"
     assert action["icon_url"] == CLOSING_TRADE_ICON
-    assert (
-        action["url"] == f"https://thetagang.com/{trade_obj.username}/{trade_obj.guid}"
-    )
+    assert action["url"] == f"https://thetagang.com/{trade_obj.username}/{trade_obj.guid}"
 
 
 def test_generate_embeds(real_trades):
@@ -39,13 +37,12 @@ def test_notify(real_trades):
     trade_obj = trade_get_handler(real_trades)
     test_notifier = notification.get_handler(trade_obj)
 
-    with mock.patch(
-        "thetagang_notifications.notification.DiscordWebhook.execute"
-    ) as mock_execute, mock.patch(
-        "thetagang_notifications.notification.get_stock_logo"
-    ) as mock_logo:
+    with (
+        mock.patch("thetagang_notifications.notification.DiscordWebhook.execute") as mock_execute,
+        mock.patch("thetagang_notifications.notification.get_stock_logo") as mock_logo,
+    ):
         mock_logo.return_value = "https://storage.googleapis.com/iex/api/logos/SPY.png"
         test_notifier.generate_embeds()
         test_notifier.notify()
 
-    assert mock_execute.called_once()
+    assert mock_execute.called

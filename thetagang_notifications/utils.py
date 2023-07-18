@@ -37,7 +37,7 @@ def get_finviz_stock(symbol):
     """Get data about a stock from finviz."""
     try:
         return finviz.get_stock(symbol)
-    except Exception:  # noqa: PIE786
+    except Exception:
         return None
 
 
@@ -49,7 +49,7 @@ def get_base_domain(url):
 
 def get_logo_iex(url):
     """Get a stock logo from IEX Cloud."""
-    resp = requests.get(url)
+    resp = requests.get(url, timeout=15)
 
     # Check if we got a 403/404 because the logo does not exist.
     if not resp.ok:

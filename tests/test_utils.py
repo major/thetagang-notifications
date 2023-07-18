@@ -12,7 +12,7 @@ def test_get_stock_chart():
     assert chart_url == expected_url
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr
 def test_get_finviz_stock_equity():
     """Ensure we get stock data from finviz properly."""
     result = utils.get_finviz_stock("AMD")
@@ -20,7 +20,7 @@ def test_get_finviz_stock_equity():
     assert result["Sector"] == "Technology"
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr
 def test_get_finviz_stock_etf():
     """Ensure we get stock data from finviz properly."""
     result = utils.get_finviz_stock("SOXL")
@@ -28,14 +28,14 @@ def test_get_finviz_stock_etf():
     assert result["Sector"] == "Exchange Traded Fund"
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr
 def test_get_stock_logo(mocker):
     """Test getting a stock logo."""
     result = utils.get_stock_logo("AMD")
     assert "AMD.png" in result
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr
 def test_get_stock_logo_failure(mocker):
     """Test getting a stock logo when everything fails."""
     result = utils.get_stock_logo("DOOTY")
@@ -46,18 +46,14 @@ def test_get_stock_logo_success(requests_mock, mocker):
     """Test getting a stock logo when everything fails."""
     primary_url = f"{utils.IEX_PRIMARY_LOGO_URL}/AMD.png"
     secondary_url = f"{utils.IEX_SECONDARY_LOGO_URL}/AMD.png"
-    requests_mock.get(
-        primary_url, headers={"x-goog-hash": utils.IEX_PLACEHOLDER_IMAGE_HASH}
-    )
+    requests_mock.get(primary_url, headers={"x-goog-hash": utils.IEX_PLACEHOLDER_IMAGE_HASH})
     requests_mock.get(secondary_url, text="doot")
-    mocker.patch(
-        target="thetagang_notifications.utils.get_logo_clearbit", return_value=None
-    )
+    mocker.patch(target="thetagang_notifications.utils.get_logo_clearbit", return_value=None)
     result = utils.get_stock_logo("AMD")
     assert result == secondary_url
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr
 def test_get_finviz_stock_failure():
     """Ensure we handle finviz failures."""
     result = utils.get_finviz_stock("DOOT")
@@ -88,7 +84,7 @@ def test_get_logo_iex_placeholder():
         assert result is None
 
 
-@pytest.mark.vcr()
+@pytest.mark.vcr
 def test_get_logo_clearbit():
     """Test retrieving logos from Clearbit."""
     result = utils.get_logo_clearbit("AMD")

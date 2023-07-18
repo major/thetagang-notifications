@@ -1,7 +1,4 @@
 """Send notifications to discord for trades."""
-
-from abc import ABC
-
 from discord_webhook import DiscordEmbed, DiscordWebhook
 
 from thetagang_notifications.config import (
@@ -17,15 +14,13 @@ from thetagang_notifications.config import (
 from thetagang_notifications.utils import get_stock_logo
 
 
-class Notification(ABC):
+class Notification:
     """Base class for discord notifications."""
 
     def __init__(self, trade):
         """Initialization method."""
         self.trade = trade
-        self.trade_note = (
-            self.trade.note if self.trade.is_open else self.trade.closing_note
-        )
+        self.trade_note = self.trade.note if self.trade.is_open else self.trade.closing_note
 
         # Choose an action icon based on the trade status.
         self.icon_url = OPENING_TRADE_ICON if self.trade.is_open else CLOSING_TRADE_ICON
@@ -80,11 +75,7 @@ class ClosedNotification(Notification):
         """Initialization method."""
         super().__init__(trade)
         self.trade_color = (
-            COLOR_ASSIGNED
-            if self.trade.is_assigned
-            else COLOR_WINNER
-            if self.trade.is_winner
-            else COLOR_LOSER
+            COLOR_ASSIGNED if self.trade.is_assigned else COLOR_WINNER if self.trade.is_winner else COLOR_LOSER
         )
 
     def generate_embeds(self):

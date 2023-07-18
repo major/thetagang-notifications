@@ -1,73 +1,10 @@
-ci:
-  autofix_prs: true
-
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.0.277"
     hooks:
-      - id: check-added-large-files
-      - id: check-ast
-      - id: check-builtin-literals
-      - id: check-case-conflict
-      - id: check-docstring-first
-      - id: check-executables-have-shebangs
-      - id: check-json
-      - id: check-merge-conflict
-      - id: check-shebang-scripts-are-executable
-      - id: check-symlinks
-      - id: check-toml
-      - id: check-yaml
-      - id: debug-statements
-      - id: end-of-file-fixer
-      - id: pretty-format-json
-        args: [--autofix, --no-ensure-ascii]
-      - id: trailing-whitespace
-
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.10.0
-    hooks:
-      - id: python-use-type-annotations
-      - id: python-check-blanket-noqa
-
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.9.0
-    hooks:
-      - id: pyupgrade
-
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v2.1.5
-    hooks:
-      - id: pycln
-        args: [--all]
-
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.7.5
-    hooks:
-      - id: docformatter
-
-  - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-      - id: isort
-        types: [python]
-        args: ["--profile", "black", "--filter-files"]
+      - id: ruff
 
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: "23.7.0"
     hooks:
       - id: black
-
-  - repo: https://github.com/pre-commit/pre-commit
-    rev: v3.3.3
-    hooks:
-      - id: validate_manifest
-
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v1.4.1'
-    hooks:
-      - id: mypy
-        args: [--no-strict-optional, --ignore-missing-imports]
-        additional_dependencies:
-          - types-python-dateutil
-          - types-requests
-          - types-PyYAML

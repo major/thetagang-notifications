@@ -9,34 +9,28 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/c90e5d5d-8158-43d7-ba09-e6a0dbbf207c
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4xUzWokNxB+laJw2AS6G/XP/OlmnIX4EDCxfdgNYahp1Uwr1ki9ktqTyeLTPsBC
-        IIfAgg95hkAgb5MXiB8haHq8zJIQcpKo/r6vVF9V9VsMkeIQUFZCZKgoEsq3GD0pTpfeoCyLJsPN
-        oBVKbBeCJ2qi8nk5medNrWb5isQi5ykJtVqtKzFrMUP+odd+v1QUGSVWoqpyUeXl/EZMpRBSiEII
-        8RozbI0L/C+4qpL1TNaLYjGpEs71bP8BEzflRE4WspwWjVgkWNhvV86gxOurV5ihtjpqMijXZAJn
-        +GYgG3XcoywzjPs+qV2cX38F1y8vbr95+SVc3d5ghj3tt2xjKtez0hEz3GmLMvqBMxwC++XRjnnF
-        NFtM6rxV61XeUKNyqudlvq6oXrTzWduIEjOMtEFpB2MyDJ3zcdkPSb1pBGZonN2MgVNES8Y8Rw6I
-        00DvdcvLtTaG1bE/Y+hgp0Ipjo69GVyybGSNXn8SohD0xibGWBuTt9puwkfH4o45LlOtIyGpslqq
-        wWu7WW7J33Fcdm7w4ZMs/wex4rXzvDyMCkXt7PN3e3ggnl1fvYItKQYCpfsMgoNLUNxqxQqig8DG
-        wIqN20HsGCohvj4H8m6wCkRRTkGxiQQ7HTsom6L5DMjagYz+kRV4joO3BVwM3rON0LoQYUVBB9Dh
-        WeWsaRYjvxECQkeeA3xeCQGDbd09e1ZfFPD0+PNvT4/v/ziOcyr7tIR1emZ0cNbUdTGbAFkFly+2
-        sOEYtd3Acw+gY89AMWUVY1ZKpHkxFbDyTHd8z7aAm47iiwC0ckM8IOYTMC6EDFZDhEPKHZ2UMBGw
-        69jCJQRnFMROB+iHePRzS5Y2o59077T6yCszIQS49UEb9BouoSMF3w/JJzdsung0pIDzCIYpxFFb
-        edcH2O5PLSUwOkbDyaxf3iWjPFNkdR7/e5+HXp3C6lyUednclEKWtSzLoqnLw9pH194dd3KcofM2
-        TVRA+e13GV65EI/X28A+/dfSElvapiZtO9ortpjh2pD2KPHp8acPqeN5iMl2KP/6/f2f736dj0c9
-        HhLueI8ZemeSSk/RO3t4S+KgLKciw3v2eq2f9+vh4SHDLYdAm+MGPvwNAAD//wMAD7uneoAFAAA=
+      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":1.4,\"guid\":\"c90e5d5d-8158-43d7-ba09-e6a0dbbf207c\",\"expiry_date\":\"2022-02-18T06:00:00.000Z\",\"close_date\":\"2022-02-18T22:37:39.952Z\",\"open_date\":\"2022-02-10T15:59:16.409Z\",\"symbol\":\"SPY\",\"initial\":false,\"quantity\":1,\"type\":\"CASH
+        SECURED PUT\",\"payment\":\"credit\",\"win\":true,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":\"440\",\"long_put\":null,\"short_call\":null,\"long_call\":null,\"price_filled\":1.4,\"price_closed\":0,\"open_quote\":null,\"close_quote\":null,\"assigned\":true,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"$SPY
+        made a dip, so I decided to sell below the 200MA around 0.16 delta with 14.4%
+        annualized return. Current cost basis is around $449 with 400 shares (200
+        uncovered). \U0001F575\U0001F3FB\",\"closing_note\":\"$SPY fell to $433.75
+        and I'm getting assigned here at $440 with a $438.60 breakeven. That's about
+        a $485 loss, but $SPY was around $450 when I sold this put, so I managed to
+        avoid around $1,000 of loss if I had just bought shares. At least this drops
+        my cost basis a little. \U0001F643\",\"createdAt\":\"2022-02-10T15:59:16.409Z\",\"updatedAt\":\"2023-01-14T10:13:11.431Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
+        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d16c4ea42f2d-LAX
+      - 7e8c4a6adda04600-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -44,13 +38,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:37 GMT
+      - Tue, 18 Jul 2023 17:02:09 GMT
       Etag:
-      - W/"580-wf/vWNaRYJP3PJLZgv3G8rAzI1o"
+      - W/"57d-RNWnTLGzkqdCnV1paQ2Rzshe8ZE"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=9rwR2MYU7%2FfYUn45%2Bhe6jbNzJf5OBPovwnT%2BwyUMozifSMREAjhgu%2Bc%2FG1s4YwGMIeBeO8lyckdwXivWBcF35rQiNX49Fk0nRwMVrNm6OWY5K9cKuL50Dl9TXwyznsDV98ee"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=c6xkx85cKQh8oDdAD%2Bg%2FR0DJlCXPJFXZSaSsRzez5pjR7yaC6fuJ5eD3c5%2B7tbIEm0huG3xFQty%2BrzU7MyIE0hr0JbwZgk5x2TgNl9d20L5I9JC5o0Bfj%2FGKR5O0TksGlsvM20CbQ%2FWBjfKhtaLE"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -64,7 +58,7 @@ interactions:
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK

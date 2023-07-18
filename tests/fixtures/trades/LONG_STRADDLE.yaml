@@ -9,29 +9,21 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://api.thetagang.com/trades/e3c567b4-cad4-4fea-8114-5bef5b5e0d1f
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA4yTX2/bIBTFv0p0n7EF/pvylq3VXqJu2tKXTZOFzbWLgsEFvCyq+t0nErvaVk0a
-        T3D5cTkcHz+DDyLMHnhGKQEpggD+DMEJiXEyaeAJTauC/j4YgWFWEjhg3pVV3RZJJ2SRFD2KZMtY
-        kZQt9mVbIpWsBwL4c1Lu3EgREDhkNMsTypKMHmjFKeWUppTSr0Cg09bj3xzbHljFsy0v8/SGlZGz
-        E5o3WH3IKKcVz4r0Js8i5s9jazVweNjtgYAyKiihgfdCeyTwNAsTVDgDZwTCeYrd9h/vP2y+HD7v
-        bm/3d0BgEucRTQAOElsVgMBJmdcOs0fXLF5klRTFdiuTltZ1UrCsTLZ5wRKRd33F8h77vgICQQzA
-        zaw1Af9oXWimOawFbc1wXUNJYQU6ofUfxLVwRSanOmx6pTVK4HnK6rV28VICz9IyXxx7mm20rGQp
-        Y+Xq9lqkKcsICO/VYOK55YkonFFm8MCDm5FAOCGGJr74qig2RtnI2SkzNKNwRwzNo52dX4mrkP8g
-        Wuytw+aSFhGUNeu+uSiEu0XKxqFG4XET7Gids6d0iU7sv7D3duNnNznl0aebTefEFCGHIqDchX/m
-        Jo+5mSf5FntNYZGyurrEK9juuHz+q9BdF2V74N++E/hkfVimDx5d/J9iXowYo8DD+3dFDQR6LZRb
-        zzur496IY4vucoNDcQReEPiBTvUKl6teXl4IjOi9GHCp/AIAAP//AwA3d6wrzAMAAA==
+      string: '{"status":200,"data":{"trade":{"pl":-0.6400000000000001,"guid":"e3c567b4-cad4-4fea-8114-5bef5b5e0d1f","expiry_date":"2023-01-20T06:00:00.000Z","close_date":"2023-01-18T16:28:53.915Z","open_date":"2023-01-17T20:06:24.932Z","symbol":"UAL","initial":false,"quantity":1,"type":"LONG
+        STRADDLE","payment":"debit","win":false,"profitLoss":null,"user_guid":"26da488d-b077-4125-8341-a3cf613feff6","tag":null,"short_put":null,"long_put":"50","short_call":null,"long_call":"50","price_filled":3.17,"price_closed":2.53,"open_quote":51.115,"close_quote":50.12,"assigned":false,"earnings":true,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"Earnings
+        release tomorrow.","closing_note":"No surprises.  crap","createdAt":"2023-01-17T20:06:24.933Z","updatedAt":"2023-01-18T16:28:54.176Z","Actions":[],"Posts":[],"User":{"username":"TCB47","flair":null,"role":"member","streak":2,"verified":null}}},"message":null}'
     headers:
       Access-Control-Allow-Credentials:
       - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 78c8d17e0951aa97-DFW
+      - 7e8c4a871d804793-DFW
       Connection:
       - keep-alive
       Content-Encoding:
@@ -39,13 +31,13 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Jan 2023 15:24:40 GMT
+      - Tue, 18 Jul 2023 17:02:13 GMT
       Etag:
-      - W/"3cc-1j/clEl4tavxt5JqLLPWIVGLCW0"
+      - W/"3cc-w59ieQI6GYzI2XyIrziRJK+DFO0"
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=UodTOMQdM%2FKS5dugowQ2gCnTYtDq3EfzjlyxOKizdA9hDZtu3Sb0wWCQ5pimB4rzxD8fCDPYYeYJOxqDHyCIwL%2BKjSh2zoEKn9Kt9DRXP5wHgx85rt%2BMNYWxnARwlZ4fFph8"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bNrK88J7fvZLqaPTCBhNojdQlBlCf8RzosB5xbMrk27SWbUeKXjnRUvjlzFzH1zW5RnfIpZDfdrmmJycOHrye%2BoUAL7qSdIF0RA1SU4kbo%2Fc1mQzSlAzPTBtU5NdSSHPfNEGvOJUdj6KGNcSThQu"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -59,7 +51,7 @@ interactions:
       X-Ratelimit-Remaining:
       - '499'
       X-Ratelimit-Reset:
-      - '1674228870'
+      - '1689700251'
     status:
       code: 200
       message: OK
