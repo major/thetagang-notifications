@@ -1,9 +1,9 @@
 """Small utilities for small tasks."""
 import logging
 
-import finviz
 import requests
 import tld
+import yfinance
 
 log = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ IEX_SECONDARY_LOGO_URL = "https://storage.googleapis.com/iex/api/logos"
 IEX_PLACEHOLDER_IMAGE_HASH = "md5=ZLE6FlAxyV8t6arLO5AFeg=="
 
 
-def get_stock_logo(symbol):
+def get_stock_logo(symbol: str) -> str | None:
     """Get a stock logo like a honeybadger and never give up."""
     result = get_logo_iex(f"{IEX_PRIMARY_LOGO_URL}/{symbol}.png")
 
@@ -33,21 +33,12 @@ def get_stock_logo(symbol):
     return get_logo_clearbit(symbol)
 
 
-def get_finviz_stock(symbol):
-    """Get data about a stock from finviz."""
-    try:
-        return finviz.get_stock(symbol)
-    except Exception:
-        return None
+def get_base_domain(url: str) -> str:
+    """Take a URL and get the base domain, such as example.com or example.co.uk."""
+    return str(tld.get_fld(url, fix_protocol=True))
 
 
-def get_base_domain(url):
-    """Take a URL and get the base domain, such as example.com or
-    example.co.uk."""
-    return tld.get_fld(url, fix_protocol=True)
-
-
-def get_logo_iex(url):
+def get_logo_iex(url: str) -> str | None:
     """Get a stock logo from IEX Cloud."""
     resp = requests.get(url, timeout=15)
 
@@ -65,17 +56,19 @@ def get_logo_iex(url):
     return url
 
 
-def get_logo_clearbit(symbol):
-    """Get a logo using clearbit, which requires a domain name."""
-    finviz_data = get_finviz_stock(symbol)
-
-    if not finviz_data:
+def website_for_symbol(symbol: str) -> str | None:
+    """Convert a stock ticker to a website."""
+    try:
+        yf_obj = yfinance.Ticker(symbol)
+        return str(yf_obj.info.get("website"))
+    except requests.exceptions.HTTPError:
         return None
 
-    domain = tld.get_fld(finviz_data["Website"])
-    return f"https://logo.clearbit.com/{domain}"
 
+def get_logo_clearbit(symbol: str) -> str | None:
+    """Get a logo using clearbit, which requires a domain name."""
+    website = website_for_symbol(symbol)
+    if not website:
+        return None
 
-def get_stock_chart(symbol):
-    """Get a URL for the stock chart."""
-    return f"https://finviz.com/chart.ashx?t={symbol}&ty=c&ta=1&p=d"
+    return f"https://logo.clearbit.com/{tld.get_fld(website)}"

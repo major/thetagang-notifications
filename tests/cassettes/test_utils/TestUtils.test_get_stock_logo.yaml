@@ -9,7 +9,7 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.28.2
+      - python-requests/2.31.0
     method: GET
     uri: https://storage.googleapis.com/iexcloud-hl37opg/api/logos/AMD.png
   response:
@@ -329,10 +329,9 @@ interactions:
       Accept-Ranges:
       - bytes
       Age:
-      - '0'
+      - '1583'
       Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000,h3-Q050=":443"; ma=2592000,h3-Q046=":443";
-        ma=2592000,h3-Q043=":443"; ma=2592000,quic=":443"; ma=2592000; v="46,43"
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
       Cache-Control:
       - public, max-age=3600
       Content-Length:
@@ -340,19 +339,19 @@ interactions:
       Content-Type:
       - image/png
       Date:
-      - Fri, 20 Jan 2023 15:25:08 GMT
+      - Tue, 18 Jul 2023 19:05:01 GMT
       ETag:
       - '"748cbcd4be2b0681d7e6553306357eb5"'
       Expires:
-      - Fri, 20 Jan 2023 16:25:08 GMT
+      - Tue, 18 Jul 2023 20:05:01 GMT
       Last-Modified:
-      - Tue, 17 Jan 2023 15:46:59 GMT
+      - Tue, 21 Mar 2023 10:43:36 GMT
       Server:
       - UploadServer
       X-GUploader-UploadID:
-      - ADPycdssUM7n1yBMWuoPupv3KcKCYDtzY4v7ZvIGlr_rb-9Mh1B1z65HJSgKlsT2h5BXgMqLYTdeWoLPtHqVRESRvwUk
+      - ADPycdsBFjRWpH_rR9tigAnkftPakqn67nrSZSnPsNpS4bJP8Ap77OETecTMUideGzXy-65Iz3ytzbORKJkgBKSEheMw5_ADNSAT
       x-goog-generation:
-      - '1673970419747671'
+      - '1679395416334294'
       x-goog-hash:
       - crc32c=l7KjNA==
       - md5=dIy81L4rBoHX5lUzBjV+tQ==
