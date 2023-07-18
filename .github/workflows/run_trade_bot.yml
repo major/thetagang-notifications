@@ -30,7 +30,6 @@ jobs:
         run: |
           podman run --name trade_bot \
             -v ${{ github.workspace }}/storage:/storage \
-            -e STORAGE_DIR=/storage \
             -e WEBHOOK_URL_TRADES \
             -e TRADES_API_KEY \
             ghcr.io/major/thetagang-notifications:main \

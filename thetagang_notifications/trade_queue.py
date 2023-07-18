@@ -1,15 +1,10 @@
 """Build queues for trade notifications from thetagang.com."""
-import dbm
 import logging
 
+import redis
 import requests
 
-from thetagang_notifications.config import (
-    PATRON_TRADES_ONLY,
-    SKIPPED_USERS,
-    STORAGE_DIR,
-    TRADES_API_KEY,
-)
+from thetagang_notifications.config import PATRON_TRADES_ONLY, SKIPPED_USERS, TRADES_API_KEY
 
 log = logging.getLogger(__name__)
 
@@ -50,13 +45,26 @@ def process_trade(trade) -> list:
     """Determine how to handle a trade returned by the API."""
     guid = trade["guid"]
 
-    with dbm.open(f"{STORAGE_DIR}/trades.dbm", "c") as db:
-        db_state = db.get(guid, None)
-        if not db_state or (db_state != trade_status(trade)):
-            db[guid] = trade_status(trade)
-            return trade
+    db_state = retrieve_trade(guid)
+    print(f"Trade {guid} is {trade_status(trade)}")
+    if not db_state or (db_state != trade_status(trade)):
+        store_trade(guid, trade_status(trade))
+        return trade
 
     return []
+
+
+def retrieve_trade(guid) -> str | None:
+    """Get a trade from the redis database."""
+    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    return r.get(guid)
+
+
+def store_trade(guid, trade_status) -> bool:
+    """Get a trade from the redis database."""
+    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    print("storing trade!")
+    return r.set(guid, trade_status)
 
 
 def trade_status(trade) -> bytes:
