@@ -1956,13 +1956,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "vcrpy"
-version = "4.4.0"
+version = "5.0.0"
 description = "Automatically mock your HTTP interactions to simplify and speed up testing"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "vcrpy-4.4.0-py2.py3-none-any.whl", hash = "sha256:560c9d0d8436ced29223ceefb513c3ac3f2e2a60d51a9830f236a1e63167905a"},
-    {file = "vcrpy-4.4.0.tar.gz", hash = "sha256:d1109ae93dbc2e7fcbc485849a7600d5dea510d3bef070eec4419c9a72ca2639"},
+    {file = "vcrpy-5.0.0-py2.py3-none-any.whl", hash = "sha256:28b66c87be7678896e9e78fee4f6695e3fb153d5d7e5f635416a33658452bb44"},
+    {file = "vcrpy-5.0.0.tar.gz", hash = "sha256:1ef3ddea819a26eda10b560c70bd74c41855241d431745712e31a5b2de2d05a8"},
 ]
 
 [package.dependencies]
@@ -2210,4 +2210,4 @@ requests = ">=2.26"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "425411c04817373f8dada11c5804afc135d6efe268672fa2487189ed8d00ae0c"
+content-hash = "f2898282c48234c09fcd25a1ba105f43a0f6203483e9622881db8233f308d576"
