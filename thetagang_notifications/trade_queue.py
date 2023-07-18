@@ -41,12 +41,11 @@ def get_trades() -> list:
     return trades
 
 
-def process_trade(trade) -> list:
+def process_trade(trade: dict) -> dict | list:
     """Determine how to handle a trade returned by the API."""
     guid = trade["guid"]
 
     db_state = retrieve_trade(guid)
-    print(f"Trade {guid} is {trade_status(trade)}")
     if not db_state or (db_state != trade_status(trade)):
         store_trade(guid, trade_status(trade))
         return trade
@@ -54,20 +53,20 @@ def process_trade(trade) -> list:
     return []
 
 
-def retrieve_trade(guid) -> str | None:
+def retrieve_trade(guid: str) -> str | None:
     """Get a trade from the redis database."""
     r = redis.Redis(host="localhost", port=6379, decode_responses=True)
     return r.get(guid)
 
 
-def store_trade(guid, trade_status) -> bool:
+def store_trade(guid: str, trade_status: bytes) -> bool:
     """Get a trade from the redis database."""
     r = redis.Redis(host="localhost", port=6379, decode_responses=True)
     print("storing trade!")
     return r.set(guid, trade_status)
 
 
-def trade_status(trade) -> bytes:
+def trade_status(trade: dict) -> bytes:
     """Determine if trade is open or closed."""
     if trade["close_date"]:
         return b"closed"

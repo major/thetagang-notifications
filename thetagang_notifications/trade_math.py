@@ -4,7 +4,7 @@ from datetime import datetime
 from dateutil import parser
 
 
-def breakeven(trade):
+def breakeven(trade: dict) -> str | None:
     """Return the breakeven on a cash secured or naked put."""
     match trade["type"]:
         case "CASH SECURED PUT":
@@ -19,27 +19,27 @@ def breakeven(trade):
     return f"{breakeven:.2f}"
 
 
-def days_to_expiration(expiration_date):
+def days_to_expiration(expiration_date: str) -> int:
     """Return the days to expiration."""
     parsed_expiration = parse_expiration(expiration_date)
     # The thetagang website calculates DTEs with one extra day,
     # so add one more here to match.
-    return (parsed_expiration - datetime.now()).days + 1
+    return int((parsed_expiration - datetime.now()).days + 1)
 
 
-def parse_expiration(expiration_date):
+def parse_expiration(expiration_date: str) -> datetime:
     """Parse the expiration date."""
     return parser.parse(expiration_date, ignoretz=True)
 
 
-def pretty_expiration(expiration_date):
+def pretty_expiration(expiration_date: str) -> str:
     """Return the expiration date in a pretty format."""
     dte = days_to_expiration(expiration_date)
     expiration_format = "%-m/%d" if dte <= 365 else "%-m/%d/%y"
     return parse_expiration(expiration_date).strftime(expiration_format)
 
 
-def pretty_strike(strike_price):
+def pretty_strike(strike_price: float) -> str:
     """Return the options strike price in a friendly format.
 
     Report the number without decimals if it's an even number, like
@@ -49,7 +49,7 @@ def pretty_strike(strike_price):
     return f"${strike_price:.0f}" if strike_price.is_integer() else f"${strike_price:.2f}"
 
 
-def pretty_premium(premium):
+def pretty_premium(premium: float) -> str:
     """Return the options premium in a friendly format.
 
     Premium should *always* have two decimals, even if it's an integer.
@@ -57,22 +57,22 @@ def pretty_premium(premium):
     return f"${premium:.2f}"
 
 
-def call_break_even(strike, premium):
+def call_break_even(strike: float, premium: float) -> str:
     """Return the break even on a call."""
     return pretty_strike(strike + premium)
 
 
-def put_break_even(strike, premium):
+def put_break_even(strike: float, premium: float) -> str:
     """Return the break even on a put."""
     return pretty_strike(strike - premium)
 
 
-def short_option_potential_return(strike, premium):
+def short_option_potential_return(strike: float, premium: float) -> float:
     """Return the potential return on a short option."""
     return round((premium / (strike - premium)) * 100, 2)
 
 
-def short_annualized_return(strike, premium, days_to_expiration):
+def short_annualized_return(strike: float, premium: float, days_to_expiration: int) -> float:
     """Get the annualized return on a short option."""
     short_potential_return = short_option_potential_return(strike, premium)
     # Use 1 for DTE if this is a same day trade.

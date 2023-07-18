@@ -37,6 +37,7 @@ tox = "^4.6.4"
 pytest-recording = "^0.12.2"
 vcrpy = "<5.0.0"
 fakeredis = "^2.17.0"
+types-redis = "^4.6.0.2"
 
 [build-system]
 requires = ["poetry-core>=1.5.0"]
