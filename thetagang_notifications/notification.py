@@ -95,5 +95,8 @@ class ClosedNotification(Notification):
 
 def get_handler(trade):
     """Create a trade object."""
-    class_name = f"{trade.status.capitalize()}Notification"
-    return globals()[class_name](trade)
+    available_notifications = {
+        "opened": OpenedNotification,
+        "closed": ClosedNotification,
+    }
+    return available_notifications[trade.status](trade)
