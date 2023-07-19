@@ -6,7 +6,7 @@ import requests
 import yaml
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
-from thetagang_notifications.trade import get_handler
+from thetagang_notifications.trade import get_notifier
 
 
 def download_trade(trade_guid):
@@ -18,7 +18,7 @@ def download_trade(trade_guid):
 def make_notification(trade_guid):
     """Make a notification for the trade."""
     trade = download_trade(trade_guid)
-    trade_obj = get_handler(trade)
+    trade_obj = get_notifier(trade)
     trade_obj.notify()
 
 

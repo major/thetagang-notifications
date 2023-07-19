@@ -93,7 +93,7 @@ class ClosedNotification(Notification):
         return embed
 
 
-def get_handler(trade):
+def get_notifier(trade):
     """Create a trade object."""
     available_notifications = {
         "opened": OpenedNotification,

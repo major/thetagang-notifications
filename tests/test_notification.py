@@ -6,14 +6,14 @@ from discord_webhook import DiscordEmbed
 
 from thetagang_notifications import notification
 from thetagang_notifications.config import CLOSING_TRADE_ICON
-from thetagang_notifications.trade import get_handler as trade_get_handler
+from thetagang_notifications.trade import get_trade_class
 
 
 @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
 def test_generate_action(real_trades):
     """Test generate action."""
-    trade_obj = trade_get_handler(real_trades)
-    test_notifier = notification.get_handler(trade_obj)
+    trade_obj = get_trade_class(real_trades)
+    test_notifier = notification.get_notifier(trade_obj)
     action = test_notifier.generate_action()
 
     assert action["name"] == f"{trade_obj.username} closed a trade"
@@ -23,8 +23,8 @@ def test_generate_action(real_trades):
 
 def test_generate_embeds(real_trades):
     """Test generate embeds."""
-    trade_obj = trade_get_handler(real_trades)
-    test_notifier = notification.get_handler(trade_obj)
+    trade_obj = get_trade_class(real_trades)
+    test_notifier = notification.get_notifier(trade_obj)
     with mock.patch("thetagang_notifications.notification.get_stock_logo"):
         embed = test_notifier.generate_embeds()
 
@@ -34,8 +34,8 @@ def test_generate_embeds(real_trades):
 # @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
 def test_notify(real_trades):
     """Test notify."""
-    trade_obj = trade_get_handler(real_trades)
-    test_notifier = notification.get_handler(trade_obj)
+    trade_obj = get_trade_class(real_trades)
+    test_notifier = notification.get_notifier(trade_obj)
 
     with (
         mock.patch("thetagang_notifications.notification.DiscordWebhook.execute") as mock_execute,

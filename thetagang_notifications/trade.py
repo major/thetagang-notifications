@@ -10,7 +10,8 @@ from thetagang_notifications.config import (
     EMOJI_WINNER,
     TRADE_SPEC_FILE,
 )
-from thetagang_notifications.notification import get_handler as get_notification_handler
+from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
+from thetagang_notifications.notification import get_notifier as get_notification_handler
 from thetagang_notifications.trade_math import (
     call_break_even,
     days_to_expiration,
@@ -23,30 +24,6 @@ from thetagang_notifications.trade_math import (
 )
 
 log = logging.getLogger(__name__)
-
-
-class AnnualizedReturnError(Exception):
-    """Exception when we cannot calculate the annualized return."""
-
-    def __init__(self, trade_type: str) -> None:
-        """Initialize the exception."""
-        super().__init__(f"Annualized return not available for: {trade_type}")
-
-
-class BreakEvenError(Exception):
-    """Exception when we cannot calculate the break even."""
-
-    def __init__(self, trade_type: str) -> None:
-        """Initialize the exception."""
-        super().__init__(f"Break even not available for: {trade_type}")
-
-
-class PotentialReturnError(Exception):
-    """Exception when we cannot calculate the potential return."""
-
-    def __init__(self, trade_type: str) -> None:
-        """Initialize the exception."""
-        super().__init__(f"Potential return not available for: {trade_type}")
 
 
 def convert_to_class_name(trade_type):
@@ -553,7 +530,25 @@ class SellCommonStock(Trade):
         return None
 
 
-def get_handler(trade):
+def get_trade_class(trade):
     """Create a trade object."""
-    class_name = convert_to_class_name(trade["type"])
-    return globals()[class_name](trade)
+    trade_types = {
+        "CASH SECURED PUT": CashSecuredPut,
+        "COVERED CALL": CoveredCall,
+        "SHORT NAKED CALL": ShortNakedCall,
+        "LONG NAKED CALL": LongNakedCall,
+        "LONG NAKED PUT": LongNakedPut,
+        "PUT CREDIT SPREAD": PutCreditSpread,
+        "CALL CREDIT SPREAD": CallCreditSpread,
+        "PUT DEBIT SPREAD": PutDebitSpread,
+        "CALL DEBIT SPREAD": CallDebitSpread,
+        "LONG STRANGLE": LongStrangle,
+        "SHORT STRANGLE": ShortStrangle,
+        "LONG STRADDLE": LongStraddle,
+        "SHORT STRADDLE": ShortStraddle,
+        "JADE LIZARD": JadeLizard,
+        "SHORT IRON CONDOR": ShortIronCondor,
+        "BUY COMMON STOCK": BuyCommonStock,
+        "SELL COMMON STOCK": SellCommonStock,
+    }
+    return trade_types[trade["type"]](trade)
