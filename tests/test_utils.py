@@ -31,9 +31,7 @@ class TestUtils:
         result = utils.get_stock_logo("AMD")
         assert result == secondary_url
 
-    def test_get_base_domain(
-        self,
-    ):
+    def test_get_base_domain(self):
         """Verify we can get a base domain."""
         assert utils.get_base_domain("gsdgsdfg.sdfgdsfgsd.google.com") == "google.com"
         assert utils.get_base_domain("wheeeee.google.co.uk") == "google.co.uk"

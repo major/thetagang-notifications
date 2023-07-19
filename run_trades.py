@@ -8,7 +8,7 @@ from schedule import every, repeat, run_pending
 
 from thetagang_notifications.config import PATRON_TRADES_ONLY, SKIPPED_USERS
 from thetagang_notifications.trade import get_handler
-from thetagang_notifications.trade_queue import build_queue
+from thetagang_notifications.trade_queue import TradeQueue
 
 # Setup our shared logger.
 log = logging.getLogger(__name__)
@@ -25,7 +25,10 @@ if SKIPPED_USERS:
 def run_queue():
     """Enqueue the trades which need notifications."""
     log.info("🔎 Checking for new trades")
-    for queued_trade in build_queue():
+    tq = TradeQueue()
+    tq.update_trades()
+    tq.build_queue()
+    for queued_trade in tq.queued_trades:
         trade_obj = get_handler(queued_trade)
         trade_obj.notify()
 
