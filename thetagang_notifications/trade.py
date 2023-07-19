@@ -26,11 +26,6 @@ from thetagang_notifications.trade_math import (
 log = logging.getLogger(__name__)
 
 
-def convert_to_class_name(trade_type):
-    """Convert a trade type to a class name."""
-    return "".join([word.capitalize() for word in trade_type.split(" ")])
-
-
 def get_spec_data(trade_type):
     """Get the spec data for a trade type."""
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
