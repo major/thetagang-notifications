@@ -51,12 +51,6 @@ class Trade:
         self.username = trade["User"]["username"]
 
         # Load properties from the trade_spec file.
-        self.is_option_trade = None
-        self.is_stock_trade = None
-        self.is_single_leg = None
-        self.is_multi_leg = None
-        self.is_short = None
-        self.is_long = None
         self.load_trade_properties()
 
         # Handle trade status items.
