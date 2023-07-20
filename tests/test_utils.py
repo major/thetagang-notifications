@@ -1,4 +1,5 @@
 """Tests for utils functions."""
+from unittest.mock import MagicMock, patch
 
 import pytest
 import requests_mock
@@ -56,10 +57,10 @@ class TestUtils:
             result = utils.get_logo_iex(url)
             assert result is None
 
-    @pytest.mark.vcr
-    def test_get_logo_clearbit(
-        self,
-    ):
+    @patch("thetagang_notifications.utils.website_for_symbol")
+    def test_get_logo_clearbit(self, mock_website_for_symbol: MagicMock) -> None:
         """Test retrieving logos from Clearbit."""
+        mock_website_for_symbol.return_value = "https://amd.com"
+
         result = utils.get_logo_clearbit("AMD")
         assert result == "https://logo.clearbit.com/amd.com"
