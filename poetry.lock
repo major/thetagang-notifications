@@ -2412,13 +2412,13 @@ multidict = ">=4.0"
 
 [[package]]
 name = "yfinance"
-version = "0.2.25"
+version = "0.2.26"
 description = "Download market data from Yahoo! Finance API"
 optional = false
 python-versions = "*"
 files = [
-    {file = "yfinance-0.2.25-py2.py3-none-any.whl", hash = "sha256:ce9b8a15f80058a6911c84b2069dd44bf4d86153e1e604893ba7a4d0981d21b6"},
-    {file = "yfinance-0.2.25.tar.gz", hash = "sha256:e042c130bb8a993b6632146aa7fd0c29df2238980d2a4435068488e8e633a8a7"},
+    {file = "yfinance-0.2.26-py2.py3-none-any.whl", hash = "sha256:3e1798e43956c7eb6266ada0b3522254f9d5099db89343cf535d93136383b5b4"},
+    {file = "yfinance-0.2.26.tar.gz", hash = "sha256:a3ca2218cc99ebf345c5cfe43f69e6d1a0d360cb3cd6e0cd8f5ff80f81ee069d"},
 ]
 
 [package.dependencies]
@@ -2431,7 +2431,7 @@ multitasking = ">=0.0.7"
 numpy = ">=1.16.5"
 pandas = ">=1.3.0"
 pytz = ">=2022.5"
-requests = ">=2.26"
+requests = ">=2.31"
 
 [metadata]
 lock-version = "2.0"
