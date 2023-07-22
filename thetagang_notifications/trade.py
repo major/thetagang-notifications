@@ -30,7 +30,7 @@ def get_spec_data(trade_type):
     """Get the spec data for a trade type."""
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
         spec_data = yaml.safe_load(file_handle)
-    return [x for x in spec_data if x["type"] == trade_type][0]
+    return next(x for x in spec_data if x["type"] == trade_type)
 
 
 class Trade:

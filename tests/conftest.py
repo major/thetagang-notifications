@@ -18,7 +18,7 @@ def get_example_guid(trade_type):
     """Return a GUID for a trade on thetagang.com."""
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
         spec_data = yaml.safe_load(file_handle)
-    return [x["example_guid"] for x in spec_data if x["type"] == trade_type][0]
+    return next(x["example_guid"] for x in spec_data if x["type"] == trade_type)
 
 
 @pytest.fixture(scope="session", params=get_trade_types())
