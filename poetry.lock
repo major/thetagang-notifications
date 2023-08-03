@@ -2397,13 +2397,13 @@ multidict = ">=4.0"
 
 [[package]]
 name = "yfinance"
-version = "0.2.26"
+version = "0.2.27"
 description = "Download market data from Yahoo! Finance API"
 optional = false
 python-versions = "*"
 files = [
-    {file = "yfinance-0.2.26-py2.py3-none-any.whl", hash = "sha256:3e1798e43956c7eb6266ada0b3522254f9d5099db89343cf535d93136383b5b4"},
-    {file = "yfinance-0.2.26.tar.gz", hash = "sha256:a3ca2218cc99ebf345c5cfe43f69e6d1a0d360cb3cd6e0cd8f5ff80f81ee069d"},
+    {file = "yfinance-0.2.27-py2.py3-none-any.whl", hash = "sha256:e1835a7b744f16b0d419c43e7135a105e09ed95276f99cea0017faf3607dfe79"},
+    {file = "yfinance-0.2.27.tar.gz", hash = "sha256:d5c057963f4f1842d65d28fb5444d0b45b8082988baa64e703b87c6454d88642"},
 ]
 
 [package.dependencies]
