@@ -16,7 +16,7 @@ schedule = "^1.2.0"
 inflect = "^7.0.0"
 sentry-sdk = "^1.28.1"
 yfinance = "^0.2.25"
-redis = "^4.6.0"
+redis = "^5.0.0"
 
 [tool.poetry.group.dev.dependencies]
 freezegun = "^1.2.2"
