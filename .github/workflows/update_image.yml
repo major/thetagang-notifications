@@ -108,7 +108,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v4.2.0
+        uses: docker/build-push-action@v4.2.1
         with:
           context: .
           platforms: linux/amd64
