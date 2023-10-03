@@ -2133,13 +2133,13 @@ testing = ["build[virtualenv] (>=0.10)", "covdefaults (>=2.3)", "detect-test-pol
 
 [[package]]
 name = "traitlets"
-version = "5.10.1"
+version = "5.11.0"
 description = "Traitlets Python configuration system"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "traitlets-5.10.1-py3-none-any.whl", hash = "sha256:07ab9c5bf8a0499fd7b088ba51be899c90ffc936ffc797d7b6907fc516bcd116"},
-    {file = "traitlets-5.10.1.tar.gz", hash = "sha256:db9c4aa58139c3ba850101913915c042bdba86f7c8a0dda1c6f7f92c5da8e542"},
+    {file = "traitlets-5.11.0-py3-none-any.whl", hash = "sha256:a71e489c4b70e2f91b799d0c2e77bd1fe208912cba554792e17f0f88c604d779"},
+    {file = "traitlets-5.11.0.tar.gz", hash = "sha256:c34efe9164d7ff20789a8675fda1bae20b4defd5517c99708122f4f874aae3f4"},
 ]
 
 [package.extras]
