@@ -9,9 +9,7 @@
     "enabled": true,
     "platformAutomerge": true,
     "rebaseWhen": "behind-base-branch",
-    "schedule": [
-      "every weekday"
-    ]
+    "schedule": ["before 4am on monday"],
   },
   "packageRules": [
     {
