@@ -1,4 +1,5 @@
 """Build queues for trade notifications from thetagang.com."""
+
 import logging
 
 import requests

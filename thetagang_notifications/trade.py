@@ -1,4 +1,5 @@
 """Parse trades and send notifications."""
+
 import logging
 
 import inflect

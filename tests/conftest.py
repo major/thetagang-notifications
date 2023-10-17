@@ -1,4 +1,5 @@
 """Pytest fixtures for the tests."""
+
 import pytest
 import requests
 import vcr

@@ -1,4 +1,5 @@
 """Tests for the Trade class and its subclasses."""
+
 from unittest import mock
 
 import pytest
