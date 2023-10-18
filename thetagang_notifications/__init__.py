@@ -1,4 +1,5 @@
 """Top-level package for thetagang-notifications."""
+
 import logging
 import sys
 

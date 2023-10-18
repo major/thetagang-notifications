@@ -1,4 +1,5 @@
 """Test discord notifications for trades."""
+
 from unittest import mock
 
 import pytest

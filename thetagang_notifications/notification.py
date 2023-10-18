@@ -1,4 +1,5 @@
 """Send notifications to discord for trades."""
+
 from discord_webhook import DiscordEmbed, DiscordWebhook
 
 from thetagang_notifications.config import (

@@ -1,4 +1,5 @@
 """Small utilities for small tasks."""
+
 import logging
 
 import requests

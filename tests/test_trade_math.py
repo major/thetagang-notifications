@@ -1,4 +1,5 @@
 """Test the trade math functions."""
+
 from freezegun import freeze_time
 
 from thetagang_notifications import trade_math

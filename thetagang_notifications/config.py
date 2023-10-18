@@ -1,4 +1,5 @@
 """Configuration for the project."""
+
 import os
 
 # Redis connection details

@@ -1,6 +1,5 @@
 """Exceptions used in this project."""
 
-
 class AnnualizedReturnError(Exception):
     """Exception when we cannot calculate the annualized return."""
 

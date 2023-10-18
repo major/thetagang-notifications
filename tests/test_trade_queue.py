@@ -1,4 +1,5 @@
 """Test the trade queue builder."""
+
 import fakeredis
 import responses
 

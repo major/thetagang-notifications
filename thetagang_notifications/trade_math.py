@@ -1,4 +1,5 @@
 """Calculate different aspects of a trade."""
+
 from datetime import datetime
 
 from dateutil import parser
