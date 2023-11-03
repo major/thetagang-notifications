@@ -39,7 +39,7 @@ vcrpy = "<5.0.0"
 fakeredis = "^2.17.0"
 types-redis = "^4.6.0.2"
 pytest-xdist = "^3.3.1"
-responses = "^0.23.1"
+responses = "^0.24.0"
 coverage = {extras = ["toml"], version = "^7.2.7"}
 
 [build-system]
