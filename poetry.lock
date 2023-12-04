@@ -370,34 +370,34 @@ toml = ["tomli"]
 
 [[package]]
 name = "cryptography"
-version = "41.0.5"
+version = "41.0.7"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "cryptography-41.0.5-cp37-abi3-macosx_10_12_universal2.whl", hash = "sha256:da6a0ff8f1016ccc7477e6339e1d50ce5f59b88905585f77193ebd5068f1e797"},
-    {file = "cryptography-41.0.5-cp37-abi3-macosx_10_12_x86_64.whl", hash = "sha256:b948e09fe5fb18517d99994184854ebd50b57248736fd4c720ad540560174ec5"},
-    {file = "cryptography-41.0.5-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d38e6031e113b7421db1de0c1b1f7739564a88f1684c6b89234fbf6c11b75147"},
-    {file = "cryptography-41.0.5-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e270c04f4d9b5671ebcc792b3ba5d4488bf7c42c3c241a3748e2599776f29696"},
-    {file = "cryptography-41.0.5-cp37-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:ec3b055ff8f1dce8e6ef28f626e0972981475173d7973d63f271b29c8a2897da"},
-    {file = "cryptography-41.0.5-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:7d208c21e47940369accfc9e85f0de7693d9a5d843c2509b3846b2db170dfd20"},
-    {file = "cryptography-41.0.5-cp37-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:8254962e6ba1f4d2090c44daf50a547cd5f0bf446dc658a8e5f8156cae0d8548"},
-    {file = "cryptography-41.0.5-cp37-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:a48e74dad1fb349f3dc1d449ed88e0017d792997a7ad2ec9587ed17405667e6d"},
-    {file = "cryptography-41.0.5-cp37-abi3-win32.whl", hash = "sha256:d3977f0e276f6f5bf245c403156673db103283266601405376f075c849a0b936"},
-    {file = "cryptography-41.0.5-cp37-abi3-win_amd64.whl", hash = "sha256:73801ac9736741f220e20435f84ecec75ed70eda90f781a148f1bad546963d81"},
-    {file = "cryptography-41.0.5-pp310-pypy310_pp73-macosx_10_12_x86_64.whl", hash = "sha256:3be3ca726e1572517d2bef99a818378bbcf7d7799d5372a46c79c29eb8d166c1"},
-    {file = "cryptography-41.0.5-pp310-pypy310_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:e886098619d3815e0ad5790c973afeee2c0e6e04b4da90b88e6bd06e2a0b1b72"},
-    {file = "cryptography-41.0.5-pp310-pypy310_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:573eb7128cbca75f9157dcde974781209463ce56b5804983e11a1c462f0f4e88"},
-    {file = "cryptography-41.0.5-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:0c327cac00f082013c7c9fb6c46b7cc9fa3c288ca702c74773968173bda421bf"},
-    {file = "cryptography-41.0.5-pp38-pypy38_pp73-macosx_10_12_x86_64.whl", hash = "sha256:227ec057cd32a41c6651701abc0328135e472ed450f47c2766f23267b792a88e"},
-    {file = "cryptography-41.0.5-pp38-pypy38_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:22892cc830d8b2c89ea60148227631bb96a7da0c1b722f2aac8824b1b7c0b6b8"},
-    {file = "cryptography-41.0.5-pp38-pypy38_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:5a70187954ba7292c7876734183e810b728b4f3965fbe571421cb2434d279179"},
-    {file = "cryptography-41.0.5-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:88417bff20162f635f24f849ab182b092697922088b477a7abd6664ddd82291d"},
-    {file = "cryptography-41.0.5-pp39-pypy39_pp73-macosx_10_12_x86_64.whl", hash = "sha256:c707f7afd813478e2019ae32a7c49cd932dd60ab2d2a93e796f68236b7e1fbf1"},
-    {file = "cryptography-41.0.5-pp39-pypy39_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:580afc7b7216deeb87a098ef0674d6ee34ab55993140838b14c9b83312b37b86"},
-    {file = "cryptography-41.0.5-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:fba1e91467c65fe64a82c689dc6cf58151158993b13eb7a7f3f4b7f395636723"},
-    {file = "cryptography-41.0.5-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:0d2a6a598847c46e3e321a7aef8af1436f11c27f1254933746304ff014664d84"},
-    {file = "cryptography-41.0.5.tar.gz", hash = "sha256:392cb88b597247177172e02da6b7a63deeff1937fa6fec3bbf902ebd75d97ec7"},
+    {file = "cryptography-41.0.7-cp37-abi3-macosx_10_12_universal2.whl", hash = "sha256:3c78451b78313fa81607fa1b3f1ae0a5ddd8014c38a02d9db0616133987b9cdf"},
+    {file = "cryptography-41.0.7-cp37-abi3-macosx_10_12_x86_64.whl", hash = "sha256:928258ba5d6f8ae644e764d0f996d61a8777559f72dfeb2eea7e2fe0ad6e782d"},
+    {file = "cryptography-41.0.7-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5a1b41bc97f1ad230a41657d9155113c7521953869ae57ac39ac7f1bb471469a"},
+    {file = "cryptography-41.0.7-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:841df4caa01008bad253bce2a6f7b47f86dc9f08df4b433c404def869f590a15"},
+    {file = "cryptography-41.0.7-cp37-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:5429ec739a29df2e29e15d082f1d9ad683701f0ec7709ca479b3ff2708dae65a"},
+    {file = "cryptography-41.0.7-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:43f2552a2378b44869fe8827aa19e69512e3245a219104438692385b0ee119d1"},
+    {file = "cryptography-41.0.7-cp37-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:af03b32695b24d85a75d40e1ba39ffe7db7ffcb099fe507b39fd41a565f1b157"},
+    {file = "cryptography-41.0.7-cp37-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:49f0805fc0b2ac8d4882dd52f4a3b935b210935d500b6b805f321addc8177406"},
+    {file = "cryptography-41.0.7-cp37-abi3-win32.whl", hash = "sha256:f983596065a18a2183e7f79ab3fd4c475205b839e02cbc0efbbf9666c4b3083d"},
+    {file = "cryptography-41.0.7-cp37-abi3-win_amd64.whl", hash = "sha256:90452ba79b8788fa380dfb587cca692976ef4e757b194b093d845e8d99f612f2"},
+    {file = "cryptography-41.0.7-pp310-pypy310_pp73-macosx_10_12_x86_64.whl", hash = "sha256:079b85658ea2f59c4f43b70f8119a52414cdb7be34da5d019a77bf96d473b960"},
+    {file = "cryptography-41.0.7-pp310-pypy310_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:b640981bf64a3e978a56167594a0e97db71c89a479da8e175d8bb5be5178c003"},
+    {file = "cryptography-41.0.7-pp310-pypy310_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:e3114da6d7f95d2dee7d3f4eec16dacff819740bbab931aff8648cb13c5ff5e7"},
+    {file = "cryptography-41.0.7-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:d5ec85080cce7b0513cfd233914eb8b7bbd0633f1d1703aa28d1dd5a72f678ec"},
+    {file = "cryptography-41.0.7-pp38-pypy38_pp73-macosx_10_12_x86_64.whl", hash = "sha256:7a698cb1dac82c35fcf8fe3417a3aaba97de16a01ac914b89a0889d364d2f6be"},
+    {file = "cryptography-41.0.7-pp38-pypy38_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:37a138589b12069efb424220bf78eac59ca68b95696fc622b6ccc1c0a197204a"},
+    {file = "cryptography-41.0.7-pp38-pypy38_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:68a2dec79deebc5d26d617bfdf6e8aab065a4f34934b22d3b5010df3ba36612c"},
+    {file = "cryptography-41.0.7-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:09616eeaef406f99046553b8a40fbf8b1e70795a91885ba4c96a70793de5504a"},
+    {file = "cryptography-41.0.7-pp39-pypy39_pp73-macosx_10_12_x86_64.whl", hash = "sha256:48a0476626da912a44cc078f9893f292f0b3e4c739caf289268168d8f4702a39"},
+    {file = "cryptography-41.0.7-pp39-pypy39_pp73-manylinux_2_28_aarch64.whl", hash = "sha256:c7f3201ec47d5207841402594f1d7950879ef890c0c495052fa62f58283fde1a"},
+    {file = "cryptography-41.0.7-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:c5ca78485a255e03c32b513f8c2bc39fedb7f5c5f8535545bdc223a03b24f248"},
+    {file = "cryptography-41.0.7-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:d6c391c021ab1f7a82da5d8d0b3cee2f4b2c455ec86c8aebbc84837a631ff309"},
+    {file = "cryptography-41.0.7.tar.gz", hash = "sha256:13f93ce9bea8016c253b34afc6bd6a75993e5c40672ed5405a9c832f0d4a00bc"},
 ]
 
 [package.dependencies]
@@ -564,48 +564,48 @@ python-dateutil = ">=2.7"
 
 [[package]]
 name = "frozendict"
-version = "2.3.9"
+version = "2.3.10"
 description = "A simple immutable dictionary"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "frozendict-2.3.9-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:bb949eaf12d53b1e4034865516c6a1945d6d6f1cb102fa7417c017d7cefcc7a7"},
-    {file = "frozendict-2.3.9-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:7b57205e9ca00733064e9abfc5b2ced46d65370e5451502a17162d42a7d527d0"},
-    {file = "frozendict-2.3.9-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1262df1e9bea434d5859398522e8d8e393721ea6a3a1ccb0e36a27022a52fa5e"},
-    {file = "frozendict-2.3.9-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:561ddd000da66360142a81996f0ae5b806c267868e77bae2f5ab459334bf6b89"},
-    {file = "frozendict-2.3.9-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:4a82ffff413d70eab71b9cfcf6f9fb9ad7a1d414a1d664470a214771c332d3c8"},
-    {file = "frozendict-2.3.9-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:c04aa367a21bd3af396b64b2021ea13325faa11b832be77791a987dda3fa543c"},
-    {file = "frozendict-2.3.9-cp310-cp310-win_amd64.whl", hash = "sha256:48e9a94e4beba7dbb880dab9d33b656ef3a608da3d43105335225b06cb6ae139"},
-    {file = "frozendict-2.3.9-cp310-cp310-win_arm64.whl", hash = "sha256:a9331ddde2cdf4fc7d5ad09c6078643517663a3028346cc765fc4145be9d8dd2"},
-    {file = "frozendict-2.3.9-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:38f2f43b44d7d3ac4924116017578ec81812ba385c8f710abda58617eae20afe"},
-    {file = "frozendict-2.3.9-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:45d517af1aaede930a7b22b21ff80c09f22bd296a902f681ca58fd5acb5dd33b"},
-    {file = "frozendict-2.3.9-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:64d0dc4c36c0342c5748aab2fcca0c07f33876e41caf62fbdfeac951c2a3bcb5"},
-    {file = "frozendict-2.3.9-cp36-cp36m-musllinux_1_1_aarch64.whl", hash = "sha256:9c63147ce90b2b7e45d3f0923063d624892ed0c7a13fa95787e57dbb27b376a7"},
-    {file = "frozendict-2.3.9-cp36-cp36m-musllinux_1_1_x86_64.whl", hash = "sha256:9286378eecfe993b803842e2c14c65efd1b12e99e3ac5c25d05661630cedff6d"},
-    {file = "frozendict-2.3.9-cp36-cp36m-win_amd64.whl", hash = "sha256:7e89b56f3c13749fd1bf8d20325a572063b5ad8dbf880e7881b8eb8cf41e1743"},
-    {file = "frozendict-2.3.9-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:56117a0104ce68445d6856b5585133f667ae04098f0dcecd7786a510dc121818"},
-    {file = "frozendict-2.3.9-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:45071ad048ca6feb4b7a90383aa64377d130b5245bffdd8204debb4f5e9ccf0a"},
-    {file = "frozendict-2.3.9-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:75b02cb3473b0da9003b3d71ef8fc76bb97092543035a47000a63352cab2c125"},
-    {file = "frozendict-2.3.9-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:ff2e07b94abed60ef233117d5ffc6cac6353c6856fbba898b12a556e5698e440"},
-    {file = "frozendict-2.3.9-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:e135a2dd22cf668ce45cb697522497ba2e2bd9cf6c239d06856b69eeae0a557b"},
-    {file = "frozendict-2.3.9-cp37-cp37m-win_amd64.whl", hash = "sha256:d3de16b88214874ac1caa1c9527441bdfa0c20bce809d2efbffb307a05f5fafd"},
-    {file = "frozendict-2.3.9-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:fa04e7561d10c2feef423963818e43bc24a0fb65f5ea21ffb00f11ae8e6129e3"},
-    {file = "frozendict-2.3.9-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:8ce979138e0d5f04e879c9f732a7deba5bf3d55708e1f02533b8301326e1ffda"},
-    {file = "frozendict-2.3.9-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:525da194ad0407c97d23339c19200fa0b464ff16ca2624f7adfc95ec1da17a42"},
-    {file = "frozendict-2.3.9-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6bff7ff522ee2a53103a4ae848826d9212a0d61a025562eaac245e93a6aa6285"},
-    {file = "frozendict-2.3.9-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:094d43bff2f65371734832385d1a457c5da10399e638e01f85dd71a9e12b9408"},
-    {file = "frozendict-2.3.9-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:9c69650ed54670d73652b0880229c8356defbdc4663cf3cb5f844169c7c71666"},
-    {file = "frozendict-2.3.9-cp38-cp38-win_amd64.whl", hash = "sha256:21af4b67c1bb7075b5a2e5c1d128f69331ee405bd34028416d9106a0ef6c84eb"},
-    {file = "frozendict-2.3.9-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:06b586394d8e654558fcf2e79ac8511a47d484de8e55a20ecdc6667d87ec1730"},
-    {file = "frozendict-2.3.9-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:0196d6f50db96b26aa4144782930caf019aabf68c368b66c79490552128e3472"},
-    {file = "frozendict-2.3.9-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:53fb48e8929309a62f1402f0feb2db76a80faa45b69d9cf23bd1e42de8730c62"},
-    {file = "frozendict-2.3.9-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ac297f91e101b89514e0dbe8a70c3f6a6185107d8306c3b800440bcdab1bd853"},
-    {file = "frozendict-2.3.9-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:bd12f907e378a9796d449aa292607672ba59e6ba3153d7bfa1d891c0b0a1160b"},
-    {file = "frozendict-2.3.9-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:95f2f6def297eaa00e8aff4e72cc251b91c7c318507f15643c8f4b0647248da2"},
-    {file = "frozendict-2.3.9-cp39-cp39-win_amd64.whl", hash = "sha256:f2d2146ae474e3478263932d363128b1bab6e7ddd9cd79fd142247a15c710f76"},
-    {file = "frozendict-2.3.9-cp39-cp39-win_arm64.whl", hash = "sha256:87f6cf5513d0920836df067ae79296e3d52be88abcee1629b7010ed2af1ee121"},
-    {file = "frozendict-2.3.9-py3-none-any.whl", hash = "sha256:ecabff354ec0ea070770f6556e6e23deaca2053e18322163fce76cdd93a3845f"},
-    {file = "frozendict-2.3.9.tar.gz", hash = "sha256:8c4771eec34a8a47a62d3520465e7ac2d8f583d8ed99fea8dbba4218756e9360"},
+    {file = "frozendict-2.3.10-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:df2d2afa5af41bfa09dc9d5a8e6d73ae39b677a8572200c65a5ea353387ffccd"},
+    {file = "frozendict-2.3.10-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:b10df7f5d8637b1af319434f99dc25ca6f5537e28b293e4c405ebfb4bf9581fa"},
+    {file = "frozendict-2.3.10-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:da22a3e873f365f97445c49afc1e6d5198ed6d172f3efaf0e9fde0edcca3cea1"},
+    {file = "frozendict-2.3.10-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:89218738e2122b50bf8a0444083dbe2de280402e9c2ef0929c0db0f93ff11271"},
+    {file = "frozendict-2.3.10-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:aa11add43a71fd47523fbd011be5cc011df79e25ec0b0339fc0d728623aaa7ec"},
+    {file = "frozendict-2.3.10-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:af267bd6d98cbc10580105dc76f28f7156856fa48a5bbcadd40edb85f93657ae"},
+    {file = "frozendict-2.3.10-cp310-cp310-win_amd64.whl", hash = "sha256:c112024df64b8926a315d7e36b860967fcad8aae0c592b9f117589391373e893"},
+    {file = "frozendict-2.3.10-cp310-cp310-win_arm64.whl", hash = "sha256:a0065db2bc76628853dd620bd08c1ca44ad0b711e92e89b4156493153add6f9d"},
+    {file = "frozendict-2.3.10-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:93634af5a6d71762aebc7d78bdce92890b7e612588faf887c9eaf752dc7ccdb1"},
+    {file = "frozendict-2.3.10-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:7b4d05e231dc1a2ec874f847fd7348cbee469555468efb875a89994ecde31a81"},
+    {file = "frozendict-2.3.10-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6d40d0644f19365fc6cc428db31c0f113fa550bd15920262f9d77ccf6556d87b"},
+    {file = "frozendict-2.3.10-cp36-cp36m-musllinux_1_1_aarch64.whl", hash = "sha256:12b40526219f9583b30690011288bca4d6cce8724cda96b3c3ab08b67c5a7f09"},
+    {file = "frozendict-2.3.10-cp36-cp36m-musllinux_1_1_x86_64.whl", hash = "sha256:6b552fffeba8e41b43ce10cc0fc467e048a7c9a71ae3241057510342132555b9"},
+    {file = "frozendict-2.3.10-cp36-cp36m-win_amd64.whl", hash = "sha256:07208e4718cb70aa259ac886c19b96a4aad1cf00e9199f211746f738951bbf7c"},
+    {file = "frozendict-2.3.10-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:e8bec6d11f7254e405290cb1b081caffa0c18b6aa779130da9a546349c56be83"},
+    {file = "frozendict-2.3.10-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b089c7e8c95d8b043e82e7da26e165f4220d7310efaad5e94445db7e3bc8321e"},
+    {file = "frozendict-2.3.10-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:08a5829d708657c9d5ad58f4a7e4baa73a3d57290f9613bdd909d481fc203a3a"},
+    {file = "frozendict-2.3.10-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:1c015852dacf144dbeadf203673d8c714f788fcc2b810a36504994b3c4f5a436"},
+    {file = "frozendict-2.3.10-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:bb9f15a5ed924be2b1cb3654b7ea3b7bae265ff39e2b5784d42bd4a6e1353e45"},
+    {file = "frozendict-2.3.10-cp37-cp37m-win_amd64.whl", hash = "sha256:809bb9c6c657bded925710a309bb2a2350bdbfdc9371df427f1a93cb8ab7ec3e"},
+    {file = "frozendict-2.3.10-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:ff7a9cca3a3a1e584349e859d028388bd96a5475f76721471b73797472c6db17"},
+    {file = "frozendict-2.3.10-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:0cdd496933ddb428f3854bea9ffdce0245bb27c27909f663ad396409fb4dffb5"},
+    {file = "frozendict-2.3.10-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9df392b655fadaa0174c1923e6205b30ad1ccca248e8e146e63a8147a355ee01"},
+    {file = "frozendict-2.3.10-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7901828700f36fe12486705afe7afc5583434390c8f69b5419de1b6c566fb00d"},
+    {file = "frozendict-2.3.10-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:c9aa28ce48d848ee520409533fd0254de4caf025c5cf1b9f27c98c1dd8cf90aa"},
+    {file = "frozendict-2.3.10-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:0856af4f5b4288b2270e0b74078fad5cbaf4f799326b82183865f6f367008b2c"},
+    {file = "frozendict-2.3.10-cp38-cp38-win_amd64.whl", hash = "sha256:ac41c671ff33cbefc0f06c4b2a630d18ab59f5256f45f57d5632252ae4a8c07a"},
+    {file = "frozendict-2.3.10-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:893205dc5a4e5c4b24e5822ceb21ef14fed8ca4afae7ac688e2fc24294c85225"},
+    {file = "frozendict-2.3.10-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:e78c5ac5d71f3b73f07ff9d9e3cc32dfbf7954f2c57c2d0e1fe8f1600e980b40"},
+    {file = "frozendict-2.3.10-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8c4ca4cc42bc30b20476616411d4b49aae6084760b99251f1cbdfed879ae53ea"},
+    {file = "frozendict-2.3.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c865962216f7cfd6dac8693f4de431a9d98a7225185ff23613ecd10c42423adc"},
+    {file = "frozendict-2.3.10-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:99b2f47b292cc4d68f6679918e8e9e6dc5e816924d8369d07018be56b93fb20f"},
+    {file = "frozendict-2.3.10-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:8e7abf4539b73c8e5680dd2fdbd19ca4fc3e2b2f3666f80f022217839bb859fd"},
+    {file = "frozendict-2.3.10-cp39-cp39-win_amd64.whl", hash = "sha256:901e774629fc63f84d24b5e46b59de1eed22392ee98b7f92e694a127d541edac"},
+    {file = "frozendict-2.3.10-cp39-cp39-win_arm64.whl", hash = "sha256:6f8681c0ffe92be9aba40c9b9960c48f0ae7f6ea585af2b93fc9542cc3865969"},
+    {file = "frozendict-2.3.10-py3-none-any.whl", hash = "sha256:66cded65f144393b4226bda9fe9ac2f42451d2d603e8a486015744bb566a7008"},
+    {file = "frozendict-2.3.10.tar.gz", hash = "sha256:aadc83510ce82751a0bb3575231f778bc37cbb373f5f05a52b888e26cbb92f79"},
 ]
 
 [[package]]
@@ -1989,13 +1989,13 @@ tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [[package]]
 name = "termcolor"
-version = "2.3.0"
+version = "2.4.0"
 description = "ANSI color formatting for output in terminal"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "termcolor-2.3.0-py3-none-any.whl", hash = "sha256:3afb05607b89aed0ffe25202399ee0867ad4d3cb4180d98aaf8eefa6a5f7d475"},
-    {file = "termcolor-2.3.0.tar.gz", hash = "sha256:b5b08f68937f138fe92f6c089b99f1e2da0ae56c52b78bf7075fd95420fd9a5a"},
+    {file = "termcolor-2.4.0-py3-none-any.whl", hash = "sha256:9297c0df9c99445c2412e832e882a7884038a25617c60cea2ad69488d4040d63"},
+    {file = "termcolor-2.4.0.tar.gz", hash = "sha256:aab9e56047c8ac41ed798fa36d892a37aca6b3e9159f3e0c24bc64a9b3ac7b7a"},
 ]
 
 [package.extras]
@@ -2052,18 +2052,18 @@ testing = ["build[virtualenv] (>=0.10)", "covdefaults (>=2.3)", "detect-test-pol
 
 [[package]]
 name = "traitlets"
-version = "5.13.0"
+version = "5.14.0"
 description = "Traitlets Python configuration system"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "traitlets-5.13.0-py3-none-any.whl", hash = "sha256:baf991e61542da48fe8aef8b779a9ea0aa38d8a54166ee250d5af5ecf4486619"},
-    {file = "traitlets-5.13.0.tar.gz", hash = "sha256:9b232b9430c8f57288c1024b34a8f0251ddcc47268927367a0dd3eeaca40deb5"},
+    {file = "traitlets-5.14.0-py3-none-any.whl", hash = "sha256:f14949d23829023013c47df20b4a76ccd1a85effb786dc060f34de7948361b33"},
+    {file = "traitlets-5.14.0.tar.gz", hash = "sha256:fcdaa8ac49c04dfa0ed3ee3384ef6dfdb5d6f3741502be247279407679296772"},
 ]
 
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
-test = ["argcomplete (>=3.0.3)", "mypy (>=1.6.0)", "pre-commit", "pytest (>=7.0,<7.5)", "pytest-mock", "pytest-mypy-testing"]
+test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "pre-commit", "pytest (>=7.0,<7.5)", "pytest-mock", "pytest-mypy-testing"]
 
 [[package]]
 name = "types-pyopenssl"
@@ -2165,13 +2165,13 @@ yarl = "*"
 
 [[package]]
 name = "virtualenv"
-version = "20.24.7"
+version = "20.25.0"
 description = "Virtual Python Environment builder"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.24.7-py3-none-any.whl", hash = "sha256:a18b3fd0314ca59a2e9f4b556819ed07183b3e9a3702ecfe213f593d44f7b3fd"},
-    {file = "virtualenv-20.24.7.tar.gz", hash = "sha256:69050ffb42419c91f6c1284a7b24e0475d793447e35929b488bf6a0aade39353"},
+    {file = "virtualenv-20.25.0-py3-none-any.whl", hash = "sha256:4238949c5ffe6876362d9c0180fc6c3a824a7b12b80604eeb8085f2ed7460de3"},
+    {file = "virtualenv-20.25.0.tar.gz", hash = "sha256:bf51c0d9c7dd63ea8e44086fa1e4fb1093a31e963b86959257378aef020e1f1b"},
 ]
 
 [package.dependencies]
