@@ -6,7 +6,7 @@ import requests
 import yaml
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
-from thetagang_notifications.trade import get_notifier
+from thetagang_notifications.notification import get_notifier
 
 
 def download_trade(trade_guid):

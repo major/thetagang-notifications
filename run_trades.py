@@ -7,7 +7,7 @@ import time
 from schedule import every, repeat, run_pending
 
 from thetagang_notifications.config import PATRON_TRADES_ONLY, SKIPPED_USERS
-from thetagang_notifications.trade import get_notifier
+from thetagang_notifications.notification import get_notifier
 from thetagang_notifications.trade_queue import TradeQueue
 
 # Setup our shared logger.
