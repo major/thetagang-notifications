@@ -33,7 +33,7 @@ def test_put_break_even(real_trades):
 
 @pytest.mark.parametrize(
     "real_trades",
-    ["COVERED CALL", "LONG NAKED CALL", "SHORT NAKED CALL"],
+    ["COVERED CALL", "LONG CALL", "SHORT NAKED CALL"],
     indirect=True,
 )
 def test_call_break_even(real_trades):
@@ -98,7 +98,7 @@ def test_opening_description(real_trades):
         assert result is None
 
 
-@pytest.mark.parametrize("real_trades", ["LONG NAKED CALL"], indirect=True)
+@pytest.mark.parametrize("real_trades", ["LONG CALL"], indirect=True)
 def test_potential_return_not_implemented(real_trades):
     """Test a potential return that is not implemented."""
     trade_obj = trade.get_trade_class(real_trades)

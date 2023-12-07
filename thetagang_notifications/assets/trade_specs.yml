@@ -136,14 +136,14 @@
 
 ########################################################################################
 # LONG SINGLE LEG
-- type: LONG NAKED CALL
+- type: LONG CALL
   option_trade: True
   single_leg: True
   strikes:
     - long_call
   short: False
   sentiment: bullish
-  example_guid: 0ae1568e-012e-4ae2-b1da-845de50a895e
+  example_guid: 372fd62c-ff16-41e9-93e8-84621846eb9d
 
 - type: LONG NAKED PUT
   option_trade: True

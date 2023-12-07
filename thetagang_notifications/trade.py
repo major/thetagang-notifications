@@ -5,12 +5,7 @@ import logging
 import inflect
 import yaml
 
-from thetagang_notifications.config import (
-    EMOJI_ASSIGNED,
-    EMOJI_LOSER,
-    EMOJI_WINNER,
-    TRADE_SPEC_FILE,
-)
+from thetagang_notifications.config import EMOJI_ASSIGNED, EMOJI_LOSER, EMOJI_WINNER, TRADE_SPEC_FILE
 from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
 from thetagang_notifications.notification import get_notifier as get_notification_handler
 from thetagang_notifications.trade_math import (
@@ -526,7 +521,7 @@ def get_trade_class(trade):
         "CASH SECURED PUT": CashSecuredPut,
         "COVERED CALL": CoveredCall,
         "SHORT NAKED CALL": ShortNakedCall,
-        "LONG NAKED CALL": LongNakedCall,
+        "LONG CALL": LongNakedCall,
         "LONG NAKED PUT": LongNakedPut,
         "PUT CREDIT SPREAD": PutCreditSpread,
         "CALL CREDIT SPREAD": CallCreditSpread,
