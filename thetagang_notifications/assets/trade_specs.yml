@@ -145,14 +145,14 @@
   sentiment: bullish
   example_guid: 372fd62c-ff16-41e9-93e8-84621846eb9d
 
-- type: LONG NAKED PUT
+- type: LONG PUT
   option_trade: True
   single_leg: True
   strikes:
     - long_put
   short: False
   sentiment: bearish
-  example_guid: 19a3beee-95e9-4c19-ab1d-712793f3eeaf
+  example_guid: d89103e6-263f-4bd8-983c-39e399512b1e
 
 ########################################################################################
 # STOCK TRADES

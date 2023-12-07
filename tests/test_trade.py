@@ -22,7 +22,7 @@ def test_get_trade_class_unknown_type():
         trade.get_trade_class(mock_trade)
 
 
-@pytest.mark.parametrize("real_trades", ["CASH SECURED PUT", "LONG NAKED PUT"], indirect=True)
+@pytest.mark.parametrize("real_trades", ["CASH SECURED PUT", "LONG PUT"], indirect=True)
 def test_put_break_even(real_trades):
     """Test put break even."""
     with mock.patch("thetagang_notifications.trade.put_break_even") as mock_break_even:

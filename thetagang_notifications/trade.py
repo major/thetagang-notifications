@@ -522,7 +522,7 @@ def get_trade_class(trade):
         "COVERED CALL": CoveredCall,
         "SHORT NAKED CALL": ShortNakedCall,
         "LONG CALL": LongNakedCall,
-        "LONG NAKED PUT": LongNakedPut,
+        "LONG PUT": LongNakedPut,
         "PUT CREDIT SPREAD": PutCreditSpread,
         "CALL CREDIT SPREAD": CallCreditSpread,
         "PUT DEBIT SPREAD": PutDebitSpread,

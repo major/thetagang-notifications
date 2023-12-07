@@ -1,0 +1,59 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.31.0
+    method: GET
+    uri: https://api.thetagang.com/trades/d89103e6-263f-4bd8-983c-39e399512b1e
+  response:
+    body:
+      string: '{"status":200,"data":{"trade":{"pl":0,"guid":"d89103e6-263f-4bd8-983c-39e399512b1e","expiry_date":"2024-01-19T00:00:00.000Z","close_date":null,"open_date":"2023-11-30T22:16:34.000Z","symbol":"PLTR","initial":null,"quantity":1,"type":"LONG
+        PUT","payment":"debit","win":null,"profitLoss":null,"user_guid":"9d0bd6d1-b1ed-448a-9802-367e4801105a","tag":null,"short_put":"","long_put":"13","short_call":"","long_call":"","price_filled":0.9,"price_closed":null,"open_quote":null,"close_quote":null,"assigned":null,"earnings":false,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"","closing_note":null,"createdAt":"2023-11-30T22:16:34.016Z","updatedAt":"2023-11-30T22:16:34.016Z","Actions":[],"Posts":[],"User":{"username":"Luk77e","flair":null,"role":"member","streak":5,"verified":null}}},"message":null}'
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 831e79171c2145ef-DFW
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Dec 2023 17:26:20 GMT
+      Etag:
+      - W/"36a-Aug4qSOet+6CMAv3KnqcE8cO4o4"
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Report-To:
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1701969980&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=jtIBrmIVDnyCB7k7ovMi%2Bsp%2BLs1Aq%2FS1Cu%2Bj1P7B%2Bjg%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1701969980&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=jtIBrmIVDnyCB7k7ovMi%2Bsp%2BLs1Aq%2FS1Cu%2Bj1P7B%2Bjg%3D
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      Via:
+      - 1.1 vegur
+      X-Ratelimit-Limit:
+      - '500'
+      X-Ratelimit-Remaining:
+      - '499'
+      X-Ratelimit-Reset:
+      - '1701970874'
+    status:
+      code: 200
+      message: OK
+version: 1
