@@ -26,8 +26,7 @@ def test_generate_embeds(real_trades):
     """Test generate embeds."""
     trade_obj = get_trade_class(real_trades)
     test_notifier = notification.get_notifier(trade_obj)
-    with mock.patch("thetagang_notifications.notification.get_stock_logo"):
-        embed = test_notifier.generate_embeds()
+    embed = test_notifier.generate_embeds()
 
     assert isinstance(embed, DiscordEmbed)
 
@@ -38,11 +37,7 @@ def test_notify(real_trades):
     trade_obj = get_trade_class(real_trades)
     test_notifier = notification.get_notifier(trade_obj)
 
-    with (
-        mock.patch("thetagang_notifications.notification.DiscordWebhook.execute") as mock_execute,
-        mock.patch("thetagang_notifications.notification.get_stock_logo") as mock_logo,
-    ):
-        mock_logo.return_value = "https://storage.googleapis.com/iex/api/logos/SPY.png"
+    with mock.patch("thetagang_notifications.notification.DiscordWebhook.execute") as mock_execute:
         test_notifier.generate_embeds()
         test_notifier.notify()
 

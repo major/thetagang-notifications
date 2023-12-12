@@ -12,7 +12,8 @@ from thetagang_notifications.config import (
     TRANSPARENT_PNG,
     WEBHOOK_URL_TRADES,
 )
-from thetagang_notifications.utils import get_stock_logo
+
+STOCK_LOGO = "https://s3.amazonaws.com/logos.atom.finance/stocks-and-funds/%s.png"
 
 
 class Notification:
@@ -43,7 +44,7 @@ class Notification:
 
         embed.set_author(**self.generate_action())
         embed.set_image(url=TRANSPARENT_PNG)
-        embed.set_thumbnail(url=get_stock_logo(self.trade.symbol))
+        embed.set_thumbnail(url=STOCK_LOGO % self.trade.symbol)
         embed.set_footer(text=self.trade_note)
 
         return embed
@@ -88,7 +89,7 @@ class ClosedNotification(Notification):
         )
         embed.set_author(**self.generate_action())
         embed.set_image(url=TRANSPARENT_PNG)
-        embed.set_thumbnail(url=get_stock_logo(self.trade.symbol))
+        embed.set_thumbnail(url=STOCK_LOGO % self.trade.symbol)
         embed.set_footer(text=self.trade_note)
 
         return embed
