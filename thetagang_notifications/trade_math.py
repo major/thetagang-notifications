@@ -80,3 +80,19 @@ def short_annualized_return(strike: float, premium: float, days_to_expiration: i
     # Computers don't like dividing by 0.
     dte = max(days_to_expiration, 1)
     return round((short_potential_return / dte) * 365, 2)
+
+
+def percentage_profit(winner: bool, wager: float, result: float) -> int:
+    """Return the percentage profit/loss on a trade."""
+    # Winning long option trade.
+    if winner and wager > result:
+        return int(((wager - result) / wager) * 100)
+    # Winning short option trade.
+    elif winner and result < wager:
+        return int(((result - wager) / wager) * 100)
+    # Losing long option trade.
+    elif not winner and wager > result:
+        return int(((wager - result) / wager) * 100)
+    # Losing short option trade.
+    else:
+        return int(((result - wager) / wager) * 100)

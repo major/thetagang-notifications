@@ -88,3 +88,15 @@ def test_short_annualized_return():
     """Verify the annualized return on a short option."""
     annualized_return = trade_math.short_annualized_return(100.00, 1.00, 30)
     assert annualized_return == 12.29
+
+
+def test_percentage_profit():
+    """Verify that the percentage profit is calculated correctly."""
+    # Winning long option trade.
+    assert trade_math.percentage_profit(True, 100, 200) == 100
+    # Winning short option trade.
+    assert trade_math.percentage_profit(True, 100, 50) == 50
+    # Losing long option trade.
+    assert trade_math.percentage_profit(False, 100, 50) == 50
+    # Losing short option trade.
+    assert trade_math.percentage_profit(False, 100, 200) == 100
