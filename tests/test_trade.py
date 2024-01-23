@@ -78,7 +78,7 @@ def test_closing_description(real_trades):
     trade_obj = trade.get_trade_class(real_trades)
     result = trade_obj.closing_description()
 
-    if trade_obj.is_stock_trade:
+    if trade_obj.is_stock_trade or trade_obj.is_open:
         assert result is None
     else:
         assert isinstance(result, str)

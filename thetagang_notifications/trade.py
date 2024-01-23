@@ -11,6 +11,7 @@ from thetagang_notifications.notification import get_notifier as get_notificatio
 from thetagang_notifications.trade_math import (
     call_break_even,
     days_to_expiration,
+    percentage_profit,
     pretty_expiration,
     pretty_premium,
     pretty_strike,
@@ -38,6 +39,7 @@ class Trade:
         self.expiry_date = trade["expiry_date"]
         self.guid = trade["guid"]
         self.price_filled = trade["price_filled"]
+        self.price_closed = trade["price_closed"]
         self.profit = abs(trade["pl"])
         self.quantity = trade["quantity"]
         self.strike = None
@@ -57,6 +59,10 @@ class Trade:
         self.status = "opened" if self.is_open else "closed"
         self.result = "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
         self.trade_emoji = EMOJI_ASSIGNED if self.is_assigned else EMOJI_WINNER if self.is_winner else EMOJI_LOSER
+
+        # Get the percentage profit/loss on the trade.
+        if not self.is_open and self.is_option_trade:
+            self.percentage_profit = percentage_profit(self.is_winner, self.price_filled, self.price_closed)
 
         # Get notes for the trade.
         self.note = trade["note"]
@@ -95,7 +101,10 @@ class Trade:
 
     def closing_description(self):
         """Return the notification description for closing trades."""
-        desc = f"{self.trade_emoji} {self.result} "
+        if self.is_stock_trade or self.is_open:
+            return None
+
+        desc = f"{self.trade_emoji} {self.result} ({self.percentage_profit}%) "
         desc += "" if self.is_assigned else f"{pretty_strike(self.profit * 100)}"
         return desc
 
