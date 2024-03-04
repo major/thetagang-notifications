@@ -22,11 +22,11 @@ class TradeQueue:
         """Get the most recently updated trades."""
         log.info("Getting most recently updated trades...")
 
-        params = {"api_key": TRADES_API_KEY}
-        url = "https://api.thetagang.com/v1/trades"
-        resp = requests.get(url, params, timeout=15)
+        headers = {"Authorization": TRADES_API_KEY}
+        url = " https://api3.thetagang.com/api/patrons"
+        resp = requests.get(url, headers=headers, timeout=15)
 
-        self.latest_trades = resp.json()["data"]["trades"]
+        self.latest_trades = resp.json()["data"]
 
         # Ensure we always have the latest trades first
         self.latest_trades.reverse()

@@ -31,7 +31,7 @@ class Notification:
         """Generate the action for the notification."""
         return {
             "name": f"{self.trade.username} {self.trade.status} a trade",
-            "icon_url": self.icon_url,
+            "icon_url": self.trade.avatar if self.trade.avatar else self.icon_url,
             "url": f"https://thetagang.com/{self.trade.username}/{self.trade.guid}",
         }
 
@@ -43,7 +43,7 @@ class Notification:
         )
 
         embed.set_author(**self.generate_action())
-        embed.set_image(url=TRANSPARENT_PNG)
+        # embed.set_image(url=TRANSPARENT_PNG)
         embed.set_thumbnail(url=STOCK_LOGO % self.trade.symbol)
         embed.set_footer(text=self.trade_note)
 

@@ -40,12 +40,12 @@ class Trade:
         self.guid = trade["guid"]
         self.price_filled = trade["price_filled"]
         self.price_closed = trade["price_closed"]
-        self.profit = abs(trade["pl"])
         self.quantity = trade["quantity"]
         self.strike = None
         self.symbol = trade["symbol"]
         self.trade_type = trade["type"]
         self.username = trade["User"]["username"]
+        self.avatar = trade["User"]["pfp"]
 
         # Load properties from the trade_spec file.
         self.load_trade_properties()
@@ -59,6 +59,7 @@ class Trade:
         self.status = "opened" if self.is_open else "closed"
         self.result = "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
         self.trade_emoji = EMOJI_ASSIGNED if self.is_assigned else EMOJI_WINNER if self.is_winner else EMOJI_LOSER
+        self.profit = abs(float(trade["profitLoss"])) if (self.is_closed and not self.is_stock_trade) else 0
 
         # Get the percentage profit/loss on the trade.
         if not self.is_open and self.is_option_trade:
