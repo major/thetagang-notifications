@@ -1,11 +1,12 @@
 """Build queues for trade notifications from thetagang.com."""
 
 import logging
+import os
 
 import requests
 from redis import Redis
 
-from thetagang_notifications.config import REDIS_HOST, REDIS_PORT, SKIPPED_USERS, TRADES_API_KEY
+from thetagang_notifications.config import REDIS_HOST, REDIS_PORT, SKIPPED_USERS
 
 log = logging.getLogger(__name__)
 
@@ -22,9 +23,14 @@ class TradeQueue:
         """Get the most recently updated trades."""
         log.info("Getting most recently updated trades...")
 
-        params = {"api_key": TRADES_API_KEY}
-        url = "https://api.thetagang.com/v1/trades"
-        resp = requests.get(url, params, timeout=15)
+        token = self.read_token()
+        if not token:
+            log.error("No auth token found")
+            return []
+
+        url = "https://api3.thetagang.com/trades/the-lab"
+        headers = {"Authorization": token}
+        resp = requests.get(url, headers, timeout=15)
 
         self.latest_trades = resp.json()["data"]["trades"]
 
@@ -47,6 +53,14 @@ class TradeQueue:
         """Assemble and return a queue of trades that require notification."""
         valid_trades = [x for x in self.patron_trades if x in self.allowed_users]
         self.queued_trades = [x for x in valid_trades if self.process_trade(x)]
+
+    def read_token(self) -> str:
+        """Read authorization token from the disk."""
+        if os.path.exists("/tmp/auth_token"):
+            with open("/tmp/auth_token", encoding="utf8") as fileh:
+                return fileh.read()
+
+        return False
 
     def process_trade(self, trade: dict) -> dict | None:
         """Determine how to handle a trade returned by the API."""

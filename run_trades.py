@@ -6,6 +6,7 @@ import time
 
 from schedule import every, repeat, run_pending
 
+from thetagang_notifications.auth import get_auth_token
 from thetagang_notifications.config import PATRON_TRADES_ONLY, SKIPPED_USERS
 from thetagang_notifications.notification import get_notifier
 from thetagang_notifications.trade import get_trade_class
@@ -20,6 +21,15 @@ if PATRON_TRADES_ONLY:
 
 if SKIPPED_USERS:
     log.info("The following users will be skipped: %s", SKIPPED_USERS)
+
+
+@repeat(every(6).hours)
+def do_auth():
+    """Refresh the authentication token."""
+    log.info("🔑 Refreshing authentication token")
+    token = get_auth_token()
+    with open("/tmp/auth_token", "w", encoding="utf8") as fileh:
+        fileh.write(token)
 
 
 @repeat(every(15).seconds)
