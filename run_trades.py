@@ -32,7 +32,7 @@ def do_auth():
         fileh.write(token)
 
 
-@repeat(every(60).seconds)
+@repeat(every(15).seconds)
 def run_queue():
     """Enqueue the trades which need notifications."""
     log.info("🔎 Checking for new trades")
@@ -47,7 +47,6 @@ def run_queue():
 if __name__ == "__main__":
     if os.environ.get("DAEMONIZE_TRADE_BOT", False):
         log.info("Running bot as a daemon...")
-        do_auth()
         while True:
             run_pending()
             time.sleep(1)
