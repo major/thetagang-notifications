@@ -39,13 +39,18 @@ class TradeQueue:
         return [x for x in self.latest_trades if x["User"]["username"] not in self.skipped_users]
 
     @property
+    def mistake_trades(self) -> list:
+        """Get a list of trades that are mistakes."""
+        return [x for x in self.latest_trades if x["mistake"]]
+
+    @property
     def patron_trades(self) -> list:
         """Get a list of patron trades only."""
         return [x for x in self.latest_trades if x["User"]["role"] == "patron"]
 
     def build_queue(self) -> None:
         """Assemble and return a queue of trades that require notification."""
-        valid_trades = [x for x in self.patron_trades if x in self.allowed_users]
+        valid_trades = [x for x in self.patron_trades if x in self.allowed_users and x not in self.mistake_trades]
         self.queued_trades = [x for x in valid_trades if self.process_trade(x)]
 
     def process_trade(self, trade: dict) -> dict | None:

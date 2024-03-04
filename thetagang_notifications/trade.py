@@ -46,6 +46,7 @@ class Trade:
         self.trade_type = trade["type"]
         self.username = trade["User"]["username"]
         self.avatar = trade["User"]["pfp"]
+        self.profit_loss_raw = trade["profitLoss"]
 
         # Load properties from the trade_spec file.
         self.load_trade_properties()
@@ -59,7 +60,6 @@ class Trade:
         self.status = "opened" if self.is_open else "closed"
         self.result = "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
         self.trade_emoji = EMOJI_ASSIGNED if self.is_assigned else EMOJI_WINNER if self.is_winner else EMOJI_LOSER
-        self.profit = abs(float(trade["profitLoss"])) if (self.is_closed and not self.is_stock_trade) else 0
 
         # Get the percentage profit/loss on the trade.
         if not self.is_open and self.is_option_trade:
@@ -106,7 +106,7 @@ class Trade:
             return None
 
         desc = f"{self.trade_emoji} {self.result} "
-        desc += "" if self.is_assigned else f"{pretty_strike(self.profit * 100)} ({self.percentage_profit}%)"
+        desc += "" if self.is_assigned else f"{pretty_strike(self.profit() * 100)} ({self.percentage_profit}%)"
         return desc
 
     def notification_title(self):
@@ -126,6 +126,10 @@ class Trade:
 
     def potential_return(self):
         raise PotentialReturnError(self.trade_type)
+
+    def profit(self):
+        """Return the profit on a trade."""
+        return abs(float(self.profit_loss_raw))
 
     def pretty_expiration(self):
         """Return the pretty expiration date for an option trade."""
