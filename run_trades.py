@@ -30,6 +30,7 @@ def do_auth():
     token = get_auth_token()
     with open("/tmp/auth_token", "w", encoding="utf8") as fileh:
         fileh.write(token)
+    log.info("✅ Authentication token refreshed")
 
 
 @repeat(every(60).seconds)
