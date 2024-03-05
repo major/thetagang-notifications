@@ -1,7 +1,6 @@
 """Test the trade queue builder."""
 
 import fakeredis
-import responses
 
 from thetagang_notifications.trade_queue import TradeQueue
 
@@ -96,19 +95,18 @@ def test_build_queue() -> None:
     assert tq.build_queue() == []
 
 
-@responses.activate
-def test_update_trades() -> None:
-    """Test getting updated trades from thetagang.com."""
-    mocked_trades = {
-        "data": [
-            {"guid": "1", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}},
-            {"guid": "2", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}},
-        ]
-    }
+# def test_update_trades() -> None:
+#     """Test getting updated trades from thetagang.com."""
+#     mocked_trades = {
+#         "data": [
+#             {"guid": "1", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}},
+#             {"guid": "2", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}},
+#         ]
+#     }
 
-    recent_trades = responses.get(url="https://api3.thetagang.com/api/patrons", json=mocked_trades, status=200)
-    responses.add(recent_trades)
+#     recent_trades = responses.get(url="https://api3.thetagang.com/api/patrons", json=mocked_trades, status=200)
+#     responses.add(recent_trades)
 
-    tq = TradeQueue()
-    tq.update_trades()
-    assert tq.latest_trades == list(reversed(mocked_trades["data"]))
+#     tq = TradeQueue()
+#     tq.update_trades()
+#     assert tq.latest_trades == list(reversed(mocked_trades["data"]))

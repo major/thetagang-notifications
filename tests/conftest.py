@@ -1,7 +1,7 @@
 """Pytest fixtures for the tests."""
 
+import httpx
 import pytest
-import requests
 import vcr
 import yaml
 
@@ -30,6 +30,6 @@ def real_trades(request):
 
     with vcr.use_cassette(cassette):
         url = f"https://api3.thetagang.com/trades/{example_guid}"
-        trade = requests.get(url, timeout=15).json()["data"]
+        trade = httpx.get(url, timeout=15).json()["data"]
 
     return trade

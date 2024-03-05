@@ -1,48 +1,49 @@
 interactions:
 - request:
-    body: null
+    body: ''
     headers:
-      Accept:
+      accept:
       - '*/*'
-      Accept-Encoding:
+      accept-encoding:
       - gzip, deflate
-      Connection:
+      connection:
       - keep-alive
-      User-Agent:
-      - python-requests/2.31.0
+      host:
+      - api3.thetagang.com
+      user-agent:
+      - python-httpx/0.27.0
     method: GET
     uri: https://api3.thetagang.com/trades/8cdf95fd-d0d4-4f47-ae81-a1e000979291
   response:
-    body:
-      string: "{\"status\":200,\"data\":{\"shares\":0,\"cost\":-160,\"profitLoss\"\
-        :\"-160\",\"guid\":\"8cdf95fd-d0d4-4f47-ae81-a1e000979291\",\"user_guid\"\
-        :\"46655745-14d1-45cf-b3a0-4f6b8502e39b\",\"symbol\":\"PYPL\",\"type\":\"\
-        SHORT IRON CONDOR\",\"payment\":\"credit\",\"short_call\":\"150\",\"short_call2\"\
-        :null,\"long_call\":\"155\",\"long_call2\":null,\"short_put\":\"115\",\"short_put2\"\
-        :null,\"long_put\":\"110\",\"long_put2\":null,\"quantity\":1,\"price_filled\"\
-        :1.7,\"price_closed\":3.3,\"opened_during_market_hours\":null,\"closed_during_market_hours\"\
-        :null,\"closed_before_expiration\":null,\"tweet_id\":null,\"open_quote\":null,\"\
-        close_quote\":null,\"tag\":null,\"note\":\"73% p50 \\n1SD\\ncollected 1/3\\\
-        nIv% 99.6\\nRSI 26\\n\\nStandard condor for me. Looking for a contraction\
-        \ of IV here. 30% PT set but if it doesn't hit by the end of the week ill\
-        \ change to 50% till expiration\",\"closing_note\":\"\",\"earnings\":false,\"\
-        assigned\":false,\"win\":false,\"initial\":false,\"expiry_date\":\"2022-03-18T07:00:00.000Z\"\
-        ,\"close_date\":\"2022-03-17T19:30:23.966Z\",\"open_date\":\"2022-02-02T20:15:34.571Z\"\
-        ,\"podcast_url\":null,\"mistake\":null,\"createdAt\":\"2022-02-02T20:15:34.573Z\"\
-        ,\"updatedAt\":\"2023-01-14T10:11:50.515Z\",\"Posts\":[],\"User\":{\"title\"\
-        :\"Rustyerr\",\"guid\":\"46655745-14d1-45cf-b3a0-4f6b8502e39b\",\"username\"\
-        :\"Rustyerr\",\"lowercase\":\"rustyerr\",\"pfp\":null,\"flair\":\"1% 1\uFE0F\
-        \u20E30\uFE0F\u20E38\uFE0F\u20E3: shackleford\",\"ticker_message\":\"<\u2014\
-        what they said\",\"bio\":\"Be kind\\n \",\"verified\":null,\"role\":\"patron\"\
-        ,\"last_active\":\"2024-03-04T17:57:04.084Z\",\"streak_updated_at\":\"2024-03-04T09:57:03.540Z\"\
-        ,\"streak\":1,\"longest_streak\":4,\"createdAt\":\"2020-04-23T15:15:19.741Z\"\
-        ,\"updatedAt\":\"2024-03-04T17:57:04.084Z\"},\"Actions\":[],\"Reactions\"\
-        :[]},\"error\":null}"
+    content: "{\"status\":200,\"data\":{\"shares\":0,\"cost\":-160,\"profitLoss\"\
+      :\"-160\",\"guid\":\"8cdf95fd-d0d4-4f47-ae81-a1e000979291\",\"user_guid\":\"\
+      46655745-14d1-45cf-b3a0-4f6b8502e39b\",\"symbol\":\"PYPL\",\"type\":\"SHORT\
+      \ IRON CONDOR\",\"payment\":\"credit\",\"short_call\":\"150\",\"short_call2\"\
+      :null,\"long_call\":\"155\",\"long_call2\":null,\"short_put\":\"115\",\"short_put2\"\
+      :null,\"long_put\":\"110\",\"long_put2\":null,\"quantity\":1,\"price_filled\"\
+      :1.7,\"price_closed\":3.3,\"opened_during_market_hours\":null,\"closed_during_market_hours\"\
+      :null,\"closed_before_expiration\":null,\"tweet_id\":null,\"open_quote\":null,\"\
+      close_quote\":null,\"tag\":null,\"note\":\"73% p50 \\n1SD\\ncollected 1/3\\\
+      nIv% 99.6\\nRSI 26\\n\\nStandard condor for me. Looking for a contraction of\
+      \ IV here. 30% PT set but if it doesn't hit by the end of the week ill change\
+      \ to 50% till expiration\",\"closing_note\":\"\",\"earnings\":false,\"assigned\"\
+      :false,\"win\":false,\"initial\":false,\"expiry_date\":\"2022-03-18T07:00:00.000Z\"\
+      ,\"close_date\":\"2022-03-17T19:30:23.966Z\",\"open_date\":\"2022-02-02T20:15:34.571Z\"\
+      ,\"podcast_url\":null,\"mistake\":null,\"createdAt\":\"2022-02-02T20:15:34.573Z\"\
+      ,\"updatedAt\":\"2023-01-14T10:11:50.515Z\",\"Posts\":[],\"User\":{\"title\"\
+      :\"Rustyerr\",\"guid\":\"46655745-14d1-45cf-b3a0-4f6b8502e39b\",\"username\"\
+      :\"Rustyerr\",\"lowercase\":\"rustyerr\",\"pfp\":null,\"flair\":\"1% 1\uFE0F\
+      \u20E30\uFE0F\u20E38\uFE0F\u20E3: shackleford\",\"ticker_message\":\"<\u2014\
+      what they said\",\"bio\":\"Be kind\\n \",\"verified\":null,\"role\":\"patron\"\
+      ,\"last_active\":\"2024-03-04T17:57:04.084Z\",\"streak_updated_at\":\"2024-03-04T09:57:03.540Z\"\
+      ,\"streak\":1,\"longest_streak\":4,\"createdAt\":\"2020-04-23T15:15:19.741Z\"\
+      ,\"updatedAt\":\"2024-03-04T17:57:04.084Z\"},\"Actions\":[],\"Reactions\":[]},\"\
+      error\":null}"
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 85fb030dcd7a8787-DFW
+      - 85fca929ba17466e-DFW
       Cache-Control:
       - private, no-cache, no-store, must-revalidate
       Connection:
@@ -52,7 +53,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 05 Mar 2024 15:06:47 GMT
+      - Tue, 05 Mar 2024 19:54:57 GMT
       Etag:
       - W/"656-61phtDItHsUHluHDOHwYmgzSGsM"
       Expires:
@@ -64,13 +65,13 @@ interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '995'
+      - '993'
       Ratelimit-Reset:
-      - '508'
+      - '318'
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651207&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=pI4GfTeLpYfuy4oOmJnxentlqo5lYObS7kMvc0DuiTQ%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668497&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=UbIhVax5LCQSP48cLCjAxGM0EW1Nfub5MYcv1Q8jtEE%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709651207&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=pI4GfTeLpYfuy4oOmJnxentlqo5lYObS7kMvc0DuiTQ%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709668497&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=UbIhVax5LCQSP48cLCjAxGM0EW1Nfub5MYcv1Q8jtEE%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -81,7 +82,6 @@ interactions:
       - 1.1 vegur
       X-Powered-By:
       - Express
-    status:
-      code: 200
-      message: OK
+    http_version: HTTP/1.1
+    status_code: 200
 version: 1

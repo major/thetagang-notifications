@@ -1,30 +1,31 @@
 interactions:
 - request:
-    body: null
+    body: ''
     headers:
-      Accept:
+      accept:
       - '*/*'
-      Accept-Encoding:
+      accept-encoding:
       - gzip, deflate
-      Connection:
+      connection:
       - keep-alive
-      User-Agent:
-      - python-requests/2.31.0
+      host:
+      - api3.thetagang.com
+      user-agent:
+      - python-httpx/0.27.0
     method: GET
     uri: https://api3.thetagang.com/trades/96975bff-9962-462d-84b4-acf9236c442a
   response:
-    body:
-      string: '{"status":200,"data":{"shares":0,"cost":22,"profitLoss":"22","guid":"96975bff-9962-462d-84b4-acf9236c442a","user_guid":"26da488d-b077-4125-8341-a3cf613feff6","symbol":"AA","type":"LONG
-        STRANGLE","payment":"debit","short_call":null,"short_call2":null,"long_call":"55","long_call2":null,"short_put":null,"short_put2":null,"long_put":"53","long_put2":null,"quantity":1,"price_filled":3.44,"price_closed":3.66,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":53.32,"close_quote":50.29,"tag":null,"note":null,"closing_note":"Bailed
-        1 day too soon.  Had a profit & didn''t want to temp jumping into expiration
-        day.","earnings":true,"assigned":false,"win":true,"initial":false,"expiry_date":"2023-01-20T06:00:00.000Z","close_date":"2023-01-20T15:06:54.462Z","open_date":"2023-01-18T20:36:15.693Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T20:36:15.694Z","updatedAt":"2023-01-20T15:06:54.903Z","Posts":[],"User":{"title":"TCB47","guid":"26da488d-b077-4125-8341-a3cf613feff6","username":"TCB47","lowercase":"tcb47","pfp":null,"flair":null,"ticker_message":null,"bio":"I
-        concentrate on CSPs, long calls & puts.  When my Level 3 application is approved,
-        I will occasionally sell the naked put on SPX when the market trends up.\n","verified":null,"role":"member","last_active":"2023-04-06T13:50:12.235Z","streak_updated_at":"2023-04-05T14:38:37.308Z","streak":2,"longest_streak":1,"createdAt":"2021-11-21T04:09:39.390Z","updatedAt":"2023-04-06T13:50:12.235Z"},"Actions":[],"Reactions":[]},"error":null}'
+    content: '{"status":200,"data":{"shares":0,"cost":22,"profitLoss":"22","guid":"96975bff-9962-462d-84b4-acf9236c442a","user_guid":"26da488d-b077-4125-8341-a3cf613feff6","symbol":"AA","type":"LONG
+      STRANGLE","payment":"debit","short_call":null,"short_call2":null,"long_call":"55","long_call2":null,"short_put":null,"short_put2":null,"long_put":"53","long_put2":null,"quantity":1,"price_filled":3.44,"price_closed":3.66,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":53.32,"close_quote":50.29,"tag":null,"note":null,"closing_note":"Bailed
+      1 day too soon.  Had a profit & didn''t want to temp jumping into expiration
+      day.","earnings":true,"assigned":false,"win":true,"initial":false,"expiry_date":"2023-01-20T06:00:00.000Z","close_date":"2023-01-20T15:06:54.462Z","open_date":"2023-01-18T20:36:15.693Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T20:36:15.694Z","updatedAt":"2023-01-20T15:06:54.903Z","Posts":[],"User":{"title":"TCB47","guid":"26da488d-b077-4125-8341-a3cf613feff6","username":"TCB47","lowercase":"tcb47","pfp":null,"flair":null,"ticker_message":null,"bio":"I
+      concentrate on CSPs, long calls & puts.  When my Level 3 application is approved,
+      I will occasionally sell the naked put on SPX when the market trends up.\n","verified":null,"role":"member","last_active":"2023-04-06T13:50:12.235Z","streak_updated_at":"2023-04-05T14:38:37.308Z","streak":2,"longest_streak":1,"createdAt":"2021-11-21T04:09:39.390Z","updatedAt":"2023-04-06T13:50:12.235Z"},"Actions":[],"Reactions":[]},"error":null}'
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 85fb03213c3846d4-DFW
+      - 85fca9474ad60be8-DFW
       Cache-Control:
       - private, no-cache, no-store, must-revalidate
       Connection:
@@ -34,7 +35,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 05 Mar 2024 15:06:50 GMT
+      - Tue, 05 Mar 2024 19:55:01 GMT
       Etag:
       - W/"631-/iLBUOB37OlpegLV0fv2kbdoy78"
       Expires:
@@ -46,13 +47,13 @@ interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '993'
+      - '969'
       Ratelimit-Reset:
-      - '505'
+      - '314'
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651210&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ASpc2DPqQ2AOeP2%2Fh9%2F8uX8bnvTdnYjfi0FOPGExTQw%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668501&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=PNK5B15P6YLMvCTsbk5wrLytpfUCrnn4VjLAqr4DG00%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709651210&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ASpc2DPqQ2AOeP2%2Fh9%2F8uX8bnvTdnYjfi0FOPGExTQw%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709668501&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=PNK5B15P6YLMvCTsbk5wrLytpfUCrnn4VjLAqr4DG00%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -63,7 +64,6 @@ interactions:
       - 1.1 vegur
       X-Powered-By:
       - Express
-    status:
-      code: 200
-      message: OK
+    http_version: HTTP/1.1
+    status_code: 200
 version: 1

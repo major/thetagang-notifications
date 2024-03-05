@@ -1,48 +1,49 @@
 interactions:
 - request:
-    body: null
+    body: ''
     headers:
-      Accept:
+      accept:
       - '*/*'
-      Accept-Encoding:
+      accept-encoding:
       - gzip, deflate
-      Connection:
+      connection:
       - keep-alive
-      User-Agent:
-      - python-requests/2.31.0
+      host:
+      - api3.thetagang.com
+      user-agent:
+      - python-httpx/0.27.0
     method: GET
     uri: https://api3.thetagang.com/trades/72060eaa-7803-4124-be5b-c03b54171e75
   response:
-    body:
-      string: "{\"status\":200,\"data\":{\"shares\":100,\"cost\":-45691,\"profitLoss\"\
-        :null,\"guid\":\"72060eaa-7803-4124-be5b-c03b54171e75\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
-        ,\"symbol\":\"SPY\",\"type\":\"BUY COMMON STOCK\",\"payment\":\"debit\",\"\
-        short_call\":null,\"short_call2\":null,\"long_call\":null,\"long_call2\":null,\"\
-        short_put\":null,\"short_put2\":null,\"long_put\":null,\"long_put2\":null,\"\
-        quantity\":100,\"price_filled\":456.91,\"price_closed\":null,\"opened_during_market_hours\"\
-        :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
-        tweet_id\":null,\"open_quote\":null,\"close_quote\":null,\"tag\":null,\"note\"\
-        :\"My 2/18 $455c breakeven is $456.90, so I decided to pick up more shares\
-        \ if it crossed the breakeven. So, here we are. \U0001F609\",\"closing_note\"\
-        :null,\"earnings\":false,\"assigned\":false,\"win\":null,\"initial\":false,\"\
-        expiry_date\":null,\"close_date\":\"2022-02-09T16:02:32.699Z\",\"open_date\"\
-        :\"2022-02-09T16:02:32.698Z\",\"podcast_url\":null,\"mistake\":null,\"createdAt\"\
-        :\"2022-02-09T16:02:32.699Z\",\"updatedAt\":\"2022-02-09T16:02:32.963Z\",\"\
-        Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
-        ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
-        ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3\
-        : key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\
-        \",\"bio\":\"My 2024 goals involve trading with just what's on the charts:\
-        \ price and volume. I do some analysis and rambling over on thetanerd.com.\
-        \ \U0001F609\",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T14:25:17.490Z\"\
-        ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
-        :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T14:25:17.490Z\"\
-        },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
+    content: "{\"status\":200,\"data\":{\"shares\":100,\"cost\":-45691,\"profitLoss\"\
+      :null,\"guid\":\"72060eaa-7803-4124-be5b-c03b54171e75\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+      ,\"symbol\":\"SPY\",\"type\":\"BUY COMMON STOCK\",\"payment\":\"debit\",\"short_call\"\
+      :null,\"short_call2\":null,\"long_call\":null,\"long_call2\":null,\"short_put\"\
+      :null,\"short_put2\":null,\"long_put\":null,\"long_put2\":null,\"quantity\"\
+      :100,\"price_filled\":456.91,\"price_closed\":null,\"opened_during_market_hours\"\
+      :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
+      tweet_id\":null,\"open_quote\":null,\"close_quote\":null,\"tag\":null,\"note\"\
+      :\"My 2/18 $455c breakeven is $456.90, so I decided to pick up more shares if\
+      \ it crossed the breakeven. So, here we are. \U0001F609\",\"closing_note\":null,\"\
+      earnings\":false,\"assigned\":false,\"win\":null,\"initial\":false,\"expiry_date\"\
+      :null,\"close_date\":\"2022-02-09T16:02:32.699Z\",\"open_date\":\"2022-02-09T16:02:32.698Z\"\
+      ,\"podcast_url\":null,\"mistake\":null,\"createdAt\":\"2022-02-09T16:02:32.699Z\"\
+      ,\"updatedAt\":\"2022-02-09T16:02:32.963Z\",\"Posts\":[],\"User\":{\"title\"\
+      :\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"username\":\"\
+      major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
+      ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3:\
+      \ key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\"\
+      ,\"bio\":\"My 2024 goals involve trading with just what's on the charts: price\
+      \ and volume. I do some analysis and rambling over on thetanerd.com. \U0001F609\
+      \",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T18:12:08.485Z\"\
+      ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
+      :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T18:12:08.485Z\"\
+      },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
     headers:
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 85fb03327f728073-DFW
+      - 85fca938f9cc2c99-DFW
       Cache-Control:
       - private, no-cache, no-store, must-revalidate
       Connection:
@@ -52,9 +53,9 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 05 Mar 2024 15:06:53 GMT
+      - Tue, 05 Mar 2024 19:54:59 GMT
       Etag:
-      - W/"6bf-npPJvRUjuxMMlFcNNDyPh4iUxvU"
+      - W/"6bf-29uSTGkCJVS3rkE81cTzruI6kho"
       Expires:
       - '-1'
       Nel:
@@ -64,13 +65,13 @@ interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '992'
+      - '987'
       Ratelimit-Reset:
-      - '502'
+      - '316'
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651213&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=8GXKycTUFqCgCDlMJB4K3m%2BFZDJeozVw34yrLccDCzw%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668499&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=96SyJglCpvUT9nPvsm49O1imxVpjJGye1L01bdiDJj8%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709651213&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=8GXKycTUFqCgCDlMJB4K3m%2BFZDJeozVw34yrLccDCzw%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709668499&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=96SyJglCpvUT9nPvsm49O1imxVpjJGye1L01bdiDJj8%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -81,7 +82,6 @@ interactions:
       - 1.1 vegur
       X-Powered-By:
       - Express
-    status:
-      code: 200
-      message: OK
+    http_version: HTTP/1.1
+    status_code: 200
 version: 1

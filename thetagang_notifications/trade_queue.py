@@ -2,7 +2,7 @@
 
 import logging
 
-import requests
+import httpx
 from redis import Redis
 
 from thetagang_notifications.config import REDIS_HOST, REDIS_PORT, SKIPPED_USERS, TRADES_API_KEY
@@ -25,7 +25,7 @@ class TradeQueue:
 
         headers = {"Authorization": TRADES_API_KEY}
         url = " https://api3.thetagang.com/api/patrons"
-        resp = requests.get(url, headers=headers, timeout=15)
+        resp = httpx.get(url, headers=headers, timeout=15)
 
         self.latest_trades = resp.json()["data"]
 

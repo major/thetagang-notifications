@@ -2,7 +2,7 @@
 """Make a test notification for any trade guid from thetagang.com."""
 import sys
 
-import requests
+import httpx
 import yaml
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
@@ -11,7 +11,7 @@ from thetagang_notifications.notification import get_notifier
 
 def download_trade(trade_guid):
     """Download the trade from thetagang.com."""
-    response = requests.get(f"https://api3.thetagang.com/trades/{trade_guid}", timeout=15)
+    response = httpx.get(f"https://api3.thetagang.com/trades/{trade_guid}", timeout=15)
     return response.json()["data"]
 
 
