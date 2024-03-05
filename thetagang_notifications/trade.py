@@ -42,7 +42,7 @@ class Trade:
         self.price_filled = trade["price_filled"]
         self.price_closed = trade["price_closed"]
         self.quantity = trade["quantity"]
-        self.strike = None
+        self.strike = 0.0
         self.symbol = trade["symbol"]
         self.trade_type = trade["type"]
         self.username = trade["User"]["username"]
@@ -76,12 +76,13 @@ class Trade:
         # Set up a basic header for notifications.
         self.notification_header = f"{self.symbol}: {self.trade_type}"
 
-    def annualized_return(self) -> str:
+    def annualized_return(self) -> float:
         """Return the annualized return for a trade."""
         raise AnnualizedReturnError(self.trade_type)
 
     @cached_property
     def break_even(self) -> str:
+        """Child classes calculate the proper break even."""
         raise BreakEvenError(self.trade_type)
 
     def load_trade_properties(self) -> None:
@@ -126,7 +127,7 @@ class Trade:
         notification_handler = get_notification_handler(self)
         notification_handler.notify()
 
-    def potential_return(self) -> str:
+    def potential_return(self) -> float:
         raise PotentialReturnError(self.trade_type)
 
     def profit(self) -> float:
@@ -146,7 +147,7 @@ class CashSecuredPut(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_put"])
 
-    def annualized_return(self) -> str:
+    def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
@@ -160,7 +161,7 @@ class CashSecuredPut(Trade):
         """
         return put_break_even(self.strike, self.price_filled)
 
-    def potential_return(self) -> str:
+    def potential_return(self) -> float:
         """Return the potential return on a short put."""
         return short_option_potential_return(self.strike, self.price_filled)
 
@@ -173,7 +174,7 @@ class CoveredCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self) -> str:
+    def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
@@ -187,7 +188,7 @@ class CoveredCall(Trade):
         """
         return call_break_even(self.strike, self.price_filled)
 
-    def potential_return(self) -> str:
+    def potential_return(self) -> float:
         """Return the potential return on a short call."""
         return short_option_potential_return(self.strike, self.price_filled)
 
@@ -200,7 +201,7 @@ class ShortNakedCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self) -> str:
+    def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
@@ -214,7 +215,7 @@ class ShortNakedCall(Trade):
         """
         return call_break_even(self.strike, self.price_filled)
 
-    def potential_return(self) -> str:
+    def potential_return(self) -> float:
         """Return the potential return on a short call."""
         return short_option_potential_return(self.strike, self.price_filled)
 
@@ -238,7 +239,7 @@ class LongNakedCall(Trade):
 
     def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
 
 class LongNakedPut(Trade):
@@ -260,7 +261,7 @@ class LongNakedPut(Trade):
 
     def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
 
 class PutCreditSpread(Trade):
