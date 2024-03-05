@@ -26,7 +26,7 @@ def run_queue():
     tq = TradeQueue()
     tq.update_trades()
     tq.build_queue()
-    for queued_trade in tq.queued_trades:
+    for queued_trade in tq.build_queue():
         trade_obj = get_notifier(get_trade_class(queued_trade))
         trade_obj.notify()
     log.info("👍 Done processing trades")

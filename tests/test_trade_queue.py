@@ -82,22 +82,18 @@ def test_build_queue() -> None:
     # Start with a trade we've never seen before.
     trade = {"guid": "1", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}}
     tq.latest_trades = [trade]
-    tq.build_queue()
-    assert tq.queued_trades == [trade]
+    assert tq.build_queue() == [trade]
 
     # If we process the trade again, we should get None.
-    tq.build_queue()
-    assert tq.queued_trades == []
+    assert tq.build_queue() == []
 
     # Now change the status and verify that we get the trade back.
     trade["close_date"] = "test_date"
     tq.latest_trades = [trade]
-    tq.build_queue()
-    assert tq.queued_trades == [trade]
+    assert tq.build_queue() == [trade]
 
     # If we process the trade again, we should get None.
-    tq.build_queue()
-    assert tq.queued_trades == []
+    assert tq.build_queue() == []
 
 
 @responses.activate

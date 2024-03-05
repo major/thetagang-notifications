@@ -33,8 +33,12 @@ class TradeQueue:
 
         return list(self.latest_trades)
 
-    def build_queue(self) -> None:
-        """Assemble and return a queue of trades that require notification."""
+    def build_queue(self) -> list:
+        """Assemble a queue of trades to process.
+
+        Returns:
+            list: Trades in the queue to be processed.
+        """
         valid_trades = [
             x
             for x in self.latest_trades
@@ -42,7 +46,7 @@ class TradeQueue:
             and x["User"]["role"] == "patron"
             and x["mistake"] is False
         ]
-        self.queued_trades = [x for x in valid_trades if self.process_trade(x)]
+        return [x for x in valid_trades if self.process_trade(x)]
 
     def process_trade(self, trade: dict) -> dict | None:
         """Determine how to handle a trade returned by the API."""
