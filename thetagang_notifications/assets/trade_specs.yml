@@ -63,6 +63,17 @@
   sentiment: neutral
   example_guid: 7b2834c0-51a8-42ae-9c00-23dd9af79b37
 
+- type: BUTTERFLY CALL DEBIT SPREAD
+  option_trade: True
+  single_leg: False
+  strikes:
+    - long_call
+    - long_call2
+    - short_call
+  short: False
+  sentiment: neutral
+  example_guid: ef959ba0-fca8-4c3b-b11b-e7aae770e2e6
+
 ########################################################################################
 # LONG MULTIPLE LEG
 - type: PUT DEBIT SPREAD
