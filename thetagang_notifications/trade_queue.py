@@ -24,7 +24,7 @@ class TradeQueue:
         log.info("Getting most recently updated trades...")
 
         headers = {"Authorization": TRADES_API_KEY}
-        url = " https://api3.thetagang.com/api/patrons"
+        url = "https://api3.thetagang.com/api/patrons"
         resp = httpx.get(url, headers=headers, timeout=15)
 
         self.latest_trades = resp.json()["data"]
