@@ -146,7 +146,7 @@ class CashSecuredPut(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_put"])
 
-    def annualized_return(self) -> float:
+    def annualized_return(self) -> str:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
@@ -173,7 +173,7 @@ class CoveredCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self) -> float:
+    def annualized_return(self) -> str:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
@@ -200,7 +200,7 @@ class ShortNakedCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self) -> float:
+    def annualized_return(self) -> str:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
