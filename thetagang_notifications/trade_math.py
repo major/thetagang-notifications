@@ -10,14 +10,14 @@ def breakeven(trade: dict) -> str | None:
     match trade["type"]:
         case "CASH SECURED PUT":
             strike = trade["short_put"]
-            breakeven = float(strike) - trade["price_filled"]
+            break_even = float(strike) - trade["price_filled"]
         case "COVERED CALL" | "SHORT NAKED CALL":
             strike = trade["short_call"]
-            breakeven = float(strike) + trade["price_filled"]
+            break_even = float(strike) + trade["price_filled"]
         case _:
             return None
 
-    return f"{breakeven:.2f}"
+    return f"{break_even:.2f}"
 
 
 def days_to_expiration(expiration_date: str) -> int:
@@ -73,12 +73,12 @@ def short_option_potential_return(strike: float, premium: float) -> float:
     return round((premium / (strike - premium)) * 100, 2)
 
 
-def short_annualized_return(strike: float, premium: float, days_to_expiration: int) -> float:
+def short_annualized_return(strike: float, premium: float, days_left: int) -> float:
     """Get the annualized return on a short option."""
     short_potential_return = short_option_potential_return(strike, premium)
     # Use 1 for DTE if this is a same day trade.
     # Computers don't like dividing by 0.
-    dte = max(days_to_expiration, 1)
+    dte = max(days_left, 1)
     return round((short_potential_return / dte) * 365, 2)
 
 
