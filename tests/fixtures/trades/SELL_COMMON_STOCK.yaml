@@ -11,20 +11,39 @@ interactions:
       User-Agent:
       - python-requests/2.31.0
     method: GET
-    uri: https://api.thetagang.com/trades/a2a46a7f-1c7c-4328-98d7-32b900af98c1
+    uri: https://api3.thetagang.com/trades/a2a46a7f-1c7c-4328-98d7-32b900af98c1
   response:
     body:
-      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":0,\"guid\":\"a2a46a7f-1c7c-4328-98d7-32b900af98c1\",\"expiry_date\":null,\"close_date\":\"2022-02-01T15:23:19.487Z\",\"open_date\":\"2022-02-01T15:23:19.487Z\",\"symbol\":\"NKE\",\"initial\":false,\"quantity\":100,\"type\":\"SELL
-        COMMON STOCK\",\"payment\":\"credit\",\"win\":null,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":null,\"long_put\":null,\"short_call\":null,\"long_call\":null,\"price_filled\":147.7,\"price_closed\":null,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"Looking
-        to focus on fewer tickers. Made a small profit here.\",\"closing_note\":null,\"createdAt\":\"2022-02-01T15:23:19.487Z\",\"updatedAt\":\"2022-02-01T15:23:19.748Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
-        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
+      string: "{\"status\":200,\"data\":{\"shares\":-100,\"cost\":14770,\"profitLoss\"\
+        :null,\"guid\":\"a2a46a7f-1c7c-4328-98d7-32b900af98c1\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"symbol\":\"NKE\",\"type\":\"SELL COMMON STOCK\",\"payment\":\"credit\"\
+        ,\"short_call\":null,\"short_call2\":null,\"long_call\":null,\"long_call2\"\
+        :null,\"short_put\":null,\"short_put2\":null,\"long_put\":null,\"long_put2\"\
+        :null,\"quantity\":100,\"price_filled\":147.7,\"price_closed\":null,\"opened_during_market_hours\"\
+        :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
+        tweet_id\":null,\"open_quote\":null,\"close_quote\":null,\"tag\":null,\"note\"\
+        :\"Looking to focus on fewer tickers. Made a small profit here.\",\"closing_note\"\
+        :null,\"earnings\":false,\"assigned\":false,\"win\":null,\"initial\":false,\"\
+        expiry_date\":null,\"close_date\":\"2022-02-01T15:23:19.487Z\",\"open_date\"\
+        :\"2022-02-01T15:23:19.487Z\",\"podcast_url\":null,\"mistake\":null,\"createdAt\"\
+        :\"2022-02-01T15:23:19.487Z\",\"updatedAt\":\"2022-02-01T15:23:19.748Z\",\"\
+        Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
+        ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3\
+        : key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\
+        \",\"bio\":\"My 2024 goals involve trading with just what's on the charts:\
+        \ price and volume. I do some analysis and rambling over on thetanerd.com.\
+        \ \U0001F609\",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T14:25:17.490Z\"\
+        ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
+        :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T14:25:17.490Z\"\
+        },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
     headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7e8c4abe9e59aa4b-DFW
+      - 85fb032d9dcb6c2b-DFW
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
       Content-Encoding:
@@ -32,13 +51,25 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 18 Jul 2023 17:02:22 GMT
+      - Tue, 05 Mar 2024 15:06:52 GMT
       Etag:
-      - W/"3e3-CV3Mr13B77bUHn31Rw751zrPikA"
-      NEL:
-      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      - W/"682-gbP+0WgBcdOy57eTQeIxK70RVeU"
+      Expires:
+      - '-1'
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Pragma:
+      - no-cache
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '997'
+      Ratelimit-Reset:
+      - '503'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=WTAHWNdvJ3aOHfEsAhqldhGz2dYAH8KlTXo9osmcsBVMODd9HZfENE8ZVlGSaofXY8Vj1%2FYVXCZg6scYyfPz1FsIyahHf2%2BcCeb7w9KLxvw%2F7EwV7ykaCYlofThpwtdR3oWaaXj5OrBADg1oRTSj"}],"group":"cf-nel","max_age":604800}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651212&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=hnF1R7gpoH8iB4P3c3XxbdBAeOcTT7CReqGf36qpXHA%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709651212&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=hnF1R7gpoH8iB4P3c3XxbdBAeOcTT7CReqGf36qpXHA%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -47,12 +78,8 @@ interactions:
       - Origin
       Via:
       - 1.1 vegur
-      X-Ratelimit-Limit:
-      - '500'
-      X-Ratelimit-Remaining:
-      - '499'
-      X-Ratelimit-Reset:
-      - '1689700251'
+      X-Powered-By:
+      - Express
     status:
       code: 200
       message: OK

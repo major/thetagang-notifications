@@ -11,21 +11,23 @@ interactions:
       User-Agent:
       - python-requests/2.31.0
     method: GET
-    uri: https://api.thetagang.com/trades/3eb1d57f-a720-41a9-ab54-27458ecee21f
+    uri: https://api3.thetagang.com/trades/3eb1d57f-a720-41a9-ab54-27458ecee21f
   response:
     body:
-      string: '{"status":200,"data":{"trade":{"pl":0.4400000000000004,"guid":"3eb1d57f-a720-41a9-ab54-27458ecee21f","expiry_date":"2023-02-02T17:00:00.000Z","close_date":"2023-01-27T21:11:26.075Z","open_date":"2023-01-18T17:19:02.236Z","symbol":"PYPL","initial":false,"quantity":1,"type":"SHORT
-        STRADDLE","payment":"credit","win":true,"profitLoss":null,"user_guid":"8667df67-8610-4303-a175-021039315a8c","tag":null,"short_put":"78","long_put":null,"short_call":"78","long_call":null,"price_filled":5.49,"price_closed":5.05,"open_quote":77.8,"close_quote":81.87,"assigned":false,"earnings":false,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"Rolling
+      string: '{"status":200,"data":{"shares":0,"cost":44,"profitLoss":"44","guid":"3eb1d57f-a720-41a9-ab54-27458ecee21f","user_guid":"8667df67-8610-4303-a175-021039315a8c","symbol":"PYPL","type":"SHORT
+        STRADDLE","payment":"credit","short_call":"78","short_call2":null,"long_call":null,"long_call2":null,"short_put":"78","short_put2":null,"long_put":null,"long_put2":null,"quantity":1,"price_filled":5.49,"price_closed":5.05,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":77.8,"close_quote":81.87,"tag":null,"note":"Rolling
         position out in time. Now have a truly delta neutral straddle which I''m good
         with given that 1) this expires prior to earnings and 2) PYPL has been pretty
-        range bound between 70 and 85ish","closing_note":"","createdAt":"2023-01-18T17:19:02.236Z","updatedAt":"2023-01-27T21:11:26.378Z","Actions":[],"Posts":[],"User":{"username":"jrue","flair":null,"role":"member","streak":2,"verified":true}}},"message":null}'
+        range bound between 70 and 85ish","closing_note":"","earnings":false,"assigned":false,"win":true,"initial":false,"expiry_date":"2023-02-02T17:00:00.000Z","close_date":"2023-01-27T21:11:26.075Z","open_date":"2023-01-18T17:19:02.236Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T17:19:02.236Z","updatedAt":"2023-01-27T21:11:26.378Z","Posts":[],"User":{"title":"jrue","guid":"8667df67-8610-4303-a175-021039315a8c","username":"jrue","lowercase":"jrue","pfp":null,"flair":null,"ticker_message":null,"bio":"Tastytrade
+        strategies. Selling options when IV is high, earnings, micro futures and occasional
+        day trades. Delta neutral (usually).\n\nDiscord: jrue#3939/_jrue_","verified":true,"role":"member","last_active":"2024-03-04T20:30:00.370Z","streak_updated_at":"2024-03-04T11:00:33.940Z","streak":2,"longest_streak":13,"createdAt":"2020-04-11T09:42:49.886Z","updatedAt":"2024-03-04T20:30:00.371Z"},"Actions":[],"Reactions":[]},"error":null}'
     headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7e8c4ab7f8ea03df-DFW
+      - 85fb03360f786bea-DFW
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
       Content-Encoding:
@@ -33,13 +35,25 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 18 Jul 2023 17:02:21 GMT
+      - Tue, 05 Mar 2024 15:06:53 GMT
       Etag:
-      - W/"461-jMM26niH3EdGHhmYIRiqgoHiuQE"
-      NEL:
-      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      - W/"69f-50SHVTxt75XUdMHfNbFZrdMnH/E"
+      Expires:
+      - '-1'
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Pragma:
+      - no-cache
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '990'
+      Ratelimit-Reset:
+      - '501'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=gqmmo5AjFL3dn3GY2N90W5%2FyOAcDkaWULBlattSRq2DO%2BjMu0097CzZnXtZaXilvCUDq9hBZLHyY2NtTRWbmgEmW1H7L8ZXjbwbm1ecGZP797VaL64hKsYlKz22gR7iykK0VgqaF0ejuvElEcOPL"}],"group":"cf-nel","max_age":604800}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651213&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=8GXKycTUFqCgCDlMJB4K3m%2BFZDJeozVw34yrLccDCzw%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709651213&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=8GXKycTUFqCgCDlMJB4K3m%2BFZDJeozVw34yrLccDCzw%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -48,12 +62,8 @@ interactions:
       - Origin
       Via:
       - 1.1 vegur
-      X-Ratelimit-Limit:
-      - '500'
-      X-Ratelimit-Remaining:
-      - '499'
-      X-Ratelimit-Reset:
-      - '1689700251'
+      X-Powered-By:
+      - Express
     status:
       code: 200
       message: OK

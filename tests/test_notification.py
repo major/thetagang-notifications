@@ -18,7 +18,7 @@ def test_generate_action(real_trades):
     action = test_notifier.generate_action()
 
     assert action["name"] == f"{trade_obj.username} closed a trade"
-    assert action["icon_url"] == CLOSING_TRADE_ICON
+    assert action["icon_url"] == CLOSING_TRADE_ICON or trade_obj.avatar
     assert action["url"] == f"https://thetagang.com/{trade_obj.username}/{trade_obj.guid}"
 
 

@@ -104,7 +104,7 @@ def test_build_queue() -> None:
     tq.db_conn = fakeredis.FakeRedis(decode_responses=True)
 
     # Start with a trade we've never seen before.
-    trade = {"guid": "1", "close_date": None, "User": {"username": "real_user", "role": "patron"}}
+    trade = {"guid": "1", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}}
     tq.latest_trades = [trade]
     tq.build_queue()
     assert tq.queued_trades == [trade]
@@ -128,17 +128,15 @@ def test_build_queue() -> None:
 def test_update_trades() -> None:
     """Test getting updated trades from thetagang.com."""
     mocked_trades = {
-        "data": {
-            "trades": [
-                {"guid": "1", "close_date": None, "User": {"username": "real_user", "role": "patron"}},
-                {"guid": "2", "close_date": None, "User": {"username": "real_user", "role": "patron"}},
-            ]
-        }
+        "data": [
+            {"guid": "1", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}},
+            {"guid": "2", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}},
+        ]
     }
 
-    recent_trades = responses.get(url="https://api.thetagang.com/v1/trades", json=mocked_trades, status=200)
+    recent_trades = responses.get(url="https://api3.thetagang.com/api/patrons", json=mocked_trades, status=200)
     responses.add(recent_trades)
 
     tq = TradeQueue()
     tq.update_trades()
-    assert tq.latest_trades == list(reversed(mocked_trades["data"]["trades"]))
+    assert tq.latest_trades == list(reversed(mocked_trades["data"]))

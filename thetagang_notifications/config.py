@@ -7,7 +7,7 @@ REDIS_HOST: str = os.environ.get("REDIS_HOST", "localhost")
 REDIS_PORT: int = os.environ.get("REDIS_PORT", 6379)
 
 # thetagang.com URLs
-TRADES_JSON_URL = "https://api.thetagang.com/trades"
+TRADES_JSON_URL = "https://api3.thetagang.com/trades"
 
 # Spec file with trade properties.
 TRADE_SPEC_FILE = "thetagang_notifications/assets/trade_specs.yml"

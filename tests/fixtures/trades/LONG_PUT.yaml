@@ -11,18 +11,19 @@ interactions:
       User-Agent:
       - python-requests/2.31.0
     method: GET
-    uri: https://api.thetagang.com/trades/d89103e6-263f-4bd8-983c-39e399512b1e
+    uri: https://api3.thetagang.com/trades/d89103e6-263f-4bd8-983c-39e399512b1e
   response:
     body:
-      string: '{"status":200,"data":{"trade":{"pl":0,"guid":"d89103e6-263f-4bd8-983c-39e399512b1e","expiry_date":"2024-01-19T00:00:00.000Z","close_date":null,"open_date":"2023-11-30T22:16:34.000Z","symbol":"PLTR","initial":null,"quantity":1,"type":"LONG
-        PUT","payment":"debit","win":null,"profitLoss":null,"user_guid":"9d0bd6d1-b1ed-448a-9802-367e4801105a","tag":null,"short_put":"","long_put":"13","short_call":"","long_call":"","price_filled":0.9,"price_closed":null,"open_quote":null,"close_quote":null,"assigned":null,"earnings":false,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"","closing_note":null,"createdAt":"2023-11-30T22:16:34.016Z","updatedAt":"2023-11-30T22:16:34.016Z","Actions":[],"Posts":[],"User":{"username":"Luk77e","flair":null,"role":"member","streak":5,"verified":null}}},"message":null}'
+      string: '{"status":200,"data":{"shares":0,"cost":0,"profitLoss":null,"guid":"d89103e6-263f-4bd8-983c-39e399512b1e","user_guid":"9d0bd6d1-b1ed-448a-9802-367e4801105a","symbol":"PLTR","type":"LONG
+        PUT","payment":"debit","short_call":"","short_call2":"","long_call":"","long_call2":"","short_put":"","short_put2":"","long_put":"13","long_put2":"","quantity":1,"price_filled":0.09,"price_closed":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":null,"close_quote":null,"tag":null,"note":"","closing_note":null,"earnings":false,"assigned":null,"win":null,"initial":null,"expiry_date":"2024-01-19T00:00:00.000Z","close_date":null,"open_date":"2023-11-30T22:16:34.000Z","podcast_url":null,"mistake":null,"createdAt":"2023-11-30T22:16:34.016Z","updatedAt":"2023-12-16T11:57:46.630Z","Posts":[],"User":{"title":"Luk77e","guid":"9d0bd6d1-b1ed-448a-9802-367e4801105a","username":"Luk77e","lowercase":"luk77e","pfp":null,"flair":null,"ticker_message":null,"bio":null,"verified":null,"role":"member","last_active":"2024-01-08T14:34:02.402Z","streak_updated_at":"2024-01-08T15:34:01.168Z","streak":1,"longest_streak":12,"createdAt":"2023-09-13T17:57:09.665Z","updatedAt":"2024-01-08T14:34:02.402Z"},"Actions":[{"guid":"f9bfeedd-89fd-46d4-bcb3-5038db95b477","type":"edit","field":"Price
+        Filled","from":"0.9","to":"0.09","trade_guid":"d89103e6-263f-4bd8-983c-39e399512b1e","user_guid":null,"createdAt":"2023-12-16T11:57:46.566Z","updatedAt":"2023-12-16T11:57:46.566Z"}],"Reactions":[]},"error":null}'
     headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 831e79171c2145ef-DFW
+      - 85fb03053ea46b5f-DFW
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
       Content-Encoding:
@@ -30,15 +31,25 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 07 Dec 2023 17:26:20 GMT
+      - Tue, 05 Mar 2024 15:06:46 GMT
       Etag:
-      - W/"36a-Aug4qSOet+6CMAv3KnqcE8cO4o4"
+      - W/"617-HxjphM9Cgh3iXoPKtn0UyenCrZI"
+      Expires:
+      - '-1'
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Pragma:
+      - no-cache
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '969'
+      Ratelimit-Reset:
+      - '509'
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1701969980&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=jtIBrmIVDnyCB7k7ovMi%2Bsp%2BLs1Aq%2FS1Cu%2Bj1P7B%2Bjg%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651206&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=drZLQWGMbtK8rePsvhDmLTvW7%2B5mo6LR%2FB71epB4G9E%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1701969980&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&s=jtIBrmIVDnyCB7k7ovMi%2Bsp%2BLs1Aq%2FS1Cu%2Bj1P7B%2Bjg%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709651206&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=drZLQWGMbtK8rePsvhDmLTvW7%2B5mo6LR%2FB71epB4G9E%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -47,12 +58,8 @@ interactions:
       - Origin
       Via:
       - 1.1 vegur
-      X-Ratelimit-Limit:
-      - '500'
-      X-Ratelimit-Remaining:
-      - '499'
-      X-Ratelimit-Reset:
-      - '1701970874'
+      X-Powered-By:
+      - Express
     status:
       code: 200
       message: OK

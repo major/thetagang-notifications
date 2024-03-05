@@ -11,8 +11,8 @@ from thetagang_notifications.notification import get_notifier
 
 def download_trade(trade_guid):
     """Download the trade from thetagang.com."""
-    response = requests.get(f"https://api.thetagang.com/trades/{trade_guid}", timeout=15)
-    return response.json()["data"]["trade"]
+    response = requests.get(f"https://api3.thetagang.com/trades/{trade_guid}", timeout=15)
+    return response.json()["data"]
 
 
 def make_notification(trade_guid):

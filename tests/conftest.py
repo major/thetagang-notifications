@@ -29,7 +29,7 @@ def real_trades(request):
     cassette = f"tests/fixtures/trades/{request.param.replace(' ', '_')}.yaml"
 
     with vcr.use_cassette(cassette):
-        url = f"https://api.thetagang.com/trades/{example_guid}"
-        trade = requests.get(url, timeout=15).json()["data"]["trade"]
+        url = f"https://api3.thetagang.com/trades/{example_guid}"
+        trade = requests.get(url, timeout=15).json()["data"]
 
     return trade

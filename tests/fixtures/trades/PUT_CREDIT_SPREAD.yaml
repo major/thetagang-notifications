@@ -11,21 +11,41 @@ interactions:
       User-Agent:
       - python-requests/2.31.0
     method: GET
-    uri: https://api.thetagang.com/trades/e97a14ee-8d1a-49d8-94c3-36813908d156
+    uri: https://api3.thetagang.com/trades/e97a14ee-8d1a-49d8-94c3-36813908d156
   response:
     body:
-      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":-3.51,\"guid\":\"e97a14ee-8d1a-49d8-94c3-36813908d156\",\"expiry_date\":\"2021-12-17T06:00:00.000Z\",\"close_date\":\"2021-12-17T20:26:40.348Z\",\"open_date\":\"2021-11-30T18:50:09.776Z\",\"symbol\":\"AMD\",\"initial\":false,\"quantity\":1,\"type\":\"PUT
-        CREDIT SPREAD\",\"payment\":\"credit\",\"win\":false,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":\"150\",\"long_put\":\"145\",\"short_call\":null,\"long_call\":null,\"price_filled\":1.49,\"price_closed\":5,\"open_quote\":null,\"close_quote\":null,\"assigned\":false,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"72%
-        PoP. Still bullish on $AMD but I'd like to cap potential losses with the market
-        swings lately.\",\"closing_note\":\"Ouch. \U0001F915\",\"createdAt\":\"2021-11-30T18:50:09.777Z\",\"updatedAt\":\"2023-01-14T10:05:32.341Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
-        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
+      string: "{\"status\":200,\"data\":{\"shares\":0,\"cost\":-351,\"profitLoss\"\
+        :\"-351\",\"guid\":\"e97a14ee-8d1a-49d8-94c3-36813908d156\",\"user_guid\"\
+        :\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"symbol\":\"AMD\",\"type\":\"PUT\
+        \ CREDIT SPREAD\",\"payment\":\"credit\",\"short_call\":null,\"short_call2\"\
+        :null,\"long_call\":null,\"long_call2\":null,\"short_put\":\"150\",\"short_put2\"\
+        :null,\"long_put\":\"145\",\"long_put2\":null,\"quantity\":1,\"price_filled\"\
+        :1.49,\"price_closed\":5,\"opened_during_market_hours\":null,\"closed_during_market_hours\"\
+        :null,\"closed_before_expiration\":null,\"tweet_id\":null,\"open_quote\":null,\"\
+        close_quote\":null,\"tag\":null,\"note\":\"72% PoP. Still bullish on $AMD\
+        \ but I'd like to cap potential losses with the market swings lately.\",\"\
+        closing_note\":\"Ouch. \U0001F915\",\"earnings\":false,\"assigned\":false,\"\
+        win\":false,\"initial\":false,\"expiry_date\":\"2021-12-17T06:00:00.000Z\"\
+        ,\"close_date\":\"2021-12-17T20:26:40.348Z\",\"open_date\":\"2021-11-30T18:50:09.776Z\"\
+        ,\"podcast_url\":null,\"mistake\":null,\"createdAt\":\"2021-11-30T18:50:09.777Z\"\
+        ,\"updatedAt\":\"2023-01-14T10:05:32.341Z\",\"Posts\":[],\"User\":{\"title\"\
+        :\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"username\"\
+        :\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
+        ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3\
+        : key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\
+        \",\"bio\":\"My 2024 goals involve trading with just what's on the charts:\
+        \ price and volume. I do some analysis and rambling over on thetanerd.com.\
+        \ \U0001F609\",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T14:25:17.490Z\"\
+        ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
+        :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T14:25:17.490Z\"\
+        },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
     headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7e8c4a641b9503d9-DFW
+      - 85fb033e6be66b3e-DFW
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
       Content-Encoding:
@@ -33,13 +53,25 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 18 Jul 2023 17:02:08 GMT
+      - Tue, 05 Mar 2024 15:06:55 GMT
       Etag:
-      - W/"428-irMnnBesyN0Upmiv3yBqDgoBMao"
-      NEL:
-      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      - W/"6c1-bpCFzvMl9zrgvH24osrWNIlvTrQ"
+      Expires:
+      - '-1'
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Pragma:
+      - no-cache
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '996'
+      Ratelimit-Reset:
+      - '500'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=pZx%2Bc9OieStvsl33gYje0Lf19AzUeJ1y44ad64%2FJwI6m%2BEqzRzgfuMOSdCiB67g0HR1fGSMwsUHg5HyDJzFFWMq8ZaBzbMa1k6872L1dBHu0zKcAfa%2BWGE2qncnefhG7mU%2BPtK8%2F3OWZ1BDYniJL"}],"group":"cf-nel","max_age":604800}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651215&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=2D%2Fi7V0CSFAdjetZU6oKSArGj44z2xwCT2MeEZes4sg%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709651215&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=2D%2Fi7V0CSFAdjetZU6oKSArGj44z2xwCT2MeEZes4sg%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -48,12 +80,8 @@ interactions:
       - Origin
       Via:
       - 1.1 vegur
-      X-Ratelimit-Limit:
-      - '500'
-      X-Ratelimit-Remaining:
-      - '499'
-      X-Ratelimit-Reset:
-      - '1689700251'
+      X-Powered-By:
+      - Express
     status:
       code: 200
       message: OK

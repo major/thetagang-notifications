@@ -11,21 +11,21 @@ interactions:
       User-Agent:
       - python-requests/2.31.0
     method: GET
-    uri: https://api.thetagang.com/trades/7b2834c0-51a8-42ae-9c00-23dd9af79b37
+    uri: https://api3.thetagang.com/trades/7b2834c0-51a8-42ae-9c00-23dd9af79b37
   response:
     body:
-      string: '{"status":200,"data":{"trade":{"pl":1.3,"guid":"7b2834c0-51a8-42ae-9c00-23dd9af79b37","expiry_date":"2023-03-03T05:00:00.000Z","close_date":"2023-01-30T14:33:07.202Z","open_date":"2023-01-17T15:41:38.315Z","symbol":"SOFI","initial":false,"quantity":10,"type":"JADE
-        LIZARD","payment":"credit","win":true,"profitLoss":null,"user_guid":"b5558539-ce6c-4aff-bd6e-c4415c2a5fa3","tag":null,"short_put":"5.5","long_put":null,"short_call":"6.5","long_call":"6","price_filled":0.63,"price_closed":0.5,"open_quote":5.61,"close_quote":6.77,"assigned":false,"earnings":false,"tweet_id":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"note":"Earnings
+      string: '{"status":200,"data":{"shares":0,"cost":130,"profitLoss":"130","guid":"7b2834c0-51a8-42ae-9c00-23dd9af79b37","user_guid":"b5558539-ce6c-4aff-bd6e-c4415c2a5fa3","symbol":"SOFI","type":"JADE
+        LIZARD","payment":"credit","short_call":"6.5","short_call2":null,"long_call":"6","long_call2":null,"short_put":"5.5","short_put2":null,"long_put":null,"long_put2":null,"quantity":10,"price_filled":0.63,"price_closed":0.5,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":5.61,"close_quote":6.77,"tag":null,"note":"Earnings
         coming up. All indications are it will be a win again and the stock will spike.
         I think the downside risk is minimal, but if I get assigned on the puts my
-        cost would be 4.87 which is fine.","closing_note":"","createdAt":"2023-01-17T15:41:38.315Z","updatedAt":"2023-01-30T14:33:07.447Z","Actions":[],"Posts":[],"User":{"username":"wallapuctus","flair":null,"role":"member","streak":1,"verified":null}}},"message":null}'
+        cost would be 4.87 which is fine.","closing_note":"","earnings":false,"assigned":false,"win":true,"initial":false,"expiry_date":"2023-03-03T05:00:00.000Z","close_date":"2023-01-30T14:33:07.202Z","open_date":"2023-01-17T15:41:38.315Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-17T15:41:38.315Z","updatedAt":"2023-01-30T14:33:07.447Z","Posts":[],"User":{"title":"wallapuctus","guid":"b5558539-ce6c-4aff-bd6e-c4415c2a5fa3","username":"wallapuctus","lowercase":"wallapuctus","pfp":null,"flair":null,"ticker_message":null,"bio":null,"verified":null,"role":"member","last_active":"2024-01-31T18:19:12.043Z","streak_updated_at":"2024-01-31T08:48:59.036Z","streak":2,"longest_streak":5,"createdAt":"2021-05-02T14:05:25.252Z","updatedAt":"2024-01-31T18:19:12.043Z"},"Actions":[],"Reactions":[]},"error":null}'
     headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7e8c4a816b9d0bac-DFW
+      - 85fb033a1ef64797-DFW
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
       Content-Encoding:
@@ -33,13 +33,25 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 18 Jul 2023 17:02:13 GMT
+      - Tue, 05 Mar 2024 15:06:54 GMT
       Etag:
-      - W/"458-3yz978aud9ulRtWGf0d1v2u0Nhs"
-      NEL:
-      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      - W/"616-HodQuMMEQ5Jc3Oj08SdK5gNrKJ8"
+      Expires:
+      - '-1'
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Pragma:
+      - no-cache
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '990'
+      Ratelimit-Reset:
+      - '501'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=8sa0MtCeBOwUv2jwNm4MjzlvbtTaJrEKJRpoxreKr3IKL5JINPtDzWP35HqTexQ3zzRXXVPUj%2Bagr0NZkbQ8gENaRizlL7%2FF3Hj%2BiOBde00Ln2rQZbC4HetB03ar0C1%2B9oXiSypx5HTAf%2F%2F7znkr"}],"group":"cf-nel","max_age":604800}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651214&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=yH4dSz6tvRY8JaffVay20%2Ba5sSA1JXSfbum7rirnwk4%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709651214&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=yH4dSz6tvRY8JaffVay20%2Ba5sSA1JXSfbum7rirnwk4%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -48,12 +60,8 @@ interactions:
       - Origin
       Via:
       - 1.1 vegur
-      X-Ratelimit-Limit:
-      - '500'
-      X-Ratelimit-Remaining:
-      - '499'
-      X-Ratelimit-Reset:
-      - '1689700251'
+      X-Powered-By:
+      - Express
     status:
       code: 200
       message: OK

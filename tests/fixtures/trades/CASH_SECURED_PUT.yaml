@@ -11,26 +11,45 @@ interactions:
       User-Agent:
       - python-requests/2.31.0
     method: GET
-    uri: https://api.thetagang.com/trades/c90e5d5d-8158-43d7-ba09-e6a0dbbf207c
+    uri: https://api3.thetagang.com/trades/c90e5d5d-8158-43d7-ba09-e6a0dbbf207c
   response:
     body:
-      string: "{\"status\":200,\"data\":{\"trade\":{\"pl\":1.4,\"guid\":\"c90e5d5d-8158-43d7-ba09-e6a0dbbf207c\",\"expiry_date\":\"2022-02-18T06:00:00.000Z\",\"close_date\":\"2022-02-18T22:37:39.952Z\",\"open_date\":\"2022-02-10T15:59:16.409Z\",\"symbol\":\"SPY\",\"initial\":false,\"quantity\":1,\"type\":\"CASH
-        SECURED PUT\",\"payment\":\"credit\",\"win\":true,\"profitLoss\":null,\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"tag\":null,\"short_put\":\"440\",\"long_put\":null,\"short_call\":null,\"long_call\":null,\"price_filled\":1.4,\"price_closed\":0,\"open_quote\":null,\"close_quote\":null,\"assigned\":true,\"earnings\":false,\"tweet_id\":null,\"opened_during_market_hours\":null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"note\":\"$SPY
-        made a dip, so I decided to sell below the 200MA around 0.16 delta with 14.4%
-        annualized return. Current cost basis is around $449 with 400 shares (200
-        uncovered). \U0001F575\U0001F3FB\",\"closing_note\":\"$SPY fell to $433.75
-        and I'm getting assigned here at $440 with a $438.60 breakeven. That's about
-        a $485 loss, but $SPY was around $450 when I sold this put, so I managed to
-        avoid around $1,000 of loss if I had just bought shares. At least this drops
-        my cost basis a little. \U0001F643\",\"createdAt\":\"2022-02-10T15:59:16.409Z\",\"updatedAt\":\"2023-01-14T10:13:11.431Z\",\"Actions\":[],\"Posts\":[],\"User\":{\"username\":\"major\",\"flair\":\"\U0001F49C
-        400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3: key\",\"role\":\"patron\",\"streak\":44,\"verified\":true}}},\"message\":null}"
+      string: "{\"status\":200,\"data\":{\"shares\":100,\"cost\":-43860,\"profitLoss\"\
+        :\"140\",\"guid\":\"c90e5d5d-8158-43d7-ba09-e6a0dbbf207c\",\"user_guid\":\"\
+        82ea7953-cdfb-4a4d-a381-f2a39c87c401\",\"symbol\":\"SPY\",\"type\":\"CASH\
+        \ SECURED PUT\",\"payment\":\"credit\",\"short_call\":null,\"short_call2\"\
+        :null,\"long_call\":null,\"long_call2\":null,\"short_put\":\"440\",\"short_put2\"\
+        :null,\"long_put\":null,\"long_put2\":null,\"quantity\":1,\"price_filled\"\
+        :1.4,\"price_closed\":0,\"opened_during_market_hours\":null,\"closed_during_market_hours\"\
+        :null,\"closed_before_expiration\":null,\"tweet_id\":null,\"open_quote\":null,\"\
+        close_quote\":null,\"tag\":null,\"note\":\"$SPY made a dip, so I decided to\
+        \ sell below the 200MA around 0.16 delta with 14.4% annualized return. Current\
+        \ cost basis is around $449 with 400 shares (200 uncovered). \U0001F575\U0001F3FB\
+        \",\"closing_note\":\"$SPY fell to $433.75 and I'm getting assigned here at\
+        \ $440 with a $438.60 breakeven. That's about a $485 loss, but $SPY was around\
+        \ $450 when I sold this put, so I managed to avoid around $1,000 of loss if\
+        \ I had just bought shares. At least this drops my cost basis a little. \U0001F643\
+        \",\"earnings\":false,\"assigned\":true,\"win\":true,\"initial\":false,\"\
+        expiry_date\":\"2022-02-18T06:00:00.000Z\",\"close_date\":\"2022-02-18T22:37:39.952Z\"\
+        ,\"open_date\":\"2022-02-10T15:59:16.409Z\",\"podcast_url\":null,\"mistake\"\
+        :null,\"createdAt\":\"2022-02-10T15:59:16.409Z\",\"updatedAt\":\"2023-01-14T10:13:11.431Z\"\
+        ,\"Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
+        ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3\
+        : key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\
+        \",\"bio\":\"My 2024 goals involve trading with just what's on the charts:\
+        \ price and volume. I do some analysis and rambling over on thetanerd.com.\
+        \ \U0001F609\",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T14:25:17.490Z\"\
+        ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
+        :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T14:25:17.490Z\"\
+        },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
     headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
       CF-Cache-Status:
       - DYNAMIC
       CF-RAY:
-      - 7e8c4a6adda04600-DFW
+      - 85fb03197f65e7fb-DFW
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
       Connection:
       - keep-alive
       Content-Encoding:
@@ -38,13 +57,25 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 18 Jul 2023 17:02:09 GMT
+      - Tue, 05 Mar 2024 15:06:49 GMT
       Etag:
-      - W/"57d-RNWnTLGzkqdCnV1paQ2Rzshe8ZE"
-      NEL:
-      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      - W/"81b-98kPmTtjTL9SkaZ/L2MeF1dlQas"
+      Expires:
+      - '-1'
+      Nel:
+      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+      Pragma:
+      - no-cache
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '994'
+      Ratelimit-Reset:
+      - '506'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=c6xkx85cKQh8oDdAD%2Bg%2FR0DJlCXPJFXZSaSsRzez5pjR7yaC6fuJ5eD3c5%2B7tbIEm0huG3xFQty%2BrzU7MyIE0hr0JbwZgk5x2TgNl9d20L5I9JC5o0Bfj%2FGKR5O0TksGlsvM20CbQ%2FWBjfKhtaLE"}],"group":"cf-nel","max_age":604800}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709651209&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=uoPBI7ZiONssYyJxydvyx6orqH%2BcoHnGDW1OGin%2B0C0%3D"}]}'
+      Reporting-Endpoints:
+      - heroku-nel=https://nel.heroku.com/reports?ts=1709651209&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=uoPBI7ZiONssYyJxydvyx6orqH%2BcoHnGDW1OGin%2B0C0%3D
       Server:
       - cloudflare
       Transfer-Encoding:
@@ -53,12 +84,8 @@ interactions:
       - Origin
       Via:
       - 1.1 vegur
-      X-Ratelimit-Limit:
-      - '500'
-      X-Ratelimit-Remaining:
-      - '499'
-      X-Ratelimit-Reset:
-      - '1689700251'
+      X-Powered-By:
+      - Express
     status:
       code: 200
       message: OK
