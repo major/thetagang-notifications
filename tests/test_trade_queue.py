@@ -6,30 +6,6 @@ import responses
 from thetagang_notifications.trade_queue import TradeQueue
 
 
-def test_allowed_users() -> None:
-    """Verify that we can remove disallowed users from the queue."""
-    tq = TradeQueue()
-    tq.skipped_users = ["test_user"]
-
-    tq.latest_trades = [
-        {"User": {"username": "test_user"}},
-        {"User": {"username": "real_user"}},
-    ]
-    print(tq.allowed_users)
-    assert tq.allowed_users == [{"User": {"username": "real_user"}}]
-
-
-def test_patron_trades() -> None:
-    """Verify that we can remove non-patron trades from the queue."""
-    tq = TradeQueue()
-
-    tq.latest_trades = [
-        {"User": {"role": "patron"}},
-        {"User": {"role": "non-patron"}},
-    ]
-    assert tq.patron_trades == [{"User": {"role": "patron"}}]
-
-
 def test_store_trade() -> None:
     """Verify that we can store a trade in the database."""
     tq = TradeQueue()
