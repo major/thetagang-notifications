@@ -21,7 +21,7 @@ if SKIPPED_USERS:
 
 
 @repeat(every(15).seconds)
-def run_queue():
+def run_queue() -> None:
     """Enqueue the trades which need notifications."""
     log.info("🔎 Checking for new trades")
     tq = TradeQueue()
