@@ -17,6 +17,7 @@ class TradeQueue:
         """Constructor for TradeQueue."""
         self.db_conn = Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
         self.skipped_users = SKIPPED_USERS
+        self.latest_trades: list = []
 
     def update_trades(self) -> list:
         """Get the most recently updated trades."""
