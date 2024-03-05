@@ -106,7 +106,7 @@ class Trade:
             return None
 
         desc = f"{self.trade_emoji} {self.result} "
-        desc += "" if self.is_assigned else f"{pretty_strike(self.profit() * 100)} ({self.percentage_profit}%)"
+        desc += "" if self.is_assigned else f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
         return desc
 
     def notification_title(self):
