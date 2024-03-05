@@ -1,142 +1,145 @@
 interactions:
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      User-Agent:
-      - python-requests/2.31.0
-    method: GET
-    uri: https://storage.googleapis.com/iexcloud-hl37opg/api/logos/DOOTY.png
-  response:
-    body:
-      string: <?xml version='1.0' encoding='UTF-8'?><Error><Code>AccessDenied</Code><Message>Access
-        denied.</Message><Details>Anonymous caller does not have storage.objects.get
-        access to the Google Cloud Storage object. Permission 'storage.objects.get'
-        denied on resource (or it may not exist).</Details></Error>
-    headers:
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Cache-Control:
-      - private, max-age=0
-      Content-Length:
-      - '298'
-      Content-Type:
-      - application/xml; charset=UTF-8
-      Date:
-      - Tue, 18 Jul 2023 19:34:31 GMT
-      Expires:
-      - Tue, 18 Jul 2023 19:34:31 GMT
-      Server:
-      - UploadServer
-      X-GUploader-UploadID:
-      - ADPycdvlBGIcSZEDF7LhS25WqUfQVUQ9IT_1nsPssz22nDLhkrrH7LQDtmhFTWizeF6Ky0BMRm8qvJ3jYNM34bOWoNatDseZ0Sse
-    status:
-      code: 403
-      message: Forbidden
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      User-Agent:
-      - python-requests/2.31.0
-    method: GET
-    uri: https://storage.googleapis.com/iex/api/logos/DOOTY.png
-  response:
-    body:
-      string: <?xml version='1.0' encoding='UTF-8'?><Error><Code>AccessDenied</Code><Message>Access
-        denied.</Message><Details>Anonymous caller does not have storage.objects.get
-        access to the Google Cloud Storage object. Permission 'storage.objects.get'
-        denied on resource (or it may not exist).</Details></Error>
-    headers:
-      Alt-Svc:
-      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
-      Cache-Control:
-      - private, max-age=0
-      Content-Length:
-      - '298'
-      Content-Type:
-      - application/xml; charset=UTF-8
-      Date:
-      - Tue, 18 Jul 2023 19:34:31 GMT
-      Expires:
-      - Tue, 18 Jul 2023 19:34:31 GMT
-      Server:
-      - UploadServer
-      X-GUploader-UploadID:
-      - ADPycdsZoni_Rpl4RvgW8VrdFK5eeQkYKmTHOcdntInqeNrIC9PVvwU6uiJ9cOO9lcKlFCwTNet4wFhafLSPjG4WQesBnXXF_eTP
-    status:
-      code: 403
-      message: Forbidden
-- request:
-    body: null
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/39.0.2171.95 Safari/537.36
-    method: GET
-    uri: https://query2.finance.yahoo.com/v6/finance/quoteSummary/DOOTY?modules=financialData&modules=quoteType&modules=defaultKeyStatistics&modules=assetProfile&modules=summaryDetail&ssl=true
-  response:
-    body:
-      string: '{"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote
-        not found for ticker symbol: DOOTY"}}}'
-    headers:
-      Age:
-      - '1'
-      Cache-Control:
-      - max-age=0, private
-      Connection:
-      - keep-alive
-      Expect-CT:
-      - max-age=31536000, report-uri="http://csp.yahoo.com/beacon/csp?src=yahoocom-expect-ct-report-only"
-      Expires:
-      - '-1'
-      Referrer-Policy:
-      - no-referrer-when-downgrade
-      Strict-Transport-Security:
-      - max-age=31536000
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-XSS-Protection:
-      - 1; mode=block
-      content-length:
-      - '118'
-      content-type:
-      - application/json;charset=utf-8
-      date:
-      - Tue, 18 Jul 2023 19:34:31 GMT
-      server:
-      - ATS
-      vary:
-      - Origin
-      x-envoy-decorator-operation:
-      - finance-company-fundamentals-api--mtls-production-gq1.finance-k8s.svc.yahoo.local:4080/*
-      x-envoy-upstream-service-time:
-      - '1'
-      x-request-id:
-      - fee3d827-9ec7-4866-b732-aa1f69257ec9
-      x-yahoo-request-id:
-      - 7vb07nlibdqa8
-      y-rid:
-      - 7vb07nlibdqa8
-    status:
-      code: 404
-      message: Not Found
+  - request:
+      body: null
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Connection:
+          - keep-alive
+        User-Agent:
+          - python-requests/2.31.0
+      method: GET
+      uri: https://storage.googleapis.com/iexcloud-hl37opg/api/logos/DOOTY.png
+    response:
+      body:
+        string:
+          <?xml version='1.0' encoding='UTF-8'?><Error><Code>AccessDenied</Code><Message>Access
+          denied.</Message><Details>Anonymous caller does not have storage.objects.get
+          access to the Google Cloud Storage object. Permission 'storage.objects.get'
+          denied on resource (or it may not exist).</Details></Error>
+      headers:
+        Alt-Svc:
+          - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+        Cache-Control:
+          - private, max-age=0
+        Content-Length:
+          - "298"
+        Content-Type:
+          - application/xml; charset=UTF-8
+        Date:
+          - Tue, 18 Jul 2023 19:34:31 GMT
+        Expires:
+          - Tue, 18 Jul 2023 19:34:31 GMT
+        Server:
+          - UploadServer
+        X-GUploader-UploadID:
+          - ADPycdvlBGIcSZEDF7LhS25WqUfQVUQ9IT_1nsPssz22nDLhkrrH7LQDtmhFTWizeF6Ky0BMRm8qvJ3jYNM34bOWoNatDseZ0Sse
+      status:
+        code: 403
+        message: Forbidden
+  - request:
+      body: null
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Connection:
+          - keep-alive
+        User-Agent:
+          - python-requests/2.31.0
+      method: GET
+      uri: https://storage.googleapis.com/iex/api/logos/DOOTY.png
+    response:
+      body:
+        string:
+          <?xml version='1.0' encoding='UTF-8'?><Error><Code>AccessDenied</Code><Message>Access
+          denied.</Message><Details>Anonymous caller does not have storage.objects.get
+          access to the Google Cloud Storage object. Permission 'storage.objects.get'
+          denied on resource (or it may not exist).</Details></Error>
+      headers:
+        Alt-Svc:
+          - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+        Cache-Control:
+          - private, max-age=0
+        Content-Length:
+          - "298"
+        Content-Type:
+          - application/xml; charset=UTF-8
+        Date:
+          - Tue, 18 Jul 2023 19:34:31 GMT
+        Expires:
+          - Tue, 18 Jul 2023 19:34:31 GMT
+        Server:
+          - UploadServer
+        X-GUploader-UploadID:
+          - ADPycdsZoni_Rpl4RvgW8VrdFK5eeQkYKmTHOcdntInqeNrIC9PVvwU6uiJ9cOO9lcKlFCwTNet4wFhafLSPjG4WQesBnXXF_eTP
+      status:
+        code: 403
+        message: Forbidden
+  - request:
+      body: null
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Connection:
+          - keep-alive
+        User-Agent:
+          - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/39.0.2171.95 Safari/537.36
+      method: GET
+      uri: https://query2.finance.yahoo.com/v6/finance/quoteSummary/DOOTY?modules=financialData&modules=quoteType&modules=defaultKeyStatistics&modules=assetProfile&modules=summaryDetail&ssl=true
+    response:
+      body:
+        string:
+          '{"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote
+          not found for ticker symbol: DOOTY"}}}'
+      headers:
+        Age:
+          - "1"
+        Cache-Control:
+          - max-age=0, private
+        Connection:
+          - keep-alive
+        Expect-CT:
+          - max-age=31536000, report-uri="http://csp.yahoo.com/beacon/csp?src=yahoocom-expect-ct-report-only"
+        Expires:
+          - "-1"
+        Referrer-Policy:
+          - no-referrer-when-downgrade
+        Strict-Transport-Security:
+          - max-age=31536000
+        X-Content-Type-Options:
+          - nosniff
+        X-Frame-Options:
+          - SAMEORIGIN
+        X-XSS-Protection:
+          - 1; mode=block
+        content-length:
+          - "118"
+        content-type:
+          - application/json;charset=utf-8
+        date:
+          - Tue, 18 Jul 2023 19:34:31 GMT
+        server:
+          - ATS
+        vary:
+          - Origin
+        x-envoy-decorator-operation:
+          - finance-company-fundamentals-api--mtls-production-gq1.finance-k8s.svc.yahoo.local:4080/*
+        x-envoy-upstream-service-time:
+          - "1"
+        x-request-id:
+          - fee3d827-9ec7-4866-b732-aa1f69257ec9
+        x-yahoo-request-id:
+          - 7vb07nlibdqa8
+        y-rid:
+          - 7vb07nlibdqa8
+      status:
+        code: 404
+        message: Not Found
 version: 1

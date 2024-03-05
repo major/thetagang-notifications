@@ -1,66 +1,67 @@
 interactions:
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      host:
-      - api3.thetagang.com
-      user-agent:
-      - python-httpx/0.27.0
-    method: GET
-    uri: https://api3.thetagang.com/trades/4db26360-e1d6-49c4-87c8-89f0643a150f
-  response:
-    content: '{"status":200,"data":{"shares":0,"cost":0,"profitLoss":null,"guid":"4db26360-e1d6-49c4-87c8-89f0643a150f","user_guid":"203fb5da-eee6-4877-852d-6a3da9b5060a","symbol":"SPY","type":"CALL
-      DEBIT SPREAD","payment":"debit","short_call":"401","short_call2":null,"long_call":"400","long_call2":null,"short_put":null,"short_put2":null,"long_put":null,"long_put2":null,"quantity":1,"price_filled":0.35,"price_closed":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":394.795,"close_quote":null,"tag":null,"note":"Hoping
-      it won''t have the momentum to pass 400","closing_note":null,"earnings":false,"assigned":null,"win":null,"initial":false,"expiry_date":"2023-01-19T05:00:00.000Z","close_date":null,"open_date":"2023-01-18T16:58:57.651Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T16:58:57.651Z","updatedAt":"2023-01-18T16:58:58.514Z","Posts":[],"User":{"title":"piotr91","guid":"203fb5da-eee6-4877-852d-6a3da9b5060a","username":"piotr91","lowercase":"piotr91","pfp":null,"flair":null,"ticker_message":null,"bio":null,"verified":null,"role":"member","last_active":"2023-01-28T21:33:53.044Z","streak_updated_at":"2023-01-28T21:33:53.044Z","streak":1,"longest_streak":1,"createdAt":"2019-11-26T01:30:48.437Z","updatedAt":"2023-01-28T21:33:53.044Z"},"Actions":[],"Reactions":[]},"error":null}'
-    headers:
-      CF-Cache-Status:
-      - DYNAMIC
-      CF-RAY:
-      - 85fca93be80428dd-DFW
-      Cache-Control:
-      - private, no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Encoding:
-      - gzip
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Tue, 05 Mar 2024 19:55:00 GMT
-      Etag:
-      - W/"562-pukpoMnXLhGF9NWx44JqrEs0+m4"
-      Expires:
-      - '-1'
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Pragma:
-      - no-cache
-      Ratelimit-Limit:
-      - '1000'
-      Ratelimit-Remaining:
-      - '970'
-      Ratelimit-Reset:
-      - '315'
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668499&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=96SyJglCpvUT9nPvsm49O1imxVpjJGye1L01bdiDJj8%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709668499&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=96SyJglCpvUT9nPvsm49O1imxVpjJGye1L01bdiDJj8%3D
-      Server:
-      - cloudflare
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      Via:
-      - 1.1 vegur
-      X-Powered-By:
-      - Express
-    http_version: HTTP/1.1
-    status_code: 200
+  - request:
+      body: ""
+      headers:
+        accept:
+          - "*/*"
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        host:
+          - api3.thetagang.com
+        user-agent:
+          - python-httpx/0.27.0
+      method: GET
+      uri: https://api3.thetagang.com/trades/4db26360-e1d6-49c4-87c8-89f0643a150f
+    response:
+      content:
+        '{"status":200,"data":{"shares":0,"cost":0,"profitLoss":null,"guid":"4db26360-e1d6-49c4-87c8-89f0643a150f","user_guid":"203fb5da-eee6-4877-852d-6a3da9b5060a","symbol":"SPY","type":"CALL
+        DEBIT SPREAD","payment":"debit","short_call":"401","short_call2":null,"long_call":"400","long_call2":null,"short_put":null,"short_put2":null,"long_put":null,"long_put2":null,"quantity":1,"price_filled":0.35,"price_closed":null,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":394.795,"close_quote":null,"tag":null,"note":"Hoping
+        it won''t have the momentum to pass 400","closing_note":null,"earnings":false,"assigned":null,"win":null,"initial":false,"expiry_date":"2023-01-19T05:00:00.000Z","close_date":null,"open_date":"2023-01-18T16:58:57.651Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T16:58:57.651Z","updatedAt":"2023-01-18T16:58:58.514Z","Posts":[],"User":{"title":"piotr91","guid":"203fb5da-eee6-4877-852d-6a3da9b5060a","username":"piotr91","lowercase":"piotr91","pfp":null,"flair":null,"ticker_message":null,"bio":null,"verified":null,"role":"member","last_active":"2023-01-28T21:33:53.044Z","streak_updated_at":"2023-01-28T21:33:53.044Z","streak":1,"longest_streak":1,"createdAt":"2019-11-26T01:30:48.437Z","updatedAt":"2023-01-28T21:33:53.044Z"},"Actions":[],"Reactions":[]},"error":null}'
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 85fca93be80428dd-DFW
+        Cache-Control:
+          - private, no-cache, no-store, must-revalidate
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json; charset=utf-8
+        Date:
+          - Tue, 05 Mar 2024 19:55:00 GMT
+        Etag:
+          - W/"562-pukpoMnXLhGF9NWx44JqrEs0+m4"
+        Expires:
+          - "-1"
+        Nel:
+          - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+        Pragma:
+          - no-cache
+        Ratelimit-Limit:
+          - "1000"
+        Ratelimit-Remaining:
+          - "970"
+        Ratelimit-Reset:
+          - "315"
+        Report-To:
+          - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668499&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=96SyJglCpvUT9nPvsm49O1imxVpjJGye1L01bdiDJj8%3D"}]}'
+        Reporting-Endpoints:
+          - heroku-nel=https://nel.heroku.com/reports?ts=1709668499&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=96SyJglCpvUT9nPvsm49O1imxVpjJGye1L01bdiDJj8%3D
+        Server:
+          - cloudflare
+        Transfer-Encoding:
+          - chunked
+        Vary:
+          - Origin
+        Via:
+          - 1.1 vegur
+        X-Powered-By:
+          - Express
+      http_version: HTTP/1.1
+      status_code: 200
 version: 1

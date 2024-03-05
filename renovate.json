@@ -1,32 +1,25 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
-  "lockFileMaintenance": {
-    "automerge": true,
-    "automergeType": "pr",
-    "enabled": true,
-    "platformAutomerge": true,
-    "rebaseWhen": "behind-base-branch",
-    "schedule": ["before 4am on monday"],
-  },
-  "packageRules": [
-    {
-      "automerge": true,
-      "automergeType": "pr",
-      "matchManagers": [
-        "poetry"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "platformAutomerge": true,
-      "rebaseWhen": "behind-base-branch"
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:base"],
+    "lockFileMaintenance": {
+        "automerge": true,
+        "automergeType": "pr",
+        "enabled": true,
+        "platformAutomerge": true,
+        "rebaseWhen": "behind-base-branch",
+        "schedule": ["before 4am on monday"]
+    },
+    "packageRules": [
+        {
+            "automerge": true,
+            "automergeType": "pr",
+            "matchManagers": ["poetry"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "platformAutomerge": true,
+            "rebaseWhen": "behind-base-branch"
+        }
+    ],
+    "pre-commit": {
+        "enabled": true
     }
-  ],
-  "pre-commit": {
-    "enabled": true
-  }
 }

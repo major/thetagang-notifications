@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Make a test notification for any trade guid from thetagang.com."""
+
 import sys
 
 import httpx

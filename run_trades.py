@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """Run the trade bot."""
+
 import logging
 import os
 import time

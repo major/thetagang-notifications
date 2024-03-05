@@ -1,86 +1,87 @@
 interactions:
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      host:
-      - api3.thetagang.com
-      user-agent:
-      - python-httpx/0.27.0
-    method: GET
-    uri: https://api3.thetagang.com/trades/a2a46a7f-1c7c-4328-98d7-32b900af98c1
-  response:
-    content: "{\"status\":200,\"data\":{\"shares\":-100,\"cost\":14770,\"profitLoss\"\
-      :null,\"guid\":\"a2a46a7f-1c7c-4328-98d7-32b900af98c1\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
-      ,\"symbol\":\"NKE\",\"type\":\"SELL COMMON STOCK\",\"payment\":\"credit\",\"\
-      short_call\":null,\"short_call2\":null,\"long_call\":null,\"long_call2\":null,\"\
-      short_put\":null,\"short_put2\":null,\"long_put\":null,\"long_put2\":null,\"\
-      quantity\":100,\"price_filled\":147.7,\"price_closed\":null,\"opened_during_market_hours\"\
-      :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
-      tweet_id\":null,\"open_quote\":null,\"close_quote\":null,\"tag\":null,\"note\"\
-      :\"Looking to focus on fewer tickers. Made a small profit here.\",\"closing_note\"\
-      :null,\"earnings\":false,\"assigned\":false,\"win\":null,\"initial\":false,\"\
-      expiry_date\":null,\"close_date\":\"2022-02-01T15:23:19.487Z\",\"open_date\"\
-      :\"2022-02-01T15:23:19.487Z\",\"podcast_url\":null,\"mistake\":null,\"createdAt\"\
-      :\"2022-02-01T15:23:19.487Z\",\"updatedAt\":\"2022-02-01T15:23:19.748Z\",\"\
-      Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
-      ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
-      ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3:\
-      \ key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\"\
-      ,\"bio\":\"My 2024 goals involve trading with just what's on the charts: price\
-      \ and volume. I do some analysis and rambling over on thetanerd.com. \U0001F609\
-      \",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T18:12:08.485Z\"\
-      ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
-      :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T18:12:08.485Z\"\
-      },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
-    headers:
-      CF-Cache-Status:
-      - DYNAMIC
-      CF-RAY:
-      - 85fca9528f07806e-DFW
-      Cache-Control:
-      - private, no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Encoding:
-      - gzip
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Tue, 05 Mar 2024 19:55:03 GMT
-      Etag:
-      - W/"682-Ae6XRBqDSWb5K1x7H9quNhfTOCg"
-      Expires:
-      - '-1'
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Pragma:
-      - no-cache
-      Ratelimit-Limit:
-      - '1000'
-      Ratelimit-Remaining:
-      - '990'
-      Ratelimit-Reset:
-      - '312'
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668503&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=JJ%2B8m7oWe4MPOsFkYSZtuUt7HSoMBJbGQ2PEFA5K%2Bbo%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709668503&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=JJ%2B8m7oWe4MPOsFkYSZtuUt7HSoMBJbGQ2PEFA5K%2Bbo%3D
-      Server:
-      - cloudflare
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      Via:
-      - 1.1 vegur
-      X-Powered-By:
-      - Express
-    http_version: HTTP/1.1
-    status_code: 200
+  - request:
+      body: ""
+      headers:
+        accept:
+          - "*/*"
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        host:
+          - api3.thetagang.com
+        user-agent:
+          - python-httpx/0.27.0
+      method: GET
+      uri: https://api3.thetagang.com/trades/a2a46a7f-1c7c-4328-98d7-32b900af98c1
+    response:
+      content:
+        "{\"status\":200,\"data\":{\"shares\":-100,\"cost\":14770,\"profitLoss\"\
+        :null,\"guid\":\"a2a46a7f-1c7c-4328-98d7-32b900af98c1\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"symbol\":\"NKE\",\"type\":\"SELL COMMON STOCK\",\"payment\":\"credit\",\"\
+        short_call\":null,\"short_call2\":null,\"long_call\":null,\"long_call2\":null,\"\
+        short_put\":null,\"short_put2\":null,\"long_put\":null,\"long_put2\":null,\"\
+        quantity\":100,\"price_filled\":147.7,\"price_closed\":null,\"opened_during_market_hours\"\
+        :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
+        tweet_id\":null,\"open_quote\":null,\"close_quote\":null,\"tag\":null,\"note\"\
+        :\"Looking to focus on fewer tickers. Made a small profit here.\",\"closing_note\"\
+        :null,\"earnings\":false,\"assigned\":false,\"win\":null,\"initial\":false,\"\
+        expiry_date\":null,\"close_date\":\"2022-02-01T15:23:19.487Z\",\"open_date\"\
+        :\"2022-02-01T15:23:19.487Z\",\"podcast_url\":null,\"mistake\":null,\"createdAt\"\
+        :\"2022-02-01T15:23:19.487Z\",\"updatedAt\":\"2022-02-01T15:23:19.748Z\",\"\
+        Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
+        ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3:\
+        \ key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\"\
+        ,\"bio\":\"My 2024 goals involve trading with just what's on the charts: price\
+        \ and volume. I do some analysis and rambling over on thetanerd.com. \U0001F609\
+        \",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T18:12:08.485Z\"\
+        ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
+        :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T18:12:08.485Z\"\
+        },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 85fca9528f07806e-DFW
+        Cache-Control:
+          - private, no-cache, no-store, must-revalidate
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json; charset=utf-8
+        Date:
+          - Tue, 05 Mar 2024 19:55:03 GMT
+        Etag:
+          - W/"682-Ae6XRBqDSWb5K1x7H9quNhfTOCg"
+        Expires:
+          - "-1"
+        Nel:
+          - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+        Pragma:
+          - no-cache
+        Ratelimit-Limit:
+          - "1000"
+        Ratelimit-Remaining:
+          - "990"
+        Ratelimit-Reset:
+          - "312"
+        Report-To:
+          - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668503&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=JJ%2B8m7oWe4MPOsFkYSZtuUt7HSoMBJbGQ2PEFA5K%2Bbo%3D"}]}'
+        Reporting-Endpoints:
+          - heroku-nel=https://nel.heroku.com/reports?ts=1709668503&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=JJ%2B8m7oWe4MPOsFkYSZtuUt7HSoMBJbGQ2PEFA5K%2Bbo%3D
+        Server:
+          - cloudflare
+        Transfer-Encoding:
+          - chunked
+        Vary:
+          - Origin
+        Via:
+          - 1.1 vegur
+        X-Powered-By:
+          - Express
+      http_version: HTTP/1.1
+      status_code: 200
 version: 1

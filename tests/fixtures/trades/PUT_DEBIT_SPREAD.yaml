@@ -1,72 +1,73 @@
 interactions:
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      host:
-      - api3.thetagang.com
-      user-agent:
-      - python-httpx/0.27.0
-    method: GET
-    uri: https://api3.thetagang.com/trades/44ef4b2a-467e-4cd0-8f84-9dfa1766dca9
-  response:
-    content: '{"status":200,"data":{"shares":0,"cost":134,"profitLoss":"134","guid":"44ef4b2a-467e-4cd0-8f84-9dfa1766dca9","user_guid":"8667df67-8610-4303-a175-021039315a8c","symbol":"AIG","type":"PUT
-      DEBIT SPREAD","payment":"debit","short_call":null,"short_call2":null,"long_call":null,"long_call2":null,"short_put":"57.5","short_put2":null,"long_put":"62.5","long_put2":null,"quantity":1,"price_filled":1.48,"price_closed":2.82,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":62.935,"close_quote":58.98,"tag":null,"note":"Pre-emptively
-      rolling my position thats about to expire","closing_note":"","earnings":false,"assigned":false,"win":true,"initial":false,"expiry_date":"2023-03-16T17:00:00.000Z","close_date":"2023-02-02T17:12:58.426Z","open_date":"2023-01-18T17:24:28.649Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T17:24:28.650Z","updatedAt":"2023-02-02T17:12:58.663Z","Posts":[{"guid":"b61f0b04-f67e-4c5a-a6bc-a4ea9c0a43a3","text":"Input
-      the incorrect fill price","root":null,"count":0,"user_guid":"8667df67-8610-4303-a175-021039315a8c","trade_guid":"44ef4b2a-467e-4cd0-8f84-9dfa1766dca9","createdAt":"2023-01-18T17:34:51.785Z","updatedAt":"2023-01-18T17:34:52.111Z","User":{"title":"jrue","guid":"8667df67-8610-4303-a175-021039315a8c","username":"jrue","lowercase":"jrue","pfp":null,"flair":null,"ticker_message":null,"bio":"Tastytrade
-      strategies. Selling options when IV is high, earnings, micro futures and occasional
-      day trades. Delta neutral (usually).\n\nDiscord: jrue#3939/_jrue_","verified":true,"role":"member","last_active":"2024-03-04T20:30:00.370Z","streak_updated_at":"2024-03-04T11:00:33.940Z","streak":2,"longest_streak":13,"createdAt":"2020-04-11T09:42:49.886Z","updatedAt":"2024-03-04T20:30:00.371Z"},"Reactions":[]}],"User":{"title":"jrue","guid":"8667df67-8610-4303-a175-021039315a8c","username":"jrue","lowercase":"jrue","pfp":null,"flair":null,"ticker_message":null,"bio":"Tastytrade
-      strategies. Selling options when IV is high, earnings, micro futures and occasional
-      day trades. Delta neutral (usually).\n\nDiscord: jrue#3939/_jrue_","verified":true,"role":"member","last_active":"2024-03-04T20:30:00.370Z","streak_updated_at":"2024-03-04T11:00:33.940Z","streak":2,"longest_streak":13,"createdAt":"2020-04-11T09:42:49.886Z","updatedAt":"2024-03-04T20:30:00.371Z"},"Actions":[{"guid":"768f8156-5b5d-45be-ab40-f0266c1fb320","type":"edit","field":"Price
-      Filled","from":"1.43","to":"1.48","trade_guid":"44ef4b2a-467e-4cd0-8f84-9dfa1766dca9","user_guid":"8667df67-8610-4303-a175-021039315a8c","createdAt":"2023-01-18T17:34:30.089Z","updatedAt":"2023-01-18T17:34:30.367Z"}],"Reactions":[]},"error":null}'
-    headers:
-      CF-Cache-Status:
-      - DYNAMIC
-      CF-RAY:
-      - 85fca9492d172d29-DFW
-      Cache-Control:
-      - private, no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Encoding:
-      - gzip
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Tue, 05 Mar 2024 19:55:02 GMT
-      Etag:
-      - W/"a96-J7g5gpmQ/SlstZRx+/dg+iPamvU"
-      Expires:
-      - '-1'
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Pragma:
-      - no-cache
-      Ratelimit-Limit:
-      - '1000'
-      Ratelimit-Remaining:
-      - '996'
-      Ratelimit-Reset:
-      - '313'
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668502&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=%2FvSdCTdRzmaDIZmwjvrOWA7CaBGEiWmU%2FRnJzNOcR0U%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709668502&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=%2FvSdCTdRzmaDIZmwjvrOWA7CaBGEiWmU%2FRnJzNOcR0U%3D
-      Server:
-      - cloudflare
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      Via:
-      - 1.1 vegur
-      X-Powered-By:
-      - Express
-    http_version: HTTP/1.1
-    status_code: 200
+  - request:
+      body: ""
+      headers:
+        accept:
+          - "*/*"
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        host:
+          - api3.thetagang.com
+        user-agent:
+          - python-httpx/0.27.0
+      method: GET
+      uri: https://api3.thetagang.com/trades/44ef4b2a-467e-4cd0-8f84-9dfa1766dca9
+    response:
+      content:
+        '{"status":200,"data":{"shares":0,"cost":134,"profitLoss":"134","guid":"44ef4b2a-467e-4cd0-8f84-9dfa1766dca9","user_guid":"8667df67-8610-4303-a175-021039315a8c","symbol":"AIG","type":"PUT
+        DEBIT SPREAD","payment":"debit","short_call":null,"short_call2":null,"long_call":null,"long_call2":null,"short_put":"57.5","short_put2":null,"long_put":"62.5","long_put2":null,"quantity":1,"price_filled":1.48,"price_closed":2.82,"opened_during_market_hours":null,"closed_during_market_hours":null,"closed_before_expiration":null,"tweet_id":null,"open_quote":62.935,"close_quote":58.98,"tag":null,"note":"Pre-emptively
+        rolling my position thats about to expire","closing_note":"","earnings":false,"assigned":false,"win":true,"initial":false,"expiry_date":"2023-03-16T17:00:00.000Z","close_date":"2023-02-02T17:12:58.426Z","open_date":"2023-01-18T17:24:28.649Z","podcast_url":null,"mistake":null,"createdAt":"2023-01-18T17:24:28.650Z","updatedAt":"2023-02-02T17:12:58.663Z","Posts":[{"guid":"b61f0b04-f67e-4c5a-a6bc-a4ea9c0a43a3","text":"Input
+        the incorrect fill price","root":null,"count":0,"user_guid":"8667df67-8610-4303-a175-021039315a8c","trade_guid":"44ef4b2a-467e-4cd0-8f84-9dfa1766dca9","createdAt":"2023-01-18T17:34:51.785Z","updatedAt":"2023-01-18T17:34:52.111Z","User":{"title":"jrue","guid":"8667df67-8610-4303-a175-021039315a8c","username":"jrue","lowercase":"jrue","pfp":null,"flair":null,"ticker_message":null,"bio":"Tastytrade
+        strategies. Selling options when IV is high, earnings, micro futures and occasional
+        day trades. Delta neutral (usually).\n\nDiscord: jrue#3939/_jrue_","verified":true,"role":"member","last_active":"2024-03-04T20:30:00.370Z","streak_updated_at":"2024-03-04T11:00:33.940Z","streak":2,"longest_streak":13,"createdAt":"2020-04-11T09:42:49.886Z","updatedAt":"2024-03-04T20:30:00.371Z"},"Reactions":[]}],"User":{"title":"jrue","guid":"8667df67-8610-4303-a175-021039315a8c","username":"jrue","lowercase":"jrue","pfp":null,"flair":null,"ticker_message":null,"bio":"Tastytrade
+        strategies. Selling options when IV is high, earnings, micro futures and occasional
+        day trades. Delta neutral (usually).\n\nDiscord: jrue#3939/_jrue_","verified":true,"role":"member","last_active":"2024-03-04T20:30:00.370Z","streak_updated_at":"2024-03-04T11:00:33.940Z","streak":2,"longest_streak":13,"createdAt":"2020-04-11T09:42:49.886Z","updatedAt":"2024-03-04T20:30:00.371Z"},"Actions":[{"guid":"768f8156-5b5d-45be-ab40-f0266c1fb320","type":"edit","field":"Price
+        Filled","from":"1.43","to":"1.48","trade_guid":"44ef4b2a-467e-4cd0-8f84-9dfa1766dca9","user_guid":"8667df67-8610-4303-a175-021039315a8c","createdAt":"2023-01-18T17:34:30.089Z","updatedAt":"2023-01-18T17:34:30.367Z"}],"Reactions":[]},"error":null}'
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 85fca9492d172d29-DFW
+        Cache-Control:
+          - private, no-cache, no-store, must-revalidate
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json; charset=utf-8
+        Date:
+          - Tue, 05 Mar 2024 19:55:02 GMT
+        Etag:
+          - W/"a96-J7g5gpmQ/SlstZRx+/dg+iPamvU"
+        Expires:
+          - "-1"
+        Nel:
+          - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+        Pragma:
+          - no-cache
+        Ratelimit-Limit:
+          - "1000"
+        Ratelimit-Remaining:
+          - "996"
+        Ratelimit-Reset:
+          - "313"
+        Report-To:
+          - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668502&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=%2FvSdCTdRzmaDIZmwjvrOWA7CaBGEiWmU%2FRnJzNOcR0U%3D"}]}'
+        Reporting-Endpoints:
+          - heroku-nel=https://nel.heroku.com/reports?ts=1709668502&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=%2FvSdCTdRzmaDIZmwjvrOWA7CaBGEiWmU%2FRnJzNOcR0U%3D
+        Server:
+          - cloudflare
+        Transfer-Encoding:
+          - chunked
+        Vary:
+          - Origin
+        Via:
+          - 1.1 vegur
+        X-Powered-By:
+          - Express
+      http_version: HTTP/1.1
+      status_code: 200
 version: 1

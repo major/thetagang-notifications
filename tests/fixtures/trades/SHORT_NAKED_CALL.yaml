@@ -1,90 +1,91 @@
 interactions:
-- request:
-    body: ''
-    headers:
-      accept:
-      - '*/*'
-      accept-encoding:
-      - gzip, deflate
-      connection:
-      - keep-alive
-      host:
-      - api3.thetagang.com
-      user-agent:
-      - python-httpx/0.27.0
-    method: GET
-    uri: https://api3.thetagang.com/trades/665b5d15-7009-49b7-8746-0e7effdf0829
-  response:
-    content: "{\"status\":200,\"data\":{\"shares\":0,\"cost\":-17,\"profitLoss\":\"\
-      -17\",\"guid\":\"665b5d15-7009-49b7-8746-0e7effdf0829\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
-      ,\"symbol\":\"SPY\",\"type\":\"SHORT NAKED CALL\",\"payment\":\"credit\",\"\
-      short_call\":\"385\",\"short_call2\":null,\"long_call\":null,\"long_call2\"\
-      :null,\"short_put\":null,\"short_put2\":null,\"long_put\":null,\"long_put2\"\
-      :null,\"quantity\":1,\"price_filled\":3.3,\"price_closed\":3.47,\"opened_during_market_hours\"\
-      :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
-      tweet_id\":null,\"open_quote\":383.66,\"close_quote\":384.99,\"tag\":null,\"\
-      note\":\"\U0001F6A8 WARNING: AGGRESSIVE TRADE \U0001F6A8\\n\\n$SPY has banged\
-      \ into $384 many times and fell back down. The darkpool levels from $380-$340\
-      \ are massive and there are big GEX levels there, too. All my shares were called\
-      \ away on 12/30 and selling puts seems a little wild when it looks like we're\
-      \ topping out.\",\"closing_note\":\"Took a baby loss here as it looks like this\
-      \ rally has legs.\",\"earnings\":false,\"assigned\":false,\"win\":false,\"initial\"\
-      :false,\"expiry_date\":\"2023-01-06T06:00:00.000Z\",\"close_date\":\"2023-01-04T18:46:02.175Z\"\
-      ,\"open_date\":\"2023-01-04T16:36:01.252Z\",\"podcast_url\":null,\"mistake\"\
-      :null,\"createdAt\":\"2023-01-04T16:36:01.252Z\",\"updatedAt\":\"2023-01-14T10:28:12.503Z\"\
-      ,\"Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
-      ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
-      ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3:\
-      \ key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\"\
-      ,\"bio\":\"My 2024 goals involve trading with just what's on the charts: price\
-      \ and volume. I do some analysis and rambling over on thetanerd.com. \U0001F609\
-      \",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T18:12:08.485Z\"\
-      ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
-      :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T18:12:08.485Z\"\
-      },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
-    headers:
-      CF-Cache-Status:
-      - DYNAMIC
-      CF-RAY:
-      - 85fca92bff98485d-DFW
-      Cache-Control:
-      - private, no-cache, no-store, must-revalidate
-      Connection:
-      - keep-alive
-      Content-Encoding:
-      - gzip
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Tue, 05 Mar 2024 19:54:57 GMT
-      Etag:
-      - W/"7bc-GscfXIndEAaR1mCJkjXrlGpaKU0"
-      Expires:
-      - '-1'
-      Nel:
-      - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
-      Pragma:
-      - no-cache
-      Ratelimit-Limit:
-      - '1000'
-      Ratelimit-Remaining:
-      - '985'
-      Ratelimit-Reset:
-      - '318'
-      Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668497&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=UbIhVax5LCQSP48cLCjAxGM0EW1Nfub5MYcv1Q8jtEE%3D"}]}'
-      Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1709668497&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=UbIhVax5LCQSP48cLCjAxGM0EW1Nfub5MYcv1Q8jtEE%3D
-      Server:
-      - cloudflare
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      Via:
-      - 1.1 vegur
-      X-Powered-By:
-      - Express
-    http_version: HTTP/1.1
-    status_code: 200
+  - request:
+      body: ""
+      headers:
+        accept:
+          - "*/*"
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        host:
+          - api3.thetagang.com
+        user-agent:
+          - python-httpx/0.27.0
+      method: GET
+      uri: https://api3.thetagang.com/trades/665b5d15-7009-49b7-8746-0e7effdf0829
+    response:
+      content:
+        "{\"status\":200,\"data\":{\"shares\":0,\"cost\":-17,\"profitLoss\":\"\
+        -17\",\"guid\":\"665b5d15-7009-49b7-8746-0e7effdf0829\",\"user_guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"symbol\":\"SPY\",\"type\":\"SHORT NAKED CALL\",\"payment\":\"credit\",\"\
+        short_call\":\"385\",\"short_call2\":null,\"long_call\":null,\"long_call2\"\
+        :null,\"short_put\":null,\"short_put2\":null,\"long_put\":null,\"long_put2\"\
+        :null,\"quantity\":1,\"price_filled\":3.3,\"price_closed\":3.47,\"opened_during_market_hours\"\
+        :null,\"closed_during_market_hours\":null,\"closed_before_expiration\":null,\"\
+        tweet_id\":null,\"open_quote\":383.66,\"close_quote\":384.99,\"tag\":null,\"\
+        note\":\"\U0001F6A8 WARNING: AGGRESSIVE TRADE \U0001F6A8\\n\\n$SPY has banged\
+        \ into $384 many times and fell back down. The darkpool levels from $380-$340\
+        \ are massive and there are big GEX levels there, too. All my shares were called\
+        \ away on 12/30 and selling puts seems a little wild when it looks like we're\
+        \ topping out.\",\"closing_note\":\"Took a baby loss here as it looks like this\
+        \ rally has legs.\",\"earnings\":false,\"assigned\":false,\"win\":false,\"initial\"\
+        :false,\"expiry_date\":\"2023-01-06T06:00:00.000Z\",\"close_date\":\"2023-01-04T18:46:02.175Z\"\
+        ,\"open_date\":\"2023-01-04T16:36:01.252Z\",\"podcast_url\":null,\"mistake\"\
+        :null,\"createdAt\":\"2023-01-04T16:36:01.252Z\",\"updatedAt\":\"2023-01-14T10:28:12.503Z\"\
+        ,\"Posts\":[],\"User\":{\"title\":\"major\",\"guid\":\"82ea7953-cdfb-4a4d-a381-f2a39c87c401\"\
+        ,\"username\":\"major\",\"lowercase\":\"major\",\"pfp\":\"https://assets.thetagang.com/pfps/major-1703160535646.jpg\"\
+        ,\"flair\":\"\U0001F49C 400-streak 1\uFE0F\u20E38\uFE0F\u20E33\uFE0F\u20E3:\
+        \ key\",\"ticker_message\":\"Only trade companies you truly love \U0001F495\"\
+        ,\"bio\":\"My 2024 goals involve trading with just what's on the charts: price\
+        \ and volume. I do some analysis and rambling over on thetanerd.com. \U0001F609\
+        \",\"verified\":true,\"role\":\"patron\",\"last_active\":\"2024-03-05T18:12:08.485Z\"\
+        ,\"streak_updated_at\":\"2024-03-05T00:23:08.427Z\",\"streak\":88,\"longest_streak\"\
+        :88,\"createdAt\":\"2020-09-18T04:07:23.482Z\",\"updatedAt\":\"2024-03-05T18:12:08.485Z\"\
+        },\"Actions\":[],\"Reactions\":[]},\"error\":null}"
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 85fca92bff98485d-DFW
+        Cache-Control:
+          - private, no-cache, no-store, must-revalidate
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json; charset=utf-8
+        Date:
+          - Tue, 05 Mar 2024 19:54:57 GMT
+        Etag:
+          - W/"7bc-GscfXIndEAaR1mCJkjXrlGpaKU0"
+        Expires:
+          - "-1"
+        Nel:
+          - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+        Pragma:
+          - no-cache
+        Ratelimit-Limit:
+          - "1000"
+        Ratelimit-Remaining:
+          - "985"
+        Ratelimit-Reset:
+          - "318"
+        Report-To:
+          - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1709668497&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=UbIhVax5LCQSP48cLCjAxGM0EW1Nfub5MYcv1Q8jtEE%3D"}]}'
+        Reporting-Endpoints:
+          - heroku-nel=https://nel.heroku.com/reports?ts=1709668497&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=UbIhVax5LCQSP48cLCjAxGM0EW1Nfub5MYcv1Q8jtEE%3D
+        Server:
+          - cloudflare
+        Transfer-Encoding:
+          - chunked
+        Vary:
+          - Origin
+        Via:
+          - 1.1 vegur
+        X-Powered-By:
+          - Express
+      http_version: HTTP/1.1
+      status_code: 200
 version: 1
