@@ -79,7 +79,7 @@ def test_closing_description(real_trades):
     result = trade_obj.closing_description()
 
     if trade_obj.is_stock_trade or trade_obj.is_open:
-        assert result is None
+        assert not result
     else:
         assert isinstance(result, str)
         assert "$" not in result if trade_obj.is_assigned else "$" in result
@@ -95,7 +95,7 @@ def test_opening_description(real_trades):
         assert "Break even" in result
         assert "Return" in result
     else:
-        assert result is None
+        assert not result
 
 
 @pytest.mark.parametrize("real_trades", ["LONG CALL"], indirect=True)

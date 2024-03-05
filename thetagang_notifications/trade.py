@@ -1,6 +1,7 @@
 """Parse trades and send notifications."""
 
 import logging
+from functools import cached_property
 
 import inflect
 import yaml
@@ -23,7 +24,7 @@ from thetagang_notifications.trade_math import (
 log = logging.getLogger(__name__)
 
 
-def get_spec_data(trade_type):
+def get_spec_data(trade_type: str) -> dict:
     """Get the spec data for a trade type."""
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
         spec_data = yaml.safe_load(file_handle)
@@ -33,7 +34,7 @@ def get_spec_data(trade_type):
 class Trade:
     """Abstract base class for a trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         # Create some class properties from the raw trade data.
         self.expiry_date = trade["expiry_date"]
@@ -75,7 +76,15 @@ class Trade:
         # Set up a basic header for notifications.
         self.notification_header = f"{self.symbol}: {self.trade_type}"
 
-    def load_trade_properties(self):
+    def annualized_return(self) -> str:
+        """Return the annualized return for a trade."""
+        raise AnnualizedReturnError(self.trade_type)
+
+    @cached_property
+    def break_even(self) -> str:
+        raise BreakEvenError(self.trade_type)
+
+    def load_trade_properties(self) -> None:
         """Load properties from the spec."""
         spec_data = get_spec_data(self.trade_type)
 
@@ -87,29 +96,22 @@ class Trade:
         self.is_short = spec_data["short"]
         self.is_long = not spec_data["short"]
 
-    def annualized_return(self):
-        """Return the annualized return for a trade."""
-        raise AnnualizedReturnError(self.trade_type)
-
-    def break_even(self):
-        raise BreakEvenError(self.trade_type)
-
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        desc = f"Break even: {self.break_even()}\n"
+        desc = f"Break even: {self.break_even}\n"
         desc += f"Return: {self.potential_return()}% ({self.annualized_return()}% ann.)"
         return desc
 
-    def closing_description(self):
+    def closing_description(self) -> str:
         """Return the notification description for closing trades."""
         if self.is_stock_trade or self.is_open:
-            return None
+            return ""
 
         desc = f"{self.trade_emoji} {self.result} "
         desc += "" if self.is_assigned else f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
         return desc
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         strike_type = "c" if "CALL" in self.trade_type else "p"
         title = (
@@ -119,19 +121,19 @@ class Trade:
         )
         return self.notification_header + "\n" + title
 
-    def notify(self):
+    def notify(self) -> None:
         """Send a notification for the trade."""
         notification_handler = get_notification_handler(self)
         notification_handler.notify()
 
-    def potential_return(self):
+    def potential_return(self) -> str:
         raise PotentialReturnError(self.trade_type)
 
-    def profit(self):
+    def profit(self) -> float:
         """Return the profit on a trade."""
         return abs(float(self.profit_loss_raw))
 
-    def pretty_expiration(self):
+    def pretty_expiration(self) -> str:
         """Return the pretty expiration date for an option trade."""
         return pretty_expiration(self.expiry_date)
 
@@ -139,20 +141,26 @@ class Trade:
 class CashSecuredPut(Trade):
     """Cash secured put trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.strike = float(trade["short_put"])
 
-    def annualized_return(self):
+    def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
 
-    def break_even(self):
+    @cached_property
+    def break_even(self) -> str:
+        """Get break even point of a trade.
+
+        Returns:
+            str: The break even point of the trade.
+        """
         return put_break_even(self.strike, self.price_filled)
 
-    def potential_return(self):
+    def potential_return(self) -> str:
         """Return the potential return on a short put."""
         return short_option_potential_return(self.strike, self.price_filled)
 
@@ -160,20 +168,26 @@ class CashSecuredPut(Trade):
 class CoveredCall(Trade):
     """Covered call trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self):
+    def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
 
-    def break_even(self):
+    @cached_property
+    def break_even(self) -> str:
+        """Get break even point of a trade.
+
+        Returns:
+            str: The break even point of the trade.
+        """
         return call_break_even(self.strike, self.price_filled)
 
-    def potential_return(self):
+    def potential_return(self) -> str:
         """Return the potential return on a short call."""
         return short_option_potential_return(self.strike, self.price_filled)
 
@@ -181,20 +195,26 @@ class CoveredCall(Trade):
 class ShortNakedCall(Trade):
     """Short naked call trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self):
+    def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
         return short_annualized_return(self.strike, self.price_filled, dte)
 
-    def break_even(self):
+    @cached_property
+    def break_even(self) -> str:
+        """Get break even point of a trade.
+
+        Returns:
+            str: The break even point of the trade.
+        """
         return call_break_even(self.strike, self.price_filled)
 
-    def potential_return(self):
+    def potential_return(self) -> str:
         """Return the potential return on a short call."""
         return short_option_potential_return(self.strike, self.price_filled)
 
@@ -202,15 +222,21 @@ class ShortNakedCall(Trade):
 class LongNakedCall(Trade):
     """Long naked call trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.strike = float(trade["long_call"])
 
-    def break_even(self):
+    @cached_property
+    def break_even(self) -> str:
+        """Get break even point of a trade.
+
+        Returns:
+            str: The break even point of the trade.
+        """
         return call_break_even(self.strike, self.price_filled)
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
         return None
 
@@ -218,15 +244,21 @@ class LongNakedCall(Trade):
 class LongNakedPut(Trade):
     """Long naked put trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.strike = float(trade["long_put"])
 
-    def break_even(self):
+    @cached_property
+    def break_even(self) -> str:
+        """Get break even point of a trade.
+
+        Returns:
+            str: The break even point of the trade.
+        """
         return put_break_even(self.strike, self.price_filled)
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
         return None
 
@@ -234,17 +266,17 @@ class LongNakedPut(Trade):
 class PutCreditSpread(Trade):
     """Put credit spread trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.short_strike = float(trade["short_put"])
         self.long_strike = float(trade["long_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -257,17 +289,17 @@ class PutCreditSpread(Trade):
 class CallCreditSpread(Trade):
     """Call credit spread trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.short_strike = float(trade["short_call"])
         self.long_strike = float(trade["long_call"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -280,17 +312,17 @@ class CallCreditSpread(Trade):
 class PutDebitSpread(Trade):
     """Put debit spread trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.short_strike = float(trade["short_put"])
         self.long_strike = float(trade["long_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -303,17 +335,17 @@ class PutDebitSpread(Trade):
 class CallDebitSpread(Trade):
     """Call debit spread trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.short_strike = float(trade["short_call"])
         self.long_strike = float(trade["long_call"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -326,17 +358,17 @@ class CallDebitSpread(Trade):
 class LongStrangle(Trade):
     """Long strangle trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.long_call = float(trade["long_call"])
         self.long_put = float(trade["long_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -349,17 +381,17 @@ class LongStrangle(Trade):
 class ShortStrangle(Trade):
     """Short strangle trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -372,17 +404,17 @@ class ShortStrangle(Trade):
 class LongStraddle(Trade):
     """Long straddle trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.long_call = float(trade["long_call"])
         self.long_put = float(trade["long_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -395,17 +427,17 @@ class LongStraddle(Trade):
 class ShortStraddle(Trade):
     """Short straddle trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -418,18 +450,18 @@ class ShortStraddle(Trade):
 class JadeLizard(Trade):
     """Jade lizard trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.long_call = float(trade["long_call"])
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -443,7 +475,7 @@ class JadeLizard(Trade):
 class ShortIronCondor(Trade):
     """Short iron condor trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.long_call = float(trade["long_call"])
@@ -451,11 +483,11 @@ class ShortIronCondor(Trade):
         self.short_call = float(trade["short_call"])
         self.short_put = float(trade["short_put"])
 
-    def opening_description(self):
+    def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        return None
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
@@ -469,7 +501,7 @@ class ShortIronCondor(Trade):
 class BuyCommonStock(Trade):
     """Buy common stock trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         # Common stock trades always use "note" for the trade note.
@@ -480,13 +512,16 @@ class BuyCommonStock(Trade):
         self.is_closed = False
         self.is_open = True
 
-    def pretty_expiration(self):
+    def pretty_expiration(self) -> str:
+        """Stock trades have no expiration date."""
         raise NotImplementedError
 
-    def closing_description(self):
-        return None
+    def closing_description(self) -> str:
+        """Return the notification description for closing trades."""
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
+        """Return the notification title."""
         p = inflect.engine()
         return (
             f"Bought {self.quantity}"
@@ -494,14 +529,15 @@ class BuyCommonStock(Trade):
             f"@ {pretty_strike(self.price_filled)}"
         )
 
-    def opening_description(self):
-        return None
+    def opening_description(self) -> str:
+        """Return the notification description for opening trades."""
+        return ""
 
 
 class SellCommonStock(Trade):
     """Sell common stock trade."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         # Common stock trades always use "note" for the trade note.
@@ -512,24 +548,28 @@ class SellCommonStock(Trade):
         self.is_closed = False
         self.is_open = True
 
-    def pretty_expiration(self):
+    def pretty_expiration(self) -> str:
+        """Stock trades have no expiration date."""
         raise NotImplementedError
 
-    def closing_description(self):
-        return None
+    def closing_description(self) -> str:
+        """Return the notification description for closing trades."""
+        return ""
 
-    def notification_title(self):
+    def notification_title(self) -> str:
+        """Return the notification title."""
         p = inflect.engine()
         return (
             f"Sold {self.quantity} {p.plural('share', self.quantity)} of {self.symbol} "
             f"@ {pretty_strike(self.price_filled)}"
         )
 
-    def opening_description(self):
-        return None
+    def opening_description(self) -> str:
+        """Return the notification description for opening trades."""
+        return ""
 
 
-def get_trade_class(trade):
+def get_trade_class(trade: dict) -> Trade:
     """Create a trade object."""
     trade_types = {
         "CASH SECURED PUT": CashSecuredPut,

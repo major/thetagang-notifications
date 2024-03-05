@@ -19,7 +19,7 @@ STOCK_LOGO = "https://s3.amazonaws.com/logos.atom.finance/stocks-and-funds/%s.pn
 class Notification:
     """Base class for discord notifications."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict[str, str]) -> None:
         """Initialization method."""
         self.trade = trade
         self.trade_note = self.trade.note if self.trade.is_open else self.trade.closing_note
@@ -27,7 +27,7 @@ class Notification:
         # Choose an action icon based on the trade status.
         self.icon_url = OPENING_TRADE_ICON if self.trade.is_open else CLOSING_TRADE_ICON
 
-    def generate_action(self):
+    def generate_action(self) -> dict:
         """Generate the action for the notification."""
         return {
             "name": f"{self.trade.username} {self.trade.status} a trade",
