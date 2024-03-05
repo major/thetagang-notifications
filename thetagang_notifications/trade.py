@@ -139,7 +139,33 @@ class Trade:
         return pretty_expiration(self.expiry_date)
 
 
-class CashSecuredPut(Trade):
+class ShortSingleLegOption(Trade):
+    """Short single leg option trades."""
+
+    def annualized_return(self) -> float:
+        """Return the annualized return."""
+        dte = days_to_expiration(self.expiry_date)
+        return short_annualized_return(self.strike, self.price_filled, dte)
+
+    @cached_property
+    def break_even(self) -> str:
+        """Get break even point of a trade.
+
+        Returns:
+            str: The break even point of the trade.
+        """
+        return (
+            put_break_even(self.strike, self.price_filled)
+            if "PUT" in self.trade_type
+            else call_break_even(self.strike, self.price_filled)
+        )
+
+    def potential_return(self) -> float:
+        """Return the potential return on a short put."""
+        return short_option_potential_return(self.strike, self.price_filled)
+
+
+class CashSecuredPut(ShortSingleLegOption):
     """Cash secured put trade."""
 
     def __init__(self, trade: dict):
@@ -147,26 +173,8 @@ class CashSecuredPut(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_put"])
 
-    def annualized_return(self) -> float:
-        """Return the annualized return."""
-        dte = days_to_expiration(self.expiry_date)
-        return short_annualized_return(self.strike, self.price_filled, dte)
 
-    @cached_property
-    def break_even(self) -> str:
-        """Get break even point of a trade.
-
-        Returns:
-            str: The break even point of the trade.
-        """
-        return put_break_even(self.strike, self.price_filled)
-
-    def potential_return(self) -> float:
-        """Return the potential return on a short put."""
-        return short_option_potential_return(self.strike, self.price_filled)
-
-
-class CoveredCall(Trade):
+class CoveredCall(ShortSingleLegOption):
     """Covered call trade."""
 
     def __init__(self, trade: dict):
@@ -174,26 +182,8 @@ class CoveredCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self) -> float:
-        """Return the annualized return."""
-        dte = days_to_expiration(self.expiry_date)
-        return short_annualized_return(self.strike, self.price_filled, dte)
 
-    @cached_property
-    def break_even(self) -> str:
-        """Get break even point of a trade.
-
-        Returns:
-            str: The break even point of the trade.
-        """
-        return call_break_even(self.strike, self.price_filled)
-
-    def potential_return(self) -> float:
-        """Return the potential return on a short call."""
-        return short_option_potential_return(self.strike, self.price_filled)
-
-
-class ShortNakedCall(Trade):
+class ShortNakedCall(ShortSingleLegOption):
     """Short naked call trade."""
 
     def __init__(self, trade: dict):
@@ -201,10 +191,9 @@ class ShortNakedCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["short_call"])
 
-    def annualized_return(self) -> float:
-        """Return the annualized return."""
-        dte = days_to_expiration(self.expiry_date)
-        return short_annualized_return(self.strike, self.price_filled, dte)
+
+class LongSingleLegOption(Trade):
+    """Long single leg option trades."""
 
     @cached_property
     def break_even(self) -> str:
@@ -213,14 +202,18 @@ class ShortNakedCall(Trade):
         Returns:
             str: The break even point of the trade.
         """
-        return call_break_even(self.strike, self.price_filled)
+        return (
+            put_break_even(self.strike, self.price_filled)
+            if "PUT" in self.trade_type
+            else call_break_even(self.strike, self.price_filled)
+        )
 
-    def potential_return(self) -> float:
-        """Return the potential return on a short call."""
-        return short_option_potential_return(self.strike, self.price_filled)
+    def opening_description(self) -> str:
+        """Return the notification description for opening trades."""
+        return ""
 
 
-class LongNakedCall(Trade):
+class LongNakedCall(LongSingleLegOption):
     """Long naked call trade."""
 
     def __init__(self, trade: dict):
@@ -228,40 +221,14 @@ class LongNakedCall(Trade):
         super().__init__(trade)
         self.strike = float(trade["long_call"])
 
-    @cached_property
-    def break_even(self) -> str:
-        """Get break even point of a trade.
 
-        Returns:
-            str: The break even point of the trade.
-        """
-        return call_break_even(self.strike, self.price_filled)
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-
-class LongNakedPut(Trade):
+class LongNakedPut(LongSingleLegOption):
     """Long naked put trade."""
 
     def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
         self.strike = float(trade["long_put"])
-
-    @cached_property
-    def break_even(self) -> str:
-        """Get break even point of a trade.
-
-        Returns:
-            str: The break even point of the trade.
-        """
-        return put_break_even(self.strike, self.price_filled)
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
 
 
 class PutCreditSpread(Trade):
