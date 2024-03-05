@@ -84,15 +84,19 @@ def short_annualized_return(strike: float, premium: float, days_left: int) -> fl
 
 def percentage_profit(winner: bool, wager: float, result: float) -> int:
     """Return the percentage profit/loss on a trade."""
-    # Winning long option trade.
-    if winner and wager > result:
-        return int(((wager - result) / wager) * 100)
-    # Winning short option trade.
-    elif winner and result < wager:
-        return int(((result - wager) / wager) * 100)
-    # Losing long option trade.
-    elif not winner and wager > result:
-        return int(((wager - result) / wager) * 100)
-    # Losing short option trade.
-    else:
-        return int(((result - wager) / wager) * 100)
+    long_trade = wager > result
+    match (winner, long_trade):
+        case (True, True):
+            # Winning long option trade.
+            return int(((wager - result) / wager) * 100)
+        case (True, False):
+            # Winning short option trade.
+            return int(((result - wager) / wager) * 100)
+        case (False, True):
+            # Losing long option trade.
+            return int(((wager - result) / wager) * 100)
+        case (False, False):
+            # Losing short option trade.
+            return int(((result - wager) / wager) * 100)
+        case _:
+            return 0
