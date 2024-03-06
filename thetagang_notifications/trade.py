@@ -225,98 +225,6 @@ class SpreadOption(Trade):
         return self.notification_header + "\n" + title
 
 
-class LongStrangle(Trade):
-    """Long strangle trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.long_call = float(trade["long_call"])
-        self.long_put = float(trade["long_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.long_put)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
-class ShortStrangle(Trade):
-    """Short strangle trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.short_call = float(trade["short_call"])
-        self.short_put = float(trade["short_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.short_call)}c/{pretty_strike(self.short_put)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
-class LongStraddle(Trade):
-    """Long straddle trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.long_call = float(trade["long_call"])
-        self.long_put = float(trade["long_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.long_put)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
-class ShortStraddle(Trade):
-    """Short straddle trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.short_call = float(trade["short_call"])
-        self.short_put = float(trade["short_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.short_call)}c/{pretty_strike(self.short_put)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
 class JadeLizard(Trade):
     """Jade lizard trade."""
 
@@ -476,10 +384,10 @@ def get_trade_class(trade: dict) -> Trade:
         "CALL CREDIT SPREAD": SpreadOption,
         "PUT DEBIT SPREAD": SpreadOption,
         "CALL DEBIT SPREAD": SpreadOption,
-        "LONG STRANGLE": LongStrangle,
-        "SHORT STRANGLE": ShortStrangle,
-        "LONG STRADDLE": LongStraddle,
-        "SHORT STRADDLE": ShortStraddle,
+        "LONG STRANGLE": SpreadOption,
+        "SHORT STRANGLE": SpreadOption,
+        "LONG STRADDLE": SpreadOption,
+        "SHORT STRADDLE": SpreadOption,
         "JADE LIZARD": JadeLizard,
         "BUTTERFLY CALL DEBIT SPREAD": ButterflyCallDebitSpread,
         "SHORT IRON CONDOR": ShortIronCondor,
