@@ -5,14 +5,18 @@ from unittest import mock
 import pytest
 
 from thetagang_notifications import trade
-from thetagang_notifications.trade import AnnualizedReturnError, BreakEvenError, PotentialReturnError
+from thetagang_notifications.trade import (
+    AnnualizedReturnError,
+    BreakEvenError,
+    PotentialReturnError,
+)
 
 
 @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT"], indirect=True)
 def test_get_trade_class(real_trades):
     """Test the Trade class."""
     trade_obj = trade.get_trade_class(real_trades)
-    assert isinstance(trade_obj, trade.CashSecuredPut)
+    assert isinstance(trade_obj, trade.ShortSingleLegOption)
 
 
 def test_get_trade_class_unknown_type():

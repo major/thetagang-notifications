@@ -61,7 +61,13 @@ class Trade:
         self.profit_loss_raw = trade["profitLoss"]
 
         # Load properties from the trade_spec file.
-        self.load_trade_properties()
+        self.spec_data = get_spec_data(self.trade_type)
+        self.is_option_trade = self.spec_data["option_trade"]
+        self.is_stock_trade = not self.spec_data["option_trade"]
+        self.is_single_leg = self.is_option_trade and self.spec_data["single_leg"]
+        self.is_multi_leg = self.is_option_trade and not self.spec_data["single_leg"]
+        self.is_short = self.spec_data["short"]
+        self.is_long = not self.spec_data["short"]
 
         # Handle trade status items.
         self.is_open = not trade["close_date"]
@@ -105,18 +111,6 @@ class Trade:
         desc += "" if self.is_assigned else f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
         return desc
 
-    def load_trade_properties(self) -> None:
-        """Load properties from the spec."""
-        spec_data = get_spec_data(self.trade_type)
-
-        # Set properties based on date from the trade_spec YAML file.
-        self.is_option_trade = spec_data["option_trade"]
-        self.is_stock_trade = not spec_data["option_trade"]
-        self.is_single_leg = self.is_option_trade and spec_data["single_leg"]
-        self.is_multi_leg = self.is_option_trade and not spec_data["single_leg"]
-        self.is_short = spec_data["short"]
-        self.is_long = not spec_data["short"]
-
     def opening_description(self) -> str:
         """Return the notification description for opening trades."""
         desc = f"Break even: {self.break_even}\n"
@@ -153,6 +147,12 @@ class Trade:
 class ShortSingleLegOption(Trade):
     """Short single leg option trades."""
 
+    def __init__(self, trade: dict):
+        """Initialize the trade."""
+        super().__init__(trade)
+        strike_field = self.spec_data["strikes"][0]
+        self.strike = float(trade[strike_field])
+
     def annualized_return(self) -> float:
         """Return the annualized return."""
         dte = days_to_expiration(self.expiry_date)
@@ -174,33 +174,6 @@ class ShortSingleLegOption(Trade):
     def potential_return(self) -> float:
         """Return the potential return on a short put."""
         return short_option_potential_return(self.strike, self.price_filled)
-
-
-class CashSecuredPut(ShortSingleLegOption):
-    """Cash secured put trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.strike = float(trade["short_put"])
-
-
-class CoveredCall(ShortSingleLegOption):
-    """Covered call trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.strike = float(trade["short_call"])
-
-
-class ShortNakedCall(ShortSingleLegOption):
-    """Short naked call trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.strike = float(trade["short_call"])
 
 
 class LongSingleLegOption(Trade):
@@ -576,9 +549,9 @@ class ButterflyCallDebitSpread(Trade):
 def get_trade_class(trade: dict) -> Trade:
     """Create a trade object."""
     trade_types = {
-        "CASH SECURED PUT": CashSecuredPut,
-        "COVERED CALL": CoveredCall,
-        "SHORT NAKED CALL": ShortNakedCall,
+        "CASH SECURED PUT": ShortSingleLegOption,
+        "COVERED CALL": ShortSingleLegOption,
+        "SHORT NAKED CALL": ShortSingleLegOption,
         "LONG CALL": LongNakedCall,
         "LONG PUT": LongNakedPut,
         "PUT CREDIT SPREAD": PutCreditSpread,
