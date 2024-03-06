@@ -6,9 +6,20 @@ from functools import cached_property
 import inflect
 import yaml
 
-from thetagang_notifications.config import EMOJI_ASSIGNED, EMOJI_LOSER, EMOJI_WINNER, TRADE_SPEC_FILE
-from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
-from thetagang_notifications.notification import get_notifier as get_notification_handler
+from thetagang_notifications.config import (
+    EMOJI_ASSIGNED,
+    EMOJI_LOSER,
+    EMOJI_WINNER,
+    TRADE_SPEC_FILE,
+)
+from thetagang_notifications.exceptions import (
+    AnnualizedReturnError,
+    BreakEvenError,
+    PotentialReturnError,
+)
+from thetagang_notifications.notification import (
+    get_notifier as get_notification_handler,
+)
 from thetagang_notifications.trade_math import (
     call_break_even,
     days_to_expiration,
@@ -85,6 +96,15 @@ class Trade:
         """Child classes calculate the proper break even."""
         raise BreakEvenError(self.trade_type)
 
+    def closing_description(self) -> str:
+        """Return the notification description for closing trades."""
+        if self.is_stock_trade or self.is_open:
+            return ""
+
+        desc = f"{self.trade_emoji} {self.result} "
+        desc += "" if self.is_assigned else f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
+        return desc
+
     def load_trade_properties(self) -> None:
         """Load properties from the spec."""
         spec_data = get_spec_data(self.trade_type)
@@ -101,15 +121,6 @@ class Trade:
         """Return the notification description for opening trades."""
         desc = f"Break even: {self.break_even}\n"
         desc += f"Return: {self.potential_return()}% ({self.annualized_return()}% ann.)"
-        return desc
-
-    def closing_description(self) -> str:
-        """Return the notification description for closing trades."""
-        if self.is_stock_trade or self.is_open:
-            return ""
-
-        desc = f"{self.trade_emoji} {self.result} "
-        desc += "" if self.is_assigned else f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
         return desc
 
     def notification_title(self) -> str:
