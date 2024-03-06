@@ -203,14 +203,13 @@ class LongSingleLegOption(Trade):
         return ""
 
 
-class PutCreditSpread(Trade):
-    """Put credit spread trade."""
+class SpreadOption(Trade):
+    """Long or short spread option trades."""
 
     def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
-        self.short_strike = float(trade["short_put"])
-        self.long_strike = float(trade["long_put"])
+        self.strikes = [trade[x] for x in self.spec_data["strikes"]]
 
     def opening_description(self) -> str:
         """Return the notification description for opening trades."""
@@ -220,76 +219,7 @@ class PutCreditSpread(Trade):
         """Return the notification title."""
         title = (
             f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.short_strike)}p/{pretty_strike(self.long_strike)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
-class CallCreditSpread(Trade):
-    """Call credit spread trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.short_strike = float(trade["short_call"])
-        self.long_strike = float(trade["long_call"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.short_strike)}c/{pretty_strike(self.long_strike)}c "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
-class PutDebitSpread(Trade):
-    """Put debit spread trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.short_strike = float(trade["short_put"])
-        self.long_strike = float(trade["long_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_strike)}p/{pretty_strike(self.short_strike)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
-
-
-class CallDebitSpread(Trade):
-    """Call debit spread trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.short_strike = float(trade["short_call"])
-        self.long_strike = float(trade["long_call"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_strike)}c/{pretty_strike(self.short_strike)}c "
+            f"{'/'.join(self.strikes)} "
             f"for {pretty_premium(self.price_filled)}"
         )
         return self.notification_header + "\n" + title
@@ -542,10 +472,10 @@ def get_trade_class(trade: dict) -> Trade:
         "SHORT NAKED CALL": ShortSingleLegOption,
         "LONG CALL": LongSingleLegOption,
         "LONG PUT": LongSingleLegOption,
-        "PUT CREDIT SPREAD": PutCreditSpread,
-        "CALL CREDIT SPREAD": CallCreditSpread,
-        "PUT DEBIT SPREAD": PutDebitSpread,
-        "CALL DEBIT SPREAD": CallDebitSpread,
+        "PUT CREDIT SPREAD": SpreadOption,
+        "CALL CREDIT SPREAD": SpreadOption,
+        "PUT DEBIT SPREAD": SpreadOption,
+        "CALL DEBIT SPREAD": SpreadOption,
         "LONG STRANGLE": LongStrangle,
         "SHORT STRANGLE": ShortStrangle,
         "LONG STRADDLE": LongStraddle,
