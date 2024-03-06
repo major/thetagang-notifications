@@ -179,6 +179,12 @@ class ShortSingleLegOption(Trade):
 class LongSingleLegOption(Trade):
     """Long single leg option trades."""
 
+    def __init__(self, trade: dict):
+        """Initialize the trade."""
+        super().__init__(trade)
+        strike_field = self.spec_data["strikes"][0]
+        self.strike = float(trade[strike_field])
+
     @cached_property
     def break_even(self) -> str:
         """Get break even point of a trade.
@@ -195,24 +201,6 @@ class LongSingleLegOption(Trade):
     def opening_description(self) -> str:
         """Return the notification description for opening trades."""
         return ""
-
-
-class LongNakedCall(LongSingleLegOption):
-    """Long naked call trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.strike = float(trade["long_call"])
-
-
-class LongNakedPut(LongSingleLegOption):
-    """Long naked put trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.strike = float(trade["long_put"])
 
 
 class PutCreditSpread(Trade):
@@ -552,8 +540,8 @@ def get_trade_class(trade: dict) -> Trade:
         "CASH SECURED PUT": ShortSingleLegOption,
         "COVERED CALL": ShortSingleLegOption,
         "SHORT NAKED CALL": ShortSingleLegOption,
-        "LONG CALL": LongNakedCall,
-        "LONG PUT": LongNakedPut,
+        "LONG CALL": LongSingleLegOption,
+        "LONG PUT": LongSingleLegOption,
         "PUT CREDIT SPREAD": PutCreditSpread,
         "CALL CREDIT SPREAD": CallCreditSpread,
         "PUT DEBIT SPREAD": PutDebitSpread,
