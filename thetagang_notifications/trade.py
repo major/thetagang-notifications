@@ -6,20 +6,9 @@ from functools import cached_property
 import inflect
 import yaml
 
-from thetagang_notifications.config import (
-    EMOJI_ASSIGNED,
-    EMOJI_LOSER,
-    EMOJI_WINNER,
-    TRADE_SPEC_FILE,
-)
-from thetagang_notifications.exceptions import (
-    AnnualizedReturnError,
-    BreakEvenError,
-    PotentialReturnError,
-)
-from thetagang_notifications.notification import (
-    get_notifier as get_notification_handler,
-)
+from thetagang_notifications.config import EMOJI_ASSIGNED, EMOJI_LOSER, EMOJI_WINNER, TRADE_SPEC_FILE
+from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
+from thetagang_notifications.notification import get_notifier as get_notification_handler
 from thetagang_notifications.trade_math import (
     call_break_even,
     days_to_expiration,
@@ -276,8 +265,8 @@ class ShortIronCondor(Trade):
         return self.notification_header + "\n" + title
 
 
-class BuyCommonStock(Trade):
-    """Buy common stock trade."""
+class CommonStock(Trade):
+    """Buy or sell common stock trade."""
 
     def __init__(self, trade: dict):
         """Initialize the trade."""
@@ -301,44 +290,10 @@ class BuyCommonStock(Trade):
     def notification_title(self) -> str:
         """Return the notification title."""
         p = inflect.engine()
+        action = "Bought" if "BUY" in self.trade_type else "Sold"
         return (
-            f"Bought {self.quantity}"
+            f"{action} {self.quantity}"
             f" {p.plural('share', self.quantity)} of {self.symbol} "
-            f"@ {pretty_strike(self.price_filled)}"
-        )
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-
-class SellCommonStock(Trade):
-    """Sell common stock trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        # Common stock trades always use "note" for the trade note.
-        self.trade_note = trade["note"]
-
-        # Force stock trades to always show as open.
-        self.status = "opened"
-        self.is_closed = False
-        self.is_open = True
-
-    def pretty_expiration(self) -> str:
-        """Stock trades have no expiration date."""
-        raise NotImplementedError
-
-    def closing_description(self) -> str:
-        """Return the notification description for closing trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        p = inflect.engine()
-        return (
-            f"Sold {self.quantity} {p.plural('share', self.quantity)} of {self.symbol} "
             f"@ {pretty_strike(self.price_filled)}"
         )
 
@@ -391,7 +346,7 @@ def get_trade_class(trade: dict) -> Trade:
         "JADE LIZARD": JadeLizard,
         "BUTTERFLY CALL DEBIT SPREAD": ButterflyCallDebitSpread,
         "SHORT IRON CONDOR": ShortIronCondor,
-        "BUY COMMON STOCK": BuyCommonStock,
-        "SELL COMMON STOCK": SellCommonStock,
+        "BUY COMMON STOCK": CommonStock,
+        "SELL COMMON STOCK": CommonStock,
     }
     return trade_types[trade["type"]](trade)
