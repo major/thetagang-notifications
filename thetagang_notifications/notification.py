@@ -43,7 +43,7 @@ class Notification:
         )
 
         embed.set_author(**self.generate_action())
-        # embed.set_image(url=TRANSPARENT_PNG)
+        embed.set_image(url=TRANSPARENT_PNG)
         embed.set_thumbnail(url=STOCK_LOGO % self.trade.symbol)
         embed.set_footer(text=self.trade_note)
 
