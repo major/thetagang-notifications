@@ -48,7 +48,7 @@ class TradeQueue:
             for x in self.latest_trades
             if x["User"]["username"] not in self.skipped_users
             and x["User"]["role"] in ["patron", "joonie"]
-            and x["mistake"] is False
+            and x["mistake"] is not True
         ]
         log.info("Found %s valid trades", len(valid_trades))
         return [x for x in valid_trades if self.process_trade(x)]
