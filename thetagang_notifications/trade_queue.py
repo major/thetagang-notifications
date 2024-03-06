@@ -5,7 +5,12 @@ import logging
 import httpx
 from redis import Redis
 
-from thetagang_notifications.config import REDIS_HOST, REDIS_PORT, SKIPPED_USERS, TRADES_API_KEY
+from thetagang_notifications.config import (
+    REDIS_HOST,
+    REDIS_PORT,
+    SKIPPED_USERS,
+    TRADES_API_KEY,
+)
 
 log = logging.getLogger(__name__)
 
@@ -21,8 +26,6 @@ class TradeQueue:
 
     def update_trades(self) -> list:
         """Get the most recently updated trades."""
-        log.info("Getting most recently updated trades...")
-
         headers = {"Authorization": TRADES_API_KEY}
         url = "https://api3.thetagang.com/api/patrons"
         resp = httpx.get(url, headers=headers, timeout=15)
@@ -44,9 +47,10 @@ class TradeQueue:
             x
             for x in self.latest_trades
             if x["User"]["username"] not in self.skipped_users
-            and x["User"]["role"] in ("patron", "joonie")
+            and x["User"]["role"] in ["patron", "joonie"]
             and x["mistake"] is False
         ]
+        log.info("Found %s valid trades", len(valid_trades))
         return [x for x in valid_trades if self.process_trade(x)]
 
     def process_trade(self, trade: dict) -> dict | None:
