@@ -13,11 +13,10 @@ TRADES_JSON_URL = "https://api3.thetagang.com/trades"
 TRADE_SPEC_FILE = "thetagang_notifications/assets/trade_specs.yml"
 
 # Webhook URLs
-WEBHOOK_URL_EARNINGS = os.environ.get("WEBHOOK_URL_EARNINGS")
-WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES")
+WEBHOOK_URL_TRADES = os.environ.get("WEBHOOK_URL_TRADES", "missing_webhook_url")
 
 # API key for secret thetagang.com API endpoints. 😉
-TRADES_API_KEY = os.getenv("TRADES_API_KEY")
+TRADES_API_KEY = os.getenv("TRADES_API_KEY", "api_key_missing")
 
 # Icons for author line on opening/closing trade notifications.
 OPENING_TRADE_ICON = "https://images.emojiterra.com/google/noto-emoji/v2.034/512px/1f680.png"

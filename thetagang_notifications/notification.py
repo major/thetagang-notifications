@@ -1,5 +1,7 @@
 """Send notifications to discord for trades."""
 
+from typing import Any
+
 from discord_webhook import DiscordEmbed, DiscordWebhook
 
 from thetagang_notifications.config import (
@@ -35,7 +37,7 @@ class Notification:
             "url": f"https://thetagang.com/{self.trade.username}/{self.trade.guid}",
         }
 
-    def generate_embeds(self):
+    def generate_embeds(self) -> DiscordEmbed:
         """Generate the embeds for the notification."""
         embed = DiscordEmbed(
             title=self.trade.notification_title(),
@@ -49,7 +51,7 @@ class Notification:
 
         return embed
 
-    def notify(self):
+    def notify(self) -> DiscordWebhook:
         """Send the notification."""
         webhook = DiscordWebhook(
             url=WEBHOOK_URL_TRADES,
@@ -65,7 +67,7 @@ class Notification:
 class OpenedNotification(Notification):
     """Handle opening notifications."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict[str, str]):
         """Initialization method."""
         super().__init__(trade)
 
@@ -73,14 +75,14 @@ class OpenedNotification(Notification):
 class ClosedNotification(Notification):
     """Handle closing notifications."""
 
-    def __init__(self, trade):
+    def __init__(self, trade: dict[str, str]):
         """Initialization method."""
         super().__init__(trade)
         self.trade_color = (
             COLOR_ASSIGNED if self.trade.is_assigned else COLOR_WINNER if self.trade.is_winner else COLOR_LOSER
         )
 
-    def generate_embeds(self):
+    def generate_embeds(self) -> DiscordEmbed:
         """Generate the embeds for the notification."""
         embed = DiscordEmbed(
             title=self.trade.closing_description(),
@@ -95,7 +97,7 @@ class ClosedNotification(Notification):
         return embed
 
 
-def get_notifier(trade):
+def get_notifier(trade: Any) -> Notification:
     """Create a trade object."""
     available_notifications = {
         "opened": OpenedNotification,
