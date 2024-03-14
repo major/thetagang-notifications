@@ -25,7 +25,7 @@
         ipython = "^8.22.2"
         pytest-cov = "^4.1.0"
         pytest-sugar = "^1.0.0"
-        deptry = "^0.13.0"
+        deptry = "^0.14.0"
         mypy = "^1.8.0"
         ruff = "^0.3.0"
         pre-commit = "^3.6.2"
