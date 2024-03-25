@@ -20,7 +20,7 @@ if SKIPPED_USERS:
     log.info("The following users will be skipped: %s", SKIPPED_USERS)
 
 
-@repeat(every(60).seconds)
+@repeat(every(15).seconds)
 def run_queue() -> None:
     """Enqueue the trades which need notifications."""
     log.info("🔎 Checking for new trades")
