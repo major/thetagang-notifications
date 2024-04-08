@@ -327,6 +327,32 @@ class ButterflyCallDebitSpread(Trade):
         return self.notification_header + "\n" + title
 
 
+class ShortIronButterfly(Trade):
+    """Short iron butterfly trade."""
+
+    def __init__(self, trade: dict):
+        """Initialize the trade."""
+        super().__init__(trade)
+        self.long_put = float(trade["long_put"])
+        self.short_put = float(trade["short_put"])
+        self.long_call = float(trade["long_call"])
+        self.short_call = float(trade["short_call"])
+
+    def opening_description(self) -> str:
+        """Return the notification description for opening trades."""
+        return ""
+
+    def notification_title(self) -> str:
+        """Return the notification title."""
+        title = (
+            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
+            f"{pretty_strike(self.long_put)}p/{pretty_strike(self.short_put)}p/"
+            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c "
+            f"for {pretty_premium(self.price_filled)}"
+        )
+        return self.notification_header + "\n" + title
+
+
 def get_trade_class(trade: dict) -> Trade:
     """Create a trade object."""
     trade_types = {
@@ -346,6 +372,7 @@ def get_trade_class(trade: dict) -> Trade:
         "JADE LIZARD": JadeLizard,
         "BUTTERFLY CALL DEBIT SPREAD": ButterflyCallDebitSpread,
         "SHORT IRON CONDOR": ShortIronCondor,
+        "SHORT IRON BUTTERFLY": ShortIronButterfly,
         "BUY COMMON STOCK": CommonStock,
         "SELL COMMON STOCK": CommonStock,
     }
