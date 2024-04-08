@@ -74,6 +74,18 @@
   sentiment: neutral
   example_guid: ef959ba0-fca8-4c3b-b11b-e7aae770e2e6
 
+- type: SHORT IRON BUTTERFLY
+  option_trade: True
+  single_leg: False
+  strikes:
+    - long_put
+    - short_put
+    - long_call
+    - short_call
+  short: True
+  sentiment: neutral
+  example_guid: e9523068-7696-4e60-9e3e-b6441663521c
+
 ########################################################################################
 # LONG MULTIPLE LEG
 - type: PUT DEBIT SPREAD

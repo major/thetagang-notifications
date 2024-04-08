@@ -1,0 +1,81 @@
+interactions:
+  - request:
+      body: ""
+      headers:
+        accept:
+          - "*/*"
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        host:
+          - api3.thetagang.com
+        sentry-trace:
+          - f8a4af3b58f44c519ae2b51892568492-a2de38d30767a8fd
+        user-agent:
+          - python-httpx/0.27.0
+      method: GET
+      uri: https://api3.thetagang.com/trades/e9523068-7696-4e60-9e3e-b6441663521c
+    response:
+      body:
+        string: !!binary |
+          H4sIAAAAAAAAA4xT227kNgz9FYNo32xHvo5HbynaogW22UV2tkBbFAZt0x41tuSV6E0Gi/x7obkn
+          ixYB/CAfHR6Sh+JXcIy8OJCpECF0yAjyK7gtWnIgRQitcbw/zNb0it8Z50DqZRxDGBbVgQRaF2km
+          yipalesyyqkU0Zoyipoyz5OyzIo0aSGExZGtjyFpKzpM8yyqVqKJ8paKqMISo64pkqxr86apCEJw
+          u6kxI0i4+/3HWwiBdzOBhI+/vL/fBL/ev78Lfvi02fx0//O7PyCEGXcTaQYJraVOsRfYGst1i6MX
+          qVbFCygFCRDCaPRwpqyLa+TIOITMC78SmRe+1jgSiuIKON5/XlCz4h3IxBupWqp7NY7UgUzKOF+d
+          wHY0zoMHf81Mmrq6W6zSQz2hfSCut2ax5wkc+G9gNNQbSzU9zcoiK6NP9/xIxLV6kbP+vBimFwov
+          IcbhdNR7GDZ2p/QQmIUD1IGyRgfNwky2H3dx8NsumPApGI1zgXJBJsR3cXBnOKCnmVr2kdPSbuGQ
+          zLeir7IRWq304ED2ODoKAZ1Tg7749KjO7SitWOF4DvX97uoO90WmIs0jkUdJuhFC7r9YCPEnnJo8
+          8K6MeBUoqk2SS5HKvDoFzqZr0XG92HPSSTnGh4t/lpCpu+X/EEqytRda5u4ttA/GsQP5198hfHJk
+          /bKy4tFXeYcjwnkr37hifis1Tlfxo3kk26LzkD5Acz+DhC3z7OTNDTpH7GLeEuOAeohbM93M/exu
+          PD1KViIvq3W+EoUo4n/mAULoR1QWJCTf+y1W7QPZeiLncDjb1CgDEj6YYSDrIIQvZFWvLkO2Zt/k
+          jGyN9mV617Fl9eXbCaWFFGksROkdc2wJH+qjvzW+Mlis/UvIszjPswsd5PqwxOS4PkFJ+s00k0hU
+          UbLaJEKmiUxFXKyL/5/mVW3PIdy2fhmPA70nvPw+h0DWGnvo//lfAAAA//8DAD/L83mpBQAA
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 87137481e840add7-ATL
+        Cache-Control:
+          - private, no-cache, no-store, must-revalidate
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json; charset=utf-8
+        Date:
+          - Mon, 08 Apr 2024 15:57:47 GMT
+        Etag:
+          - W/"5a9-GDO7BcRzsczCpuuqxG2+4ecKqLE"
+        Expires:
+          - "-1"
+        Nel:
+          - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
+        Pragma:
+          - no-cache
+        Ratelimit-Limit:
+          - "1000"
+        Ratelimit-Remaining:
+          - "950"
+        Ratelimit-Reset:
+          - "120"
+        Report-To:
+          - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1712591867&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=GNPhfHuLAfS4%2FMJVqQ%2Fs9zgYZS48xb1b1Xn2MhGFw%2F8%3D"}]}'
+        Reporting-Endpoints:
+          - heroku-nel=https://nel.heroku.com/reports?ts=1712591867&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=GNPhfHuLAfS4%2FMJVqQ%2Fs9zgYZS48xb1b1Xn2MhGFw%2F8%3D
+        Server:
+          - cloudflare
+        Transfer-Encoding:
+          - chunked
+        Vary:
+          - Origin
+        Via:
+          - 1.1 vegur
+        X-Powered-By:
+          - Express
+      status:
+        code: 200
+        message: OK
+version: 1
