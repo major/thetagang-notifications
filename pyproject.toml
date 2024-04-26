@@ -8,7 +8,7 @@
     [tool.poetry.dependencies]
         python = ">=3.12,<4.0"
         discord-webhook = "^1.3.1"
-        python-dateutil = "^2.9.0.post0"
+        python-dateutil = "^2.9.0-post.0"
         PyYAML = "^6.0.1"
         schedule = "^1.2.1"
         inflect = "^7.2.1"
