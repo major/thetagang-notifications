@@ -65,7 +65,7 @@ def test_process_trade() -> None:
     trade = {
         "guid": "1",
         "close_date": None,
-        "updated_at": updated_at,
+        "updatedAt": updated_at,
     }
     assert tq.process_trade(trade) == trade
 
@@ -84,7 +84,7 @@ def test_process_trade() -> None:
     trade = {
         "guid": "2",
         "close_date": None,
-        "updated_at": updated_at,
+        "updatedAt": updated_at,
     }
     assert tq.process_trade(trade) is None
 
@@ -99,7 +99,7 @@ def test_build_queue() -> None:
     trade = {
         "guid": "1",
         "close_date": None,
-        "updated_at": updated_at,
+        "updatedAt": updated_at,
         "mistake": False,
         "User": {"username": "real_user", "role": "patron"},
     }
@@ -121,10 +121,10 @@ def test_build_queue() -> None:
 def test_trade_is_old() -> None:
     """Test detection of an old trade."""
     tq = TradeQueue()
-    trade = {"guid": "1", "updated_at": "2021-01-01T00:00:00Z"}
+    trade = {"guid": "1", "updatedAt": "2021-01-01T00:00:00Z"}
     assert tq.trade_is_old(trade)
 
-    trade["updated_at"] = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    trade["updatedAt"] = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
     assert not tq.trade_is_old(trade)
 
 

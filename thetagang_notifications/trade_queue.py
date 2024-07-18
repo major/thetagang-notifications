@@ -90,7 +90,7 @@ class TradeQueue:
         updated_at column is updated to today's date. It causes the bot to think that
         the trade is a new one, but it could be weeks, months, or years old.
         """
-        updated_at = parser.parse(trade["updated_at"])
+        updated_at = parser.parse(trade["updatedAt"])
         day_ago = datetime.now(timezone.utc) - timedelta(days=1)
 
         if updated_at < day_ago:
