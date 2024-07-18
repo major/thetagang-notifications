@@ -1,5 +1,7 @@
 """Test the trade queue builder."""
 
+from datetime import datetime, timedelta, timezone
+
 import fakeredis
 
 from thetagang_notifications.trade_queue import TradeQueue
@@ -59,7 +61,12 @@ def test_process_trade() -> None:
     tq.db_conn = fakeredis.FakeRedis(decode_responses=True)
 
     # Start with a trade we've never seen before.
-    trade = {"guid": "1", "close_date": None}
+    updated_at = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    trade = {
+        "guid": "1",
+        "close_date": None,
+        "updated_at": updated_at,
+    }
     assert tq.process_trade(trade) == trade
 
     # If we process the trade again, we should get None.
@@ -70,6 +77,15 @@ def test_process_trade() -> None:
     assert tq.process_trade(trade) == trade
 
     # If we process the trade again, we should get None.
+    assert tq.process_trade(trade) is None
+
+    # Finally, try a new trade with a very old date.
+    updated_at = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+    trade = {
+        "guid": "2",
+        "close_date": None,
+        "updated_at": updated_at,
+    }
     assert tq.process_trade(trade) is None
 
 
@@ -79,7 +95,14 @@ def test_build_queue() -> None:
     tq.db_conn = fakeredis.FakeRedis(decode_responses=True)
 
     # Start with a trade we've never seen before.
-    trade = {"guid": "1", "close_date": None, "mistake": False, "User": {"username": "real_user", "role": "patron"}}
+    updated_at = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    trade = {
+        "guid": "1",
+        "close_date": None,
+        "updated_at": updated_at,
+        "mistake": False,
+        "User": {"username": "real_user", "role": "patron"},
+    }
     tq.latest_trades = [trade]
     assert tq.build_queue() == [trade]
 
@@ -93,6 +116,16 @@ def test_build_queue() -> None:
 
     # If we process the trade again, we should get None.
     assert tq.build_queue() == []
+
+
+def test_trade_is_old() -> None:
+    """Test detection of an old trade."""
+    tq = TradeQueue()
+    trade = {"guid": "1", "updated_at": "2021-01-01T00:00:00Z"}
+    assert tq.trade_is_old(trade)
+
+    trade["updated_at"] = (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+    assert not tq.trade_is_old(trade)
 
 
 # def test_update_trades() -> None:

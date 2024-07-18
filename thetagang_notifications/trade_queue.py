@@ -1,8 +1,10 @@
 """Build queues for trade notifications from thetagang.com."""
 
 import logging
+from datetime import datetime, timedelta, timezone
 
 import httpx
+from dateutil import parser
 from redis import Redis
 
 from thetagang_notifications.config import REDIS_HOST, REDIS_PORT, SKIPPED_USERS, TRADES_API_KEY
@@ -49,8 +51,21 @@ class TradeQueue:
         return [x for x in valid_trades if self.process_trade(x)]
 
     def process_trade(self, trade: dict) -> dict | None:
-        """Determine how to handle a trade returned by the API."""
-        if not self.trade_exists(trade) or self.trade_has_new_status(trade):
+        """Determine how to handle a trade returned by the API.
+
+        We're looking for a trade that we haven't seen before, and if we haven't seen it
+        before, then it shouldn't be an old trade. If we have seen it before, then we
+        only alert on it if it changed status, such as opened to closed.
+        """
+        if not self.trade_exists(trade):
+            # We haven't seen this trade before.
+            if not self.trade_is_old(trade):
+                # This trade isn't a old trade from long ago.
+                self.store_trade(trade)
+                return trade
+
+        elif self.trade_has_new_status(trade):
+            # We've seen this trade before, but it has a new status.
             self.store_trade(trade)
             return trade
 
@@ -67,6 +82,22 @@ class TradeQueue:
     def trade_has_new_status(self, trade: dict) -> bool:
         """Determine if the trade has a new status."""
         return self.db_conn.get(trade["guid"]) != self.trade_status(trade)
+
+    def trade_is_old(self, trade: dict) -> bool:
+        """Detect when a new trade appears, but it is actually really old.
+
+        This situation happens when the website does a database migration and the
+        updated_at column is updated to today's date. It causes the bot to think that
+        the trade is a new one, but it could be weeks, months, or years old.
+        """
+        updated_at = parser.parse(trade["updated_at"])
+        day_ago = datetime.now(timezone.utc) - timedelta(days=1)
+
+        if updated_at < day_ago:
+            log.warning("Trade %s is old", trade["guid"])
+            return True
+
+        return False
 
     def trade_status(self, trade: dict) -> str:
         """Determine if trade is open or closed."""
