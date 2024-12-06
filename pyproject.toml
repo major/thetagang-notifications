@@ -14,7 +14,7 @@
         inflect = "^7.4.0"
         sentry-sdk = "^2.18.0"
         redis = "^5.2.0"
-        httpx = "^0.27.0"
+        httpx = "^0.28.0"
 
     [tool.poetry.group.dev.dependencies]
         freezegun = "^1.5.1"
