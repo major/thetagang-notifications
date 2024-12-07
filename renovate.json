@@ -8,8 +8,8 @@
     "packageRules": [
         {
             "matchDepTypes": ["devDependencies"],
-            "matchPackagePatterns": ["ruff", "prettier"],
-            "automerge": true
+            "automerge": true,
+            "matchPackageNames": ["/ruff/", "/prettier/"]
         },
         {
             "matchUpdateTypes": ["minor", "patch"],
