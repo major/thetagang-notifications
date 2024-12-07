@@ -27,7 +27,7 @@
         pytest-sugar = "^1.0.0"
         deptry = "^0.21.0"
         mypy = "^1.13.0"
-        ruff = "^0.7.0"
+        ruff = "^0.8.0"
         pre-commit = "^4.0.1"
         tox = "^4.23.2"
         pytest-recording = "^0.13.0"
