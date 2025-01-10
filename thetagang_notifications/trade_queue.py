@@ -93,11 +93,7 @@ class TradeQueue:
         updated_at = parser.parse(trade["updatedAt"])
         day_ago = datetime.now(timezone.utc) - timedelta(days=1)
 
-        if updated_at < day_ago:
-            log.warning("Trade %s is old", trade["guid"])
-            return True
-
-        return False
+        return updated_at < day_ago
 
     def trade_status(self, trade: dict) -> str:
         """Determine if trade is open or closed."""
