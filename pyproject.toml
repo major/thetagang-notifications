@@ -12,7 +12,7 @@ dependencies = [
     "schedule (>=1.2.2,<2.0.0)",
     "inflect (>=7.5.0,<8.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
-    "redis (>=5.2.1,<6.0.0)",
+    "redis (>=6.0.0,<6.1.0)",
 ]
 
 [tool.poetry.group.dev.dependencies]
