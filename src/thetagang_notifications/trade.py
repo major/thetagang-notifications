@@ -4,7 +4,7 @@ import logging
 from functools import cached_property
 
 import inflect
-import yaml
+from ruyaml import YAML
 
 from thetagang_notifications.config import EMOJI_ASSIGNED, EMOJI_LOSER, EMOJI_WINNER, TRADE_SPEC_FILE
 from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
@@ -26,8 +26,9 @@ log = logging.getLogger(__name__)
 
 def get_spec_data(trade_type: str) -> dict:
     """Get the spec data for a trade type."""
+    yaml = YAML(typ='safe', pure=True)
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
-        spec_data = yaml.safe_load(file_handle)
+        spec_data = yaml.load(file_handle)
     return next(x for x in spec_data if x["type"] == trade_type)
 
 

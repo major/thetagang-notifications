@@ -3,22 +3,24 @@
 import httpx
 import pytest
 import vcr
-import yaml
+from ruyaml import YAML
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
 
 
 def get_trade_types():
     """Return a trade type."""
+    yaml = YAML(typ='safe', pure=True)
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
-        spec_data = yaml.safe_load(file_handle)
+        spec_data = yaml.load(file_handle)
     return [x["type"] for x in spec_data]
 
 
 def get_example_guid(trade_type):
     """Return a GUID for a trade on thetagang.com."""
+    yaml = YAML(typ='safe', pure=True)
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
-        spec_data = yaml.safe_load(file_handle)
+        spec_data = yaml.load(file_handle)
     return next(x["example_guid"] for x in spec_data if x["type"] == trade_type)
 
 

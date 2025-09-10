@@ -4,7 +4,7 @@
 import sys
 
 import httpx
-import yaml
+from ruyaml import YAML
 
 from thetagang_notifications.config import TRADE_SPEC_FILE
 from thetagang_notifications.notification import get_notifier
@@ -25,8 +25,9 @@ def make_notification(trade_guid):
 
 def get_all_guids():
     """Get all guids from thetagang.com."""
+    yaml = YAML(typ='safe', pure=True)
     with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
-        spec_data = yaml.safe_load(file_handle)
+        spec_data = yaml.load(file_handle)
     return [x["example_guid"] for x in spec_data]
 
 
