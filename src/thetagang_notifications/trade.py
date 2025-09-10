@@ -6,7 +6,7 @@ from functools import cached_property
 import inflect
 from ruyaml import YAML
 
-from thetagang_notifications.config import EMOJI_ASSIGNED, EMOJI_LOSER, EMOJI_WINNER, TRADE_SPEC_FILE
+from thetagang_notifications.config import settings
 from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
 from thetagang_notifications.notification import get_notifier as get_notification_handler
 from thetagang_notifications.trade_math import (
@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 def get_spec_data(trade_type: str) -> dict:
     """Get the spec data for a trade type."""
     yaml = YAML(typ='safe', pure=True)
-    with open(TRADE_SPEC_FILE, encoding="utf-8") as file_handle:
+    with open(settings.trade_spec_file, encoding="utf-8") as file_handle:
         spec_data = yaml.load(file_handle)
     return next(x for x in spec_data if x["type"] == trade_type)
 
@@ -67,7 +67,7 @@ class Trade:
         self.is_loser = not self.is_winner
         self.status = "opened" if self.is_open else "closed"
         self.result = "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
-        self.trade_emoji = EMOJI_ASSIGNED if self.is_assigned else EMOJI_WINNER if self.is_winner else EMOJI_LOSER
+        self.trade_emoji = settings.emoji_assigned if self.is_assigned else settings.emoji_winner if self.is_winner else settings.emoji_loser
 
         # Get the percentage profit/loss on the trade.
         if not self.is_open and self.is_option_trade:

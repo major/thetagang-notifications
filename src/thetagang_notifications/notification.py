@@ -7,16 +7,7 @@ from discord_webhook import DiscordEmbed, DiscordWebhook
 if TYPE_CHECKING:
     from thetagang_notifications.trade import Trade
 
-from thetagang_notifications.config import (
-    CLOSING_TRADE_ICON,
-    COLOR_ASSIGNED,
-    COLOR_LOSER,
-    COLOR_WINNER,
-    DISCORD_USERNAME,
-    OPENING_TRADE_ICON,
-    TRANSPARENT_PNG,
-    WEBHOOK_URL_TRADES,
-)
+from thetagang_notifications.config import settings
 
 STOCK_LOGO = "https://static.stocktitan.net/company-logo/%s.webp"
 
@@ -30,7 +21,7 @@ class Notification:
         self.trade_note = self.trade.note if self.trade.is_open else self.trade.closing_note
 
         # Choose an action icon based on the trade status.
-        self.icon_url = OPENING_TRADE_ICON if self.trade.is_open else CLOSING_TRADE_ICON
+        self.icon_url = settings.opening_trade_icon if self.trade.is_open else settings.closing_trade_icon
 
     def generate_action(self) -> dict:
         """Generate the action for the notification."""
@@ -48,7 +39,7 @@ class Notification:
         )
 
         embed.set_author(**self.generate_action())
-        embed.set_image(url=TRANSPARENT_PNG)
+        embed.set_image(url=settings.transparent_png)
         embed.set_thumbnail(url=STOCK_LOGO % self.trade.symbol.lower())
         embed.set_footer(text=self.trade_note)
 
@@ -57,9 +48,9 @@ class Notification:
     def notify(self) -> DiscordWebhook:
         """Send the notification."""
         webhook = DiscordWebhook(
-            url=WEBHOOK_URL_TRADES,
+            url=settings.webhook_url_trades,
             rate_limit_retry=True,
-            username=DISCORD_USERNAME,
+            username=settings.discord_username,
         )
         webhook.add_embed(self.generate_embeds())
         webhook.execute()
@@ -82,7 +73,7 @@ class ClosedNotification(Notification):
         """Initialization method."""
         super().__init__(trade)
         self.trade_color = (
-            COLOR_ASSIGNED if self.trade.is_assigned else COLOR_WINNER if self.trade.is_winner else COLOR_LOSER
+            settings.color_assigned if self.trade.is_assigned else settings.color_winner if self.trade.is_winner else settings.color_loser
         )
 
     def generate_embeds(self) -> DiscordEmbed:
@@ -93,7 +84,7 @@ class ClosedNotification(Notification):
             color=self.trade_color,
         )
         embed.set_author(**self.generate_action())
-        embed.set_image(url=TRANSPARENT_PNG)
+        embed.set_image(url=settings.transparent_png)
         embed.set_thumbnail(url=STOCK_LOGO % self.trade.symbol.lower())
         embed.set_footer(text=self.trade_note)
 

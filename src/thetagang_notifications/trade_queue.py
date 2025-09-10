@@ -7,7 +7,7 @@ import httpx
 from dateutil import parser
 from redis import Redis
 
-from thetagang_notifications.config import REDIS_HOST, REDIS_PORT, SKIPPED_USERS, TRADES_API_KEY
+from thetagang_notifications.config import settings
 
 log = logging.getLogger(__name__)
 
@@ -17,13 +17,13 @@ class TradeQueue:
 
     def __init__(self) -> None:
         """Constructor for TradeQueue."""
-        self.db_conn = Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
-        self.skipped_users = SKIPPED_USERS
+        self.db_conn = Redis(host=settings.redis_host, port=settings.redis_port, decode_responses=True)
+        self.skipped_users = settings.skipped_users_list
         self.latest_trades: list = []
 
     def update_trades(self) -> list:
         """Get the most recently updated trades."""
-        headers: dict[str, str] = {"Authorization": TRADES_API_KEY}
+        headers: dict[str, str] = {"Authorization": settings.trades_api_key}
         url = "https://api3.thetagang.com/api/patrons"
         resp = httpx.get(url, headers=headers, timeout=15)
 
