@@ -1,14 +1,16 @@
 """Parse trades and send notifications."""
 
 import logging
-from functools import cached_property
 
-import inflect
+from pydantic import ValidationError
 from ruyaml import YAML
 
 from thetagang_notifications.config import settings
 from thetagang_notifications.exceptions import AnnualizedReturnError, BreakEvenError, PotentialReturnError
+from thetagang_notifications.models import TradeData, TradeSpec
 from thetagang_notifications.notification import get_notifier as get_notification_handler
+from thetagang_notifications.strategies import StrikeExtractor
+from thetagang_notifications.strategy_factory import StrategyFactory
 from thetagang_notifications.trade_math import (
     call_break_even,
     days_to_expiration,
@@ -23,74 +25,105 @@ from thetagang_notifications.trade_math import (
 
 log = logging.getLogger(__name__)
 
+# Make exceptions and functions available for backward compatibility
+__all__ = [
+    "Trade", "ShortSingleLegOption", "LongSingleLegOption", "SpreadOption", 
+    "JadeLizard", "ShortIronCondor", "CommonStock", "ButterflyCallDebitSpread", 
+    "ShortIronButterfly", "get_trade_class", "get_spec_data",
+    "AnnualizedReturnError", "BreakEvenError", "PotentialReturnError",
+    "call_break_even", "days_to_expiration", "pretty_expiration", "pretty_premium",
+    "pretty_strike", "put_break_even", "short_annualized_return", "short_option_potential_return"
+]
 
-def get_spec_data(trade_type: str) -> dict:
+# Exceptions are already imported and available for export
+
+
+def get_spec_data(trade_type: str) -> TradeSpec:
     """Get the spec data for a trade type."""
     yaml = YAML(typ='safe', pure=True)
     with open(settings.trade_spec_file, encoding="utf-8") as file_handle:
         spec_data = yaml.load(file_handle)
-    return next(x for x in spec_data if x["type"] == trade_type)
+    raw_spec = next(x for x in spec_data if x["type"] == trade_type)
+    return TradeSpec(**raw_spec)
 
 
 class Trade:
-    """Abstract base class for a trade."""
+    """Modern trade class using composition with strategies."""
 
     def __init__(self, trade: dict):
-        """Initialize the trade."""
-        # Create some class properties from the raw trade data.
-        self.expiry_date = trade["expiry_date"]
-        self.guid = trade["guid"]
-        self.price_filled = trade["price_filled"]
-        self.price_closed = trade["price_closed"]
-        self.quantity = trade["quantity"]
-        self.strike = 0.0
-        self.symbol = trade["symbol"]
-        self.trade_type = trade["type"]
-        self.username = trade["User"]["username"]
-        self.avatar = trade["User"]["pfp"]
-        self.profit_loss_raw = trade["profitLoss"]
-
-        # Load properties from the trade_spec file.
-        self.spec_data = get_spec_data(self.trade_type)
-        self.is_option_trade = self.spec_data["option_trade"]
-        self.is_stock_trade = not self.spec_data["option_trade"]
-        self.is_single_leg = self.is_option_trade and self.spec_data["single_leg"]
-        self.is_multi_leg = self.is_option_trade and not self.spec_data["single_leg"]
-        self.is_short = self.spec_data["short"]
-        self.is_long = not self.spec_data["short"]
-
-        # Handle trade status items.
-        self.is_open = not trade["close_date"]
-        self.is_closed = not self.is_open
-        self.is_assigned = trade.get("assigned", False)
-        self.is_winner = trade.get("win", False)
-        self.is_loser = not self.is_winner
-        self.status = "opened" if self.is_open else "closed"
-        self.result = "Assigned" if self.is_assigned else "Won" if self.is_winner else "Lost"
+        """Initialize the trade with pydantic validation and strategies."""
+        # Validate and parse trade data
+        try:
+            self.data = TradeData(**trade)
+        except ValidationError as e:
+            log.error("Failed to validate trade data: %s", e)
+            raise
+        
+        # Load trade specification
+        self.spec = get_spec_data(self.data.type)
+        
+        # Set up strategies based on trade type
+        self.calc_strategy = StrategyFactory.create_calculation_strategy(self.spec)
+        self.notification_strategy = StrategyFactory.create_notification_strategy(self.spec)
+        
+        # Extract strikes based on spec
+        self.strikes = StrikeExtractor.extract_strikes(self.data, self.spec)
+        
+        # Calculate main strike for backward compatibility
+        self.strike = StrikeExtractor.get_primary_strike(self.data, self.spec)
+        
+        # Set up commonly used properties for backward compatibility
+        self.expiry_date = self.data.expiry_date
+        self.guid = self.data.guid
+        self.price_filled = self.data.price_filled
+        self.price_closed = self.data.price_closed
+        self.quantity = self.data.quantity
+        self.symbol = self.data.symbol
+        self.trade_type = self.data.type
+        self.username = self.data.user.username
+        self.avatar = self.data.user.pfp
+        self.profit_loss_raw = self.data.profit_loss_raw
+        
+        # Derived properties
+        self.is_option_trade = self.spec.option_trade
+        self.is_stock_trade = self.spec.is_stock_trade
+        self.is_single_leg = self.spec.single_leg
+        self.is_multi_leg = self.spec.is_multi_leg
+        self.is_short = self.spec.short
+        self.is_long = self.spec.is_long
+        
+        # Status properties
+        self.is_open = self.data.is_open
+        self.is_closed = self.data.is_closed
+        self.is_assigned = self.data.assigned
+        self.is_winner = self.data.win
+        self.is_loser = not self.data.win
+        self.status = self.data.status
+        self.result = self.data.result
         self.trade_emoji = settings.emoji_assigned if self.is_assigned else settings.emoji_winner if self.is_winner else settings.emoji_loser
-
-        # Get the percentage profit/loss on the trade.
-        if not self.is_open and self.is_option_trade:
+        
+        # Calculate percentage profit for closed option trades
+        if not self.is_open and self.is_option_trade and self.price_closed is not None:
             self.percentage_profit = percentage_profit(self.is_winner, self.price_filled, self.price_closed)
-
-        # Get notes for the trade.
-        self.note = trade["note"]
-        self.closing_note = trade["closing_note"]
-
-        # Log that we're parsing this trade.
+        else:
+            self.percentage_profit = 0.0
+        
+        # Notes
+        self.note = self.data.note
+        self.closing_note = self.data.closing_note
+        
+        # Notification setup
+        self.trade_note = self.note if self.is_open else self.closing_note
+        
         log.info("Processing trade: %s", self.guid)
-
-        # Set up a basic header for notifications.
-        self.notification_header = f"{self.symbol}: {self.trade_type}"
 
     def annualized_return(self) -> float:
         """Return the annualized return for a trade."""
-        raise AnnualizedReturnError(self.trade_type)
+        return self.calc_strategy.calculate_annualized_return(self.data, self.spec, self.strikes)
 
-    @cached_property
     def break_even(self) -> str:
-        """Child classes calculate the proper break even."""
-        raise BreakEvenError(self.trade_type)
+        """Calculate break even using strategy."""
+        return self.calc_strategy.calculate_break_even(self.data, self.spec, self.strikes)
 
     def closing_description(self) -> str:
         """Return the notification description for closing trades."""
@@ -98,24 +131,35 @@ class Trade:
             return ""
 
         desc = f"{self.trade_emoji} {self.result} "
-        desc += "" if self.is_assigned else f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
+        if not self.is_assigned and hasattr(self, 'percentage_profit'):
+            desc += f"{pretty_strike(self.profit())} ({self.percentage_profit}%)"
         return desc
 
     def opening_description(self) -> str:
         """Return the notification description for opening trades."""
-        desc = f"Break even: {self.break_even}\n"
-        desc += f"Return: {self.potential_return()}% ({self.annualized_return()}% ann.)"
-        return desc
+        try:
+            break_even = self.break_even()
+        except BreakEvenError:
+            break_even = ""
+        
+        try:
+            potential_return = self.potential_return()
+        except PotentialReturnError:
+            potential_return = 0.0
+            
+        try:
+            annualized_return = self.annualized_return()
+        except AnnualizedReturnError:
+            annualized_return = 0.0
+        
+        return self.notification_strategy.format_opening_description(
+            self.data, self.spec, self.strikes,
+            break_even, potential_return, annualized_return
+        )
 
     def notification_title(self) -> str:
         """Return the notification title."""
-        strike_type = "c" if "CALL" in self.trade_type else "p"
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.strike)}{strike_type} "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
+        return self.notification_strategy.format_title(self.data, self.spec, self.strikes)
 
     def notify(self) -> None:
         """Send a notification for the trade."""
@@ -123,159 +167,52 @@ class Trade:
         notification_handler.notify()
 
     def potential_return(self) -> float:
-        raise PotentialReturnError(self.trade_type)
+        """Return the potential return using strategy."""
+        return self.calc_strategy.calculate_potential_return(self.data, self.spec, self.strikes)
 
     def profit(self) -> float:
         """Return the profit on a trade."""
-        return abs(float(self.profit_loss_raw))
+        return abs(float(self.profit_loss_raw or 0.0))
 
     def pretty_expiration(self) -> str:
         """Return the pretty expiration date for an option trade."""
-        return pretty_expiration(self.expiry_date)
+        if self.expiry_date:
+            return pretty_expiration(self.expiry_date)
+        return ""
 
 
 class ShortSingleLegOption(Trade):
-    """Short single leg option trades."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        strike_field = self.spec_data["strikes"][0]
-        self.strike = float(trade[strike_field])
-
-    def annualized_return(self) -> float:
-        """Return the annualized return."""
-        dte = days_to_expiration(self.expiry_date)
-        return short_annualized_return(self.strike, self.price_filled, dte)
-
-    @cached_property
-    def break_even(self) -> str:
-        """Get break even point of a trade.
-
-        Returns:
-            str: The break even point of the trade.
-        """
-        return (
-            put_break_even(self.strike, self.price_filled)
-            if "PUT" in self.trade_type
-            else call_break_even(self.strike, self.price_filled)
-        )
-
-    def potential_return(self) -> float:
-        """Return the potential return on a short put."""
-        return short_option_potential_return(self.strike, self.price_filled)
+    """Short single leg option trades - now uses strategy pattern."""
+    pass
 
 
 class LongSingleLegOption(Trade):
-    """Long single leg option trades."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        strike_field = self.spec_data["strikes"][0]
-        self.strike = float(trade[strike_field])
-
-    @cached_property
-    def break_even(self) -> str:
-        """Get break even point of a trade.
-
-        Returns:
-            str: The break even point of the trade.
-        """
-        return (
-            put_break_even(self.strike, self.price_filled)
-            if "PUT" in self.trade_type
-            else call_break_even(self.strike, self.price_filled)
-        )
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
+    """Long single leg option trades - now uses strategy pattern."""
+    pass
 
 
 class SpreadOption(Trade):
-    """Long or short spread option trades."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.strikes = [trade[x] for x in self.spec_data["strikes"]]
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{'/'.join(self.strikes)} "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
+    """Long or short spread option trades - now uses strategy pattern."""
+    pass
 
 
 class JadeLizard(Trade):
-    """Jade lizard trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.long_call = float(trade["long_call"])
-        self.short_call = float(trade["short_call"])
-        self.short_put = float(trade["short_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c/"
-            f"{pretty_strike(self.short_put)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
+    """Jade lizard trade - now uses strategy pattern."""
+    pass
 
 
 class ShortIronCondor(Trade):
-    """Short iron condor trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.long_call = float(trade["long_call"])
-        self.long_put = float(trade["long_put"])
-        self.short_call = float(trade["short_call"])
-        self.short_put = float(trade["short_put"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_put)}p/{pretty_strike(self.short_put)}p/"
-            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
+    """Short iron condor trade - now uses strategy pattern."""
+    pass
 
 
 class CommonStock(Trade):
-    """Buy or sell common stock trade."""
-
+    """Buy or sell common stock trade - now uses strategy pattern."""
+    
     def __init__(self, trade: dict):
         """Initialize the trade."""
         super().__init__(trade)
-        # Common stock trades always use "note" for the trade note.
-        self.trade_note = trade["note"]
-
-        # Force stock trades to always show as open.
+        # Force stock trades to always show as open
         self.status = "opened"
         self.is_closed = False
         self.is_open = True
@@ -284,74 +221,15 @@ class CommonStock(Trade):
         """Stock trades have no expiration date."""
         raise NotImplementedError
 
-    def closing_description(self) -> str:
-        """Return the notification description for closing trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        p = inflect.engine()
-        action = "Bought" if "BUY" in self.trade_type else "Sold"
-        return (
-            f"{action} {self.quantity}"
-            f" {p.plural('share', self.quantity)} of {self.symbol} "  # type: ignore[arg-type]
-            f"@ {pretty_strike(self.price_filled)}"
-        )
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
 
 class ButterflyCallDebitSpread(Trade):
-    """Butterfly call debit spread trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.long_call = float(trade["long_call"])
-        self.long_call2 = float(trade["long_call2"])
-        self.short_call = float(trade["short_call"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c/"
-            f"{pretty_strike(self.long_call2)}p "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
+    """Butterfly call debit spread trade - now uses strategy pattern."""
+    pass
 
 
 class ShortIronButterfly(Trade):
-    """Short iron butterfly trade."""
-
-    def __init__(self, trade: dict):
-        """Initialize the trade."""
-        super().__init__(trade)
-        self.long_put = float(trade["long_put"])
-        self.short_put = float(trade["short_put"])
-        self.long_call = float(trade["long_call"])
-        self.short_call = float(trade["short_call"])
-
-    def opening_description(self) -> str:
-        """Return the notification description for opening trades."""
-        return ""
-
-    def notification_title(self) -> str:
-        """Return the notification title."""
-        title = (
-            f"{self.quantity} x {pretty_expiration(self.expiry_date)} "
-            f"{pretty_strike(self.long_put)}p/{pretty_strike(self.short_put)}p/"
-            f"{pretty_strike(self.long_call)}c/{pretty_strike(self.short_call)}c "
-            f"for {pretty_premium(self.price_filled)}"
-        )
-        return self.notification_header + "\n" + title
+    """Short iron butterfly trade - now uses strategy pattern."""
+    pass
 
 
 def get_trade_class(trade: dict) -> Trade:

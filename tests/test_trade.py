@@ -29,7 +29,7 @@ def test_get_trade_class_unknown_type():
 @pytest.mark.parametrize("real_trades", ["CASH SECURED PUT", "LONG PUT"], indirect=True)
 def test_put_break_even(real_trades):
     """Test put break even."""
-    with mock.patch("thetagang_notifications.trade.put_break_even") as mock_break_even:
+    with mock.patch("thetagang_notifications.strategies.put_break_even") as mock_break_even:
         trade_obj = trade.get_trade_class(real_trades)
         trade_obj.break_even()
         mock_break_even.assert_called_once()
@@ -42,7 +42,7 @@ def test_put_break_even(real_trades):
 )
 def test_call_break_even(real_trades):
     """Test call break even."""
-    with mock.patch("thetagang_notifications.trade.call_break_even") as mock_break_even:
+    with mock.patch("thetagang_notifications.strategies.call_break_even") as mock_break_even:
         trade_obj = trade.get_trade_class(real_trades)
         trade_obj.break_even()
         mock_break_even.assert_called_once()
@@ -63,7 +63,7 @@ def test_break_even_not_implemented(real_trades):
 )
 def test_potential_return(real_trades):
     """Test potential return."""
-    with mock.patch("thetagang_notifications.trade.short_option_potential_return") as mock_potential_return:
+    with mock.patch("thetagang_notifications.strategies.short_option_potential_return") as mock_potential_return:
         trade_obj = trade.get_trade_class(real_trades)
         trade_obj.potential_return()
         mock_potential_return.assert_called_once()

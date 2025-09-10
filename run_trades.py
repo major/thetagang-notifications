@@ -7,10 +7,12 @@ import time
 
 from schedule import every, repeat, run_pending
 
-from thetagang_notifications.config import SKIPPED_USERS
+from thetagang_notifications.config import settings
 from thetagang_notifications.notification import get_notifier
 from thetagang_notifications.trade import get_trade_class
 from thetagang_notifications.trade_queue import TradeQueue
+
+SKIPPED_USERS = settings.skipped_users
 
 # Setup our shared logger.
 log = logging.getLogger(__name__)

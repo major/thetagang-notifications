@@ -712,18 +712,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytest-randomly"
-version = "4.0.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b6/dd/8a2a6e09378ba2b9e4753f1bf2718e5fb033bf62aab8eef6e59dc6aba869/pytest_randomly-4.0.0.tar.gz", hash = "sha256:521c216e94e8b40cccfa5da5e403e9c45a3071db6f9f1cb2d5658e9017def2a9", size = 14190, upload-time = "2025-09-10T12:49:42.759Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/cd/5e/6a2cbada6dd533d79becf3f4e21ffcea86c820ce4ed4dda298e4b14cf6a8/pytest_randomly-4.0.0-py3-none-any.whl", hash = "sha256:50297deaa5f18bf0b7d2aadfb3332eb3b313628aff260b63210d03578d3691aa", size = 8498, upload-time = "2025-09-10T12:49:41.521Z" },
-]
-
-[[package]]
 name = "pytest-recording"
 version = "0.13.4"
 source = { registry = "https://pypi.org/simple" }
@@ -921,7 +909,6 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-mock" },
-    { name = "pytest-randomly" },
     { name = "pytest-recording" },
     { name = "ruff" },
     { name = "types-python-dateutil" },
@@ -951,7 +938,6 @@ dev = [
     { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-mock", specifier = ">=3.15.0" },
-    { name = "pytest-randomly", specifier = ">=4.0.0" },
     { name = "pytest-recording", specifier = ">=0.13.4" },
     { name = "ruff", specifier = ">=0.12.12" },
     { name = "types-python-dateutil", specifier = ">=2.9.0.20250822" },
