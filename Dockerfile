@@ -1,11 +1,8 @@
 FROM docker.io/library/python:3.13
+COPY --from=ghcr.io/astral-sh/uv:0.8.12
+
+ADD . /app
 WORKDIR /app
+RUN uv sync --locked
 
-RUN pip install -U pip poetry
-COPY pyproject.toml poetry.lock ./
-
-RUN poetry config virtualenvs.create false
-RUN poetry install --only main --no-root
-
-COPY . .
-CMD ["/app/run_trades.py"]
+CMD ["uv", "run", "run_trades.py"]
