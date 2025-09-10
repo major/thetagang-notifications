@@ -1,8 +1,11 @@
 """Send notifications to discord for trades."""
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from discord_webhook import DiscordEmbed, DiscordWebhook
+
+if TYPE_CHECKING:
+    from thetagang_notifications.trade import Trade
 
 from thetagang_notifications.config import (
     CLOSING_TRADE_ICON,
@@ -21,7 +24,7 @@ STOCK_LOGO = "https://static.stocktitan.net/company-logo/%s.webp"
 class Notification:
     """Base class for discord notifications."""
 
-    def __init__(self, trade: dict[str, str]) -> None:
+    def __init__(self, trade: "Trade") -> None:
         """Initialization method."""
         self.trade = trade
         self.trade_note = self.trade.note if self.trade.is_open else self.trade.closing_note
@@ -67,7 +70,7 @@ class Notification:
 class OpenedNotification(Notification):
     """Handle opening notifications."""
 
-    def __init__(self, trade: dict[str, str]):
+    def __init__(self, trade: "Trade"):
         """Initialization method."""
         super().__init__(trade)
 
@@ -75,7 +78,7 @@ class OpenedNotification(Notification):
 class ClosedNotification(Notification):
     """Handle closing notifications."""
 
-    def __init__(self, trade: dict[str, str]):
+    def __init__(self, trade: "Trade"):
         """Initialization method."""
         super().__init__(trade)
         self.trade_color = (

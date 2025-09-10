@@ -1,20 +1,8 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["config:recommended"],
-    "lockFileMaintenance": {
-        "enabled": true,
-        "automerge": true
-    },
-    "packageRules": [
-        {
-            "matchDepTypes": ["devDependencies"],
-            "automerge": true,
-            "matchPackageNames": ["/ruff/", "/prettier/"]
-        },
-        {
-            "matchUpdateTypes": ["minor", "patch"],
-            "matchCurrentVersion": "!/^0/",
-            "automerge": true
-        }
-    ]
+    "extends": ["config:recommended", ":automergeAll", "config:best-practices"],
+    "platformAutomerge": true,
+    "git-submodules": {
+        "enabled": true
+    }
 }

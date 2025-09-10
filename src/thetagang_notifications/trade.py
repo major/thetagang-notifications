@@ -293,7 +293,7 @@ class CommonStock(Trade):
         action = "Bought" if "BUY" in self.trade_type else "Sold"
         return (
             f"{action} {self.quantity}"
-            f" {p.plural('share', self.quantity)} of {self.symbol} "
+            f" {p.plural('share', self.quantity)} of {self.symbol} "  # type: ignore[arg-type]
             f"@ {pretty_strike(self.price_filled)}"
         )
 

@@ -1,108 +1,68 @@
 [project]
 name = "thetagang-notifications"
 version = "1.2.1"
-description = "Notifications for the Theta Gang discord."
+description = "Notifications for the Theta Gang discord"
+readme = "README.md"
 authors = [{ name = "Major Hayden", email = "major@mhtx.net" }]
-license = "Apache 2.0"
 requires-python = ">=3.13,<4.0"
 dependencies = [
-    "discord-webhook (>=1.3.1,<2.0.0)",
-    "python-dateutil (>=2.9.0.post0,<3.0.0)",
-    "pyyaml (>=6.0.2,<7.0.0)",
-    "schedule (>=1.2.2,<2.0.0)",
-    "inflect (>=7.5.0,<8.0.0)",
-    "httpx (>=0.28.1,<0.29.0)",
-    "redis (>=5.2.1,<6.0.0)",
+    "discord-webhook>=1.4.1",
+    "httpx>=0.28.1",
+    "inflect>=7.5.0",
+    "python-dateutil>=2.9.0.post0",
+    "pyyaml>=6.0.2",
+    "redis>=6.4.0",
+    "schedule>=1.2.2",
 ]
 
-[tool.poetry.group.dev.dependencies]
-freezegun = "^1.5.1"
-pytest = "^8.3.4"
-pytest-clarity = "^1.0.1"
-pytest-mock = "^3.14.0"
-pytest-randomly = "^3.16.0"
-ipython = "^8.31.0"
-pytest-cov = "^6.0.0"
-pytest-sugar = "^1.0.0"
-mypy = "^1.14.1"
-ruff = "^0.9.0"
-pre-commit = "^4.0.1"
-tox = "^4.23.2"
-pytest-recording = "^0.13.0"
-vcrpy = "^7.0.0"
-fakeredis = "^2.26.2"
-types-redis = "^4.6.0.20241004"
-pytest-xdist = "^3.6.1"
-coverage = { extras = ["toml"], version = "^7.6.10" }
-types-python-dateutil = "^2.9.0.20241206"
-types-pyyaml = "^6.0.12.20241230"
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "fakeredis>=2.31.1",
+    "freezegun>=1.5.5",
+    "ipython>=9.5.0",
+    "pyright>=1.1.405",
+    "pytest>=8.4.2",
+    "pytest-clarity>=1.0.1",
+    "pytest-cov>=7.0.0",
+    "pytest-mock>=3.15.0",
+    "pytest-randomly>=4.0.0",
+    "pytest-recording>=0.13.4",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.12.12",
+    "types-python-dateutil>=2.9.0.20250822",
+    "types-pyyaml>=6.0.12.20250822",
+    "types-redis>=4.6.0.20241004",
+    "vcrpy>=7.0.0",
+]
+
 
 [tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+addopts = [
+    "--cov=thetagang_notifications",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-branch",
+    "--color=yes",
+]
+# Having problems with tests? Uncomment the following line to see more output.
+# log_cli = false
+# log_level = "DEBUG"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
 testpaths = ["tests"]
 
-[tool.mypy]
-files = ["thetagang_notifications"]
-disallow_untyped_defs = "True"
-disallow_any_unimported = "True"
-no_implicit_optional = "True"
-check_untyped_defs = "True"
-warn_return_any = "True"
-warn_unused_ignores = "True"
-show_error_codes = "True"
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
 
 [tool.ruff]
-target-version = "py37"
-line-length = 120
 fix = true
-select = [
-    # flake8-2020
-    "YTT",
-    # flake8-bandit
-    "S",
-    # flake8-bugbear
-    "B",
-    # flake8-builtins
-    "A",
-    # flake8-comprehensions
-    "C4",
-    # flake8-debugger
-    "T10",
-    # flake8-simplify
-    "SIM",
-    # isort
-    "I",
-    # mccabe
-    "C90",
-    # pycodestyle
-    "E",
-    "W",
-    # pyflakes
-    "F",
-    # pygrep-hooks
-    "PGH",
-    # pyupgrade
-    "UP",
-    # ruff
-    "RUF",
-    # tryceratops
-    "TRY",
-]
-ignore = [
-    # LineTooLong
-    "E501",
-    # DoNotAssignLambda
-    "E731",
-]
 
 [tool.ruff.format]
 preview = true
-
-[tool.ruff.per-file-ignores]
-"tests/*" = ["S101"]
-
-[tool.coverage.report]
-skip_empty = true
-
-[tool.coverage.run]
-branch = true
-source = ["thetagang_notifications"]
