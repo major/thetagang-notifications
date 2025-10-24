@@ -45,17 +45,27 @@ class Notification:
 
         return embed
 
-    def notify(self) -> DiscordWebhook:
-        """Send the notification."""
-        webhook = DiscordWebhook(
-            url=settings.webhook_url_trades,
-            rate_limit_retry=True,
-            username=settings.discord_username,
-        )
-        webhook.add_embed(self.generate_embeds())
-        webhook.execute()
+    def notify(self) -> list[DiscordWebhook]:
+        """
+        📤 Send the notification to all configured webhooks.
 
-        return webhook
+        Returns:
+            List of executed webhook objects
+        """
+        webhooks: list[DiscordWebhook] = []
+        webhook_urls = settings.get_webhook_urls()
+
+        for webhook_url in webhook_urls:
+            webhook = DiscordWebhook(
+                url=webhook_url,
+                rate_limit_retry=True,
+                username=settings.discord_username,
+            )
+            webhook.add_embed(self.generate_embeds())
+            webhook.execute()
+            webhooks.append(webhook)
+
+        return webhooks
 
 
 class OpenedNotification(Notification):
