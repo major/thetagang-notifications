@@ -91,11 +91,20 @@ jobs:
         run: |
           cd selfhosted
           DIGEST="${{ steps.build.outputs.digest }}"
-          # Update the digest in deployment.yaml (format: ghcr.io/major/thetagang-notifications@sha256:...)
-          sed -i -E "s|ghcr.io/major/thetagang-notifications@sha256:[a-f0-9]{64}|ghcr.io/major/thetagang-notifications@${DIGEST}|g" apps/base/thetagang-notifications/deployment.yaml
+
+          echo "📦 New digest: ${DIGEST}"
+          echo "📄 Current deployment.yaml content:"
+          grep "ghcr.io/major/thetagang-notifications" apps/base/thetagang-notifications/deployment.yaml || true
+
+          # Update the digest in deployment.yaml
+          # Handle both tag+digest (:main@sha256:...) and digest-only (@sha256:...) references
+          sed -i -E "s|ghcr.io/major/thetagang-notifications(:main)?@sha256:[a-f0-9]{64}|ghcr.io/major/thetagang-notifications:main@${DIGEST}|g" apps/base/thetagang-notifications/deployment.yaml
+
+          echo "📝 After update:"
+          grep "ghcr.io/major/thetagang-notifications" apps/base/thetagang-notifications/deployment.yaml || true
 
           if git diff --quiet apps/base/thetagang-notifications/deployment.yaml; then
-            echo "No changes to deployment.yaml, skipping commit"
+            echo "⚠️  No changes to deployment.yaml, skipping commit"
             exit 0
           fi
 
