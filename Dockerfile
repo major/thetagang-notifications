@@ -3,6 +3,12 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.8@sha256:08f409e1d53e77dfb5b65c788491f8ca70
 
 ADD . /app
 WORKDIR /app
-RUN uv sync --locked
 
-CMD ["uv", "run", "run_trades.py"]
+# Install all dependencies during build (not at runtime)
+RUN uv sync --locked --frozen
+
+# Set up environment to use the installed virtualenv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Run Python directly (no need for uv at runtime)
+CMD ["python", "run_trades.py"]
