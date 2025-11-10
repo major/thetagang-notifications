@@ -5,7 +5,7 @@ ADD . /app
 WORKDIR /app
 
 # Install all dependencies during build (not at runtime)
-RUN uv sync --locked --frozen
+RUN uv sync --frozen
 
 # Set up environment to use the installed virtualenv
 ENV PATH="/app/.venv/bin:$PATH"
