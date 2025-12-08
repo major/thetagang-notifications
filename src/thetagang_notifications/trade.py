@@ -1,6 +1,7 @@
 """Parse trades and send notifications."""
 
 import logging
+from functools import lru_cache
 
 from pydantic import ValidationError
 from ruyaml import YAML
@@ -27,8 +28,8 @@ log = logging.getLogger(__name__)
 
 # Make exceptions and functions available for backward compatibility
 __all__ = [
-    "Trade", "ShortSingleLegOption", "LongSingleLegOption", "SpreadOption", 
-    "JadeLizard", "ShortIronCondor", "CommonStock", "ButterflyCallDebitSpread", 
+    "Trade", "ShortSingleLegOption", "LongSingleLegOption", "SpreadOption",
+    "JadeLizard", "ShortIronCondor", "CommonStock", "ButterflyCallDebitSpread",
     "ShortIronButterfly", "get_trade_class", "get_spec_data",
     "AnnualizedReturnError", "BreakEvenError", "PotentialReturnError",
     "call_break_even", "days_to_expiration", "pretty_expiration", "pretty_premium",
@@ -38,8 +39,13 @@ __all__ = [
 # Exceptions are already imported and available for export
 
 
+@lru_cache(maxsize=32)
 def get_spec_data(trade_type: str) -> TradeSpec:
-    """Get the spec data for a trade type."""
+    """Get the spec data for a trade type.
+
+    🔧 Cached to avoid repeated YAML file I/O on every Trade creation.
+    The trade_specs.yml file is static, so caching is safe.
+    """
     yaml = YAML(typ='safe', pure=True)
     with open(settings.trade_spec_file, encoding="utf-8") as file_handle:
         spec_data = yaml.load(file_handle)

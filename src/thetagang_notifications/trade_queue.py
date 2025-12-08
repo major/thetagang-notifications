@@ -13,19 +13,30 @@ log = logging.getLogger(__name__)
 
 
 class TradeQueue:
-    """Set up a queue of trades to work through."""
+    """Set up a queue of trades to work through.
+
+    This class is designed to be instantiated once and reused across iterations
+    to avoid memory leaks from repeated Redis/HTTP connection creation.
+    """
 
     def __init__(self) -> None:
         """Constructor for TradeQueue."""
         self.db_conn = Redis(host=settings.redis_host, port=settings.redis_port, decode_responses=True)
         self.skipped_users = settings.skipped_users_list
         self.latest_trades: list = []
+        # 🔧 Create a persistent HTTP client to avoid connection pool leaks
+        self._http_client = httpx.Client(timeout=15)
+
+    def close(self) -> None:
+        """Clean up resources - call when shutting down."""
+        self._http_client.close()
+        self.db_conn.close()
 
     def update_trades(self) -> list:
         """Get the most recently updated trades."""
         headers: dict[str, str] = {"Authorization": settings.trades_api_key}
         url = "https://api3.thetagang.com/api/patrons"
-        resp = httpx.get(url, headers=headers, timeout=15)
+        resp = self._http_client.get(url, headers=headers)
 
         self.latest_trades = resp.json()["data"]
 
